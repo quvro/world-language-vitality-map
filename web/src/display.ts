@@ -8,15 +8,9 @@
  */
 import { useDataset } from '@/stores/dataset'
 import type { Language } from '@/types'
+import { CODE_ZH, FEATURE_ZH, MACRO_ZH, SEARCH_ALIASES } from '@/terms'
 
-export const MACRO_ZH: Record<string, string> = {
-  Africa: '非洲',
-  Eurasia: '欧亚',
-  Papunesia: '巴布亚地区',
-  'North America': '北美',
-  'South America': '南美',
-  Australia: '澳洲',
-}
+export { MACRO_ZH }
 
 export const FAMILY_ZH: Record<string, string> = {
   'Niger-Congo': '尼日尔-刚果语系',
@@ -89,5 +83,33 @@ export function useDisplayNames() {
     return byIso || byGlotto || l.name
   }
 
-  return { macro, family, language }
+  /** 语法特征的中文名；没有译名时回退英文（WALS 无官方中文版） */
+  const feature = (id: string, fallback: string): string =>
+    zh ? (FEATURE_ZH[id] ?? fallback) : fallback
+
+  /** 特征取值的中文名；只翻译了有把握的那些，其余回退英文 */
+  const code = (label: string): string => (zh ? (CODE_ZH[label] ?? label) : label)
+
+  /**
+   * 语言的可搜索文本。
+   * 除中英名外还接入别名表 —— 否则搜「中文」「普通话」找不到 Mandarin
+   * （它在 Wikidata 的中文标签是「官话」）。
+   */
+  const searchText = (
+    l: Pick<Language, 'name' | 'iso639p3' | 'glottocode' | 'wiki_code'>
+  ): string => {
+    const parts = [l.name]
+    const cn = language(l)
+    if (cn) parts.push(cn)
+    const iso = (l.iso639p3 || '').toLowerCase()
+    if (iso) {
+      parts.push(iso)
+      const alias = SEARCH_ALIASES[iso]
+      if (alias) parts.push(...alias)
+    }
+    if (l.wiki_code) parts.push(l.wiki_code)
+    return parts.join(' ').toLowerCase()
+  }
+
+  return { macro, family, language, feature, code, searchText }
 }

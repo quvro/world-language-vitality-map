@@ -1,0 +1,1289 @@
+{
+ "wra": [
+  "bpe",
+  "suo",
+  "uni"
+ ],
+ "jar": [
+  "bau",
+  "dbm",
+  "jgk",
+  "jjr"
+ ],
+ "quc": [
+  "quj",
+  "qut",
+  "quu",
+  "qxi"
+ ],
+ "din": [
+  "dib",
+  "dik",
+  "dip",
+  "diw",
+  "dks"
+ ],
+ "lrl": [
+  "bsg",
+  "zum"
+ ],
+ "msa": [
+  "coa",
+  "ind",
+  "jax",
+  "mfp",
+  "mkn",
+  "mui"
+ ],
+ "raj": [
+  "bgq",
+  "bhe",
+  "dhd",
+  "gda",
+  "gju",
+  "kbu",
+  "lrk",
+  "mki",
+  "mwr",
+  "noe",
+  "paq",
+  "swv",
+  "wry"
+ ],
+ "cos": [
+  "sdc",
+  "sdn"
+ ],
+ "prs": [
+  "aiq",
+  "haz",
+  "phv",
+  "tnf"
+ ],
+ "zea": [
+  "dcr"
+ ],
+ "ilu": [
+  "apx",
+  "wet"
+ ],
+ "rsl": [
+  "bqn",
+  "eso",
+  "msr",
+  "ukl",
+  "vsi"
+ ],
+ "dua": [
+  "olb"
+ ],
+ "mam": [
+  "mms",
+  "mpf",
+  "mvc"
+ ],
+ "khn": [
+  "ahr"
+ ],
+ "tgl": [
+  "fil"
+ ],
+ "ann": [
+  "ide",
+  "iki",
+  "okb",
+  "usk"
+ ],
+ "deu": [
+  "goh"
+ ],
+ "fas": [
+  "deh",
+  "jpr",
+  "pes",
+  "prs",
+  "ttt"
+ ],
+ "zap": [
+  "zac",
+  "zaf",
+  "zai",
+  "zar",
+  "zas",
+  "zoo",
+  "zpc",
+  "zpe",
+  "zpi",
+  "zpm",
+  "zpy",
+  "ztm",
+  "ztn",
+  "ztq",
+  "ztx",
+  "zty"
+ ],
+ "kom": [
+  "koi",
+  "kpv"
+ ],
+ "ljp": [
+  "krq",
+  "pec",
+  "pun",
+  "rae",
+  "suu"
+ ],
+ "mwr": [
+  "ggg",
+  "gig",
+  "mtr",
+  "mve",
+  "rwr",
+  "wtm"
+ ],
+ "ori": [
+  "bdv",
+  "key",
+  "ort",
+  "ory",
+  "rei",
+  "spv"
+ ],
+ "sxn": [
+  "snl"
+ ],
+ "zho": [
+  "cjy",
+  "cmn",
+  "czh",
+  "gan",
+  "hak",
+  "hsn",
+  "och",
+  "wuu",
+  "wxa"
+ ],
+ "dan": [
+  "jut"
+ ],
+ "ara": [
+  "acm",
+  "acy",
+  "apc",
+  "arb",
+  "avl",
+  "jrb"
+ ],
+ "grn": [
+  "gug"
+ ],
+ "als": [
+  "aat"
+ ],
+ "pse": [
+  "bke",
+  "eni",
+  "ogn",
+  "sdd",
+  "srj",
+  "vkk"
+ ],
+ "dud": [
+  "uss",
+  "uth"
+ ],
+ "orm": [
+  "gax",
+  "gaz",
+  "hae",
+  "orc",
+  "ssn"
+ ],
+ "gba": [
+  "aiy",
+  "bdt",
+  "bgf",
+  "bok",
+  "gbq",
+  "gmm",
+  "gso",
+  "gya",
+  "nga",
+  "ngg",
+  "nmj"
+ ],
+ "ipk": [
+  "esi",
+  "esk"
+ ],
+ "aka": [
+  "abr",
+  "fat",
+  "twi",
+  "wss"
+ ],
+ "ful": [
+  "ffm",
+  "fuc",
+  "fue",
+  "fuf",
+  "fuh"
+ ],
+ "ras": [
+  "tie"
+ ],
+ "pus": [
+  "pbt",
+  "pbu",
+  "pst",
+  "wne"
+ ],
+ "zem": [
+  "cxh",
+  "dsk",
+  "dyr",
+  "tvi"
+ ],
+ "tkf": [
+  "jua",
+  "mdz",
+  "paf",
+  "pah",
+  "urz",
+  "wir"
+ ],
+ "tur": [
+  "ota"
+ ],
+ "fin": [
+  "fit",
+  "fkv"
+ ],
+ "krl": [
+  "olo"
+ ],
+ "nso": [
+  "two"
+ ],
+ "wew": [
+  "lur"
+ ],
+ "weo": [
+  "tlw"
+ ],
+ "aze": [
+  "azb",
+  "azj",
+  "slq"
+ ],
+ "rom": [
+  "pld",
+  "rmc",
+  "rmg",
+  "rml",
+  "rmn",
+  "rmy"
+ ],
+ "myq": [
+  "emk",
+  "jod",
+  "jud",
+  "mku",
+  "msc",
+  "mzj"
+ ],
+ "vaj": [
+  "mwj",
+  "oun"
+ ],
+ "chm": [
+  "mhr",
+  "mrj"
+ ],
+ "ksa": [
+  "izm",
+  "rsw"
+ ],
+ "mhv": [
+  "rki",
+  "rmz"
+ ],
+ "spa": [
+  "lad"
+ ],
+ "ron": [
+  "mol"
+ ],
+ "srd": [
+  "src",
+  "sro"
+ ],
+ "bik": [
+  "agk",
+  "atl",
+  "bcl",
+  "bhk",
+  "bln",
+  "bto",
+  "cts",
+  "fbl",
+  "lbl",
+  "rbl",
+  "ubl"
+ ],
+ "apc": [
+  "ajp"
+ ],
+ "kln": [
+  "enb",
+  "eyo",
+  "niq",
+  "oki",
+  "pko",
+  "sgc",
+  "tec",
+  "tuy"
+ ],
+ "bja": [
+  "bbm"
+ ],
+ "ase": [
+  "csn",
+  "csr",
+  "ecs",
+  "esn",
+  "fcs",
+  "gse",
+  "hds",
+  "lsp",
+  "lst",
+  "nsi",
+  "prl",
+  "psl",
+  "sgx",
+  "sls",
+  "xml"
+ ],
+ "caa": [
+  "emy"
+ ],
+ "diz": [
+  "lvl"
+ ],
+ "luy": [
+  "lrm",
+  "lsm",
+  "lto",
+  "lwg"
+ ],
+ "bnc": [
+  "ebk",
+  "lbk",
+  "obk",
+  "rbk",
+  "vbk"
+ ],
+ "mlg": [
+  "bhr",
+  "bmm",
+  "buc",
+  "bzc",
+  "msh",
+  "plt",
+  "skg",
+  "tdx",
+  "tkg",
+  "txy",
+  "xmv",
+  "xmw"
+ ],
+ "yid": [
+  "ydd",
+  "yih"
+ ],
+ "eus": [
+  "bqe",
+  "bsz",
+  "emx"
+ ],
+ "bal": [
+  "bgp"
+ ],
+ "acr": [
+  "acc"
+ ],
+ "cak": [
+  "cbm",
+  "ckc",
+  "ckd",
+  "cke",
+  "ckf",
+  "cki",
+  "ckj",
+  "ckk",
+  "ckw"
+ ],
+ "kau": [
+  "bms",
+  "kbl",
+  "kby",
+  "knc",
+  "krt",
+  "txj"
+ ],
+ "seh": [
+  "bwg"
+ ],
+ "gbc": [
+  "wny",
+  "wrk"
+ ],
+ "cym": [
+  "owl",
+  "wlm"
+ ],
+ "zha": [
+  "ccy",
+  "zeh",
+  "zgb",
+  "zgm",
+  "zgn",
+  "zhn",
+  "zlj",
+  "zln",
+  "zlq",
+  "zyb",
+  "zyg",
+  "zyj"
+ ],
+ "gsw": [
+  "gct",
+  "swg"
+ ],
+ "ngo": [
+  "xnj",
+  "xnq"
+ ],
+ "fra": [
+  "frm",
+  "pcd"
+ ],
+ "eng": [
+  "enm",
+  "gpe",
+  "pis",
+  "yib"
+ ],
+ "nld": [
+  "zea"
+ ],
+ "hye": [
+  "axm",
+  "hyw",
+  "xcl"
+ ],
+ "lav": [
+  "ltg",
+  "lvs"
+ ],
+ "zza": [
+  "diq",
+  "kiu"
+ ],
+ "bua": [
+  "bxm",
+  "bxr",
+  "bxu"
+ ],
+ "kur": [
+  "ckb",
+  "kmr",
+  "lki",
+  "sdh"
+ ],
+ "mui": [
+  "pen",
+  "rws"
+ ],
+ "kzk": [
+  "drr",
+  "gli"
+ ],
+ "iku": [
+  "ike",
+  "ikt"
+ ],
+ "doi": [
+  "bht",
+  "dgo",
+  "xnr"
+ ],
+ "oci": [
+  "auv",
+  "gsc"
+ ],
+ "tmh": [
+  "taq",
+  "thv",
+  "thz",
+  "ttq"
+ ],
+ "kok": [
+  "gom"
+ ],
+ "lch": [
+  "nba"
+ ],
+ "guj": [
+  "prp"
+ ],
+ "est": [
+  "ekk"
+ ],
+ "ahh": [
+  "awu"
+ ],
+ "kwv": [
+  "koj"
+ ],
+ "ymt": [
+  "mtm"
+ ],
+ "lit": [
+  "sgs"
+ ],
+ "heb": [
+  "hbo",
+  "smp"
+ ],
+ "nep": [
+  "dty"
+ ],
+ "hil": [
+  "cps"
+ ],
+ "ycl": [
+  "ysp"
+ ],
+ "del": [
+  "umu",
+  "unm"
+ ],
+ "plj": [
+  "ldd",
+  "nzr",
+  "pze",
+  "uly",
+  "zlu"
+ ],
+ "prg": [
+  "ndf"
+ ],
+ "man": [
+  "kfo",
+  "kga",
+  "mnk",
+  "mwk",
+  "mxx",
+  "myq",
+  "xkg"
+ ],
+ "mry": [
+  "mst"
+ ],
+ "nfu": [
+  "ncp"
+ ],
+ "yaf": [
+  "lnz",
+  "ppp"
+ ],
+ "wya": [
+  "wdt",
+  "wyn"
+ ],
+ "pwk": [
+  "bhq",
+  "khc"
+ ],
+ "grb": [
+  "gbo",
+  "gec",
+  "grj",
+  "grv"
+ ],
+ "tzo": [
+  "tzc",
+  "tze",
+  "tzs",
+  "tzu",
+  "tzz"
+ ],
+ "kge": [
+  "ljp",
+  "vky"
+ ],
+ "gon": [
+  "esg",
+  "ggo",
+  "gno",
+  "wsg"
+ ],
+ "nln": [
+  "azd",
+  "azn"
+ ],
+ "kpc": [
+  "paj"
+ ],
+ "jal": [
+  "hrr"
+ ],
+ "yiy": [
+  "yrm"
+ ],
+ "xst": [
+  "stv",
+  "wle"
+ ],
+ "aym": [
+  "ayc"
+ ],
+ "swa": [
+  "swc",
+  "swh"
+ ],
+ "san": [
+  "cls",
+  "vsn"
+ ],
+ "nds": [
+  "gml",
+  "osx"
+ ],
+ "oji": [
+  "alq",
+  "ciw",
+  "ojb",
+  "ojc",
+  "ojg",
+  "ojs",
+  "ojw",
+  "otw"
+ ],
+ "bij": [
+  "dkg",
+  "jbm",
+  "tyy"
+ ],
+ "acn": [
+  "xia"
+ ],
+ "yaa": [
+  "ywn"
+ ],
+ "pib": [
+  "kav"
+ ],
+ "asu": [
+  "mdz",
+  "pak"
+ ],
+ "drl": [
+  "bjd"
+ ],
+ "kpe": [
+  "gkp",
+  "knu",
+  "xpe"
+ ],
+ "osc": [
+  "pgn"
+ ],
+ "sac": [
+  "kic"
+ ],
+ "jaa": [
+  "bnh",
+  "jap"
+ ],
+ "lod": [
+  "zbc",
+  "zbe",
+  "zbw"
+ ],
+ "kzh": [
+  "dgl",
+  "xnz"
+ ],
+ "min": [
+  "vmo"
+ ],
+ "hai": [
+  "hax",
+  "hdn"
+ ],
+ "gal": [
+  "ilw"
+ ],
+ "ixl": [
+  "ixj"
+ ],
+ "gvr": [
+  "ggn"
+ ],
+ "dtp": [
+  "kzj",
+  "kzt",
+  "tdu"
+ ],
+ "tdg": [
+  "tmk",
+  "tsf"
+ ],
+ "ill": [
+  "ilm",
+  "ilp"
+ ],
+ "ita": [
+  "pld"
+ ],
+ "pml": [
+  "pld"
+ ],
+ "lcq": [
+  "ppr"
+ ],
+ "xww": [
+  "rbp"
+ ],
+ "jav": [
+  "jas",
+  "jvn"
+ ],
+ "snd": [
+  "jdg",
+  "kfr",
+  "lss",
+  "sbn"
+ ],
+ "btb": [
+  "beb",
+  "bum",
+  "bxp",
+  "eto",
+  "ewo",
+  "fan"
+ ],
+ "mgr": [
+  "tap"
+ ],
+ "adg": [
+  "axe"
+ ],
+ "raq": [
+  "lii"
+ ],
+ "nor": [
+  "nno",
+  "nob"
+ ],
+ "xml": [
+  "inl"
+ ],
+ "vmw": [
+  "mgh"
+ ],
+ "kri": [
+  "fpe"
+ ],
+ "tzh": [
+  "tzb"
+ ],
+ "tzj": [
+  "tzt"
+ ],
+ "oyb": [
+  "skk"
+ ],
+ "waw": [
+  "xkh"
+ ],
+ "tid": [
+  "itd",
+  "ntd"
+ ],
+ "nys": [
+  "xbp",
+  "xgg",
+  "xrg"
+ ],
+ "tel": [
+  "mju"
+ ],
+ "kor": [
+  "jje"
+ ],
+ "lao": [
+  "tts"
+ ],
+ "kas": [
+  "hkh"
+ ],
+ "egy": [
+  "cop"
+ ],
+ "huw": [
+  "pmc"
+ ],
+ "bre": [
+  "obt",
+  "xbm"
+ ],
+ "xas": [
+  "zkb"
+ ],
+ "xal": [
+  "xwo"
+ ],
+ "mya": [
+  "rki"
+ ],
+ "trp": [
+  "ria"
+ ],
+ "ise": [
+  "slf"
+ ],
+ "sum": [
+  "ulw",
+  "yan"
+ ],
+ "ckh": [
+  "lba"
+ ],
+ "sgl": [
+  "isk",
+  "sgy"
+ ],
+ "sqi": [
+  "aae",
+  "aln",
+  "als"
+ ],
+ "uzb": [
+  "uzn",
+  "uzs"
+ ],
+ "keb": [
+  "fom",
+  "nra"
+ ],
+ "jrb": [
+  "ajt",
+  "aju",
+  "jye"
+ ],
+ "mep": [
+  "rsm"
+ ],
+ "amd": [
+  "kmv"
+ ],
+ "blu": [
+  "hmf",
+  "hmv"
+ ],
+ "mkz": [
+  "mjb"
+ ],
+ "lpo": [
+  "yio"
+ ],
+ "gvp": [
+  "xri"
+ ],
+ "zar": [
+  "zcd",
+  "zsr"
+ ],
+ "cre": [
+  "crk",
+  "crm",
+  "csw",
+  "cwd"
+ ],
+ "xil": [
+  "cms"
+ ],
+ "cja": [
+  "cjm"
+ ],
+ "mfr": [
+  "xru"
+ ],
+ "gio": [
+  "giu"
+ ],
+ "cad": [
+  "ari"
+ ],
+ "sqm": [
+  "dek"
+ ],
+ "que": [
+  "cqu",
+  "qxc"
+ ],
+ "yua": [
+  "yus"
+ ],
+ "skr": [
+  "xhe"
+ ],
+ "nij": [
+  "kxg",
+  "xah"
+ ],
+ "kpp": [
+  "jkm",
+  "jkp"
+ ],
+ "crx": [
+  "caf"
+ ],
+ "fse": [
+  "fss"
+ ],
+ "byu": [
+  "enc",
+  "yln",
+  "yzg"
+ ],
+ "wit": [
+  "pwi",
+  "wnw"
+ ],
+ "mck": [
+  "nkn"
+ ],
+ "ttt": [
+  "jdt"
+ ],
+ "lut": [
+  "ska",
+  "slh",
+  "sno"
+ ],
+ "ngh": [
+  "nsb"
+ ],
+ "den": [
+  "xsl"
+ ],
+ "abl": [
+  "ljp"
+ ],
+ "urf": [
+  "amz"
+ ],
+ "hus": [
+  "hsf"
+ ],
+ "opa": [
+  "ibi"
+ ],
+ "xwl": [
+  "gbx"
+ ],
+ "ben": [
+  "rkt"
+ ],
+ "eko": [
+  "nte"
+ ],
+ "toi": [
+  "dov"
+ ],
+ "dga": [
+  "dgi"
+ ],
+ "yam": [
+  "kwq"
+ ],
+ "lse": [
+  "ymg"
+ ],
+ "nyc": [
+  "gti"
+ ],
+ "mgc": [
+  "gbn"
+ ],
+ "poc": [
+  "poa"
+ ],
+ "leg": [
+  "enx"
+ ],
+ "ork": [
+  "aez"
+ ],
+ "okv": [
+  "aez"
+ ],
+ "bgn": [
+  "ktl"
+ ],
+ "meu": [
+  "hmo"
+ ],
+ "khm": [
+  "kxm"
+ ],
+ "tgk": [
+  "bhh"
+ ],
+ "uki": [
+  "dwk"
+ ],
+ "awn": [
+  "xuf"
+ ],
+ "adx": [
+  "pcr"
+ ],
+ "duz": [
+  "guv"
+ ],
+ "gle": [
+  "mga",
+  "sga",
+  "sth"
+ ],
+ "sco": [
+  "scz"
+ ],
+ "kac": [
+  "sgp"
+ ],
+ "nrn": [
+  "scz"
+ ],
+ "xum": [
+  "sbv"
+ ],
+ "prv": [
+  "sdt"
+ ],
+ "mbf": [
+  "pea"
+ ],
+ "ram": [
+  "xra"
+ ],
+ "vkl": [
+  "xkq"
+ ],
+ "box": [
+  "bmq"
+ ],
+ "jsl": [
+  "tss"
+ ],
+ "ybi": [
+  "tmx"
+ ],
+ "tos": [
+  "toc"
+ ],
+ "bah": [
+  "tch"
+ ],
+ "knx": [
+  "skl"
+ ],
+ "tyj": [
+  "tmp"
+ ],
+ "kgf": [
+  "tbv"
+ ],
+ "kat": [
+  "jge"
+ ],
+ "mad": [
+  "kkv"
+ ],
+ "kjz": [
+  "npb"
+ ],
+ "uun": [
+  "uon"
+ ],
+ "ctg": [
+  "rhg"
+ ],
+ "kon": [
+  "kng",
+  "ldi"
+ ],
+ "mwt": [
+  "mkm"
+ ],
+ "gbw": [
+  "xby"
+ ],
+ "mof": [
+  "xnt",
+  "xpq"
+ ],
+ "gul": [
+  "afs"
+ ],
+ "yor": [
+  "luq"
+ ],
+ "csl": [
+  "hks"
+ ],
+ "asl": [
+  "tlu"
+ ],
+ "wgw": [
+  "wgb",
+  "ylb"
+ ],
+ "akl": [
+  "mlz"
+ ],
+ "hbs": [
+  "cnr",
+  "hrv"
+ ],
+ "hvn": [
+  "kdg"
+ ],
+ "myx": [
+  "lts"
+ ],
+ "ypw": [
+  "yhl",
+  "ypb",
+  "ypn"
+ ],
+ "phr": [
+  "pmu"
+ ],
+ "hrv": [
+  "ckm"
+ ],
+ "mon": [
+  "drh",
+  "khk",
+  "mvf"
+ ],
+ "nha": [
+  "xnk"
+ ],
+ "nmv": [
+  "yry"
+ ],
+ "nbx": [
+  "jbi",
+  "ntg",
+  "xwk"
+ ],
+ "kde": [
+  "wtb"
+ ],
+ "maz": [
+  "mmc"
+ ],
+ "hol": [
+  "hng"
+ ],
+ "saj": [
+  "ibu"
+ ],
+ "mai": [
+  "vjk"
+ ],
+ "phn": [
+  "xpu"
+ ],
+ "pal": [
+  "xmn"
+ ],
+ "vot": [
+  "zkv"
+ ],
+ "sda": [
+  "mqj"
+ ],
+ "adi": [
+  "psq"
+ ],
+ "poh": [
+  "pob"
+ ],
+ "gji": [
+  "gyz",
+  "zbu"
+ ],
+ "idb": [
+  "vkp"
+ ],
+ "aol": [
+  "mnb"
+ ],
+ "aiz": [
+  "aiw"
+ ],
+ "oui": [
+  "xqa"
+ ],
+ "txn": [
+  "bvt"
+ ],
+ "dap": [
+  "njz",
+  "tgj"
+ ],
+ "umb": [
+  "ndq"
+ ],
+ "hig": [
+  "kvj"
+ ],
+ "mzf": [
+  "ymo"
+ ],
+ "bzr": [
+  "xgi"
+ ],
+ "kdv": [
+  "zkd",
+  "zkn"
+ ],
+ "acm": [
+  "ayp"
+ ],
+ "ayl": [
+  "yud"
+ ],
+ "ayp": [
+  "yhd"
+ ],
+ "rki": [
+  "ybd"
+ ],
+ "adz": [
+  "zsa",
+  "zsu"
+ ],
+ "azr": [
+  "zsa",
+  "zsu"
+ ]
+}

@@ -21,7 +21,7 @@ const store = useDataset()
 
 const T = {
   zh: {
-    title: '正在消失的声音',
+    title: '世界语言赛博活力图谱',
     subtitle: '数字时代的语言生存图谱',
     explore: '探索模式', story: '故事模式',
     vMap: '地图', vGrowth: '活力变化', vCompare: '条件对比',
@@ -33,8 +33,8 @@ const T = {
     toggleLang: 'EN',
   },
   en: {
-    title: 'Vanishing Voices',
-    subtitle: 'A survival atlas of languages in the digital age',
+    title: 'Cyber-Vitality Atlas of World Languages',
+    subtitle: 'How languages survive in the digital age',
     explore: 'Explore', story: 'Story',
     vMap: 'Map', vGrowth: 'Vitality', vCompare: 'Comparison',
     kLang: 'languages', kCoord: 'mapped', kWiki: 'with Wikipedia',
@@ -180,7 +180,8 @@ h1 { margin: 0; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
 .body {
   flex: 1; min-height: 0;
   display: grid;
-  grid-template-columns: 268px minmax(0, 1fr) 288px;
+  /* 左栏加宽：筛选面板里的语系列表需要更宽才能不挤 */
+  grid-template-columns: 310px minmax(0, 1fr) 288px;
   gap: var(--sp-4);
   padding: var(--sp-4) var(--sp-5);
 }

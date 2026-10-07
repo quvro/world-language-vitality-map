@@ -1491,7 +1491,15 @@
   "subfamily": "",
   "genus": "Semitic",
   "country_id": "KW SO SY OM QA EG TN MA LY KM JO LB ER YE SA IQ PS DZ AE BH SD IL",
-  "wiki_code": null
+  "wiki_code": "ar",
+  "month_first": "201507",
+  "views_first": 116534918,
+  "month_last": "202601",
+  "views_last": 120999872,
+  "views_baseline": 114982027.7,
+  "views_recent": 121831724.0,
+  "baseline_ok": true,
+  "growth": 0.0596
  },
  {
   "wals_id": "amt",
@@ -2867,13 +2875,13 @@
   "country_id": "AZ IR",
   "wiki_code": "azb",
   "month_first": "201507",
-  "views_first": 17743,
+  "views_first": 3514587,
   "month_last": "202601",
   "views_last": 857786,
-  "views_baseline": 77226.0,
-  "views_recent": 945855.0,
+  "views_baseline": 2311159.7,
+  "views_recent": 8994699.0,
   "baseline_ok": true,
-  "growth": 11.2479
+  "growth": 2.8919
  },
  {
   "wals_id": "azi",
@@ -7095,7 +7103,15 @@
   "subfamily": "",
   "genus": "Chinese",
   "country_id": "CN",
-  "wiki_code": "yue"
+  "wiki_code": "yue",
+  "month_first": "201507",
+  "views_first": 2310308,
+  "month_last": "202601",
+  "views_last": 5215564,
+  "views_baseline": 2449999.7,
+  "views_recent": 5870195.0,
+  "baseline_ok": true,
+  "growth": 1.396
  },
  {
   "wals_id": "coa",
@@ -7361,7 +7377,15 @@
   "subfamily": "",
   "genus": "Algonquian",
   "country_id": "CA",
-  "wiki_code": null
+  "wiki_code": "cr",
+  "month_first": "201507",
+  "views_first": 24477,
+  "month_last": "202601",
+  "views_last": 77933,
+  "views_baseline": 24325.0,
+  "views_recent": 105852.7,
+  "baseline_ok": true,
+  "growth": 3.3516
  },
  {
   "wals_id": "crg",
@@ -9663,7 +9687,15 @@
   "subfamily": "Finno-Ugric",
   "genus": "Finnic",
   "country_id": "EE",
-  "wiki_code": null
+  "wiki_code": "et",
+  "month_first": "201507",
+  "views_first": 5165235,
+  "month_last": "202601",
+  "views_last": 8476758,
+  "views_baseline": 5827864.0,
+  "views_recent": 10373417.0,
+  "baseline_ok": true,
+  "growth": 0.78
  },
  {
   "wals_id": "ets",
@@ -9975,7 +10007,15 @@
   "subfamily": "North-Central Atlantic",
   "genus": "Peul-Serer",
   "country_id": "MR",
-  "wiki_code": null
+  "wiki_code": "ff",
+  "month_first": "201507",
+  "views_first": 44203,
+  "month_last": "202601",
+  "views_last": 95096,
+  "views_baseline": 38171.7,
+  "views_recent": 164122.3,
+  "baseline_ok": true,
+  "growth": 3.2996
  },
  {
   "wals_id": "fni",
@@ -11793,7 +11833,15 @@
   "subfamily": "",
   "genus": "Maweti-Guarani",
   "country_id": "PY",
-  "wiki_code": null
+  "wiki_code": "gn",
+  "month_first": "201507",
+  "views_first": 182588,
+  "month_last": "202601",
+  "views_last": 101429,
+  "views_baseline": 184335.3,
+  "views_recent": 238850.7,
+  "baseline_ok": true,
+  "growth": 0.2957
  },
  {
   "wals_id": "gud",
@@ -12825,7 +12873,15 @@
   "subfamily": "",
   "genus": "Chinese",
   "country_id": "TW CN",
-  "wiki_code": "nan"
+  "wiki_code": "nan",
+  "month_first": "201507",
+  "views_first": 298199,
+  "month_last": "202601",
+  "views_last": 955406,
+  "views_baseline": 336908.0,
+  "views_recent": 4826371.7,
+  "baseline_ok": true,
+  "growth": 13.3255
  },
  {
   "wals_id": "hol",
@@ -13565,13 +13621,13 @@
   "subfamily": "",
   "genus": "Malayo-Sumbawan",
   "country_id": "ID",
-  "wiki_code": "id",
+  "wiki_code": "ms",
   "month_first": "201507",
   "views_first": 94578438,
   "month_last": "202601",
-  "views_last": 70237020,
-  "views_baseline": 119368364.0,
-  "views_recent": 75777690.0,
+  "views_last": 11689445,
+  "views_baseline": 77699576.7,
+  "views_recent": 49325844.3,
   "baseline_ok": true,
   "growth": -0.3652
  },
@@ -13665,7 +13721,15 @@
   "subfamily": "",
   "genus": "Eskimo",
   "country_id": "US",
-  "wiki_code": null
+  "wiki_code": "ik",
+  "month_first": "201507",
+  "views_first": 30472,
+  "month_last": "202601",
+  "views_last": 49309,
+  "views_baseline": 30952.3,
+  "views_recent": 106670.7,
+  "baseline_ok": true,
+  "growth": 2.4463
  },
  {
   "wals_id": "ipi",
@@ -15597,7 +15661,15 @@
   "subfamily": "",
   "genus": "Eskimo",
   "country_id": "CA",
-  "wiki_code": null
+  "wiki_code": "iu",
+  "month_first": "201507",
+  "views_first": 54217,
+  "month_last": "202601",
+  "views_last": 47975,
+  "views_baseline": 51838.0,
+  "views_recent": 63467.7,
+  "baseline_ok": true,
+  "growth": 0.2243
  },
  {
   "wals_id": "kgu",
@@ -15661,7 +15733,15 @@
   "subfamily": "",
   "genus": "Mongolic",
   "country_id": "MN",
-  "wiki_code": null
+  "wiki_code": "mn",
+  "month_first": "201507",
+  "views_first": 468973,
+  "month_last": "202601",
+  "views_last": 1408636,
+  "views_baseline": 660662.3,
+  "views_recent": 1640832.7,
+  "baseline_ok": true,
+  "growth": 1.4836
  },
  {
   "wals_id": "khd",
@@ -16091,7 +16171,15 @@
   "subfamily": "",
   "genus": "Iranian",
   "country_id": "TR",
-  "wiki_code": null
+  "wiki_code": "ku",
+  "month_first": "201507",
+  "views_first": 419389,
+  "month_last": "202601",
+  "views_last": 729565,
+  "views_baseline": 459065.7,
+  "views_recent": 3529356.7,
+  "baseline_ok": true,
+  "growth": 6.6881
  },
  {
   "wals_id": "kjn",
@@ -16983,15 +17071,15 @@
   "subfamily": "Saharan",
   "genus": "Western Saharan",
   "country_id": "NG TD NE SD",
-  "wiki_code": "knc",
-  "month_first": "202501",
-  "views_first": 946,
+  "wiki_code": "kr",
+  "month_first": "201507",
+  "views_first": 9016,
   "month_last": "202601",
-  "views_last": 45395,
-  "views_baseline": 14314.3,
-  "views_recent": 156656.0,
-  "baseline_ok": true,
-  "growth": 9.944
+  "views_last": 16475,
+  "views_baseline": 9032.7,
+  "views_recent": 48813.7,
+  "baseline_ok": false,
+  "growth": 4.4041
  },
  {
   "wals_id": "knu",
@@ -17173,7 +17261,15 @@
   "subfamily": "Benue-Congo",
   "genus": "Bantu",
   "country_id": "CD",
-  "wiki_code": null
+  "wiki_code": "kg",
+  "month_first": "201507",
+  "views_first": 48188,
+  "month_last": "202601",
+  "views_last": 70772,
+  "views_baseline": 45479.7,
+  "views_recent": 234759.0,
+  "baseline_ok": true,
+  "growth": 4.1618
  },
  {
   "wals_id": "koo",
@@ -18697,7 +18793,15 @@
   "subfamily": "Finno-Ugric",
   "genus": "Permic",
   "country_id": "RU",
-  "wiki_code": null
+  "wiki_code": "kv",
+  "month_first": "201507",
+  "views_first": 82600,
+  "month_last": "202601",
+  "views_last": 63170,
+  "views_baseline": 101271.0,
+  "views_recent": 68868.0,
+  "baseline_ok": true,
+  "growth": -0.32
  },
  {
   "wals_id": "laa",
@@ -20391,7 +20495,15 @@
   "subfamily": "",
   "genus": "Barito",
   "country_id": "MG",
-  "wiki_code": null
+  "wiki_code": "mg",
+  "month_first": "201507",
+  "views_first": 272442,
+  "month_last": "202601",
+  "views_last": 512794,
+  "views_baseline": 260014.3,
+  "views_recent": 2047297.7,
+  "baseline_ok": true,
+  "growth": 6.8738
  },
  {
   "wals_id": "mam",
@@ -22411,7 +22523,15 @@
   "subfamily": "",
   "genus": "Chinese",
   "country_id": "CN",
-  "wiki_code": null
+  "wiki_code": "zh",
+  "month_first": "201507",
+  "views_first": 308149295,
+  "month_last": "202601",
+  "views_last": 371510101,
+  "views_baseline": 305573208.7,
+  "views_recent": 415160789.0,
+  "baseline_ok": true,
+  "growth": 0.3586
  },
  {
   "wals_id": "mne",
@@ -27175,7 +27295,15 @@
   "subfamily": "Cushitic",
   "genus": "Lowland East Cushitic",
   "country_id": "ET",
-  "wiki_code": null
+  "wiki_code": "om",
+  "month_first": "201507",
+  "views_first": 75370,
+  "month_last": "202601",
+  "views_last": 120736,
+  "views_baseline": 76748.7,
+  "views_recent": 164686.3,
+  "baseline_ok": true,
+  "growth": 1.1458
  },
  {
   "wals_id": "ori",
@@ -28527,7 +28655,15 @@
   "subfamily": "",
   "genus": "Iranian",
   "country_id": "IR",
-  "wiki_code": null
+  "wiki_code": "fa",
+  "month_first": "201507",
+  "views_first": 67173938,
+  "month_last": "202601",
+  "views_last": 118761410,
+  "views_baseline": 65785447.3,
+  "views_recent": 160008022.0,
+  "baseline_ok": true,
+  "growth": 1.4323
  },
  {
   "wals_id": "prt",
@@ -28555,7 +28691,15 @@
   "subfamily": "",
   "genus": "Iranian",
   "country_id": "PK AF",
-  "wiki_code": null
+  "wiki_code": "ps",
+  "month_first": "201507",
+  "views_first": 166083,
+  "month_last": "202601",
+  "views_last": 286275,
+  "views_baseline": 218624.0,
+  "views_recent": 276418.3,
+  "baseline_ok": true,
+  "growth": 0.2644
  },
  {
   "wals_id": "psj",
@@ -31727,7 +31871,15 @@
   "subfamily": "",
   "genus": "Romance",
   "country_id": "IT",
-  "wiki_code": null
+  "wiki_code": "sc",
+  "month_first": "201507",
+  "views_first": 113989,
+  "month_last": "202601",
+  "views_last": 171167,
+  "views_baseline": 120373.7,
+  "views_recent": 619627.3,
+  "baseline_ok": true,
+  "growth": 4.1475
  },
  {
   "wals_id": "sre",
@@ -32285,7 +32437,15 @@
   "subfamily": "Benue-Congo",
   "genus": "Bantu",
   "country_id": "TZ",
-  "wiki_code": null
+  "wiki_code": "sw",
+  "month_first": "201507",
+  "views_first": 1254015,
+  "month_last": "202601",
+  "views_last": 1371482,
+  "views_baseline": 1228781.7,
+  "views_recent": 2907217.0,
+  "baseline_ok": true,
+  "growth": 1.3659
  },
  {
   "wals_id": "swe",
@@ -36085,7 +36245,15 @@
   "subfamily": "",
   "genus": "Turkic",
   "country_id": "UZ AF",
-  "wiki_code": null
+  "wiki_code": "uz",
+  "month_first": "201507",
+  "views_first": 866977,
+  "month_last": "202601",
+  "views_last": 5184088,
+  "views_baseline": 1084941.7,
+  "views_recent": 10285726.7,
+  "baseline_ok": true,
+  "growth": 8.4804
  },
  {
   "wals_id": "uzn",
@@ -37885,7 +38053,15 @@
   "subfamily": "",
   "genus": "Germanic",
   "country_id": "UA BY DE LT PL",
-  "wiki_code": null
+  "wiki_code": "yi",
+  "month_first": "201507",
+  "views_first": 438415,
+  "month_last": "202601",
+  "views_last": 275399,
+  "views_baseline": 410938.0,
+  "views_recent": 255919.0,
+  "baseline_ok": true,
+  "growth": -0.3772
  },
  {
   "wals_id": "ydl",
@@ -38967,7 +39143,15 @@
   "subfamily": "",
   "genus": "Kam-Tai",
   "country_id": "CN",
-  "wiki_code": null
+  "wiki_code": "za",
+  "month_first": "201507",
+  "views_first": 63789,
+  "month_last": "202601",
+  "views_last": 56229,
+  "views_baseline": 55144.7,
+  "views_recent": 153326.7,
+  "baseline_ok": true,
+  "growth": 1.7804
  },
  {
   "wals_id": "zim",

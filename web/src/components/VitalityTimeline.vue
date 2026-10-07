@@ -16,11 +16,31 @@
  */
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { useDataset } from '@/stores/dataset'
+import { useDisplayNames } from '@/display'
 import { semanticColors } from '@/theme/echarts-theme.js'
 
 const store = useDataset()
+const { language: langLabel } = useDisplayNames()
 const C = semanticColors()
 const timer = ref<number | null>(null)
+
+const T = {
+  zh: {
+    hits: '命中', clear: '清空筛选',
+    dragHint: '拖动或播放，地图上的点随之长缩',
+    selected: '选中', months: '个月数据',
+    timeline: '时间轴', monthUnit: '个月',
+    play: '播放十年变化', pause: '暂停', pickMonth: '选择月份',
+  },
+  en: {
+    hits: 'Matching', clear: 'Clear filters',
+    dragHint: 'Drag or play; the dots on the map grow and shrink',
+    selected: 'Selected', months: 'months of data',
+    timeline: 'Timeline', monthUnit: 'months',
+    play: 'Play the decade', pause: 'Pause', pickMonth: 'Select month',
+  },
+} as const
+const t = computed(() => T[store.lang])
 
 const months = computed(() => store.months)
 const idx = computed(() => store.monthIndex)
@@ -76,7 +96,7 @@ const selBand = computed(() => {
     left: (i0 / n) * 100,
     width: ((i1 - i0) / n) * 100,
     months: own.length,
-    name: l.name,
+    name: langLabel(l),
     partial: own.length < all.length,
   }
 })
@@ -116,7 +136,7 @@ watch(() => months.value.length, stop)
       </button>
       <div class="stamp">
         <div class="m num">{{ label }}</div>
-        <div class="k">时间轴 · {{ months.length }} 个月</div>
+        <div class="k">{{ t.timeline }} · {{ months.length }} {{ t.monthUnit }}</div>
       </div>
     </div>
 
@@ -145,11 +165,19 @@ watch(() => months.value.length, stop)
     </div>
 
     <div class="right">
+      <div class="tally">
+        <span class="k">{{ t.hits }}</span>
+        <strong class="num">{{ store.filtered.length.toLocaleString('en-US') }}</strong>
+        <span class="of num">/ {{ store.langs.length.toLocaleString('en-US') }}</span>
+        <button v-if="store.hasFilter" class="clr" @click="store.clearFilters()">
+          {{ t.clear }}
+        </button>
+      </div>
       <span v-if="selBand" class="tip">
-        选中：<strong>{{ selBand.name }}</strong> ·
-        <span :class="{ warn: selBand.partial }">{{ selBand.months }} 个月数据</span>
+        {{ t.selected }}：<strong>{{ selBand.name }}</strong> ·
+        <span :class="{ warn: selBand.partial }">{{ selBand.months }} {{ t.months }}</span>
       </span>
-      <span v-else class="tip">拖动或播放，地图上的点随之长缩</span>
+      <span v-else class="tip">{{ t.dragHint }}</span>
     </div>
   </footer>
 </template>
@@ -157,10 +185,10 @@ watch(() => months.value.length, stop)
 <style scoped>
 .timeline {
   display: grid;
-  grid-template-columns: 240px 1fr 250px;
+  grid-template-columns: 220px 1fr 260px;
   align-items: center;
   gap: var(--sp-4);
-  padding: var(--sp-3) var(--sp-5);
+  padding: var(--sp-2) var(--sp-5);
   background: var(--bg-surface);
   border-top: 1px solid var(--border);
 }
@@ -211,9 +239,17 @@ watch(() => months.value.length, stop)
 .range::-moz-range-track { height: 100%; background: transparent; }
 .range::-moz-range-thumb { width: 14px; height: 44px; border: 0; background: transparent; }
 
-.right { text-align: right; }
+.right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 1px; }
+.tally { display: flex; align-items: baseline; gap: 4px; }
+.tally .k { font-size: var(--fs-micro); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.tally strong { font-size: 0.95rem; color: var(--accent); }
+.tally .of { font-size: var(--fs-micro); color: var(--text-muted); }
+.tally .clr {
+  margin-left: 4px; border: 0; background: transparent; cursor: pointer;
+  color: var(--accent); font-family: inherit; font-size: var(--fs-micro);
+  text-decoration: underline;
+}
 .tip { font-size: var(--fs-micro); color: var(--text-muted); }
-.tip.switch { color: var(--accent); }
 .tip .warn { color: var(--negative); }
 .tip strong { color: var(--text-primary); }
 

@@ -43,17 +43,31 @@ JOIN_OUT = os.path.join(WIKIMEDIA_DIR, "join.json")
 
 
 # --------------------------------------------------------------------------- setup
-def load_editions() -> dict[str, str]:
-    """wiki language code -> display name (364 entries)."""
+def load_editions() -> dict[str, dict]:
+    """wiki 语言代码 -> {name, host}。
+
+    **必须用 sitematrix 给的 url，不能拿语言代码拼域名。**
+    实测有 7 个版本的域名与语言代码不一致，拼出来会 404：
+        yue -> zh-yue.wikipedia.org        （粤语）
+        nan -> zh-min-nan.wikipedia.org    （闽南语）
+        lzh -> zh-classical.wikipedia.org  （文言文）
+        gsw -> als.wikipedia.org           （阿勒曼尼语）
+        rup -> roa-rup.wikipedia.org
+        sgs -> bat-smg.wikipedia.org
+        vro -> fiu-vro.wikipedia.org
+    这曾经导致粤语、闽南语等完全没有时间序列数据（抓取时静默 404）。
+    """
     d = http_json("https://meta.wikimedia.org/w/api.php?action=sitematrix&format=json")
-    out: dict[str, str] = {}
+    out: dict[str, dict] = {}
     for k, v in d["sitematrix"].items():
         if not k.isdigit():
             continue
         code = (v.get("code") or "").lower()
         for site in v.get("site", []):
             if site.get("code") == "wiki" and site.get("url"):
-                out[code] = v.get("name") or code
+                host = (site["url"].replace("https://", "")
+                        .replace("http://", "").rstrip("/"))
+                out[code] = {"name": v.get("name") or code, "host": host}
     return out
 
 
@@ -99,21 +113,55 @@ def pick_candidate(cands: list[dict], cov: dict[str, int]) -> tuple[dict, bool]:
     return ranked[0], len(ranked) > 1
 
 
-def build_join() -> tuple[dict[str, dict], dict]:
-    """wiki code -> WALS row, using a two-hop ISO lookup."""
+def pick_macro_member(member_codes: list[str], by_code: dict[str, list[dict]],
+                      cov: dict[str, int]) -> tuple[dict | None, int]:
+    """从宏观语言的成员变体里挑一个最合适的。
+
+    排序规则（依次）：
+      1. 名称含 "Standard" 的优先 —— 维基百科的宏观语言版本通常用**标准语**书写，
+         例如 ar.wikipedia 用现代标准阿拉伯语，WALS 里叫 "Arabic (Modern Standard)"
+      2. 名称**不含括号**的优先 —— "Mandarin" 优于 "Kunming"
+      3. WALS 特征数据更丰富的优先
+      4. wals_id 字典序，保证确定性
+
+    残余歧义（成员都带括号且无标准语标记的，如 que、iku）无法靠规则消除，
+    因此结果里会记录 join_ambiguous 与最终选中的 iso 码，便于复核。
+    """
+    cands: dict[str, dict] = {}
+    for mc in member_codes:
+        for row in by_code.get(mc, []):
+            cands[row["ID"]] = row
+    if not cands:
+        return None, 0
+
+    def rank(r: dict):
+        nm = r["Name"]
+        standard = 0 if "standard" in nm.lower() else 1
+        paren = 1 if "(" in nm else 0
+        return (standard, paren, -cov.get(r["ID"], 0), r["ID"])
+
+    return sorted(cands.values(), key=rank)[0], len(cands)
+
+
+def build_join(editions: dict[str, dict]) -> tuple[dict[str, dict], dict]:
+    """wiki code -> WALS row, three hops: direct / ISO 639-1 / macrolanguage."""
     banner("1. 构建 WALS <-> Wikipedia 关联表")
-    editions = load_editions()
     by_code, cov = load_wals_index()
     iso1_to_3 = read_json(os.path.join(XREF_DIR, "iso639.json"))
+    macro_path = os.path.join(XREF_DIR, "macro_members.json")
+    macro_members = read_json(macro_path) if exists(macro_path) else {}
     log(f"  维基语言版本 = {human(len(editions))}")
     log(f"  WALS ISO 索引 = {human(len(by_code))}")
     log(f"  ISO 映射 = {human(len(iso1_to_3))}")
+    log(f"  宏观语言表 = {human(len(macro_members))}（缺失则第三跳失效）")
 
     join: dict[str, dict] = {}
-    direct = via_iso = ambiguous = 0
-    for code, name in sorted(editions.items()):
+    direct = via_iso = via_macro = ambiguous = 0
+    for code, meta_ed in sorted(editions.items()):
+        name = meta_ed["name"]
         cands: list[dict] | None = None
         hop: str | None = None
+        macro_from: str | None = None
         if code in by_code:
             cands, hop = by_code[code], "direct"
             direct += 1
@@ -122,6 +170,32 @@ def build_join() -> tuple[dict[str, dict], dict]:
             if iso3 and iso3 in by_code:
                 cands, hop = by_code[iso3], "iso1->iso3"
                 via_iso += 1
+            elif iso3 and iso3 in macro_members:
+                # ISO 639-1 给的是宏观语言码（zh/ar/fa/sw…），
+                # 而 WALS 只收具体变体（cmn/arb/pes/swh）—— 这里解析下去
+                row_m, n_members = pick_macro_member(macro_members[iso3], by_code, cov)
+                if row_m is not None:
+                    via_macro += 1
+                    if n_members > 1:
+                        ambiguous += 1
+                    join[code] = {
+                        "wiki_code": code, "wiki_name": name,
+                        "wiki_host": meta_ed["host"],
+                        "joined": True, "hop": "macro",
+                        "wals_id": row_m.get("ID"),
+                        "glottocode": row_m.get("Glottocode"),
+                        "iso639p3": row_m.get("ISO639P3code"),
+                        "name": row_m.get("Name"),
+                        "macroarea": row_m.get("Macroarea"),
+                        "latitude": row_m.get("Latitude"),
+                        "longitude": row_m.get("Longitude"),
+                        "family": row_m.get("Family"),
+                        "genus": row_m.get("Genus"),
+                        "iso_candidates": n_members,
+                        "join_ambiguous": n_members > 1,
+                        "macro_from": iso3,
+                    }
+                    continue
 
         row: dict | None = None
         amb = False
@@ -133,6 +207,7 @@ def build_join() -> tuple[dict[str, dict], dict]:
         join[code] = {
             "wiki_code": code,
             "wiki_name": name,
+            "wiki_host": meta_ed["host"],
             "joined": cands is not None,
             "hop": hop,
             # wals_id is the unique unit of analysis; glottocode only groups
@@ -147,15 +222,18 @@ def build_join() -> tuple[dict[str, dict], dict]:
             "genus": (row or {}).get("Genus"),
             "iso_candidates": len(cands) if cands else 0,
             "join_ambiguous": bool(amb),
+            "macro_from": macro_from,
         }
-    log(f"  直接命中 = {human(direct)}   经 ISO 映射 = {human(via_iso)}   "
-        f"合计 = {human(direct + via_iso)}")
-    log(f"  未关联 = {human(len(editions) - direct - via_iso)}")
-    log(f"  其中 ISO 码对应多个 WALS 条目（已按数据最丰富者择优）= "
-        f"{human(ambiguous)}")
+
+    total = direct + via_iso + via_macro
+    log(f"  直接命中 = {human(direct)}")
+    log(f"  经 ISO 639-1 -> 639-3 命中 = {human(via_iso)}")
+    log(f"  经宏观语言回退命中 = {human(via_macro)}   <- 接上 zh/ar/fa/sw 等")
+    log(f"  合计 = {human(total)}   未关联 = {human(len(editions) - total)}")
+    log(f"  其中多候选（已按规则择优）= {human(ambiguous)}")
     write_json(JOIN_OUT, join)
     log(f"  写入 {JOIN_OUT}")
-    return join, {"total": len(editions), "joined": direct + via_iso}
+    return join, {"total": len(editions), "joined": total}
 
 
 # --------------------------------------------------------------------------- fetch
@@ -203,7 +281,7 @@ def is_valid_series(series) -> bool:
 
 
 def collect(codes: list[str], label: str, url_tpl: str,
-            out_path: str) -> dict[str, dict]:
+            out_path: str, editions: dict[str, dict]) -> dict[str, dict]:
     banner(f"{label}（{human(len(codes))} 个语言版本）")
     store: dict[str, dict] = {}
     if exists(out_path) and "--force" not in sys.argv:
@@ -217,7 +295,8 @@ def collect(codes: list[str], label: str, url_tpl: str,
     log(f"  待抓 {human(len(todo))} 条，预计 {len(todo) * (DELAY + 0.35) / 60:.1f} 分钟")
 
     for i, code in enumerate(todo, 1):
-        proj = f"{code}.wikipedia.org"
+        # 用 sitematrix 的**真实域名**，不要拿语言代码拼（yue/nan/lzh/gsw/rup/sgs/vro 会 404）
+        proj = editions[code]["host"]
         items = fetch_one(url_tpl.format(proj=proj, start=START, end=END))
         if items:
             key = "views" if "views" in items[0] else "edits"
@@ -238,7 +317,8 @@ def collect(codes: list[str], label: str, url_tpl: str,
 
 
 def main() -> None:
-    join, stats = build_join()
+    editions = load_editions()
+    join, stats = build_join(editions)
     # Order: languages that joined to WALS first, so a partial run still yields
     # the data the dashboard actually needs.
     joined = [c for c in sorted(join) if join[c]["joined"]]
@@ -254,8 +334,10 @@ def main() -> None:
         codes = codes[:limit]
     log(f"  抓取顺序：先 {human(len(joined))} 个可关联语言，再 {human(len(rest))} 个其余版本")
 
-    pv = collect(codes, "2. 浏览量时间序列 (pageviews)", PV_URL, PV_OUT)
-    ed = collect(codes, "3. 编辑量时间序列 (edits)", ED_URL, ED_OUT)
+    pv = collect(codes, "2. 浏览量时间序列 (pageviews)", PV_URL, PV_OUT,
+                 editions)
+    ed = collect(codes, "3. 编辑量时间序列 (edits)", ED_URL, ED_OUT,
+                 editions)
 
     banner("4. 汇总")
     log(f"  语言版本总数        : {human(stats['total'])}")

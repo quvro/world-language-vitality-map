@@ -50,6 +50,47 @@ SELECT ?iso1 ?iso3 WHERE {
 }
 """
 
+# 宏观语言（macrolanguage）-> 其下属变体的 ISO 639-3 代码。
+#
+# 为什么需要：ISO 639-1 -> 639-3 常常给出**宏观语言**代码（zh→zho、ar→ara、fa→fas、sw→swa），
+# 而 WALS 收录的是**具体变体**（cmn/arb/pes/swh），所以直接查会全部落空。
+# 实测这导致阿拉伯语、波斯语、斯瓦希里语、马来语、蒙古语、汉语等一批主流语言
+# 完全没有进入活力层。
+#
+# 用 P279 **单层**，不要 P279+：传递闭包会把"历史上源自"的语言也算进来 ——
+# 实测 ara 的闭包包含 mlt（马耳他语），于是 ar.wikipedia 被错误地关联到马耳他语。
+# 单层则 ara -> arb（现代标准阿拉伯语）等真正的成员。
+MACRO_QUERY = """
+SELECT ?macroIso ?memberIso WHERE {
+  ?member wdt:P220 ?memberIso ; wdt:P279 ?macro .
+  ?macro wdt:P220 ?macroIso .
+  FILTER(?macroIso != ?memberIso)
+} LIMIT 5000
+"""
+
+
+def fetch_macro_members() -> None:
+    """宏观语言 -> 成员变体代码，写 xref/macro_members.json。"""
+    dest = os.path.join(XREF_DIR, "macro_members.json")
+    if exists(dest) and not FORCE:
+        log(f"  skip  已存在 ({human(os.path.getsize(dest))} B)")
+        return
+    log("  查询 WDQS（限流约 1 次/分钟）...")
+    rows = wdqs(MACRO_QUERY)
+    out: dict[str, list[str]] = {}
+    for r in rows:
+        macro = r["macroIso"]["value"].strip().lower()
+        member = r["memberIso"]["value"].strip().lower()
+        if macro and member and macro != member:
+            out.setdefault(macro, [])
+            if member not in out[macro]:
+                out[macro].append(member)
+    for k in out:
+        out[k] = sorted(out[k])
+    write_json(dest, out)
+    log(f"  ok    宏观语言 {human(len(out))} 个，成员对 "
+        f"{human(sum(len(v) for v in out.values()))} 组 -> {dest}")
+
 
 def fetch_iso_xref() -> None:
     banner("2. Wikidata ISO 639-1 <-> 639-3 映射")
@@ -73,6 +114,7 @@ def fetch_iso_xref() -> None:
 def main() -> None:
     fetch_wals()
     fetch_iso_xref()
+    fetch_macro_members()
     banner("完成")
     log(f"  WALS  -> {WALS_DIR}")
     log(f"  XREF  -> {XREF_DIR}")

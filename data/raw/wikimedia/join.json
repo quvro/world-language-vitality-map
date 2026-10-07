@@ -2,6 +2,7 @@
  "aa": {
   "wiki_code": "aa",
   "wiki_name": "Qafár af",
+  "wiki_host": "aa.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "qaf",
@@ -14,11 +15,13 @@
   "family": "Afro-Asiatic",
   "genus": "Lowland East Cushitic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ab": {
   "wiki_code": "ab",
   "wiki_name": "аԥсшәа",
+  "wiki_host": "ab.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "abk",
@@ -31,11 +34,13 @@
   "family": "Northwest Caucasian",
   "genus": "Northwest Caucasian",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ace": {
   "wiki_code": "ace",
   "wiki_name": "Acèh",
+  "wiki_host": "ace.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "ace",
@@ -48,11 +53,13 @@
   "family": "Austronesian",
   "genus": "Malayo-Sumbawan",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ady": {
   "wiki_code": "ady",
   "wiki_name": "адыгабзэ",
+  "wiki_host": "ady.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "ady",
@@ -65,11 +72,13 @@
   "family": "Northwest Caucasian",
   "genus": "Northwest Caucasian",
   "iso_candidates": 6,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "af": {
   "wiki_code": "af",
   "wiki_name": "Afrikaans",
+  "wiki_host": "af.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "afr",
@@ -82,11 +91,13 @@
   "family": "Indo-European",
   "genus": "Germanic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ak": {
   "wiki_code": "ak",
   "wiki_name": "Akan",
+  "wiki_host": "ak.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "akn",
@@ -99,11 +110,13 @@
   "family": "Niger-Congo",
   "genus": "Tano",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "alt": {
   "wiki_code": "alt",
   "wiki_name": "алтай тил",
+  "wiki_host": "alt.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "aso",
@@ -116,11 +129,13 @@
   "family": "Altaic",
   "genus": "Turkic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "am": {
   "wiki_code": "am",
   "wiki_name": "አማርኛ",
+  "wiki_host": "am.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "amh",
@@ -133,11 +148,13 @@
   "family": "Afro-Asiatic",
   "genus": "Semitic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ami": {
   "wiki_code": "ami",
   "wiki_name": "Pangcah",
+  "wiki_host": "ami.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "ami",
@@ -150,11 +167,13 @@
   "family": "Austronesian",
   "genus": "East Formosan",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "an": {
   "wiki_code": "an",
   "wiki_name": "aragonés",
+  "wiki_host": "an.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -167,11 +186,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "ang": {
   "wiki_code": "ang",
   "wiki_name": "Ænglisc",
+  "wiki_host": "ang.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -184,11 +205,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "ann": {
   "wiki_code": "ann",
   "wiki_name": "Obolo",
+  "wiki_host": "ann.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "obo",
@@ -201,11 +224,13 @@
   "family": "Niger-Congo",
   "genus": "Lower Cross",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "anp": {
   "wiki_code": "anp",
   "wiki_name": "अंगिका",
+  "wiki_host": "anp.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -218,28 +243,32 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "ar": {
   "wiki_code": "ar",
   "wiki_name": "العربية",
-  "joined": false,
-  "hop": null,
-  "wals_id": null,
-  "glottocode": null,
-  "iso639p3": null,
-  "name": null,
-  "macroarea": null,
-  "latitude": null,
-  "longitude": null,
-  "family": null,
-  "genus": null,
-  "iso_candidates": 0,
-  "join_ambiguous": false
+  "wiki_host": "ar.wikipedia.org",
+  "joined": true,
+  "hop": "macro",
+  "wals_id": "ams",
+  "glottocode": "stan1318",
+  "iso639p3": "arb",
+  "name": "Arabic (Modern Standard)",
+  "macroarea": "Eurasia",
+  "latitude": "25",
+  "longitude": "42",
+  "family": "Afro-Asiatic",
+  "genus": "Semitic",
+  "iso_candidates": 7,
+  "join_ambiguous": true,
+  "macro_from": "ara"
  },
  "arc": {
   "wiki_code": "arc",
   "wiki_name": "ܐܪܡܝܐ",
+  "wiki_host": "arc.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -252,11 +281,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "ary": {
   "wiki_code": "ary",
   "wiki_name": "الدارجة",
+  "wiki_host": "ary.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "amr",
@@ -269,11 +300,13 @@
   "family": "Afro-Asiatic",
   "genus": "Semitic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "arz": {
   "wiki_code": "arz",
   "wiki_name": "مصرى",
+  "wiki_host": "arz.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "aeg",
@@ -286,11 +319,13 @@
   "family": "Afro-Asiatic",
   "genus": "Semitic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "as": {
   "wiki_code": "as",
   "wiki_name": "অসমীয়া",
+  "wiki_host": "as.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "ass",
@@ -303,11 +338,13 @@
   "family": "Indo-European",
   "genus": "Indic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ast": {
   "wiki_code": "ast",
   "wiki_name": "asturianu",
+  "wiki_host": "ast.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "ast",
@@ -320,11 +357,13 @@
   "family": "Indo-European",
   "genus": "Romance",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "atj": {
   "wiki_code": "atj",
   "wiki_name": "Atikamekw",
+  "wiki_host": "atj.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "ati",
@@ -337,11 +376,13 @@
   "family": "Algic",
   "genus": "Algonquian",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "av": {
   "wiki_code": "av",
   "wiki_name": "авар",
+  "wiki_host": "av.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "ava",
@@ -354,11 +395,13 @@
   "family": "Nakh-Daghestanian",
   "genus": "Avar-Andic-Tsezic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "avk": {
   "wiki_code": "avk",
   "wiki_name": "Kotava",
+  "wiki_host": "avk.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -371,11 +414,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "awa": {
   "wiki_code": "awa",
   "wiki_name": "अवधी",
+  "wiki_host": "awa.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "awd",
@@ -388,11 +433,13 @@
   "family": "Indo-European",
   "genus": "Indic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ay": {
   "wiki_code": "ay",
   "wiki_name": "Aymar aru",
+  "wiki_host": "ay.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -405,28 +452,32 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "az": {
   "wiki_code": "az",
   "wiki_name": "azərbaycanca",
-  "joined": false,
-  "hop": null,
-  "wals_id": null,
-  "glottocode": null,
-  "iso639p3": null,
-  "name": null,
-  "macroarea": null,
-  "latitude": null,
-  "longitude": null,
-  "family": null,
-  "genus": null,
-  "iso_candidates": 0,
-  "join_ambiguous": false
+  "wiki_host": "az.wikipedia.org",
+  "joined": true,
+  "hop": "macro",
+  "wals_id": "aze",
+  "glottocode": "",
+  "iso639p3": "",
+  "name": "Azerbaijani",
+  "macroarea": "Eurasia",
+  "latitude": "40.5",
+  "longitude": "48.5",
+  "family": "Altaic",
+  "genus": "Turkic",
+  "iso_candidates": 2,
+  "join_ambiguous": true,
+  "macro_from": "aze"
  },
  "azb": {
   "wiki_code": "azb",
   "wiki_name": "تۆرکجه",
+  "wiki_host": "azb.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "aze",
@@ -439,11 +490,13 @@
   "family": "Altaic",
   "genus": "Turkic",
   "iso_candidates": 3,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ba": {
   "wiki_code": "ba",
   "wiki_name": "башҡортса",
+  "wiki_host": "ba.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "bsk",
@@ -456,11 +509,13 @@
   "family": "Altaic",
   "genus": "Turkic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ban": {
   "wiki_code": "ban",
   "wiki_name": "Basa Bali",
+  "wiki_host": "ban.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "bal",
@@ -473,11 +528,13 @@
   "family": "Austronesian",
   "genus": "Malayo-Sumbawan",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "bar": {
   "wiki_code": "bar",
   "wiki_name": "Boarisch",
+  "wiki_host": "bar.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "gau",
@@ -490,11 +547,13 @@
   "family": "Indo-European",
   "genus": "Germanic",
   "iso_candidates": 6,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "bbc": {
   "wiki_code": "bbc",
   "wiki_name": "Batak Toba",
+  "wiki_host": "bbc.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "bto",
@@ -507,11 +566,13 @@
   "family": "Austronesian",
   "genus": "Northwest Sumatra-Barrier Islands",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "bcl": {
   "wiki_code": "bcl",
   "wiki_name": "Bikol Central",
+  "wiki_host": "bcl.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "bkl",
@@ -524,11 +585,13 @@
   "family": "Austronesian",
   "genus": "Greater Central Philippine",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "bdr": {
   "wiki_code": "bdr",
   "wiki_name": "Bajau Sama",
+  "wiki_host": "bdr.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "bwc",
@@ -541,11 +604,13 @@
   "family": "Austronesian",
   "genus": "Sama-Bajaw",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "be": {
   "wiki_code": "be",
   "wiki_name": "беларуская",
+  "wiki_host": "be.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "blr",
@@ -558,11 +623,13 @@
   "family": "Indo-European",
   "genus": "Slavic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "be-tarask": {
   "wiki_code": "be-tarask",
   "wiki_name": "беларуская (тарашкевіца)",
+  "wiki_host": "be-tarask.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -575,11 +642,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "bew": {
   "wiki_code": "bew",
   "wiki_name": "Betawi",
+  "wiki_host": "bew.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "meb",
@@ -592,11 +661,13 @@
   "family": "other",
   "genus": "Creoles and Pidgins",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "bg": {
   "wiki_code": "bg",
   "wiki_name": "български",
+  "wiki_host": "bg.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "bul",
@@ -609,11 +680,13 @@
   "family": "Indo-European",
   "genus": "Slavic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "bh": {
   "wiki_code": "bh",
   "wiki_name": "भोजपुरी",
+  "wiki_host": "bh.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -626,11 +699,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "bi": {
   "wiki_code": "bi",
   "wiki_name": "Bislama",
+  "wiki_host": "bi.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "bsm",
@@ -643,11 +718,13 @@
   "family": "other",
   "genus": "Creoles and Pidgins",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "bjn": {
   "wiki_code": "bjn",
   "wiki_name": "Banjar",
+  "wiki_host": "bjn.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -660,11 +737,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "blk": {
   "wiki_code": "blk",
   "wiki_name": "ပအိုဝ်ႏဘာႏသာႏ",
+  "wiki_host": "blk.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -677,11 +756,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "bm": {
   "wiki_code": "bm",
   "wiki_name": "bamanankan",
+  "wiki_host": "bm.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "bam",
@@ -694,11 +775,13 @@
   "family": "Mande",
   "genus": "Western Mande",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "bn": {
   "wiki_code": "bn",
   "wiki_name": "বাংলা",
+  "wiki_host": "bn.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "ben",
@@ -711,11 +794,13 @@
   "family": "Indo-European",
   "genus": "Indic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "bo": {
   "wiki_code": "bo",
   "wiki_name": "བོད་ཡིག",
+  "wiki_host": "bo.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "tib",
@@ -728,11 +813,13 @@
   "family": "Sino-Tibetan",
   "genus": "Bodic",
   "iso_candidates": 12,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "bol": {
   "wiki_code": "bol",
   "wiki_name": "bòo pìkkà",
+  "wiki_host": "bol.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "blq",
@@ -745,11 +832,13 @@
   "family": "Afro-Asiatic",
   "genus": "West Chadic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "bpy": {
   "wiki_code": "bpy",
   "wiki_name": "বিষ্ণুপ্রিয়া মণিপুরী",
+  "wiki_host": "bpy.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -762,11 +851,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "br": {
   "wiki_code": "br",
   "wiki_name": "brezhoneg",
+  "wiki_host": "br.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "bre",
@@ -779,11 +870,13 @@
   "family": "Indo-European",
   "genus": "Celtic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "bs": {
   "wiki_code": "bs",
   "wiki_name": "bosanski",
+  "wiki_host": "bs.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "bos",
@@ -796,11 +889,13 @@
   "family": "Indo-European",
   "genus": "Slavic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "btm": {
   "wiki_code": "btm",
   "wiki_name": "Batak Mandailing",
+  "wiki_host": "btm.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -813,11 +908,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "bug": {
   "wiki_code": "bug",
   "wiki_name": "Basa Ugi",
+  "wiki_host": "bug.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "bug",
@@ -830,11 +927,13 @@
   "family": "Austronesian",
   "genus": "South Sulawesi",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "bxr": {
   "wiki_code": "bxr",
   "wiki_name": "буряад",
+  "wiki_host": "bxr.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -847,11 +946,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "ca": {
   "wiki_code": "ca",
   "wiki_name": "català",
+  "wiki_host": "ca.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "ctl",
@@ -864,11 +965,13 @@
   "family": "Indo-European",
   "genus": "Romance",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "cbk-zam": {
   "wiki_code": "cbk-zam",
   "wiki_name": "Chavacano de Zamboanga",
+  "wiki_host": "cbk-zam.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -881,11 +984,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "cdo": {
   "wiki_code": "cdo",
   "wiki_name": "閩東語 / Mìng-dĕ̤ng-ngṳ̄",
+  "wiki_host": "cdo.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "fuz",
@@ -898,11 +1003,13 @@
   "family": "Sino-Tibetan",
   "genus": "Chinese",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ce": {
   "wiki_code": "ce",
   "wiki_name": "нохчийн",
+  "wiki_host": "ce.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "chc",
@@ -915,11 +1022,13 @@
   "family": "Nakh-Daghestanian",
   "genus": "Nakh",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ceb": {
   "wiki_code": "ceb",
   "wiki_name": "Cebuano",
+  "wiki_host": "ceb.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "ceb",
@@ -932,11 +1041,13 @@
   "family": "Austronesian",
   "genus": "Greater Central Philippine",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ch": {
   "wiki_code": "ch",
   "wiki_name": "Chamoru",
+  "wiki_host": "ch.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "cha",
@@ -949,11 +1060,13 @@
   "family": "Austronesian",
   "genus": "Chamorro",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "cho": {
   "wiki_code": "cho",
   "wiki_name": "Chahta anumpa",
+  "wiki_host": "cho.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "cct",
@@ -966,11 +1079,13 @@
   "family": "Muskogean",
   "genus": "Muskogean",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "chr": {
   "wiki_code": "chr",
   "wiki_name": "ᏣᎳᎩ",
+  "wiki_host": "chr.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "che",
@@ -983,11 +1098,13 @@
   "family": "Iroquoian",
   "genus": "Southern Iroquoian",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "chy": {
   "wiki_code": "chy",
   "wiki_name": "Tsetsêhestâhese",
+  "wiki_host": "chy.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "cyn",
@@ -1000,11 +1117,13 @@
   "family": "Algic",
   "genus": "Algonquian",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ckb": {
   "wiki_code": "ckb",
   "wiki_name": "کوردی",
+  "wiki_host": "ckb.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "krd",
@@ -1017,11 +1136,13 @@
   "family": "Indo-European",
   "genus": "Iranian",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "co": {
   "wiki_code": "co",
   "wiki_name": "corsu",
+  "wiki_host": "co.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -1034,28 +1155,32 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "cr": {
   "wiki_code": "cr",
   "wiki_name": "Nēhiyawēwin / ᓀᐦᐃᔭᐍᐏᐣ",
-  "joined": false,
-  "hop": null,
-  "wals_id": null,
-  "glottocode": null,
-  "iso639p3": null,
-  "name": null,
-  "macroarea": null,
-  "latitude": null,
-  "longitude": null,
-  "family": null,
-  "genus": null,
-  "iso_candidates": 0,
-  "join_ambiguous": false
+  "wiki_host": "cr.wikipedia.org",
+  "joined": true,
+  "hop": "macro",
+  "wals_id": "cre",
+  "glottocode": "plai1258",
+  "iso639p3": "crk",
+  "name": "Cree (Plains)",
+  "macroarea": "North America",
+  "latitude": "54",
+  "longitude": "-110",
+  "family": "Algic",
+  "genus": "Algonquian",
+  "iso_candidates": 2,
+  "join_ambiguous": true,
+  "macro_from": "cre"
  },
  "crh": {
   "wiki_code": "crh",
   "wiki_name": "qırımtatarca",
+  "wiki_host": "crh.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "cri",
@@ -1068,11 +1193,13 @@
   "family": "Altaic",
   "genus": "Turkic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "cs": {
   "wiki_code": "cs",
   "wiki_name": "čeština",
+  "wiki_host": "cs.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "cze",
@@ -1085,11 +1212,13 @@
   "family": "Indo-European",
   "genus": "Slavic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "csb": {
   "wiki_code": "csb",
   "wiki_name": "kaszëbsczi",
+  "wiki_host": "csb.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "svc",
@@ -1102,11 +1231,13 @@
   "family": "Indo-European",
   "genus": "Slavic",
   "iso_candidates": 4,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "cu": {
   "wiki_code": "cu",
   "wiki_name": "словѣньскъ / ⰔⰎⰑⰂⰡⰐⰠⰔⰍⰟ",
+  "wiki_host": "cu.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -1119,11 +1250,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "cv": {
   "wiki_code": "cv",
   "wiki_name": "чӑвашла",
+  "wiki_host": "cv.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "chv",
@@ -1136,11 +1269,13 @@
   "family": "Altaic",
   "genus": "Turkic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "cy": {
   "wiki_code": "cy",
   "wiki_name": "Cymraeg",
+  "wiki_host": "cy.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "wel",
@@ -1153,11 +1288,13 @@
   "family": "Indo-European",
   "genus": "Celtic",
   "iso_candidates": 4,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "da": {
   "wiki_code": "da",
   "wiki_name": "dansk",
+  "wiki_host": "da.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "dsh",
@@ -1170,11 +1307,13 @@
   "family": "Indo-European",
   "genus": "Germanic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "dag": {
   "wiki_code": "dag",
   "wiki_name": "dagbanli",
+  "wiki_host": "dag.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "dgb",
@@ -1187,11 +1326,13 @@
   "family": "Niger-Congo",
   "genus": "Oti-Volta",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "de": {
   "wiki_code": "de",
   "wiki_name": "Deutsch",
+  "wiki_host": "de.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "ger",
@@ -1204,11 +1345,13 @@
   "family": "Indo-European",
   "genus": "Germanic",
   "iso_candidates": 12,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "dga": {
   "wiki_code": "dga",
   "wiki_name": "Dagaare",
+  "wiki_host": "dga.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "dga",
@@ -1221,11 +1364,13 @@
   "family": "Niger-Congo",
   "genus": "Oti-Volta",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "din": {
   "wiki_code": "din",
   "wiki_name": "Thuɔŋjäŋ",
+  "wiki_host": "din.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "din",
@@ -1238,11 +1383,13 @@
   "family": "Eastern Sudanic",
   "genus": "Western Nilotic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "diq": {
   "wiki_code": "diq",
   "wiki_name": "Zazaki",
+  "wiki_host": "diq.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "zaz",
@@ -1255,11 +1402,13 @@
   "family": "Indo-European",
   "genus": "Iranian",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "dsb": {
   "wiki_code": "dsb",
   "wiki_name": "dolnoserbski",
+  "wiki_host": "dsb.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "srb",
@@ -1272,11 +1421,13 @@
   "family": "Indo-European",
   "genus": "Slavic",
   "iso_candidates": 3,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "dtp": {
   "wiki_code": "dtp",
   "wiki_name": "Kadazandusun",
+  "wiki_host": "dtp.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -1289,11 +1440,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "dty": {
   "wiki_code": "dty",
   "wiki_name": "डोटेली",
+  "wiki_host": "dty.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -1306,11 +1459,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "dv": {
   "wiki_code": "dv",
   "wiki_name": "ދިވެހިބަސް",
+  "wiki_host": "dv.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "dhi",
@@ -1323,11 +1478,13 @@
   "family": "Indo-European",
   "genus": "Indic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "dz": {
   "wiki_code": "dz",
   "wiki_name": "ཇོང་ཁ",
+  "wiki_host": "dz.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -1340,11 +1497,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "ee": {
   "wiki_code": "ee",
   "wiki_name": "eʋegbe",
+  "wiki_host": "ee.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "ewe",
@@ -1357,11 +1516,13 @@
   "family": "Niger-Congo",
   "genus": "Gbe",
   "iso_candidates": 4,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "el": {
   "wiki_code": "el",
   "wiki_name": "Ελληνικά",
+  "wiki_host": "el.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "grk",
@@ -1374,11 +1535,13 @@
   "family": "Indo-European",
   "genus": "Greek",
   "iso_candidates": 4,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "eml": {
   "wiki_code": "eml",
   "wiki_name": "emiliàn e rumagnòl",
+  "wiki_host": "eml.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -1391,11 +1554,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "en": {
   "wiki_code": "en",
   "wiki_name": "English",
+  "wiki_host": "en.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "eng",
@@ -1408,11 +1573,13 @@
   "family": "Indo-European",
   "genus": "Germanic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "eo": {
   "wiki_code": "eo",
   "wiki_name": "Esperanto",
+  "wiki_host": "eo.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -1425,11 +1592,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "es": {
   "wiki_code": "es",
   "wiki_name": "español",
+  "wiki_host": "es.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "spa",
@@ -1442,28 +1611,32 @@
   "family": "Indo-European",
   "genus": "Romance",
   "iso_candidates": 4,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "et": {
   "wiki_code": "et",
   "wiki_name": "eesti",
-  "joined": false,
-  "hop": null,
-  "wals_id": null,
-  "glottocode": null,
-  "iso639p3": null,
-  "name": null,
-  "macroarea": null,
-  "latitude": null,
-  "longitude": null,
-  "family": null,
-  "genus": null,
-  "iso_candidates": 0,
-  "join_ambiguous": false
+  "wiki_host": "et.wikipedia.org",
+  "joined": true,
+  "hop": "macro",
+  "wals_id": "est",
+  "glottocode": "esto1258",
+  "iso639p3": "ekk",
+  "name": "Estonian",
+  "macroarea": "Eurasia",
+  "latitude": "59",
+  "longitude": "26",
+  "family": "Uralic",
+  "genus": "Finnic",
+  "iso_candidates": 1,
+  "join_ambiguous": false,
+  "macro_from": "est"
  },
  "eu": {
   "wiki_code": "eu",
   "wiki_name": "euskara",
+  "wiki_host": "eu.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "bsq",
@@ -1476,11 +1649,13 @@
   "family": "Basque",
   "genus": "Basque",
   "iso_candidates": 24,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ext": {
   "wiki_code": "ext",
   "wiki_name": "estremeñu",
+  "wiki_host": "ext.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -1493,28 +1668,32 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "fa": {
   "wiki_code": "fa",
   "wiki_name": "فارسی",
-  "joined": false,
-  "hop": null,
-  "wals_id": null,
-  "glottocode": null,
-  "iso639p3": null,
-  "name": null,
-  "macroarea": null,
-  "latitude": null,
-  "longitude": null,
-  "family": null,
-  "genus": null,
-  "iso_candidates": 0,
-  "join_ambiguous": false
+  "wiki_host": "fa.wikipedia.org",
+  "joined": true,
+  "hop": "macro",
+  "wals_id": "prs",
+  "glottocode": "west2369",
+  "iso639p3": "pes",
+  "name": "Persian",
+  "macroarea": "Eurasia",
+  "latitude": "32",
+  "longitude": "54",
+  "family": "Indo-European",
+  "genus": "Iranian",
+  "iso_candidates": 3,
+  "join_ambiguous": true,
+  "macro_from": "fas"
  },
  "fat": {
   "wiki_code": "fat",
   "wiki_name": "mfantse",
+  "wiki_host": "fat.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -1527,28 +1706,32 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "ff": {
   "wiki_code": "ff",
   "wiki_name": "Fulfulde",
-  "joined": false,
-  "hop": null,
-  "wals_id": null,
-  "glottocode": null,
-  "iso639p3": null,
-  "name": null,
-  "macroarea": null,
-  "latitude": null,
-  "longitude": null,
-  "family": null,
-  "genus": null,
-  "iso_candidates": 0,
-  "join_ambiguous": false
+  "wiki_host": "ff.wikipedia.org",
+  "joined": true,
+  "hop": "macro",
+  "wals_id": "fma",
+  "glottocode": "pula1263",
+  "iso639p3": "fuc",
+  "name": "Pulaar",
+  "macroarea": "Africa",
+  "latitude": "16.5",
+  "longitude": "-13.75",
+  "family": "Niger-Congo",
+  "genus": "Peul-Serer",
+  "iso_candidates": 6,
+  "join_ambiguous": true,
+  "macro_from": "ful"
  },
  "fi": {
   "wiki_code": "fi",
   "wiki_name": "suomi",
+  "wiki_host": "fi.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "fin",
@@ -1561,11 +1744,13 @@
   "family": "Uralic",
   "genus": "Finnic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "fj": {
   "wiki_code": "fj",
   "wiki_name": "Na Vosa Vakaviti",
+  "wiki_host": "fj.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "fij",
@@ -1578,11 +1763,13 @@
   "family": "Austronesian",
   "genus": "Oceanic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "fo": {
   "wiki_code": "fo",
   "wiki_name": "føroyskt",
+  "wiki_host": "fo.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "far",
@@ -1595,11 +1782,13 @@
   "family": "Indo-European",
   "genus": "Germanic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "fon": {
   "wiki_code": "fon",
   "wiki_name": "fɔ̀ngbè",
+  "wiki_host": "fon.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "fon",
@@ -1612,11 +1801,13 @@
   "family": "Niger-Congo",
   "genus": "Gbe",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "fr": {
   "wiki_code": "fr",
   "wiki_name": "français",
+  "wiki_host": "fr.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "fre",
@@ -1629,11 +1820,13 @@
   "family": "Indo-European",
   "genus": "Romance",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "frp": {
   "wiki_code": "frp",
   "wiki_name": "arpetan",
+  "wiki_host": "frp.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -1646,11 +1839,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "frr": {
   "wiki_code": "frr",
   "wiki_name": "Nordfriisk",
+  "wiki_host": "frr.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "fno",
@@ -1663,11 +1858,13 @@
   "family": "Indo-European",
   "genus": "Germanic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "fur": {
   "wiki_code": "fur",
   "wiki_name": "furlan",
+  "wiki_host": "fur.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -1680,11 +1877,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "fy": {
   "wiki_code": "fy",
   "wiki_name": "Frysk",
+  "wiki_host": "fy.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "fri",
@@ -1697,11 +1896,13 @@
   "family": "Indo-European",
   "genus": "Germanic",
   "iso_candidates": 4,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ga": {
   "wiki_code": "ga",
   "wiki_name": "Gaeilge",
+  "wiki_host": "ga.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "iri",
@@ -1714,11 +1915,13 @@
   "family": "Indo-European",
   "genus": "Celtic",
   "iso_candidates": 6,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "gag": {
   "wiki_code": "gag",
   "wiki_name": "Gagauz",
+  "wiki_host": "gag.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "gag",
@@ -1731,11 +1934,13 @@
   "family": "Altaic",
   "genus": "Turkic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "gan": {
   "wiki_code": "gan",
   "wiki_name": "贛語",
+  "wiki_host": "gan.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -1748,11 +1953,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "gcr": {
   "wiki_code": "gcr",
   "wiki_name": "kriyòl gwiyannen",
+  "wiki_host": "gcr.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "gfr",
@@ -1765,11 +1972,13 @@
   "family": "other",
   "genus": "Creoles and Pidgins",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "gd": {
   "wiki_code": "gd",
   "wiki_name": "Gàidhlig",
+  "wiki_host": "gd.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "gae",
@@ -1782,11 +1991,13 @@
   "family": "Indo-European",
   "genus": "Celtic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "gl": {
   "wiki_code": "gl",
   "wiki_name": "galego",
+  "wiki_host": "gl.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "glc",
@@ -1799,11 +2010,13 @@
   "family": "Indo-European",
   "genus": "Romance",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "glk": {
   "wiki_code": "glk",
   "wiki_name": "گیلکی",
+  "wiki_host": "glk.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "gil",
@@ -1816,28 +2029,32 @@
   "family": "Indo-European",
   "genus": "Iranian",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "gn": {
   "wiki_code": "gn",
   "wiki_name": "Avañe'ẽ",
-  "joined": false,
-  "hop": null,
-  "wals_id": null,
-  "glottocode": null,
-  "iso639p3": null,
-  "name": null,
-  "macroarea": null,
-  "latitude": null,
-  "longitude": null,
-  "family": null,
-  "genus": null,
-  "iso_candidates": 0,
-  "join_ambiguous": false
+  "wiki_host": "gn.wikipedia.org",
+  "joined": true,
+  "hop": "macro",
+  "wals_id": "gua",
+  "glottocode": "para1311",
+  "iso639p3": "gug",
+  "name": "Guaraní",
+  "macroarea": "South America",
+  "latitude": "-26",
+  "longitude": "-56",
+  "family": "Tupian",
+  "genus": "Maweti-Guarani",
+  "iso_candidates": 1,
+  "join_ambiguous": false,
+  "macro_from": "grn"
  },
  "gom": {
   "wiki_code": "gom",
   "wiki_name": "गोंयची कोंकणी / Gõychi Konknni",
+  "wiki_host": "gom.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -1850,11 +2067,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "gor": {
   "wiki_code": "gor",
   "wiki_name": "Bahasa Hulontalo",
+  "wiki_host": "gor.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "grt",
@@ -1867,11 +2086,13 @@
   "family": "Austronesian",
   "genus": "Greater Central Philippine",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "got": {
   "wiki_code": "got",
   "wiki_name": "𐌲𐌿𐍄𐌹𐍃𐌺",
+  "wiki_host": "got.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -1884,11 +2105,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "gpe": {
   "wiki_code": "gpe",
   "wiki_name": "Ghanaian Pidgin",
+  "wiki_host": "gpe.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -1901,11 +2124,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "gsw": {
   "wiki_code": "gsw",
   "wiki_name": "Alemannisch",
+  "wiki_host": "als.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "alt",
@@ -1918,11 +2143,13 @@
   "family": "Indo-European",
   "genus": "Germanic",
   "iso_candidates": 12,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "gu": {
   "wiki_code": "gu",
   "wiki_name": "ગુજરાતી",
+  "wiki_host": "gu.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "guj",
@@ -1935,11 +2162,13 @@
   "family": "Indo-European",
   "genus": "Indic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "guc": {
   "wiki_code": "guc",
   "wiki_name": "wayuunaiki",
+  "wiki_host": "guc.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "goa",
@@ -1952,11 +2181,13 @@
   "family": "Arawakan",
   "genus": "Guajiro-Paraujano",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "gur": {
   "wiki_code": "gur",
   "wiki_name": "farefare",
+  "wiki_host": "gur.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "grn",
@@ -1969,11 +2200,13 @@
   "family": "Niger-Congo",
   "genus": "Oti-Volta",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "guw": {
   "wiki_code": "guw",
   "wiki_name": "gungbe",
+  "wiki_host": "guw.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "guw",
@@ -1986,11 +2219,13 @@
   "family": "Niger-Congo",
   "genus": "Gbe",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "gv": {
   "wiki_code": "gv",
   "wiki_name": "Gaelg",
+  "wiki_host": "gv.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "mnx",
@@ -2003,11 +2238,13 @@
   "family": "Indo-European",
   "genus": "Celtic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ha": {
   "wiki_code": "ha",
   "wiki_name": "Hausa",
+  "wiki_host": "ha.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "hau",
@@ -2020,11 +2257,13 @@
   "family": "Afro-Asiatic",
   "genus": "West Chadic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "hak": {
   "wiki_code": "hak",
   "wiki_name": "客家語 / Hak-kâ-ngî",
+  "wiki_host": "hak.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "hak",
@@ -2037,11 +2276,13 @@
   "family": "Sino-Tibetan",
   "genus": "Chinese",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "haw": {
   "wiki_code": "haw",
   "wiki_name": "Hawaiʻi",
+  "wiki_host": "haw.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "haw",
@@ -2054,11 +2295,13 @@
   "family": "Austronesian",
   "genus": "Oceanic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "he": {
   "wiki_code": "he",
   "wiki_name": "עברית",
+  "wiki_host": "he.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "heb",
@@ -2071,11 +2314,13 @@
   "family": "Afro-Asiatic",
   "genus": "Semitic",
   "iso_candidates": 4,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "hi": {
   "wiki_code": "hi",
   "wiki_name": "हिन्दी",
+  "wiki_host": "hi.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "hin",
@@ -2088,11 +2333,13 @@
   "family": "Indo-European",
   "genus": "Indic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "hif": {
   "wiki_code": "hif",
   "wiki_name": "Fiji Hindi",
+  "wiki_host": "hif.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -2105,11 +2352,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "ho": {
   "wiki_code": "ho",
   "wiki_name": "Hiri Motu",
+  "wiki_host": "ho.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -2122,11 +2371,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "hr": {
   "wiki_code": "hr",
   "wiki_name": "hrvatski",
+  "wiki_host": "hr.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -2139,11 +2390,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "hsb": {
   "wiki_code": "hsb",
   "wiki_name": "hornjoserbsce",
+  "wiki_host": "hsb.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "srb",
@@ -2156,11 +2409,13 @@
   "family": "Indo-European",
   "genus": "Slavic",
   "iso_candidates": 3,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ht": {
   "wiki_code": "ht",
   "wiki_name": "Kreyòl ayisyen",
+  "wiki_host": "ht.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "hcr",
@@ -2173,11 +2428,13 @@
   "family": "other",
   "genus": "Creoles and Pidgins",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "hu": {
   "wiki_code": "hu",
   "wiki_name": "magyar",
+  "wiki_host": "hu.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "hun",
@@ -2190,11 +2447,13 @@
   "family": "Uralic",
   "genus": "Ugric",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "hy": {
   "wiki_code": "hy",
   "wiki_name": "հայերեն",
+  "wiki_host": "hy.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "arm",
@@ -2207,11 +2466,13 @@
   "family": "Indo-European",
   "genus": "Armenian",
   "iso_candidates": 4,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "hyw": {
   "wiki_code": "hyw",
   "wiki_name": "Արեւմտահայերէն",
+  "wiki_host": "hyw.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "arw",
@@ -2224,11 +2485,13 @@
   "family": "Indo-European",
   "genus": "Armenian",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "hz": {
   "wiki_code": "hz",
   "wiki_name": "Otsiherero",
+  "wiki_host": "hz.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "her",
@@ -2241,11 +2504,13 @@
   "family": "Niger-Congo",
   "genus": "Bantu",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ia": {
   "wiki_code": "ia",
   "wiki_name": "interlingua",
+  "wiki_host": "ia.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -2258,11 +2523,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "iba": {
   "wiki_code": "iba",
   "wiki_name": "Jaku Iban",
+  "wiki_host": "iba.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "iba",
@@ -2275,11 +2542,13 @@
   "family": "Austronesian",
   "genus": "Malayo-Sumbawan",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "id": {
   "wiki_code": "id",
   "wiki_name": "Bahasa Indonesia",
+  "wiki_host": "id.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "ind",
@@ -2292,11 +2561,13 @@
   "family": "Austronesian",
   "genus": "Malayo-Sumbawan",
   "iso_candidates": 4,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ie": {
   "wiki_code": "ie",
   "wiki_name": "Interlingue",
+  "wiki_host": "ie.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -2309,11 +2580,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "ig": {
   "wiki_code": "ig",
   "wiki_name": "Igbo",
+  "wiki_host": "ig.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "igb",
@@ -2326,11 +2599,13 @@
   "family": "Niger-Congo",
   "genus": "Igboid",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "igl": {
   "wiki_code": "igl",
   "wiki_name": "Igala",
+  "wiki_host": "igl.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -2343,11 +2618,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "ii": {
   "wiki_code": "ii",
   "wiki_name": "ꆇꉙ",
+  "wiki_host": "ii.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "yi",
@@ -2360,28 +2637,32 @@
   "family": "Sino-Tibetan",
   "genus": "Burmese-Lolo",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ik": {
   "wiki_code": "ik",
   "wiki_name": "Iñupiatun",
-  "joined": false,
-  "hop": null,
-  "wals_id": null,
-  "glottocode": null,
-  "iso639p3": null,
-  "name": null,
-  "macroarea": null,
-  "latitude": null,
-  "longitude": null,
-  "family": null,
-  "genus": null,
-  "iso_candidates": 0,
-  "join_ambiguous": false
+  "wiki_host": "ik.wikipedia.org",
+  "joined": true,
+  "hop": "macro",
+  "wals_id": "inu",
+  "glottocode": "nort2943",
+  "iso639p3": "esi",
+  "name": "Iñupiaq",
+  "macroarea": "North America",
+  "latitude": "67",
+  "longitude": "-161",
+  "family": "Eskimo-Aleut",
+  "genus": "Eskimo",
+  "iso_candidates": 1,
+  "join_ambiguous": false,
+  "macro_from": "ipk"
  },
  "ilo": {
   "wiki_code": "ilo",
   "wiki_name": "Ilokano",
+  "wiki_host": "ilo.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "ilo",
@@ -2394,11 +2675,13 @@
   "family": "Austronesian",
   "genus": "Northern Luzon",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "inh": {
   "wiki_code": "inh",
   "wiki_name": "гӀалгӀай",
+  "wiki_host": "inh.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "ing",
@@ -2411,11 +2694,13 @@
   "family": "Nakh-Daghestanian",
   "genus": "Nakh",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "io": {
   "wiki_code": "io",
   "wiki_name": "Ido",
+  "wiki_host": "io.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -2428,11 +2713,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "is": {
   "wiki_code": "is",
   "wiki_name": "íslenska",
+  "wiki_host": "is.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "ice",
@@ -2445,11 +2732,13 @@
   "family": "Indo-European",
   "genus": "Germanic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "isv": {
   "wiki_code": "isv",
   "wiki_name": "medžuslovjansky",
+  "wiki_host": "isv.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -2462,11 +2751,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "it": {
   "wiki_code": "it",
   "wiki_name": "italiano",
+  "wiki_host": "it.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "ita",
@@ -2479,28 +2770,32 @@
   "family": "Indo-European",
   "genus": "Romance",
   "iso_candidates": 4,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "iu": {
   "wiki_code": "iu",
   "wiki_name": "ᐃᓄᒃᑎᑐᑦ / inuktitut",
-  "joined": false,
-  "hop": null,
-  "wals_id": null,
-  "glottocode": null,
-  "iso639p3": null,
-  "name": null,
-  "macroarea": null,
-  "latitude": null,
-  "longitude": null,
-  "family": null,
-  "genus": null,
-  "iso_candidates": 0,
-  "join_ambiguous": false
+  "wiki_host": "iu.wikipedia.org",
+  "joined": true,
+  "hop": "macro",
+  "wals_id": "kgt",
+  "glottocode": "copp1244",
+  "iso639p3": "ikt",
+  "name": "Kangiryuarmiut",
+  "macroarea": "North America",
+  "latitude": "68.3333333333",
+  "longitude": "-133.75",
+  "family": "Eskimo-Aleut",
+  "genus": "Eskimo",
+  "iso_candidates": 4,
+  "join_ambiguous": true,
+  "macro_from": "iku"
  },
  "ja": {
   "wiki_code": "ja",
   "wiki_name": "日本語",
+  "wiki_host": "ja.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "jpn",
@@ -2513,11 +2808,13 @@
   "family": "Japanese",
   "genus": "Japanese",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "jam": {
   "wiki_code": "jam",
   "wiki_name": "Patois",
+  "wiki_host": "jam.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "jcr",
@@ -2530,11 +2827,13 @@
   "family": "other",
   "genus": "Creoles and Pidgins",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "jbo": {
   "wiki_code": "jbo",
   "wiki_name": "la .lojban.",
+  "wiki_host": "jbo.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -2547,11 +2846,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "jv": {
   "wiki_code": "jv",
   "wiki_name": "Jawa",
+  "wiki_host": "jv.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "jav",
@@ -2564,11 +2865,13 @@
   "family": "Austronesian",
   "genus": "Javanese",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ka": {
   "wiki_code": "ka",
   "wiki_name": "ქართული",
+  "wiki_host": "ka.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "geo",
@@ -2581,11 +2884,13 @@
   "family": "Kartvelian",
   "genus": "Kartvelian",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "kaa": {
   "wiki_code": "kaa",
   "wiki_name": "Qaraqalpaqsha",
+  "wiki_host": "kaa.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "kkp",
@@ -2598,11 +2903,13 @@
   "family": "Altaic",
   "genus": "Turkic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "kab": {
   "wiki_code": "kab",
   "wiki_name": "Taqbaylit",
+  "wiki_host": "kab.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "kbl",
@@ -2615,11 +2922,13 @@
   "family": "Afro-Asiatic",
   "genus": "Berber",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "kai": {
   "wiki_code": "kai",
   "wiki_name": "Karai-karai",
+  "wiki_host": "kai.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -2632,11 +2941,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "kaj": {
   "wiki_code": "kaj",
   "wiki_name": "Jju",
+  "wiki_host": "kaj.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -2649,11 +2960,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "kbd": {
   "wiki_code": "kbd",
   "wiki_name": "адыгэбзэ",
+  "wiki_host": "kbd.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "kab",
@@ -2666,11 +2979,13 @@
   "family": "Northwest Caucasian",
   "genus": "Northwest Caucasian",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "kbp": {
   "wiki_code": "kbp",
   "wiki_name": "Kabɩyɛ",
+  "wiki_host": "kbp.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "kby",
@@ -2683,11 +2998,13 @@
   "family": "Niger-Congo",
   "genus": "Grusi",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "kcg": {
   "wiki_code": "kcg",
   "wiki_name": "Tyap",
+  "wiki_host": "kcg.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "gwo",
@@ -2700,28 +3017,32 @@
   "family": "Niger-Congo",
   "genus": "Benue-Congo Plateau",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "kg": {
   "wiki_code": "kg",
   "wiki_name": "Kongo",
-  "joined": false,
-  "hop": null,
-  "wals_id": null,
-  "glottocode": null,
-  "iso639p3": null,
-  "name": null,
-  "macroarea": null,
-  "latitude": null,
-  "longitude": null,
-  "family": null,
-  "genus": null,
-  "iso_candidates": 0,
-  "join_ambiguous": false
+  "wiki_host": "kg.wikipedia.org",
+  "joined": true,
+  "hop": "macro",
+  "wals_id": "kon",
+  "glottocode": "koon1244",
+  "iso639p3": "kng",
+  "name": "Kongo",
+  "macroarea": "Africa",
+  "latitude": "-5",
+  "longitude": "15",
+  "family": "Niger-Congo",
+  "genus": "Bantu",
+  "iso_candidates": 2,
+  "join_ambiguous": true,
+  "macro_from": "kon"
  },
  "kge": {
   "wiki_code": "kge",
   "wiki_name": "Kumoring",
+  "wiki_host": "kge.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "kag",
@@ -2734,11 +3055,13 @@
   "family": "Austronesian",
   "genus": "Lampungic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ki": {
   "wiki_code": "ki",
   "wiki_name": "Gĩkũyũ",
+  "wiki_host": "ki.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "kik",
@@ -2751,11 +3074,13 @@
   "family": "Niger-Congo",
   "genus": "Bantu",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "kj": {
   "wiki_code": "kj",
   "wiki_name": "Kwanyama",
+  "wiki_host": "kj.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -2768,11 +3093,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "kk": {
   "wiki_code": "kk",
   "wiki_name": "қазақша",
+  "wiki_host": "kk.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "kaz",
@@ -2785,11 +3112,13 @@
   "family": "Altaic",
   "genus": "Turkic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "kl": {
   "wiki_code": "kl",
   "wiki_name": "kalaallisut",
+  "wiki_host": "kl.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "grw",
@@ -2802,11 +3131,13 @@
   "family": "Eskimo-Aleut",
   "genus": "Eskimo",
   "iso_candidates": 6,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "km": {
   "wiki_code": "km",
   "wiki_name": "ភាសាខ្មែរ",
+  "wiki_host": "km.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "khm",
@@ -2819,11 +3150,13 @@
   "family": "Austro-Asiatic",
   "genus": "Khmer",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "kn": {
   "wiki_code": "kn",
   "wiki_name": "ಕನ್ನಡ",
+  "wiki_host": "kn.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "knd",
@@ -2836,11 +3169,13 @@
   "family": "Dravidian",
   "genus": "Dravidian",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "knc": {
   "wiki_code": "knc",
   "wiki_name": "Yerwa Kanuri",
+  "wiki_host": "knc.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "knr",
@@ -2853,11 +3188,13 @@
   "family": "Saharan",
   "genus": "Western Saharan",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ko": {
   "wiki_code": "ko",
   "wiki_name": "한국어",
+  "wiki_host": "ko.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "kor",
@@ -2870,11 +3207,13 @@
   "family": "Korean",
   "genus": "Korean",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "koi": {
   "wiki_code": "koi",
   "wiki_name": "перем коми",
+  "wiki_host": "koi.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "kop",
@@ -2887,28 +3226,32 @@
   "family": "Uralic",
   "genus": "Permic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "kr": {
   "wiki_code": "kr",
   "wiki_name": "kanuri",
-  "joined": false,
-  "hop": null,
-  "wals_id": null,
-  "glottocode": null,
-  "iso639p3": null,
-  "name": null,
-  "macroarea": null,
-  "latitude": null,
-  "longitude": null,
-  "family": null,
-  "genus": null,
-  "iso_candidates": 0,
-  "join_ambiguous": false
+  "wiki_host": "kr.wikipedia.org",
+  "joined": true,
+  "hop": "macro",
+  "wals_id": "knr",
+  "glottocode": "cent2050",
+  "iso639p3": "knc",
+  "name": "Kanuri",
+  "macroarea": "Africa",
+  "latitude": "12",
+  "longitude": "13",
+  "family": "Saharan",
+  "genus": "Western Saharan",
+  "iso_candidates": 2,
+  "join_ambiguous": true,
+  "macro_from": "kau"
  },
  "krc": {
   "wiki_code": "krc",
   "wiki_name": "къарачай-малкъар",
+  "wiki_host": "krc.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "krc",
@@ -2921,11 +3264,13 @@
   "family": "Altaic",
   "genus": "Turkic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ks": {
   "wiki_code": "ks",
   "wiki_name": "کٲشُر",
+  "wiki_host": "ks.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "kas",
@@ -2938,11 +3283,13 @@
   "family": "Indo-European",
   "genus": "Indic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ksh": {
   "wiki_code": "ksh",
   "wiki_name": "Ripoarisch",
+  "wiki_host": "ksh.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "grp",
@@ -2955,28 +3302,32 @@
   "family": "Indo-European",
   "genus": "Germanic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ku": {
   "wiki_code": "ku",
   "wiki_name": "kurdî",
-  "joined": false,
-  "hop": null,
-  "wals_id": null,
-  "glottocode": null,
-  "iso639p3": null,
-  "name": null,
-  "macroarea": null,
-  "latitude": null,
-  "longitude": null,
-  "family": null,
-  "genus": null,
-  "iso_candidates": 0,
-  "join_ambiguous": false
+  "wiki_host": "ku.wikipedia.org",
+  "joined": true,
+  "hop": "macro",
+  "wals_id": "kji",
+  "glottocode": "nort2641",
+  "iso639p3": "kmr",
+  "name": "Kurmanji",
+  "macroarea": "Eurasia",
+  "latitude": "38",
+  "longitude": "42",
+  "family": "Indo-European",
+  "genus": "Iranian",
+  "iso_candidates": 2,
+  "join_ambiguous": true,
+  "macro_from": "kur"
  },
  "kus": {
   "wiki_code": "kus",
   "wiki_name": "Kʋsaal",
+  "wiki_host": "kus.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -2989,28 +3340,32 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "kv": {
   "wiki_code": "kv",
   "wiki_name": "коми",
-  "joined": false,
-  "hop": null,
-  "wals_id": null,
-  "glottocode": null,
-  "iso639p3": null,
-  "name": null,
-  "macroarea": null,
-  "latitude": null,
-  "longitude": null,
-  "family": null,
-  "genus": null,
-  "iso_candidates": 0,
-  "join_ambiguous": false
+  "wiki_host": "kv.wikipedia.org",
+  "joined": true,
+  "hop": "macro",
+  "wals_id": "kzy",
+  "glottocode": "komi1268",
+  "iso639p3": "kpv",
+  "name": "Komi-Zyrian",
+  "macroarea": "Eurasia",
+  "latitude": "65",
+  "longitude": "55",
+  "family": "Uralic",
+  "genus": "Permic",
+  "iso_candidates": 3,
+  "join_ambiguous": true,
+  "macro_from": "kom"
  },
  "kw": {
   "wiki_code": "kw",
   "wiki_name": "kernowek",
+  "wiki_host": "kw.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "crn",
@@ -3023,11 +3378,13 @@
   "family": "Indo-European",
   "genus": "Celtic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ky": {
   "wiki_code": "ky",
   "wiki_name": "кыргызча",
+  "wiki_host": "ky.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "kgz",
@@ -3040,11 +3397,13 @@
   "family": "Altaic",
   "genus": "Turkic",
   "iso_candidates": 4,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "la": {
   "wiki_code": "la",
   "wiki_name": "Latina",
+  "wiki_host": "la.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -3057,11 +3416,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "lad": {
   "wiki_code": "lad",
   "wiki_name": "Ladino",
+  "wiki_host": "lad.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "lno",
@@ -3074,11 +3435,13 @@
   "family": "Indo-European",
   "genus": "Romance",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "lb": {
   "wiki_code": "lb",
   "wiki_name": "Lëtzebuergesch",
+  "wiki_host": "lb.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "lux",
@@ -3091,11 +3454,13 @@
   "family": "Indo-European",
   "genus": "Germanic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "lbe": {
   "wiki_code": "lbe",
   "wiki_name": "лакку",
+  "wiki_host": "lbe.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "lak",
@@ -3108,11 +3473,13 @@
   "family": "Nakh-Daghestanian",
   "genus": "Lak",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "lez": {
   "wiki_code": "lez",
   "wiki_name": "лезги",
+  "wiki_host": "lez.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "lez",
@@ -3125,11 +3492,13 @@
   "family": "Nakh-Daghestanian",
   "genus": "Lezgic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "lfn": {
   "wiki_code": "lfn",
   "wiki_name": "Lingua Franca Nova",
+  "wiki_host": "lfn.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -3142,11 +3511,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "lg": {
   "wiki_code": "lg",
   "wiki_name": "Luganda",
+  "wiki_host": "lg.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "lda",
@@ -3159,11 +3530,13 @@
   "family": "Niger-Congo",
   "genus": "Bantu",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "li": {
   "wiki_code": "li",
   "wiki_name": "Limburgs",
+  "wiki_host": "li.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -3176,11 +3549,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "lij": {
   "wiki_code": "lij",
   "wiki_name": "Ligure",
+  "wiki_host": "lij.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "itg",
@@ -3193,11 +3568,13 @@
   "family": "Indo-European",
   "genus": "Romance",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "lld": {
   "wiki_code": "lld",
   "wiki_name": "Ladin",
+  "wiki_host": "lld.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "ldn",
@@ -3210,11 +3587,13 @@
   "family": "Indo-European",
   "genus": "Romance",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "lmo": {
   "wiki_code": "lmo",
   "wiki_name": "lombard",
+  "wiki_host": "lmo.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -3227,11 +3606,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "ln": {
   "wiki_code": "ln",
   "wiki_name": "lingála",
+  "wiki_host": "ln.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "lin",
@@ -3244,11 +3625,13 @@
   "family": "Niger-Congo",
   "genus": "Bantu",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "lo": {
   "wiki_code": "lo",
   "wiki_name": "ລາວ",
+  "wiki_host": "lo.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "lao",
@@ -3261,11 +3644,13 @@
   "family": "Tai-Kadai",
   "genus": "Kam-Tai",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "lrc": {
   "wiki_code": "lrc",
   "wiki_name": "لۊری شومالی",
+  "wiki_host": "lrc.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "lur",
@@ -3278,11 +3663,13 @@
   "family": "Indo-European",
   "genus": "Iranian",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "lt": {
   "wiki_code": "lt",
   "wiki_name": "lietuvių",
+  "wiki_host": "lt.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "lit",
@@ -3295,11 +3682,13 @@
   "family": "Indo-European",
   "genus": "Baltic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ltg": {
   "wiki_code": "ltg",
   "wiki_name": "latgaļu",
+  "wiki_host": "ltg.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -3312,11 +3701,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "lv": {
   "wiki_code": "lv",
   "wiki_name": "latviešu",
+  "wiki_host": "lv.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "lat",
@@ -3329,11 +3720,13 @@
   "family": "Indo-European",
   "genus": "Baltic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "lzh": {
   "wiki_code": "lzh",
   "wiki_name": "文言",
+  "wiki_host": "zh-classical.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -3346,11 +3739,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "mad": {
   "wiki_code": "mad",
   "wiki_name": "Madhurâ",
+  "wiki_host": "mad.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "mdr",
@@ -3363,11 +3758,13 @@
   "family": "Austronesian",
   "genus": "Malayo-Sumbawan",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "mag": {
   "wiki_code": "mag",
   "wiki_name": "मगही",
+  "wiki_host": "mag.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "mgh",
@@ -3380,11 +3777,13 @@
   "family": "Indo-European",
   "genus": "Indic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "mai": {
   "wiki_code": "mai",
   "wiki_name": "मैथिली",
+  "wiki_host": "mai.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "mai",
@@ -3397,11 +3796,13 @@
   "family": "Indo-European",
   "genus": "Indic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "map-bms": {
   "wiki_code": "map-bms",
   "wiki_name": "Basa Banyumasan",
+  "wiki_host": "map-bms.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -3414,11 +3815,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "mdf": {
   "wiki_code": "mdf",
   "wiki_name": "мокшень",
+  "wiki_host": "mdf.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "mmo",
@@ -3431,28 +3834,32 @@
   "family": "Uralic",
   "genus": "Mordvin",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "mg": {
   "wiki_code": "mg",
   "wiki_name": "Malagasy",
-  "joined": false,
-  "hop": null,
-  "wals_id": null,
-  "glottocode": null,
-  "iso639p3": null,
-  "name": null,
-  "macroarea": null,
-  "latitude": null,
-  "longitude": null,
-  "family": null,
-  "genus": null,
-  "iso_candidates": 0,
-  "join_ambiguous": false
+  "wiki_host": "mg.wikipedia.org",
+  "joined": true,
+  "hop": "macro",
+  "wals_id": "mal",
+  "glottocode": "plat1254",
+  "iso639p3": "plt",
+  "name": "Malagasy",
+  "macroarea": "Africa",
+  "latitude": "-20",
+  "longitude": "47",
+  "family": "Austronesian",
+  "genus": "Barito",
+  "iso_candidates": 1,
+  "join_ambiguous": false,
+  "macro_from": "mlg"
  },
  "mh": {
   "wiki_code": "mh",
   "wiki_name": "Ebon",
+  "wiki_host": "mh.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "msh",
@@ -3465,11 +3872,13 @@
   "family": "Austronesian",
   "genus": "Oceanic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "mhr": {
   "wiki_code": "mhr",
   "wiki_name": "олык марий",
+  "wiki_host": "mhr.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "mme",
@@ -3482,11 +3891,13 @@
   "family": "Uralic",
   "genus": "Mari",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "mi": {
   "wiki_code": "mi",
   "wiki_name": "Māori",
+  "wiki_host": "mi.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "mao",
@@ -3499,11 +3910,13 @@
   "family": "Austronesian",
   "genus": "Oceanic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "min": {
   "wiki_code": "min",
   "wiki_name": "Minangkabau",
+  "wiki_host": "min.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "min",
@@ -3516,11 +3929,13 @@
   "family": "Austronesian",
   "genus": "Malayo-Sumbawan",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "mk": {
   "wiki_code": "mk",
   "wiki_name": "македонски",
+  "wiki_host": "mk.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "mcd",
@@ -3533,11 +3948,13 @@
   "family": "Indo-European",
   "genus": "Slavic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ml": {
   "wiki_code": "ml",
   "wiki_name": "മലയാളം",
+  "wiki_host": "ml.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "mym",
@@ -3550,28 +3967,32 @@
   "family": "Dravidian",
   "genus": "Dravidian",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "mn": {
   "wiki_code": "mn",
   "wiki_name": "монгол",
-  "joined": false,
-  "hop": null,
-  "wals_id": null,
-  "glottocode": null,
-  "iso639p3": null,
-  "name": null,
-  "macroarea": null,
-  "latitude": null,
-  "longitude": null,
-  "family": null,
-  "genus": null,
-  "iso_candidates": 0,
-  "join_ambiguous": false
+  "wiki_host": "mn.wikipedia.org",
+  "joined": true,
+  "hop": "macro",
+  "wals_id": "kha",
+  "glottocode": "halh1238",
+  "iso639p3": "khk",
+  "name": "Khalkha",
+  "macroarea": "Eurasia",
+  "latitude": "47",
+  "longitude": "105",
+  "family": "Altaic",
+  "genus": "Mongolic",
+  "iso_candidates": 2,
+  "join_ambiguous": true,
+  "macro_from": "mon"
  },
  "mni": {
   "wiki_code": "mni",
   "wiki_name": "ꯃꯤꯇꯩ ꯂꯣꯟ",
+  "wiki_host": "mni.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "mei",
@@ -3584,11 +4005,13 @@
   "family": "Sino-Tibetan",
   "genus": "Manipuri",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "mnw": {
   "wiki_code": "mnw",
   "wiki_name": "ဘာသာမန်",
+  "wiki_host": "mnw.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "mon",
@@ -3601,11 +4024,13 @@
   "family": "Austro-Asiatic",
   "genus": "Monic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "mos": {
   "wiki_code": "mos",
   "wiki_name": "moore",
+  "wiki_host": "mos.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "moo",
@@ -3618,11 +4043,13 @@
   "family": "Niger-Congo",
   "genus": "Oti-Volta",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "mr": {
   "wiki_code": "mr",
   "wiki_name": "मराठी",
+  "wiki_host": "mr.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "mhi",
@@ -3635,11 +4062,13 @@
   "family": "Indo-European",
   "genus": "Indic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "mrj": {
   "wiki_code": "mrj",
   "wiki_name": "кырык мары",
+  "wiki_host": "mrj.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "mah",
@@ -3652,28 +4081,32 @@
   "family": "Uralic",
   "genus": "Mari",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ms": {
   "wiki_code": "ms",
   "wiki_name": "Bahasa Melayu",
-  "joined": false,
-  "hop": null,
-  "wals_id": null,
-  "glottocode": null,
-  "iso639p3": null,
-  "name": null,
-  "macroarea": null,
-  "latitude": null,
-  "longitude": null,
-  "family": null,
-  "genus": null,
-  "iso_candidates": 0,
-  "join_ambiguous": false
+  "wiki_host": "ms.wikipedia.org",
+  "joined": true,
+  "hop": "macro",
+  "wals_id": "ind",
+  "glottocode": "stin1234",
+  "iso639p3": "ind",
+  "name": "Indonesian",
+  "macroarea": "Papunesia",
+  "latitude": "0",
+  "longitude": "106",
+  "family": "Austronesian",
+  "genus": "Malayo-Sumbawan",
+  "iso_candidates": 2,
+  "join_ambiguous": true,
+  "macro_from": "msa"
  },
  "mt": {
   "wiki_code": "mt",
   "wiki_name": "Malti",
+  "wiki_host": "mt.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "mlt",
@@ -3686,11 +4119,13 @@
   "family": "Afro-Asiatic",
   "genus": "Semitic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "mus": {
   "wiki_code": "mus",
   "wiki_name": "Mvskoke",
+  "wiki_host": "mus.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "smn",
@@ -3703,11 +4138,13 @@
   "family": "Muskogean",
   "genus": "Muskogean",
   "iso_candidates": 4,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "mwl": {
   "wiki_code": "mwl",
   "wiki_name": "Mirandés",
+  "wiki_host": "mwl.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -3720,11 +4157,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "my": {
   "wiki_code": "my",
   "wiki_name": "မြန်မာဘာသာ",
+  "wiki_host": "my.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "brm",
@@ -3737,11 +4176,13 @@
   "family": "Sino-Tibetan",
   "genus": "Burmese-Lolo",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "myv": {
   "wiki_code": "myv",
   "wiki_name": "эрзянь",
+  "wiki_host": "myv.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "moe",
@@ -3754,11 +4195,13 @@
   "family": "Uralic",
   "genus": "Mordvin",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "mzn": {
   "wiki_code": "mzn",
   "wiki_name": "مازِرونی",
+  "wiki_host": "mzn.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "mzn",
@@ -3771,11 +4214,13 @@
   "family": "Indo-European",
   "genus": "Iranian",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "na": {
   "wiki_code": "na",
   "wiki_name": "Dorerin Naoero",
+  "wiki_host": "na.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "nau",
@@ -3788,11 +4233,13 @@
   "family": "Austronesian",
   "genus": "Oceanic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "nah": {
   "wiki_code": "nah",
   "wiki_name": "Nāhuatl",
+  "wiki_host": "nah.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -3805,11 +4252,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "nan": {
   "wiki_code": "nan",
   "wiki_name": "閩南語 / Bân-lâm-gí",
+  "wiki_host": "zh-min-nan.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "hok",
@@ -3822,11 +4271,13 @@
   "family": "Sino-Tibetan",
   "genus": "Chinese",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "nap": {
   "wiki_code": "nap",
   "wiki_name": "Napulitano",
+  "wiki_host": "nap.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "itn",
@@ -3839,11 +4290,13 @@
   "family": "Indo-European",
   "genus": "Romance",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "nds": {
   "wiki_code": "nds",
   "wiki_name": "Plattdüütsch",
+  "wiki_host": "nds.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "lge",
@@ -3856,11 +4309,13 @@
   "family": "Indo-European",
   "genus": "Germanic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "nds-nl": {
   "wiki_code": "nds-nl",
   "wiki_name": "Nedersaksies",
+  "wiki_host": "nds-nl.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -3873,11 +4328,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "ne": {
   "wiki_code": "ne",
   "wiki_name": "नेपाली",
+  "wiki_host": "ne.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -3890,11 +4347,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "new": {
   "wiki_code": "new",
   "wiki_name": "नेपाल भाषा",
+  "wiki_host": "new.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "new",
@@ -3907,11 +4366,13 @@
   "family": "Sino-Tibetan",
   "genus": "Himalayish",
   "iso_candidates": 4,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ng": {
   "wiki_code": "ng",
   "wiki_name": "Oshiwambo",
+  "wiki_host": "ng.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "ndo",
@@ -3924,11 +4385,13 @@
   "family": "Niger-Congo",
   "genus": "Bantu",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "nia": {
   "wiki_code": "nia",
   "wiki_name": "Li Niha",
+  "wiki_host": "nia.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "nia",
@@ -3941,11 +4404,13 @@
   "family": "Austronesian",
   "genus": "Northwest Sumatra-Barrier Islands",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "nl": {
   "wiki_code": "nl",
   "wiki_name": "Nederlands",
+  "wiki_host": "nl.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "dut",
@@ -3958,11 +4423,13 @@
   "family": "Indo-European",
   "genus": "Germanic",
   "iso_candidates": 6,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "nn": {
   "wiki_code": "nn",
   "wiki_name": "norsk nynorsk",
+  "wiki_host": "nn.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -3975,11 +4442,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "no": {
   "wiki_code": "no",
   "wiki_name": "norsk",
+  "wiki_host": "no.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "nor",
@@ -3992,11 +4461,13 @@
   "family": "Indo-European",
   "genus": "Germanic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "nov": {
   "wiki_code": "nov",
   "wiki_name": "Novial",
+  "wiki_host": "nov.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -4009,11 +4480,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "nqo": {
   "wiki_code": "nqo",
   "wiki_name": "ߒߞߏ",
+  "wiki_host": "nqo.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -4026,11 +4499,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "nr": {
   "wiki_code": "nr",
   "wiki_name": "isiNdebele seSewula",
+  "wiki_host": "nr.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -4043,11 +4518,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "nrm": {
   "wiki_code": "nrm",
   "wiki_name": "Nouormand",
+  "wiki_host": "nrm.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "nrm",
@@ -4060,11 +4537,13 @@
   "family": "Austronesian",
   "genus": "North Borneo",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "nso": {
   "wiki_code": "nso",
   "wiki_name": "Sesotho sa Leboa",
+  "wiki_host": "nso.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "stn",
@@ -4077,11 +4556,13 @@
   "family": "Niger-Congo",
   "genus": "Bantu",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "nup": {
   "wiki_code": "nup",
   "wiki_name": "Nupe",
+  "wiki_host": "nup.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "nup",
@@ -4094,11 +4575,13 @@
   "family": "Niger-Congo",
   "genus": "Nupoid",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "nv": {
   "wiki_code": "nv",
   "wiki_name": "Diné bizaad",
+  "wiki_host": "nv.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "nav",
@@ -4111,11 +4594,13 @@
   "family": "Na-Dene",
   "genus": "Athapaskan",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ny": {
   "wiki_code": "ny",
   "wiki_name": "Chi-Chewa",
+  "wiki_host": "ny.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "cic",
@@ -4128,11 +4613,13 @@
   "family": "Niger-Congo",
   "genus": "Bantu",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "oc": {
   "wiki_code": "oc",
   "wiki_name": "occitan",
+  "wiki_host": "oc.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "occ",
@@ -4145,11 +4632,13 @@
   "family": "Indo-European",
   "genus": "Romance",
   "iso_candidates": 4,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "olo": {
   "wiki_code": "olo",
   "wiki_name": "livvinkarjala",
+  "wiki_host": "olo.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -4162,28 +4651,32 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "om": {
   "wiki_code": "om",
   "wiki_name": "Oromoo",
-  "joined": false,
-  "hop": null,
-  "wals_id": null,
-  "glottocode": null,
-  "iso639p3": null,
-  "name": null,
-  "macroarea": null,
-  "latitude": null,
-  "longitude": null,
-  "family": null,
-  "genus": null,
-  "iso_candidates": 0,
-  "join_ambiguous": false
+  "wiki_host": "om.wikipedia.org",
+  "joined": true,
+  "hop": "macro",
+  "wals_id": "orh",
+  "glottocode": "east2652",
+  "iso639p3": "hae",
+  "name": "Oromo (Harar)",
+  "macroarea": "Africa",
+  "latitude": "9",
+  "longitude": "42",
+  "family": "Afro-Asiatic",
+  "genus": "Lowland East Cushitic",
+  "iso_candidates": 4,
+  "join_ambiguous": true,
+  "macro_from": "orm"
  },
  "or": {
   "wiki_code": "or",
   "wiki_name": "ଓଡ଼ିଆ",
+  "wiki_host": "or.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "oya",
@@ -4196,11 +4689,13 @@
   "family": "Indo-European",
   "genus": "Indic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "os": {
   "wiki_code": "os",
   "wiki_name": "ирон",
+  "wiki_host": "os.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "oss",
@@ -4213,11 +4708,13 @@
   "family": "Indo-European",
   "genus": "Iranian",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "pa": {
   "wiki_code": "pa",
   "wiki_name": "ਪੰਜਾਬੀ",
+  "wiki_host": "pa.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "pan",
@@ -4230,11 +4727,13 @@
   "family": "Indo-European",
   "genus": "Indic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "pag": {
   "wiki_code": "pag",
   "wiki_name": "Pangasinan",
+  "wiki_host": "pag.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "pnn",
@@ -4247,11 +4746,13 @@
   "family": "Austronesian",
   "genus": "Northern Luzon",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "pam": {
   "wiki_code": "pam",
   "wiki_name": "Kapampangan",
+  "wiki_host": "pam.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "kpm",
@@ -4264,11 +4765,13 @@
   "family": "Austronesian",
   "genus": "Central Luzon",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "pap": {
   "wiki_code": "pap",
   "wiki_name": "Papiamentu",
+  "wiki_host": "pap.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "pap",
@@ -4281,11 +4784,13 @@
   "family": "other",
   "genus": "Creoles and Pidgins",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "pcd": {
   "wiki_code": "pcd",
   "wiki_name": "Picard",
+  "wiki_host": "pcd.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -4298,11 +4803,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "pcm": {
   "wiki_code": "pcm",
   "wiki_name": "Naijá",
+  "wiki_host": "pcm.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "npi",
@@ -4315,11 +4822,13 @@
   "family": "other",
   "genus": "Creoles and Pidgins",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "pdc": {
   "wiki_code": "pdc",
   "wiki_name": "Deitsch",
+  "wiki_host": "pdc.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -4332,11 +4841,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "pfl": {
   "wiki_code": "pfl",
   "wiki_name": "Pälzisch",
+  "wiki_host": "pfl.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -4349,11 +4860,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "pi": {
   "wiki_code": "pi",
   "wiki_name": "पालि",
+  "wiki_host": "pi.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -4366,11 +4879,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "pih": {
   "wiki_code": "pih",
   "wiki_name": "Norfuk / Pitkern",
+  "wiki_host": "pih.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -4383,11 +4898,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "pl": {
   "wiki_code": "pl",
   "wiki_name": "polski",
+  "wiki_host": "pl.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "pol",
@@ -4400,11 +4917,13 @@
   "family": "Indo-European",
   "genus": "Slavic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "pms": {
   "wiki_code": "pms",
   "wiki_name": "Piemontèis",
+  "wiki_host": "pms.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "itu",
@@ -4417,11 +4936,13 @@
   "family": "Indo-European",
   "genus": "Romance",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "pnb": {
   "wiki_code": "pnb",
   "wiki_name": "پنجابی",
+  "wiki_host": "pnb.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -4434,11 +4955,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "pnt": {
   "wiki_code": "pnt",
   "wiki_name": "Ποντιακά",
+  "wiki_host": "pnt.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -4451,11 +4974,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "ppl": {
   "wiki_code": "ppl",
   "wiki_name": "Nawat",
+  "wiki_host": "ppl.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "pip",
@@ -4468,28 +4993,32 @@
   "family": "Uto-Aztecan",
   "genus": "Aztecan",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ps": {
   "wiki_code": "ps",
   "wiki_name": "پښتو",
-  "joined": false,
-  "hop": null,
-  "wals_id": null,
-  "glottocode": null,
-  "iso639p3": null,
-  "name": null,
-  "macroarea": null,
-  "latitude": null,
-  "longitude": null,
-  "family": null,
-  "genus": null,
-  "iso_candidates": 0,
-  "join_ambiguous": false
+  "wiki_host": "ps.wikipedia.org",
+  "joined": true,
+  "hop": "macro",
+  "wals_id": "psh",
+  "glottocode": "cent1973",
+  "iso639p3": "pst",
+  "name": "Pashto",
+  "macroarea": "Eurasia",
+  "latitude": "33",
+  "longitude": "67",
+  "family": "Indo-European",
+  "genus": "Iranian",
+  "iso_candidates": 1,
+  "join_ambiguous": false,
+  "macro_from": "pus"
  },
  "pt": {
   "wiki_code": "pt",
   "wiki_name": "português",
+  "wiki_host": "pt.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "por",
@@ -4502,11 +5031,13 @@
   "family": "Indo-European",
   "genus": "Romance",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "pwn": {
   "wiki_code": "pwn",
   "wiki_name": "pinayuanan",
+  "wiki_host": "pwn.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "pai",
@@ -4519,11 +5050,13 @@
   "family": "Austronesian",
   "genus": "Paiwan",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "qu": {
   "wiki_code": "qu",
   "wiki_name": "Runa Simi",
+  "wiki_host": "qu.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -4536,11 +5069,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "rki": {
   "wiki_code": "rki",
   "wiki_name": "ရခိုင်",
+  "wiki_host": "rki.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -4553,11 +5088,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "rm": {
   "wiki_code": "rm",
   "wiki_name": "rumantsch",
+  "wiki_host": "rm.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "rsu",
@@ -4570,11 +5107,13 @@
   "family": "Indo-European",
   "genus": "Romance",
   "iso_candidates": 8,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "rmy": {
   "wiki_code": "rmy",
   "wiki_name": "romani čhib",
+  "wiki_host": "rmy.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "rka",
@@ -4587,11 +5126,13 @@
   "family": "Indo-European",
   "genus": "Indic",
   "iso_candidates": 4,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "rn": {
   "wiki_code": "rn",
   "wiki_name": "ikirundi",
+  "wiki_host": "rn.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "rnd",
@@ -4604,11 +5145,13 @@
   "family": "Niger-Congo",
   "genus": "Bantu",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ro": {
   "wiki_code": "ro",
   "wiki_name": "română",
+  "wiki_host": "ro.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "rom",
@@ -4621,11 +5164,13 @@
   "family": "Indo-European",
   "genus": "Romance",
   "iso_candidates": 4,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "roa-tara": {
   "wiki_code": "roa-tara",
   "wiki_name": "tarandíne",
+  "wiki_host": "roa-tara.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -4638,11 +5183,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "rsk": {
   "wiki_code": "rsk",
   "wiki_name": "руски",
+  "wiki_host": "rsk.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -4655,11 +5202,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "ru": {
   "wiki_code": "ru",
   "wiki_name": "русский",
+  "wiki_host": "ru.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "rus",
@@ -4672,11 +5221,13 @@
   "family": "Indo-European",
   "genus": "Slavic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "rue": {
   "wiki_code": "rue",
   "wiki_name": "русиньскый",
+  "wiki_host": "rue.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -4689,11 +5240,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "rup": {
   "wiki_code": "rup",
   "wiki_name": "armãneashti",
+  "wiki_host": "roa-rup.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -4706,11 +5259,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "rw": {
   "wiki_code": "rw",
   "wiki_name": "Ikinyarwanda",
+  "wiki_host": "rw.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "kin",
@@ -4723,11 +5278,13 @@
   "family": "Niger-Congo",
   "genus": "Bantu",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "sa": {
   "wiki_code": "sa",
   "wiki_name": "संस्कृतम्",
+  "wiki_host": "sa.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -4740,11 +5297,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "sah": {
   "wiki_code": "sah",
   "wiki_name": "саха тыла",
+  "wiki_host": "sah.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "ykt",
@@ -4757,11 +5316,13 @@
   "family": "Altaic",
   "genus": "Turkic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "sat": {
   "wiki_code": "sat",
   "wiki_name": "ᱥᱟᱱᱛᱟᱲᱤ",
+  "wiki_host": "sat.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "stl",
@@ -4774,28 +5335,32 @@
   "family": "Austro-Asiatic",
   "genus": "Munda",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "sc": {
   "wiki_code": "sc",
   "wiki_name": "sardu",
-  "joined": false,
-  "hop": null,
-  "wals_id": null,
-  "glottocode": null,
-  "iso639p3": null,
-  "name": null,
-  "macroarea": null,
-  "latitude": null,
-  "longitude": null,
-  "family": null,
-  "genus": null,
-  "iso_candidates": 0,
-  "join_ambiguous": false
+  "wiki_host": "sc.wikipedia.org",
+  "joined": true,
+  "hop": "macro",
+  "wals_id": "srd",
+  "glottocode": "camp1261",
+  "iso639p3": "sro",
+  "name": "Sardinian",
+  "macroarea": "Eurasia",
+  "latitude": "40",
+  "longitude": "9",
+  "family": "Indo-European",
+  "genus": "Romance",
+  "iso_candidates": 1,
+  "join_ambiguous": false,
+  "macro_from": "srd"
  },
  "scn": {
   "wiki_code": "scn",
   "wiki_name": "sicilianu",
+  "wiki_host": "scn.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -4808,11 +5373,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "sco": {
   "wiki_code": "sco",
   "wiki_name": "Scots",
+  "wiki_host": "sco.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -4825,11 +5392,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "sd": {
   "wiki_code": "sd",
   "wiki_name": "سنڌي",
+  "wiki_host": "sd.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "sdh",
@@ -4842,11 +5411,13 @@
   "family": "Indo-European",
   "genus": "Indic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "se": {
   "wiki_code": "se",
   "wiki_name": "davvisámegiella",
+  "wiki_host": "se.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "sno",
@@ -4859,11 +5430,13 @@
   "family": "Uralic",
   "genus": "Saami",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "sg": {
   "wiki_code": "sg",
   "wiki_name": "Sängö",
+  "wiki_host": "sg.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "san",
@@ -4876,11 +5449,13 @@
   "family": "Niger-Congo",
   "genus": "Ubangi",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "sgs": {
   "wiki_code": "sgs",
   "wiki_name": "žemaitėška",
+  "wiki_host": "bat-smg.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -4893,11 +5468,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "sh": {
   "wiki_code": "sh",
   "wiki_name": "srpskohrvatski / српскохрватски",
+  "wiki_host": "sh.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "scr",
@@ -4910,11 +5487,13 @@
   "family": "Indo-European",
   "genus": "Slavic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "shi": {
   "wiki_code": "shi",
   "wiki_name": "Taclḥit",
+  "wiki_host": "shi.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "tas",
@@ -4927,11 +5506,13 @@
   "family": "Afro-Asiatic",
   "genus": "Berber",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "shn": {
   "wiki_code": "shn",
   "wiki_name": "တႆး",
+  "wiki_host": "shn.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "sha",
@@ -4944,11 +5525,13 @@
   "family": "Tai-Kadai",
   "genus": "Kam-Tai",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "si": {
   "wiki_code": "si",
   "wiki_name": "සිංහල",
+  "wiki_host": "si.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "snh",
@@ -4961,11 +5544,13 @@
   "family": "Indo-European",
   "genus": "Indic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "simple": {
   "wiki_code": "simple",
   "wiki_name": "Simple English",
+  "wiki_host": "simple.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -4978,11 +5563,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "sk": {
   "wiki_code": "sk",
   "wiki_name": "slovenčina",
+  "wiki_host": "sk.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "svk",
@@ -4995,11 +5582,13 @@
   "family": "Indo-European",
   "genus": "Slavic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "skr": {
   "wiki_code": "skr",
   "wiki_name": "سرائیکی",
+  "wiki_host": "skr.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -5012,11 +5601,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "sl": {
   "wiki_code": "sl",
   "wiki_name": "slovenščina",
+  "wiki_host": "sl.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "slo",
@@ -5029,11 +5620,13 @@
   "family": "Indo-European",
   "genus": "Slavic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "sm": {
   "wiki_code": "sm",
   "wiki_name": "Gagana Samoa",
+  "wiki_host": "sm.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "sam",
@@ -5046,11 +5639,13 @@
   "family": "Austronesian",
   "genus": "Oceanic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "smn": {
   "wiki_code": "smn",
   "wiki_name": "anarâškielâ",
+  "wiki_host": "smn.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -5063,11 +5658,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "sn": {
   "wiki_code": "sn",
   "wiki_name": "chiShona",
+  "wiki_host": "sn.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "shn",
@@ -5080,11 +5677,13 @@
   "family": "Niger-Congo",
   "genus": "Bantu",
   "iso_candidates": 4,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "so": {
   "wiki_code": "so",
   "wiki_name": "Soomaaliga",
+  "wiki_host": "so.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "som",
@@ -5097,11 +5696,13 @@
   "family": "Afro-Asiatic",
   "genus": "Lowland East Cushitic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "sq": {
   "wiki_code": "sq",
   "wiki_name": "shqip",
+  "wiki_host": "sq.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "alb",
@@ -5114,11 +5715,13 @@
   "family": "Indo-European",
   "genus": "Albanian",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "sr": {
   "wiki_code": "sr",
   "wiki_name": "српски / srpski",
+  "wiki_host": "sr.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -5131,11 +5734,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "srn": {
   "wiki_code": "srn",
   "wiki_name": "Sranantongo",
+  "wiki_host": "srn.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "sra",
@@ -5148,11 +5753,13 @@
   "family": "other",
   "genus": "Creoles and Pidgins",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ss": {
   "wiki_code": "ss",
   "wiki_name": "SiSwati",
+  "wiki_host": "ss.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "swt",
@@ -5165,11 +5772,13 @@
   "family": "Niger-Congo",
   "genus": "Bantu",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "st": {
   "wiki_code": "st",
   "wiki_name": "Sesotho",
+  "wiki_host": "st.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "ses",
@@ -5182,11 +5791,13 @@
   "family": "Niger-Congo",
   "genus": "Bantu",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "stq": {
   "wiki_code": "stq",
   "wiki_name": "Seeltersk",
+  "wiki_host": "stq.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -5199,11 +5810,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "su": {
   "wiki_code": "su",
   "wiki_name": "Sunda",
+  "wiki_host": "su.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "sun",
@@ -5216,11 +5829,13 @@
   "family": "Austronesian",
   "genus": "Malayo-Sumbawan",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "sv": {
   "wiki_code": "sv",
   "wiki_name": "svenska",
+  "wiki_host": "sv.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "swe",
@@ -5233,28 +5848,32 @@
   "family": "Indo-European",
   "genus": "Germanic",
   "iso_candidates": 4,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "sw": {
   "wiki_code": "sw",
   "wiki_name": "Kiswahili",
-  "joined": false,
-  "hop": null,
-  "wals_id": null,
-  "glottocode": null,
-  "iso639p3": null,
-  "name": null,
-  "macroarea": null,
-  "latitude": null,
-  "longitude": null,
-  "family": null,
-  "genus": null,
-  "iso_candidates": 0,
-  "join_ambiguous": false
+  "wiki_host": "sw.wikipedia.org",
+  "joined": true,
+  "hop": "macro",
+  "wals_id": "swa",
+  "glottocode": "swah1253",
+  "iso639p3": "swh",
+  "name": "Swahili",
+  "macroarea": "Africa",
+  "latitude": "-6.5",
+  "longitude": "39",
+  "family": "Niger-Congo",
+  "genus": "Bantu",
+  "iso_candidates": 1,
+  "join_ambiguous": false,
+  "macro_from": "swa"
  },
  "syl": {
   "wiki_code": "syl",
   "wiki_name": "ꠍꠤꠟꠐꠤ",
+  "wiki_host": "syl.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -5267,11 +5886,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "szl": {
   "wiki_code": "szl",
   "wiki_name": "ślůnski",
+  "wiki_host": "szl.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -5284,11 +5905,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "szy": {
   "wiki_code": "szy",
   "wiki_name": "Sakizaya",
+  "wiki_host": "szy.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -5301,11 +5924,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "ta": {
   "wiki_code": "ta",
   "wiki_name": "தமிழ்",
+  "wiki_host": "ta.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "tml",
@@ -5318,11 +5943,13 @@
   "family": "Dravidian",
   "genus": "Dravidian",
   "iso_candidates": 4,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "tay": {
   "wiki_code": "tay",
   "wiki_name": "Tayal",
+  "wiki_host": "tay.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "ata",
@@ -5335,11 +5962,13 @@
   "family": "Austronesian",
   "genus": "Atayalic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "tcy": {
   "wiki_code": "tcy",
   "wiki_name": "ತುಳು",
+  "wiki_host": "tcy.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "tul",
@@ -5352,11 +5981,13 @@
   "family": "Dravidian",
   "genus": "Dravidian",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "tdd": {
   "wiki_code": "tdd",
   "wiki_name": "ᥖᥭᥰ ᥖᥬᥲ ᥑᥨᥒᥰ",
+  "wiki_host": "tdd.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -5369,11 +6000,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "te": {
   "wiki_code": "te",
   "wiki_name": "తెలుగు",
+  "wiki_host": "te.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "tel",
@@ -5386,11 +6019,13 @@
   "family": "Dravidian",
   "genus": "Dravidian",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "tet": {
   "wiki_code": "tet",
   "wiki_name": "tetun",
+  "wiki_host": "tet.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "ttn",
@@ -5403,11 +6038,13 @@
   "family": "Austronesian",
   "genus": "Central Malayo-Polynesian",
   "iso_candidates": 4,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "tg": {
   "wiki_code": "tg",
   "wiki_name": "тоҷикӣ",
+  "wiki_host": "tg.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "taj",
@@ -5420,11 +6057,13 @@
   "family": "Indo-European",
   "genus": "Iranian",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "th": {
   "wiki_code": "th",
   "wiki_name": "ไทย",
+  "wiki_host": "th.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "tha",
@@ -5437,11 +6076,13 @@
   "family": "Tai-Kadai",
   "genus": "Kam-Tai",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ti": {
   "wiki_code": "ti",
   "wiki_name": "ትግርኛ",
+  "wiki_host": "ti.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "tig",
@@ -5454,11 +6095,13 @@
   "family": "Afro-Asiatic",
   "genus": "Semitic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "tig": {
   "wiki_code": "tig",
   "wiki_name": "ትግሬ",
+  "wiki_host": "tig.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "tgr",
@@ -5471,11 +6114,13 @@
   "family": "Afro-Asiatic",
   "genus": "Semitic",
   "iso_candidates": 4,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "tk": {
   "wiki_code": "tk",
   "wiki_name": "Türkmençe",
+  "wiki_host": "tk.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "tkm",
@@ -5488,11 +6133,13 @@
   "family": "Altaic",
   "genus": "Turkic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "tl": {
   "wiki_code": "tl",
   "wiki_name": "Tagalog",
+  "wiki_host": "tl.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "tag",
@@ -5505,11 +6152,13 @@
   "family": "Austronesian",
   "genus": "Greater Central Philippine",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "tly": {
   "wiki_code": "tly",
   "wiki_name": "tolışi",
+  "wiki_host": "tly.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "taz",
@@ -5522,11 +6171,13 @@
   "family": "Indo-European",
   "genus": "Iranian",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "tn": {
   "wiki_code": "tn",
   "wiki_name": "Setswana",
+  "wiki_host": "tn.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "tsw",
@@ -5539,11 +6190,13 @@
   "family": "Niger-Congo",
   "genus": "Bantu",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "to": {
   "wiki_code": "to",
   "wiki_name": "lea faka-Tonga",
+  "wiki_host": "to.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "tng",
@@ -5556,11 +6209,13 @@
   "family": "Austronesian",
   "genus": "Oceanic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "tok": {
   "wiki_code": "tok",
   "wiki_name": "toki pona",
+  "wiki_host": "tok.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -5573,11 +6228,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "tpi": {
   "wiki_code": "tpi",
   "wiki_name": "Tok Pisin",
+  "wiki_host": "tpi.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "tpi",
@@ -5590,11 +6247,13 @@
   "family": "other",
   "genus": "Creoles and Pidgins",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "tr": {
   "wiki_code": "tr",
   "wiki_name": "Türkçe",
+  "wiki_host": "tr.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "tur",
@@ -5607,11 +6266,13 @@
   "family": "Altaic",
   "genus": "Turkic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "trv": {
   "wiki_code": "trv",
   "wiki_name": "Seediq",
+  "wiki_host": "trv.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "see",
@@ -5624,11 +6285,13 @@
   "family": "Austronesian",
   "genus": "Atayalic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ts": {
   "wiki_code": "ts",
   "wiki_name": "Xitsonga",
+  "wiki_host": "ts.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "tsn",
@@ -5641,11 +6304,13 @@
   "family": "Niger-Congo",
   "genus": "Bantu",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "tt": {
   "wiki_code": "tt",
   "wiki_name": "татарча / tatarça",
+  "wiki_host": "tt.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "tvo",
@@ -5658,11 +6323,13 @@
   "family": "Altaic",
   "genus": "Turkic",
   "iso_candidates": 6,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "tum": {
   "wiki_code": "tum",
   "wiki_name": "chiTumbuka",
+  "wiki_host": "tum.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -5675,11 +6342,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "tw": {
   "wiki_code": "tw",
   "wiki_name": "Twi",
+  "wiki_host": "tw.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -5692,11 +6361,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "ty": {
   "wiki_code": "ty",
   "wiki_name": "reo tahiti",
+  "wiki_host": "ty.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "tah",
@@ -5709,11 +6380,13 @@
   "family": "Austronesian",
   "genus": "Oceanic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "tyv": {
   "wiki_code": "tyv",
   "wiki_name": "тыва дыл",
+  "wiki_host": "tyv.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "tuv",
@@ -5726,11 +6399,13 @@
   "family": "Altaic",
   "genus": "Turkic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "udm": {
   "wiki_code": "udm",
   "wiki_name": "удмурт",
+  "wiki_host": "udm.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "udm",
@@ -5743,11 +6418,13 @@
   "family": "Uralic",
   "genus": "Permic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ug": {
   "wiki_code": "ug",
   "wiki_name": "ئۇيغۇرچە / Uyghurche",
+  "wiki_host": "ug.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "uyg",
@@ -5760,11 +6437,13 @@
   "family": "Altaic",
   "genus": "Turkic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "uk": {
   "wiki_code": "uk",
   "wiki_name": "українська",
+  "wiki_host": "uk.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "ukr",
@@ -5777,11 +6456,13 @@
   "family": "Indo-European",
   "genus": "Slavic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "ur": {
   "wiki_code": "ur",
   "wiki_name": "اردو",
+  "wiki_host": "ur.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "urd",
@@ -5794,28 +6475,32 @@
   "family": "Indo-European",
   "genus": "Indic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "uz": {
   "wiki_code": "uz",
   "wiki_name": "oʻzbekcha / ўзбекча",
-  "joined": false,
-  "hop": null,
-  "wals_id": null,
-  "glottocode": null,
-  "iso639p3": null,
-  "name": null,
-  "macroarea": null,
-  "latitude": null,
-  "longitude": null,
-  "family": null,
-  "genus": null,
-  "iso_candidates": 0,
-  "join_ambiguous": false
+  "wiki_host": "uz.wikipedia.org",
+  "joined": true,
+  "hop": "macro",
+  "wals_id": "uzb",
+  "glottocode": "uzbe1247",
+  "iso639p3": "",
+  "name": "Uzbek",
+  "macroarea": "Eurasia",
+  "latitude": "39",
+  "longitude": "66",
+  "family": "Altaic",
+  "genus": "Turkic",
+  "iso_candidates": 2,
+  "join_ambiguous": true,
+  "macro_from": "uzb"
  },
  "ve": {
   "wiki_code": "ve",
   "wiki_name": "Tshivenda",
+  "wiki_host": "ve.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "ven",
@@ -5828,11 +6513,13 @@
   "family": "Niger-Congo",
   "genus": "Bantu",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "vec": {
   "wiki_code": "vec",
   "wiki_name": "vèneto",
+  "wiki_host": "vec.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -5845,11 +6532,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "vep": {
   "wiki_code": "vep",
   "wiki_name": "vepsän kel’",
+  "wiki_host": "vep.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "vep",
@@ -5862,11 +6551,13 @@
   "family": "Uralic",
   "genus": "Finnic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "vi": {
   "wiki_code": "vi",
   "wiki_name": "Tiếng Việt",
+  "wiki_host": "vi.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "vie",
@@ -5879,11 +6570,13 @@
   "family": "Austro-Asiatic",
   "genus": "Vietic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "vls": {
   "wiki_code": "vls",
   "wiki_name": "West-Vlams",
+  "wiki_host": "vls.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -5896,11 +6589,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "vo": {
   "wiki_code": "vo",
   "wiki_name": "Volapük",
+  "wiki_host": "vo.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -5913,11 +6608,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "vro": {
   "wiki_code": "vro",
   "wiki_name": "võro",
+  "wiki_host": "fiu-vro.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -5930,11 +6627,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "wa": {
   "wiki_code": "wa",
   "wiki_name": "walon",
+  "wiki_host": "wa.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -5947,11 +6646,13 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "war": {
   "wiki_code": "war",
   "wiki_name": "Winaray",
+  "wiki_host": "war.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "wwy",
@@ -5964,11 +6665,13 @@
   "family": "Austronesian",
   "genus": "Greater Central Philippine",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "wo": {
   "wiki_code": "wo",
   "wiki_name": "Wolof",
+  "wiki_host": "wo.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "wlf",
@@ -5981,11 +6684,13 @@
   "family": "Niger-Congo",
   "genus": "Wolof",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "wuu": {
   "wiki_code": "wuu",
   "wiki_name": "吴语",
+  "wiki_host": "wuu.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "wuc",
@@ -5998,11 +6703,13 @@
   "family": "Sino-Tibetan",
   "genus": "Chinese",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "xal": {
   "wiki_code": "xal",
   "wiki_name": "хальмг",
+  "wiki_host": "xal.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "kmk",
@@ -6015,11 +6722,13 @@
   "family": "Altaic",
   "genus": "Mongolic",
   "iso_candidates": 6,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "xh": {
   "wiki_code": "xh",
   "wiki_name": "isiXhosa",
+  "wiki_host": "xh.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "xho",
@@ -6032,11 +6741,13 @@
   "family": "Niger-Congo",
   "genus": "Bantu",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "xmf": {
   "wiki_code": "xmf",
   "wiki_name": "მარგალური",
+  "wiki_host": "xmf.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "mgl",
@@ -6049,28 +6760,32 @@
   "family": "Kartvelian",
   "genus": "Kartvelian",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "yi": {
   "wiki_code": "yi",
   "wiki_name": "ייִדיש",
-  "joined": false,
-  "hop": null,
-  "wals_id": null,
-  "glottocode": null,
-  "iso639p3": null,
-  "name": null,
-  "macroarea": null,
-  "latitude": null,
-  "longitude": null,
-  "family": null,
-  "genus": null,
-  "iso_candidates": 0,
-  "join_ambiguous": false
+  "wiki_host": "yi.wikipedia.org",
+  "joined": true,
+  "hop": "macro",
+  "wals_id": "ydd",
+  "glottocode": "east2295",
+  "iso639p3": "ydd",
+  "name": "Yiddish",
+  "macroarea": "Eurasia",
+  "latitude": "52",
+  "longitude": "23",
+  "family": "Indo-European",
+  "genus": "Germanic",
+  "iso_candidates": 4,
+  "join_ambiguous": true,
+  "macro_from": "yid"
  },
  "yo": {
   "wiki_code": "yo",
   "wiki_name": "Yorùbá",
+  "wiki_host": "yo.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "yor",
@@ -6083,11 +6798,13 @@
   "family": "Niger-Congo",
   "genus": "Defoid",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "yue": {
   "wiki_code": "yue",
   "wiki_name": "粵語",
+  "wiki_host": "zh-yue.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "cnt",
@@ -6100,28 +6817,32 @@
   "family": "Sino-Tibetan",
   "genus": "Chinese",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "za": {
   "wiki_code": "za",
   "wiki_name": "Vahcuengh",
-  "joined": false,
-  "hop": null,
-  "wals_id": null,
-  "glottocode": null,
-  "iso639p3": null,
-  "name": null,
-  "macroarea": null,
-  "latitude": null,
-  "longitude": null,
-  "family": null,
-  "genus": null,
-  "iso_candidates": 0,
-  "join_ambiguous": false
+  "wiki_host": "za.wikipedia.org",
+  "joined": true,
+  "hop": "macro",
+  "wals_id": "zhn",
+  "glottocode": "guib1245",
+  "iso639p3": "zgb",
+  "name": "Zhuang (Northern)",
+  "macroarea": "Eurasia",
+  "latitude": "24",
+  "longitude": "108",
+  "family": "Tai-Kadai",
+  "genus": "Kam-Tai",
+  "iso_candidates": 1,
+  "join_ambiguous": false,
+  "macro_from": "zha"
  },
  "zea": {
   "wiki_code": "zea",
   "wiki_name": "Zeêuws",
+  "wiki_host": "zea.wikipedia.org",
   "joined": true,
   "hop": "direct",
   "wals_id": "duz",
@@ -6134,11 +6855,13 @@
   "family": "Indo-European",
   "genus": "Germanic",
   "iso_candidates": 2,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  },
  "zgh": {
   "wiki_code": "zgh",
   "wiki_name": "ⵜⴰⵎⴰⵣⵉⵖⵜ ⵜⴰⵏⴰⵡⴰⵢⵜ",
+  "wiki_host": "zgh.wikipedia.org",
   "joined": false,
   "hop": null,
   "wals_id": null,
@@ -6151,28 +6874,32 @@
   "family": null,
   "genus": null,
   "iso_candidates": 0,
-  "join_ambiguous": false
+  "join_ambiguous": false,
+  "macro_from": null
  },
  "zh": {
   "wiki_code": "zh",
   "wiki_name": "中文",
-  "joined": false,
-  "hop": null,
-  "wals_id": null,
-  "glottocode": null,
-  "iso639p3": null,
-  "name": null,
-  "macroarea": null,
-  "latitude": null,
-  "longitude": null,
-  "family": null,
-  "genus": null,
-  "iso_candidates": 0,
-  "join_ambiguous": false
+  "wiki_host": "zh.wikipedia.org",
+  "joined": true,
+  "hop": "macro",
+  "wals_id": "mnd",
+  "glottocode": "mand1415",
+  "iso639p3": "cmn",
+  "name": "Mandarin",
+  "macroarea": "Eurasia",
+  "latitude": "34",
+  "longitude": "110",
+  "family": "Sino-Tibetan",
+  "genus": "Chinese",
+  "iso_candidates": 4,
+  "join_ambiguous": true,
+  "macro_from": "zho"
  },
  "zu": {
   "wiki_code": "zu",
   "wiki_name": "isiZulu",
+  "wiki_host": "zu.wikipedia.org",
   "joined": true,
   "hop": "iso1->iso3",
   "wals_id": "zul",
@@ -6185,6 +6912,7 @@
   "family": "Niger-Congo",
   "genus": "Bantu",
   "iso_candidates": 6,
-  "join_ambiguous": true
+  "join_ambiguous": true,
+  "macro_from": null
  }
 }

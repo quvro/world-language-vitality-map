@@ -8,6 +8,7 @@
  * （多个），这样将来加"多语言并排对比"不必重构选中逻辑。
  */
 import { defineStore } from 'pinia'
+import { SEARCH_ALIASES } from '@/terms'
 import type {
   FeatureMatrix, Features, Language, MacroArea, Timeseries,
 } from '@/types'
@@ -150,6 +151,7 @@ export const useDataset = defineStore('dataset', {
      */
     filteredBase(state): Language[] {
       const q = state.search.trim().toLowerCase()
+      const dict = state.zhLabels
       return state.langs.filter((l) => {
         if (state.macroAreas.length && !state.macroAreas.includes(l.macroarea as MacroArea)) {
           return false
@@ -158,7 +160,24 @@ export const useDataset = defineStore('dataset', {
           return false
         }
         if (state.onlyReliable && !(l.baseline_ok && l.growth != null)) return false
-        if (q && !l.name.toLowerCase().includes(q)) return false
+        if (q) {
+          // 除中英名外还要匹配别名 —— 否则搜「中文」「普通话」找不到 Mandarin
+          // （WALS 把它叫 Mandarin，而 Wikidata 的中文标签是「官话」）
+          const iso = (l.iso639p3 || '').toLowerCase()
+          const parts = [l.name]
+          if (dict) {
+            const cn = (iso && dict.by_iso639p3[iso]) ||
+              (l.glottocode && dict.by_glottocode[l.glottocode])
+            if (cn) parts.push(cn)
+          }
+          if (iso) {
+            parts.push(iso)
+            const alias = SEARCH_ALIASES[iso]
+            if (alias) parts.push(...alias)
+          }
+          if (l.wiki_code) parts.push(l.wiki_code)
+          if (!parts.join(' ').toLowerCase().includes(q)) return false
+        }
         return true
       })
     },

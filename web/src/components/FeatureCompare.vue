@@ -17,10 +17,63 @@
  */
 import { computed } from 'vue'
 import { useDataset } from '@/stores/dataset'
+import { useDisplayNames } from '@/display'
 import { semanticColors } from '@/theme/echarts-theme.js'
 
 const store = useDataset()
+const { feature: featureLabel, code: codeLabel } = useDisplayNames()
 const C = semanticColors()
+
+const T = {
+  zh: {
+    title: '条件对比',
+    sub: '选一个语法特征，看不同取值的语言在数字空间的处境差异',
+    feature: '特征',
+    pickerHint: '按分组差异排序 · 点选切换',
+    colFeature: '特征', colCoverage: '覆盖率', colLangs: '语言', colSpread: '分组差异',
+    groupCount: (n: number) => `${n} 个分组`,
+    overall: (r: string) => `整体在场率 ${r}`,
+    rateLegend: '数字在场率（该组有维基版本的比例，竖线为整体水平）',
+    medLegend: '十年增长中位数',
+    bandLegend: '四分位区间（趋势轴裁剪到 −100% ~ +300%）',
+    filtered: '已筛选',
+    clear: '取消',
+    empty: '当前筛选下没有足够大的分组。放宽左侧筛选，或换一个覆盖率更高的特征。',
+    insufficient: '样本不足',
+    footStrong1: '覆盖率',
+    footStrong2: '分组差异',
+    footStrong3: '值不值得',
+    foot1: '决定数据够不够做对比；',
+    foot2: '（各组数字在场率的极差，单位百分点）决定',
+    foot3: '做对比。语序这类常识特征差异往往只有几个百分点，而差异最大的特征可达 80 以上。低于',
+    foot4: '门语言的分组不参与统计。',
+  },
+  en: {
+    title: 'Conditional comparison',
+    sub: 'Pick a grammatical feature and compare how its values fare in the digital space',
+    feature: 'Feature',
+    pickerHint: 'sorted by group spread · click to switch',
+    colFeature: 'Feature', colCoverage: 'Coverage', colLangs: 'Langs', colSpread: 'Spread',
+    groupCount: (n: number) => `${n} groups`,
+    overall: (r: string) => `overall presence ${r}`,
+    rateLegend: 'digital presence rate (share with a Wikipedia edition; bar = overall level)',
+    medLegend: 'median ten-year growth',
+    bandLegend: 'interquartile range (trend axis clipped to −100%..+300%)',
+    filtered: 'Filtered',
+    clear: 'clear',
+    empty: 'No group is large enough under the current filters. Relax the filters on the left, or pick a feature with better coverage.',
+    insufficient: 'too few samples',
+    footStrong1: 'Coverage',
+    footStrong2: 'Group spread',
+    footStrong3: 'worth',
+    foot1: ' decides whether there is enough data;',
+    foot2: ' (range of digital presence rates across groups, in percentage points) decides whether it is',
+    foot3: ' comparing. Word order typically spreads only a few points, while the widest features exceed 80. Groups under',
+    foot4: ' languages are excluded.',
+  },
+} as const
+
+const t = computed(() => T[store.lang])
 
 /** 一个分组至少要有这么多门语言才参与对比，否则是噪声 */
 const MIN_GROUP = 12
@@ -73,7 +126,9 @@ const maxSpread = computed(() => Math.max(...coverage.value.map((c) => c.spread)
 
 const featureName = computed(() => {
   const fid = store.compareFeature
-  return store.features?.features.find((f) => f.ID === fid)?.Name ?? '—'
+  if (!fid) return '—'
+  const en = store.features?.features.find((f) => f.ID === fid)?.Name ?? fid
+  return featureLabel(fid, en)
 })
 
 interface Group {
@@ -116,7 +171,7 @@ const groups = computed<Group[]>(() => {
     const q = (p: number) => (g.length ? g[Math.min(g.length - 1, Math.floor(g.length * p))] : null)
     out.push({
       value,
-      label: labels.get(`${fid}\u0000${value}`) || `${value}`,
+      label: codeLabel(labels.get(`${fid}\u0000${value}`) || `${value}`),
       total: a.total,
       withWiki: a.wiki,
       wikiRate: a.wiki / a.total,
@@ -147,17 +202,15 @@ const overall = computed(() => {
   <section class="wb">
     <header>
       <div>
-        <h2>条件对比</h2>
-        <p class="hint">
-          选一个语法特征，看不同取值的语言在数字空间的处境差异
-        </p>
+        <h2>{{ t.title }}</h2>
+        <p class="hint">{{ t.sub }}</p>
       </div>
       <label class="picker">
-        <span>特征</span>
+        <span>{{ t.feature }}</span>
         <select :value="store.compareFeature ?? ''"
                 @change="store.setCompareFeature(($event.target as HTMLSelectElement).value)">
           <option v-for="c in coverage.slice(0, 80)" :key="c.fid" :value="c.fid">
-            {{ c.name }}（{{ c.n.toLocaleString('en-US') }}）
+            {{ featureLabel(c.fid, c.name) }}（{{ c.n.toLocaleString('en-US') }}）
           </option>
         </select>
       </label>
@@ -166,18 +219,19 @@ const overall = computed(() => {
     <div class="body">
       <!-- 左：特征选择器。同时给出覆盖率与分组差异，才知道哪个特征值得看 -->
       <div class="cov">
-        <h3>选一个特征 <span class="n">按分组差异排序 · 点选切换</span></h3>
+        <h3>{{ t.feature }} <span class="n">{{ t.pickerHint }}</span></h3>
         <div class="colhead">
-          <span>特征</span><span>覆盖率</span><span>语言</span><span>分组差异</span>
+          <span>{{ t.colFeature }}</span><span>{{ t.colCoverage }}</span>
+          <span>{{ t.colLangs }}</span><span>{{ t.colSpread }}</span>
         </div>
         <ul>
           <li v-for="c in topCoverage" :key="c.fid">
             <button
               :class="{ on: store.compareFeature === c.fid }"
-              :title="`${c.name}\n覆盖 ${c.n} 门语言，${c.groups} 个分组，在场率极差 ${(c.spread * 100).toFixed(0)} 个百分点`"
+              :title="`${featureLabel(c.fid, c.name)}\n覆盖 ${c.n} 门语言，${c.groups} 个分组，在场率极差 ${(c.spread * 100).toFixed(0)} 个百分点`"
               @click="store.setCompareFeature(c.fid)"
             >
-              <span class="nm">{{ c.name }}</span>
+              <span class="nm">{{ featureLabel(c.fid, c.name) }}</span>
               <span class="track"><i :style="{ width: (c.n / maxCoverage) * 100 + '%' }" /></span>
               <span class="ct num">{{ c.n.toLocaleString('en-US') }}</span>
               <span class="sp num" :style="{ opacity: 0.35 + 0.65 * (c.spread / maxSpread) }">
@@ -187,9 +241,10 @@ const overall = computed(() => {
           </li>
         </ul>
         <p class="foot">
-          <strong>覆盖率</strong>决定数据够不够做对比；<strong>分组差异</strong>（各组数字在场率的极差，
-          单位百分点）决定<strong>值不值得</strong>做对比。语序这类常识特征差异往往只有几个百分点，
-          而差异最大的特征可达 80 以上。低于 {{ MIN_GROUP }} 门语言的分组不参与统计。
+          <strong>{{ t.footStrong1 }}</strong>{{ t.foot1 }}
+          <strong>{{ t.footStrong2 }}</strong>{{ t.foot2 }}
+          <strong>{{ t.footStrong3 }}</strong>{{ t.foot3 }}
+          {{ MIN_GROUP }}{{ t.foot4 }}
         </p>
       </div>
 
@@ -197,13 +252,10 @@ const overall = computed(() => {
       <div class="cmp">
         <h3>
           {{ featureName }}
-          <span class="n">{{ groups.length }} 个分组 · 整体在场率
-            {{ (overall.rate * 100).toFixed(1) }}%</span>
+          <span class="n">{{ t.groupCount(groups.length) }} · {{ t.overall((overall.rate * 100).toFixed(1) + '%') }}</span>
         </h3>
 
-        <div v-if="!groups.length" class="empty">
-          当前筛选下没有足够大的分组。放宽左侧筛选，或换一个覆盖率更高的特征。
-        </div>
+        <div v-if="!groups.length" class="empty">{{ t.empty }}</div>
 
         <ul v-else class="rows">
           <li
@@ -237,19 +289,19 @@ const overall = computed(() => {
                     {{ g.median >= 0 ? '+' : '' }}{{ g.median.toFixed(0) }}%
                   </span>
                 </template>
-                <span v-else class="mv none">样本不足</span>
+                <span v-else class="mv none">{{ t.insufficient }}</span>
               </span>
             </button>
           </li>
         </ul>
 
         <div class="lgd">
-          <span><i class="sw rate" />数字在场率（该组有维基版本的比例，竖线为整体水平）</span>
-          <span><i class="sw med" />十年增长中位数</span>
-          <span><i class="sw band" />四分位区间（趋势轴裁剪到 −100% ~ +300%）</span>
+          <span><i class="sw rate" />{{ t.rateLegend }}</span>
+          <span><i class="sw med" />{{ t.medLegend }}</span>
+          <span><i class="sw band" />{{ t.bandLegend }}</span>
           <span v-if="activeFilter" class="clear">
-            已筛选：<strong>{{ activeFilter.value }}</strong>
-            <button @click="store.featureFilter = null">取消</button>
+            {{ t.filtered }}：<strong>{{ activeFilter.value }}</strong>
+            <button @click="store.featureFilter = null">{{ t.clear }}</button>
           </span>
         </div>
       </div>
