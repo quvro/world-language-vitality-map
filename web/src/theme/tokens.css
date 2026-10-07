@@ -1,0 +1,173 @@
+/* ============================================================================
+   Design tokens — 「正在消失的声音」
+   ----------------------------------------------------------------------------
+   亮色主题：暖白纸感，刻意避开冷灰的"办公软件感"。
+
+   规矩：所有组件与图表只从这里取值，任何地方都不许写死 hex。
+   这样后期整体换肤只改这一个文件。
+   ========================================================================== */
+
+:root {
+  /* ---------------------------------------------------------------- 基础色 */
+  --bg-canvas: #fbfaf7;      /* 页面底：暖白，不用纯白 */
+  --bg-surface: #ffffff;     /* 卡片 / 面板 */
+  --bg-subtle: #f4f1ea;      /* 次级区块、表头 */
+  --bg-hover: #efeae0;       /* 悬停态 */
+  --border: #e9e4da;         /* 分隔线 */
+  --border-strong: #d8d1c3;  /* 强调边框 */
+
+  --text-primary: #23201c;   /* 暖黑，避免纯黑的生硬 */
+  --text-secondary: #6e6a62;
+  --text-muted: #a39d91;
+  --text-inverse: #fbfaf7;
+
+  /* -------------------------------------------------------- 主色与语义色 */
+  --accent: #e4572e;         /* 朱橘：亮底上醒目且有辨识度 */
+  --accent-hover: #c9481f;
+  --accent-soft: #fdebe4;
+
+  --positive: #2a9d8f;       /* 增长 / 健康 */
+  --positive-soft: #e3f4f1;
+  --negative: #e4572e;       /* 衰退 / 濒危 */
+  --negative-soft: #fdebe4;
+  --neutral: #c9c4ba;
+
+  --focus-ring: #2d6a8f;     /* 键盘焦点，与主色区分 */
+
+  /* ------------------------------------------------- 语系分类色（12 色） */
+  /* Okabe-Ito 色盲友好调色板的改良版：
+     原版把纯黑与浅黄放在亮底上不可读，这里换成深灰与金。 */
+  --cat-1: #e69f00;   /* 橙 */
+  --cat-2: #56b4e9;   /* 天蓝 */
+  --cat-3: #009e73;   /* 绿 */
+  --cat-4: #0072b2;   /* 深蓝 */
+  --cat-5: #d55e00;   /* 朱红 */
+  --cat-6: #cc79a7;   /* 品红 */
+  --cat-7: #8c6d31;   /* 棕 */
+  --cat-8: #4d4d4d;   /* 深灰（替代原版纯黑） */
+  --cat-9: #7b9e3f;   /* 橄榄 */
+  --cat-10: #9b5de5;  /* 紫 */
+  --cat-11: #00a5a5;  /* 青 */
+  --cat-12: #b8860b;  /* 金（替代原版浅黄） */
+
+  /* --------------------------------------------------------- 顺序色阶 */
+  /* 暖色递增：用于规模、体量这类大小编码 */
+  --seq-0: #f7f4ec;
+  --seq-1: #fde68a;
+  --seq-2: #fb923c;
+  --seq-3: #dc2626;
+
+  /* 冷色递增：用于活力、健康度这类正向指标 */
+  --vital-0: #f0f7f7;
+  --vital-1: #b7e4e0;
+  --vital-2: #5fb8ae;
+  --vital-3: #1f6f66;
+
+  /* ------------------------------------------------------------ 字体 */
+  --font-sans: "Source Han Sans SC", "Noto Sans SC", "PingFang SC",
+    "Microsoft YaHei", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", "Cascadia Mono", Consolas, monospace;
+
+  --fs-display: 2.5rem;
+  --fs-h1: 1.75rem;
+  --fs-h2: 1.25rem;
+  --fs-body: 0.9375rem;
+  --fs-small: 0.8125rem;
+  --fs-micro: 0.6875rem;
+
+  /* 大屏上的数字用等宽，列对齐才对味 */
+  --num-font: var(--font-mono);
+  --num-variant: tabular-nums;
+
+  /* ------------------------------------------------------ 间距 / 圆角 / 阴影 */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+
+  /* 亮色主题下阴影要极轻，否则立刻显脏 */
+  --shadow-sm: 0 1px 2px rgba(35, 32, 28, 0.04);
+  --shadow-md: 0 2px 8px rgba(35, 32, 28, 0.06);
+  --shadow-lg: 0 8px 24px rgba(35, 32, 28, 0.08);
+
+  /* --------------------------------------------------------- 动效节奏 */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 140ms;
+  --dur-base: 260ms;
+  --dur-slow: 480ms;
+
+  /* --------------------------------------------------------- 层级 */
+  --z-base: 0;
+  --z-sticky: 10;
+  --z-dropdown: 100;
+  --z-modal: 1000;
+  --z-tooltip: 2000;
+}
+
+/* 尊重系统的减少动效偏好 */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+    --dur-slow: 0ms;
+  }
+}
+
+/* ---------------------------------------------------------------- 基础重置 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* 数字统一用等宽并强制表格数字，大屏上才对齐 */
+.num {
+  font-family: var(--num-font);
+  font-variant-numeric: var(--num-variant);
+  font-feature-settings: "tnum" 1;
+}
+
+/* 键盘焦点必须可见（无障碍） */
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* 屏幕阅读器专用 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

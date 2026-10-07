@@ -1,0 +1,52 @@
+==============================================================================
+### 1. 大都会艺术博物馆 Met Open Access API（文化·文物）
+  全部藏品对象数 total = 502886
+  objectIDs 返回长度 = 502886
+  HTTP 410 Gone
+==============================================================================
+### 2. 芝加哥艺术博物馆 AIC API（文化·文物）
+  pagination.total = 133121
+  记录字段(98个): ['alt_artist_ids', 'alt_classification_ids', 'alt_image_ids', 'alt_material_ids', 'alt_style_ids', 'alt_subject_ids', 'alt_technique_ids', 'alt_titles', 'api_link', 'api_model', 'artist_display', 'artist_id', 'artist_ids', 'artist_title', 'artist_titles', 'artwork_type_id', 'artwork_type_title', 'boost_rank', 'catalogue_display', 'category_ids', 'category_titles', 'classification_id', 'classification_ids', 'classification_title', 'classification_titles', 'color', 'colorfulness', 'copyright_notice', 'credit_line', 'date_display', 'date_end', 'date_qualifier_id', 'date_qualifier_title', 'date_start', 'department_id', 'department_title', 'description', 'dimensions', 'dimensions_detail', 'document_ids', 'edition', 'exhibition_history', 'fiscal_year', 'fiscal_year_deaccession', 'gallery_id', 'gallery_title', 'has_advanced_imaging', 'has_educational_resources', 'has_multimedia_resources', 'has_not_been_viewed_much', 'id', 'image_id', 'inscriptions', 'internal_department_id', 'is_boosted', 'is_on_view', 'is_public_domain', 'is_zoomable', 'latitude', 'latlon', 'longitude', 'main_reference_number', 'material_id', 'material_ids', 'material_titles', 'max_zoom_window_size', 'medium_display', 'nomisma_id', 'on_loan_display', 'place_of_origin', 'provenance_text', 'publication_history', 'publishing_verification_level', 'section_ids', 'section_titles', 'short_description', 'site_ids', 'sound_ids', 'source_updated_at', 'style_id', 'style_ids', 'style_title', 'style_titles', 'subject_id', 'subject_ids', 'subject_titles', 'suggest_autocomplete_all', 'technique_id', 'technique_ids', 'technique_titles', 'term_titles', 'text_ids', 'theme_titles', 'thumbnail', 'timestamp', 'title', 'updated_at', 'video_ids']
+    id: 151093
+    title: Bodhisattva Avalokiteshvara
+    date_display: 8th/9th century
+    place_of_origin: Pakistan
+    medium_display: Mica schist
+    department_title: Arts of Asia
+    artist_display: Pakistan
+Khyber Pakhtunkhwa Province, Swat Valley
+==============================================================================
+### 3. Glottolog 语言谱系（文化·语言学）
+  Glottolog language 点位数 = 0
+==============================================================================
+### 4. WALS 世界语言结构（文化·语言学，CLDF/CSV）
+  WALS CLDF 目录内容:
+    .gitattributes                             19 B
+    README.md                               13917 B
+    StructureDataset-metadata.json          35896 B
+    areas.csv                                 443 B
+    chapters.csv                            87323 B
+    codes.csv                               83272 B
+    contributors.csv                         3583 B
+    countries.csv                            2440 B
+    docs                                        0 B
+    examples.csv                           379668 B
+    genealogy.csv                           29169 B
+    genealogy.nex                           34282 B
+    language_names.csv                     203927 B
+    languages.csv                          471651 B
+    media.csv                                8225 B
+    parameters.csv                           8184 B
+    requirements.txt                          813 B
+    sources.bib                           3042068 B
+    values.csv                            4641862 B
+==============================================================================
+### 5. Allen-Unger 全球历史商品价格库（经济史）
+  首页字节数 = 2963
+    含 'download': 2 次
+    含 'csv': 0 次
+    含 'xlsx': 0 次
+    含 'data': 0 次
+==============================================================================
+### 6. Open Library 书目（文化·出版）
+  FAILED: URLError: <urlopen error [WinError 10060] 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。>

@@ -1,0 +1,34 @@
+  https://raw.githubusercontent.com/metabismuth/tarot-json/master/README.md -> status=None bytes=111 URLError(ConnectionResetError(10054, '远程主机强迫关闭了一个现有的连接。', None, 10054, None))
+  https://raw.githubusercontent.com/metabismuth/tarot-json/main/README.md -> status=None bytes=111 URLError(ConnectionResetError(10054, '远程主机强迫关闭了一个现有的连接。', None, 10054, None))
+  bytes=9391 top-type=dict
+  keys=['description', 'cards']
+   -- description: "tarot cards and basic information about them"
+   -- cards: [{"name": "The Fool", "number": "0", "arcana": "Major Arcana", "suit": null}, {"name": "The Magician", "number": "1", "arcana": "Major Arcana", "suit": null}, {"name": "The High Priestess", "number": "2", "arcana": "Major Arcana", "suit": null}, {"name": "The Empress", "number": "3", "arcana": "Major Arcana", "suit": null}, {"name": "The Emperor", "number": "4", "arcana": "Major Arcana", "suit": null}, {"name": "The Hierophant", "number": "5", "arcana": "Major Arcana", "suit": null}, {"name": "The Lovers", "number": "6", "arcana": "Major Arcana", "suit": null}, {"name": "The Chariot", "number": "7", "arcana": "Major Arcana", "suit": null}, {"name": "Strength", "number": "8", "arcana": "Major Arcana", "suit": null}, {"name": "The Hermit", "number": "9", "arcana": "Major Arcana", "suit": nul
+  contains 'element': False
+  contains 'astrolog': False
+  contains 'hebrew': False
+  contains 'zodiac': False
+  contains 'planet': False
+  contains 'correspond': False
+  contains 'golden dawn': False
+  contains 'sephira': False
+  bytes=111711 type=list
+  len=78
+  first: {"id": 0, "name": "The Fool", "arcana": "major", "suit": null, "number_numerology": 0, "element": "Air", "planet": "Uranus", "zodiac": "Aquarius", "yes_no": "maybe", "yes_no_reversed": "no", "keywords_upright": ["new beginnings", "spontaneity", "innocence", "leap of faith", "free spirit"], "keywords_reversed": ["recklessness", "hesitation", "naivety", "poor judgment", "fear of change"], "meaning_upright": "New beginnings, spontaneity, innocence, leap of faith, free spirit.", "meaning_reversed": "Recklessness, hesitation, naivety, poor judgment, fear of change.", "love": "new romance, emotional openness, spontaneous connection, taking a chance on love", "love_reversed": "reckless romance, fear of commitment, naive expectations, leaping without looking", "career": "new career path, taking a professional risk, entrepreneurial leap, learning through experience", "career_reversed": "reckless 
+  union of keys: ['arcana', 'career', 'career_reversed', 'element', 'id', 'keywords_reversed', 'keywords_upright', 'love', 'love_reversed', 'meaning_reversed', 'meaning_upright', 'mood', 'mood_reversed', 'name', 'number_numerology', 'planet', 'spiritual', 'spiritual_reversed', 'suit', 'yes_no', 'yes_no_reversed', 'zodiac']
+  contains 'element': True
+  contains 'astrolog': False
+  contains 'hebrew': False
+  contains 'zodiac': True
+  contains 'planet': True
+  bytes=175912 type=dict
+  keys=['label', 'alt', 'shortlabel', 'rank', 'desc', 'children']
+  SAMPLE: {"label": "It begins with Chaos (\"Nothingness\")...", "alt": "Khaos", "shortlabel": "Chaos", "rank": "2", "desc": "The protogenos (primeval god) of all. His name means \"emptiness\" -- the void from which creation and order emerge.", "children": [{"label": "Ananke (Inevitability)", "shortlabel": "Ananke", "rank": "0", "parents": "None", "desc": "The protogenos (primeval goddess) of inevitability, compulsion and necessity.  From the time she first appeared, Ananke was entwined in the serpentine coils of her mate, the time-god Khronos. Together they surrounded the primal egg of solid matter in their constricting coils and split it into its constituent parts (earth, heaven and sea) and so brought about the creation of the ordered universe"}, {"label": "Erebus (Darkness)", "shortlabel": "Erebus", "rank": "0", "alt": "Erebos", "parents": "Khaos alone", "desc": "The Protogenos (primeval god) of the darkness of night and the netherworld. He was the father of Light and Day by Nyx, the goddess Night", "children": [{"label": "Aether (\"Upper Air\")", "shortlabel": "Aether", "alt": "Aither", "rank": "1", "parents": "Erebus, Nyx", "desc": "Protogenos of light, the bright upper air (the shinin
+  approx node count: 0
+  bytes=60803 type=list
+  len=109
+  first: {"name": "狌狌", "pinyin": "xīng xīng", "category": "南山经", "location": "招摇山", "original": "有兽焉，其状如禺而白耳，伏行人走，其名曰狌狌，食之善走。", "key_points": "形似猕猴，白耳，能直立行走，食后可健步如飞。", "explanation": "狌狌是《山海经》开篇记载的第一只异兽，形似猿猴却长着白色耳朵，既能匍匐爬行又能像人一样直立行走。传说它通晓过去之事，却无法预知未来。古人认为食其肉可使人健步如飞。", "image": "images/xingxing.png"}
+  union of keys: ['category', 'explanation', 'image', 'key_points', 'location', 'name', 'original', 'pinyin']
+  01_ShanJing/: [('01_NanShanJing', 0), ('02_XiShanJing', 0), ('03_BeiShanJing', 0), ('04_DongShanJing', 0), ('05_ZhongShanJing', 0)]
+  db-dumps/: [('shanhaijing-2025-12-21T01-09-21.dump', 12066)]
+  puml_model/: [('archive', 0), ('plantuml-output.png', 663203), ('plantuml-preview.png', 699224), ('山海经-山经-第三层(全).png', 2465914), ('山海经-山经-第三层(全).puml', 24452), ('山海经-山经-第二层.png', 109241), ('山海经-山经-第二层.puml', 1780), ('山海经-第一层.png', 34337), ('山海经-第一层.puml', 665)]

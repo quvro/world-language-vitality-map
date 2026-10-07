@@ -1,0 +1,55 @@
+==============================================================================
+### project_full.json   (10.8 MB)
+  行数: 3610
+  首行字段: ['address', 'area', 'auto_id', 'cate', 'city', 'content', 'id', 'img_group', 'img_video', 'is_top', 'modified', 'num', 'num_first', 'num_sec', 'order', 'playtype', 'project_level', 'project_num', 'protect_unit', 'province', 'reg_type', 'rx_time', 'sortrank', 'source', 'status', 'status_id', 'title', 'title2', 'top_end', 'top_start', 'type', 'unit', 'upvideo', 'video']
+  字段覆盖:
+    num             :  3610 / 3610  (100%)
+    title           :  3610 / 3610  (100%)
+    type            :  3610 / 3610  (100%)
+    cate            :  3610 / 3610  (100%)
+    rx_time         :  3610 / 3610  (100%)
+    province        :  3610 / 3610  (100%)
+    protect_unit    :  3608 / 3610  (99%)
+    id              :  3610 / 3610  (100%)
+  样本 2 条:
+    {"status_id": "1", "status": "1", "is_top": "0", "top_start": "", "top_end": "", "sortrank": "0", "modified": "1544782620", "id": "12178", "num": "Ⅰ-1", "auto_id": "1", "order": "1", "title": "苗族古歌", "title2": "", "source": "", "type": "民间文学", "reg_type": "0", "num_first": "1", "num_sec": "1", "cate": "新增项目", "project_num": "Ⅰ-001_01_522630", "rx_time": "2006</br>(第一批)", "address": "520000", "province": "贵州省台江县", "city": "522600", "area": "522630", "project_level": "", "content": "申报地区或单位：贵州省台江县 &lt;br /&gt;\r\n　　 &lt;br /&gt;\r\n　　苗族分布在我国西南数省区。按方言划分，大致可", "playtype": "local", "upvideo": null,
+    {"status_id": "1", "status": "1", "is_top": "0", "top_start": "", "top_end": "", "sortrank": "0", "modified": "1544782620", "id": "12177", "num": "Ⅰ-1", "auto_id": "1", "order": "2", "title": "苗族古歌", "title2": "", "source": "", "type": "民间文学", "reg_type": "0", "num_first": "1", "num_sec": "1", "cate": "新增项目", "project_num": "Ⅰ-001_01_522622", "rx_time": "2006</br>(第一批)", "address": "520000", "province": "贵州省黄平县", "city": "522600", "area": "522622", "project_level": "", "content": "申报地区或单位：贵州省黄平县 &lt;br /&gt;\r\n　　 &lt;br /&gt;\r\n　　苗族分布在我国西南数省区。按方言划分，大致可", "playtype": "local", "upvideo": null,
+==============================================================================
+### representative_full.json   (5.1 MB)
+  行数: 3995
+  首行字段: ['area', 'child_num', 'city', 'content', 'day', 'id', 'img_group', 'img_video', 'is_top', 'modified', 'nation', 'num', 'playtype', 'project', 'project_num', 'province', 'rx_time', 'sex', 'sortrank', 'source', 'status', 'status_id', 'title', 'top_end', 'top_start', 'type', 'unit', 'upvideo', 'video']
+  字段覆盖:
+    title           :  3995 / 3995  (100%)
+    sex             :  3995 / 3995  (100%)
+    nation          :  3434 / 3995  (85%)
+    type            :  3995 / 3995  (100%)
+    project         :  3995 / 3995  (100%)
+    province        :  3995 / 3995  (100%)
+    rx_time         :  3995 / 3995  (100%)
+    day             :  1971 / 3995  (49%)
+  样本 2 条:
+    {"status_id": "1", "status": "1", "is_top": "0", "top_start": "", "top_end": "", "sortrank": "0", "modified": "1542284760", "id": "716", "num": "01-0001", "title": "王安江", "source": "", "day": "1935.11", "sex": "男", "nation": "苗族", "type": "民间文学", "project_num": "Ⅰ-1", "child_num": "Ⅰ-001_01_522630", "project": "苗族古歌", "rx_time": "01(2007年（第一批）)", "province": "贵州省台江县", "city": "522600", "area": "522630", "content": "男，苗族，1935年生，2010年去世，贵州台江人。第一批国家级非物质文化遗产项目苗族古歌代表性传承人。1968年，王安江开始学习苗族古歌，", "playtype": "local", "upvideo": null, "img_group": "N;", "img_video": "N;", "video": "N;", "unit": "贵州省台江县"}
+    {"status_id": "1", "status": "1", "is_top": "0", "top_start": "", "top_end": "", "sortrank": "0", "modified": "1542284760", "id": "717", "num": "01-0002", "title": "刘永洪", "source": "", "day": "1936.10", "sex": "男", "nation": "苗族", "type": "民间文学", "project_num": "Ⅰ-1", "child_num": "Ⅰ-001_01_522630", "project": "苗族古歌", "rx_time": "01(2007年（第一批）)", "province": "贵州省台江县", "city": "522600", "area": "522630", "content": "男，苗族，1936年生，贵州台江人。第一批国家级非物质文化遗产项目苗族古歌代表性传承人。刘永洪自少年起随母学艺，在社会生活实践和与其他歌师的", "playtype": "local", "upvideo": null, "img_group": "N;", "img_video": "N;", "video": "N;", "unit": "贵州省台江县"}
+
+==============================================================================
+### 项目类别与批次分布（核对完整性）
+  类别分布:
+    传统技艺: 629
+    民俗: 492
+    传统戏剧: 473
+    传统音乐: 431
+    传统美术: 417
+    传统舞蹈: 356
+    民间文学: 251
+    曲艺: 213
+    传统医药: 182
+    传统体育、游艺与杂技: 166
+  批次分布:
+    2008</br>(第二批): 1352
+    2006</br>(第一批): 763
+    2011</br>(第三批): 567
+    2021</br>(第五批): 465
+    2014</br>(第四批): 463
+  unique num(编号): 1574
+  unique title: 3062
+  unique id: 3610

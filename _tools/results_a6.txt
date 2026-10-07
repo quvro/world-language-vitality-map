@@ -1,0 +1,59 @@
+﻿### A. /getProject (no .html) - does it honor params? ###
+  /getProject -> 200 8054B X-Cache=MISS TCP_MISS dirn:-2:-2 Age=None JSON total=4234 p=1 nrows=10 first='' title='����'
+   BODY: {"total":4234,"links":{"down":{"url":"\/getProject\/p\/2.html","text":">"},"end":{"url":"\/getProject\/p\/424.html","text":"...424"},"pages":{"1":"\/getProject\/p\/1.html","2":"\/getProject\/p\/2.html","3":"\/getProject\/p\/3.html","4":"\/getProject\/p\/4.html","5":"\/getProject\/p\/5.html"},"total":4234,"total_pages":424,"current":1,"url":"\/getProject\/p\/_PAGENUM_.html"},"show":"","list":[{"status_id":"1","status":"1","is_top":"0","top_start":"0","top_end":"0","sortrank":"0","modified":"1544791767","id":"15331","num":"","auto_id":"","order":"","title":"\u4eac\u7ee3","title2":"","source":"","type":null,"reg_type":"1","num_first":"0","num_sec":"0","cate":null,"project_num":"\u2160-FRZX-1","rx_time":"<\/br>()","address":"","province":"\u5317\u4eac\u5e02\u623f\u5c71\u533a\uff0c\u6cb3\u5317\u7701\u5b9a\u5174\u53bf","city":"","area":"","project_level":"","content":"","playtype":"local","upvideo":null,"img_group":"","video":null,"unit":"\u5317\u4eac\u5e02\u623f\u5c71\u533a\uff0c\u6cb3\u5317\u7701\u5b9a\u5174\u53bf","protect_unit":"","img_video":""},{"status_id":"1","status":"1","is_top":"0","top_start":"0","top_end":"0","sortrank":"0","modified":"1544791767","id":"15332","num":"","auto_id":"","order":"","title":"\u82cf\u7ee3","title2":"","source":"","type":null,"reg_type":"1","num_first":"0","num_sec":"0","cate":null,"project_num":"\u2160-FRZX-2","rx_time":"<\/br>()","address":"","province":"\u6c5f\u82cf\u7701\u82cf\u5dde\u5e02","city":"","area":"","project_level":"","content":""
+  /getProject?limit=100000&p=1 -> 200 19309733B X-Cache=MISS TCP_MISS dirn:-2:-2 Age=None JSON total=4234 p=1 nrows=4234 first='' title='����'
+  /getProject?province=&rx_time=&type=&cate=&keywords=&category_id=16&lim -> 200 46813B X-Cache=MISS TCP_MISS dirn:-2:-2 Age=None JSON total=3610 p=2 nrows=10 first='��-7' title='��ף��˵'
+
+### B. CDN cache-bypass attempts on getProject.html ###
+  [baseline p=2] 200 45801B X-Cache=HIT TCP_MEM_HIT dirn:-2:-2 Age=29046 JSON total=3610 p=1 nrows=10 first='��-1' title='����Ÿ�'
+  [Cache-Control: no-cache] 200 45801B X-Cache=HIT TCP_MEM_HIT dirn:-2:-2 Age=29047 JSON total=3610 p=1 nrows=10 first='��-1' title='����Ÿ�'
+  [Cookie set] 200 45801B X-Cache=HIT TCP_MEM_HIT dirn:-2:-2 Age=29047 JSON total=3610 p=1 nrows=10 first='��-1' title='����Ÿ�'
+  [Accept-Encoding identity] 200 45801B X-Cache=HIT TCP_MEM_HIT dirn:-2:-2 Age=29047 JSON total=3610 p=1 nrows=10 first='��-1' title='����Ÿ�'
+  [HEAD-ish POST] 200 45801B X-Cache=HIT TCP_MEM_HIT dirn:-2:-2 Age=29048 JSON total=3610 p=1 nrows=10 first='��-1' title='����Ÿ�'
+
+### C. HTTP (not HTTPS) + alternate host paths ###
+  http://www.ihchina.cn/getProject.html?province=&rx_time=&type=&cate=&keywords=&category_id=16&l
+     -> 200 45801B ct=application/json; charset=utf-8 X-Cache=HIT TCP_MEM_HIT dirn:-2:-2 JSON total=3610 p=1 nrows=10 first='��-1' title='����Ÿ�'
+  https://www.ihchina.cn/getProject.html/?province=&category_id=16&limit=10&p=3
+     -> 200 56652B ct=application/json; charset=utf-8 X-Cache=MISS TCP_MISS dirn:-2:-2 JSON total=3610 p=3 nrows=10 first='��-8' title='�Ͻ�Ů��˵'
+  https://www.ihchina.cn/getproject.html?limit=10&p=3
+     -> 200 8723B ct=application/json; charset=utf-8 X-Cache=MISS TCP_MISS dirn:-2:-2 JSON total=4234 p=3 nrows=10 first='' title='ˮ����β��'
+  https://www.ihchina.cn//getProject.html?limit=10&p=3
+     -> 200 8723B ct=application/json; charset=utf-8 X-Cache=MISS TCP_MISS dirn:-2:-2 JSON total=4234 p=3 nrows=10 first='' title='ˮ����β��'
+
+### D. Detail-page ID enumeration feasibility ###
+  https://www.ihchina.cn/project_details/1.html -> 200 1266B has_field_marker=False
+  https://www.ihchina.cn/project_details/14000.html -> 200 34903B has_field_marker=True
+  https://www.ihchina.cn/project_details/20000.html -> 200 31315B has_field_marker=False
+  https://www.ihchina.cn/ccr_detail/1.html -> 200 1266B has_field_marker=False
+  https://www.ihchina.cn/ccr_detail/9000.html -> 200 1266B has_field_marker=False
+
+### E. representative full pull + save ###
+  -> 200 7169900B X-Cache=MISS TCP_MISS dirn:-2:-2
+  rows=3995
+  saved representative_full.json
+  NON-EMPTY FIELD COVERAGE (of 3995 rows):
+    status_id: 3995
+    status: 3995
+    is_top: 3995
+    sortrank: 3995
+    modified: 3995
+    id: 3995
+    title: 3995
+    sex: 3995
+    type: 3995
+    project_num: 3995
+    child_num: 3995
+    project: 3995
+    rx_time: 3995
+    province: 3995
+    playtype: 3995
+    unit: 3994
+    city: 3686
+    nation: 3434
+    area: 3206
+    num: 3053
+    content: 3053
+    top_start: 2165
+    top_end: 2165
+    day: 1971

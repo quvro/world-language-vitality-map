@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>正在消失的声音 · 数据预览</title>
+<link rel="stylesheet" href="../src/theme/tokens.css">
+<style>
+  /* 只写这份预览页需要的布局，样式值一律取自 tokens */
+  .shell {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: var(--sp-5) var(--sp-5) var(--sp-7);
+  }
+
+  header.top {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    padding-bottom: var(--sp-4);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: var(--sp-5);
+  }
+  .brand h1 {
+    margin: 0;
+    font-size: var(--fs-h1);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .brand p {
+    margin: var(--sp-1) 0 0;
+    color: var(--text-secondary);
+    font-size: var(--fs-small);
+  }
+  .brand .accent-bar {
+    display: inline-block;
+    width: 28px;
+    height: 3px;
+    background: var(--accent);
+    border-radius: var(--radius-pill);
+    margin-bottom: var(--sp-3);
+  }
+  .tag {
+    font-size: var(--fs-micro);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    padding: 3px 10px;
+    white-space: nowrap;
+  }
+
+  .kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--sp-3);
+    margin-bottom: var(--sp-5);
+  }
+  .kpi {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--sp-4);
+    box-shadow: var(--shadow-sm);
+  }
+  .kpi .v {
+    font-family: var(--num-font);
+    font-variant-numeric: tabular-nums;
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .kpi .l {
+    margin-top: var(--sp-1);
+    font-size: var(--fs-small);
+    color: var(--text-secondary);
+  }
+  .kpi.accent .v { color: var(--accent); }
+
+  .grid2 {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: var(--sp-4);
+    margin-bottom: var(--sp-4);
+  }
+  @media (max-width: 1080px) {
+    .grid2 { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: var(--sp-4) var(--sp-4) var(--sp-3);
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .card h2 {
+    margin: 0 0 var(--sp-1);
+    font-size: var(--fs-h2);
+    font-weight: 600;
+  }
+  .card .hint {
+    margin: 0 0 var(--sp-3);
+    font-size: var(--fs-small);
+    color: var(--text-muted);
+  }
+  .chart { width: 100%; flex: 1; min-height: 0; }
+  #map { height: 460px; }
+  #growth { height: 460px; }
+  #coverage { height: 300px; }
+
+  .note {
+    margin-top: var(--sp-5);
+    padding: var(--sp-4);
+    background: var(--bg-subtle);
+    border-radius: var(--radius-md);
+    font-size: var(--fs-small);
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+  .note strong { color: var(--text-primary); }
+  .loading {
+    display: grid;
+    place-items: center;
+    height: 200px;
+    color: var(--text-muted);
+    font-size: var(--fs-small);
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <header class="top">
+    <div class="brand">
+      <span class="accent-bar"></span>
+      <h1>正在消失的声音</h1>
+      <p>数字时代的语言生存图谱 · 数据预览</p>
+    </div>
+    <span class="tag">P1 数据管道产出 · 非最终视觉</span>
+  </header>
+
+  <section class="kpis" id="kpis"></section>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>世界语言分布</h2>
+      <p class="hint">每一万个点位里，藏着一门语言 · 按语区着色</p>
+      <div id="map" class="chart"><div class="loading">加载中…</div></div>
+    </div>
+    <div class="card">
+      <h2>十年数字活力变化</h2>
+      <p class="hint">首 3 月均值 → 末 3 月均值 · 已剔除基线不可靠的统计伪影</p>
+      <div id="growth" class="chart"><div class="loading">加载中…</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>语法特征覆盖率</h2>
+    <p class="hint">覆盖语言数最多的 18 个特征 · 决定"条件对比"交互能用哪些特征</p>
+    <div id="coverage" class="chart"><div class="loading">加载中…</div></div>
+  </div>
+
+  <div class="note">
+    <strong>这是数据预览，不是最终视觉。</strong>
+    目的是确认三件事：① 数据能跑通 ② 亮色主题的方向 ③ 核心结论成立。
+    正式界面会有导航、筛选面板、时间轴回放与自然语言入口。
+    所有颜色都从 <code>tokens.css</code> 读取，换肤只改一处。
+  </div>
+
+</div>
+
+<script src="../public/vendor/echarts.min.js"></script>
+<script src="../public/vendor/world.js"></script>
+<script type="module">
+import { registerVitalityTheme, semanticColors, categoryPalette, THEME_NAME }
+  from '../src/theme/echarts-theme.js'
+
+registerVitalityTheme(echarts)
+const C = semanticColors()
+const PALETTE = categoryPalette()
+
+const load = (p) => fetch(p).then((r) => {
+  if (!r.ok) throw new Error(`${p} -> HTTP ${r.status}`)
+  return r.json()
+})
+
+const DATA = '../../data/processed/'
+const fmt = (n) => n.toLocaleString('en-US')
+
+/* ---------------------------------------------------------------- 数据 */
+const [langs, matrix, featDefs] = await Promise.all([
+  load(DATA + 'languages.json'),
+  load(DATA + 'feature_matrix.json'),
+  load(DATA + 'features.json'),
+])
+
+/* ---------------------------------------------------------------- KPI */
+const withCoords = langs.filter((l) => l.latitude && l.longitude)
+const withWiki = langs.filter((l) => l.wiki_code)
+const reliable = langs.filter((l) => l.baseline_ok && l.growth != null)
+
+document.getElementById('kpis').innerHTML = [
+  [fmt(langs.length), '语言 / 变体记录'],
+  [fmt(withCoords.length), '有地理坐标'],
+  [fmt(withWiki.length), '关联到维基版本'],
+  [fmt(55427), '时间序列数据点'],
+  [fmt(reliable.length), '可用于增长分析'],
+].map(([v, l], i) =>
+  `<div class="kpi${i === 0 ? ' accent' : ''}"><div class="v">${v}</div>` +
+  `<div class="l">${l}</div></div>`
+).join('')
+
+/* ------------------------------------------------------- 1. 世界语言分布 */
+const MACRO = ['Africa', 'Eurasia', 'Papunesia', 'North America',
+               'South America', 'Australia']
+const colorOf = {}
+MACRO.forEach((m, i) => { colorOf[m] = PALETTE[i] })
+
+const byMacro = MACRO.map((m) => ({
+  name: m,
+  type: 'scatter',
+  coordinateSystem: 'geo',
+  symbolSize: 3.6,
+  itemStyle: { color: colorOf[m], opacity: 0.72 },
+  emphasis: { itemStyle: { opacity: 1 }, scale: 2.2 },
+  data: withCoords
+    .filter((l) => l.macroarea === m)
+    .map((l) => ({
+      name: l.name,
+      value: [Number(l.longitude), Number(l.latitude)],
+      family: l.family || '—',
+      macroarea: l.macroarea,
+    })),
+}))
+
+echarts.init(document.getElementById('map'), THEME_NAME).setOption({
+  tooltip: {
+    trigger: 'item',
+    formatter: (p) =>
+      `<strong>${p.data.name}</strong><br>` +
+      `<span style="color:${C.textMuted}">语系</span> ${p.data.family}<br>` +
+      `<span style="color:${C.textMuted}">语区</span> ${p.data.macroarea}`,
+  },
+  legend: {
+    bottom: 0,
+    left: 'center',
+    data: MACRO,
+  },
+  geo: { map: 'world', roam: true, zoom: 1.15, center: [10, 18] },
+  series: byMacro,
+})
+
+/* ------------------------------------------------------ 2. 十年活力变化 */
+const ranked = reliable.slice().sort((a, b) => a.growth - b.growth)
+const picked = [...ranked.slice(0, 8), ...ranked.slice(-8)]
+  .sort((a, b) => a.growth - b.growth)
+  .map((l) => ({
+    name: l.name,
+    value: Number((l.growth * 100).toFixed(1)),
+    from: l.views_baseline,
+    to: l.views_recent,
+  }))
+
+echarts.init(document.getElementById('growth'), THEME_NAME).setOption({
+  grid: { left: 8, right: 60, top: 8, bottom: 24, containLabel: true },
+  tooltip: {
+    trigger: 'item',
+    formatter: (p) =>
+      `<strong>${p.name}</strong><br>` +
+      `${fmt(Math.round(p.data.from))} → ${fmt(Math.round(p.data.to))} 次/月<br>` +
+      `<span style="color:${p.value >= 0 ? C.positive : C.negative};` +
+      `font-weight:600">${p.value >= 0 ? '+' : ''}${p.value}%</span>`,
+  },
+  xAxis: {
+    type: 'value',
+    axisLabel: { formatter: '{value}%' },
+  },
+  yAxis: {
+    type: 'category',
+    data: picked.map((d) => d.name),
+    axisLabel: { fontSize: 11 },
+  },
+  series: [{
+    type: 'bar',
+    data: picked.map((d) => ({
+      value: d.value, from: d.from, to: d.to,
+      itemStyle: {
+        color: d.value >= 0 ? C.positive : C.negative,
+        borderRadius: d.value >= 0 ? [0, 3, 3, 0] : [3, 0, 0, 3],
+      },
+    })),
+    barWidth: '62%',
+    label: {
+      show: true,
+      position: 'right',
+      fontSize: 10,
+      // Canvas 不解析 CSS 变量，这里必须写字面字体栈
+      fontFamily: 'JetBrains Mono, SF Mono, Consolas, monospace',
+      color: C.textSecondary,
+      formatter: (p) => `${p.value >= 0 ? '+' : ''}${p.value}%`,
+    },
+  }],
+})
+
+/* ------------------------------------------------------ 3. 特征覆盖率 */
+const cov = matrix.feature_ids.map((fid, i) => ({
+  fid,
+  n: matrix.values[i].reduce((a, v) => a + (v == null ? 0 : 1), 0),
+}))
+const nameOf = {}
+featDefs.features.forEach((f) => { nameOf[f.ID] = f.Name })
+const top = cov.slice().sort((a, b) => b.n - a.n).slice(0, 18).reverse()
+
+echarts.init(document.getElementById('coverage'), THEME_NAME).setOption({
+  grid: { left: 8, right: 56, top: 8, bottom: 8, containLabel: true },
+  tooltip: {
+    trigger: 'item',
+    formatter: (p) =>
+      `<strong>${p.name}</strong><br>覆盖 ${fmt(p.value)} 种语言`,
+  },
+  xAxis: { type: 'value' },
+  yAxis: {
+    type: 'category',
+    data: top.map((d) => nameOf[d.fid] || d.fid),
+    axisLabel: { fontSize: 11 },
+  },
+  series: [{
+    type: 'bar',
+    data: top.map((d) => d.n),
+    barWidth: '58%',
+    itemStyle: { color: C.accent, opacity: 0.85, borderRadius: [0, 3, 3, 0] },
+    label: {
+      show: true,
+      position: 'right',
+      fontSize: 10,
+      color: C.textSecondary,
+      formatter: (p) => fmt(p.value),
+    },
+  }],
+})
+
+window.addEventListener('resize', () => {
+  ['map', 'growth', 'coverage'].forEach((id) => {
+    const inst = echarts.getInstanceByDom(document.getElementById(id))
+    if (inst) inst.resize()
+  })
+})
+</script>
+</body>
+</html>

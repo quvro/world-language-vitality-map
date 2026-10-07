@@ -1,0 +1,84 @@
+[slash limit=100000] https://www.ihchina.cn/getProject.html/?province=&rx_time=&type=&cate=&keywords=&category_id=16&limit=100000&p=1
+    status=200 bytes=18012594 10.6s X-Cache=MISS TCP_MISS dirn:-2:-2 Age=None | total=3610 p=1 nrows=3610 first_num='Ⅰ-1' first_title='苗族古歌' last_title='傣族服饰（花腰傣服饰）'
+    FIELDS: ['status_id', 'status', 'is_top', 'top_start', 'top_end', 'sortrank', 'modified', 'id', 'num', 'auto_id', 'order', 'title', 'title2', 'source', 'type', 'reg_type', 'num_first', 'num_sec', 'cate', 'project_num', 'rx_time', 'address', 'province', 'city', 'area', 'project_level', 'content', 'playtype', 'upvideo', 'img_group', 'video', 'unit', 'protect_unit', 'img_video']
+    SAMPLE: {"status_id": "1", "status": "1", "is_top": "0", "top_start": "", "top_end": "", "sortrank": "0", "modified": "1544782620", "id": "12178", "num": "Ⅰ-1", "auto_id": "1", "order": "1", "title": "苗族古歌", "title2": "", "source": "", "type": "民间文学", "reg_type": "0", "num_first": "1", "num_sec": "1", "cate": "新增项目", "project_num": "Ⅰ-001_01_522630", "rx_time": "2006</br>(第一批)", "address": "520000", "province": "贵州省台江县", "city": "522600", "area": "522630", "project_level": "", "content": "申报地区或单位：贵州省台江县 &lt;br /&gt;\r\n　　 &lt;br /&gt;\r\n　　苗族分布在我国西南数省区。按方言划分，大致可分为湘西方言区、黔东方言区、川滇黔方言区。黔东南清水江流域一带是全国苗族最大的聚
+    saved E:\develop\myprogram\keshihua\_tools\project_full.json (3610 rows)
+    NON-EMPTY COVERAGE of 3610:
+      status_id: 3610
+      status: 3610
+      is_top: 3610
+      sortrank: 3610
+      modified: 3610
+      id: 3610
+      num: 3610
+      auto_id: 3610
+      title: 3610
+      type: 3610
+      reg_type: 3610
+      num_first: 3610
+      num_sec: 3610
+      cate: 3610
+      project_num: 3610
+      rx_time: 3610
+      province: 3610
+      content: 3610
+      playtype: 3610
+      unit: 3610
+      protect_unit: 3608
+      address: 3541
+      city: 3340
+      top_start: 2494
+      top_end: 2494
+      area: 2348
+      order: 1020
+      title2: 4
+      video: 3
+[slash limit=5000] https://www.ihchina.cn/getProject.html/?province=&rx_time=&type=&cate=&keywords=&category_id=16&limit=5000&p=1
+    status=200 bytes=18012592 10.7s X-Cache=MISS TCP_MISS dirn:-2:-2 Age=None | total=3610 p=1 nrows=3610 first_num='Ⅰ-1' first_title='苗族古歌' last_title='傣族服饰（花腰傣服饰）'
+[slash limit=10 p1] https://www.ihchina.cn/getProject.html/?province=&rx_time=&type=&cate=&keywords=&category_id=16&limit=10&p=1
+    status=200 bytes=45531 0.5s X-Cache=MISS TCP_MISS dirn:-2:-2 Age=None | total=3610 p=1 nrows=10 first_num='Ⅰ-1' first_title='苗族古歌' last_title='白蛇传传说'
+[slash limit=10 p2] https://www.ihchina.cn/getProject.html/?province=&rx_time=&type=&cate=&keywords=&category_id=16&limit=10&p=2
+    status=200 bytes=46813 0.6s X-Cache=MISS TCP_MISS dirn:-2:-2 Age=None | total=3610 p=2 nrows=10 first_num='Ⅰ-7' first_title='梁祝传说' last_title='孟姜女传说'
+[lowercase no-html full] https://www.ihchina.cn/getProject?limit=100000&p=1
+    status=200 bytes=19309733 12.5s X-Cache=MISS TCP_MISS dirn:-2:-2 Age=None | total=4234 p=1 nrows=4234 first_num='' first_title='京绣' last_title='傣族服饰（花腰傣服饰）'
+    FIELDS: ['status_id', 'status', 'is_top', 'top_start', 'top_end', 'sortrank', 'modified', 'id', 'num', 'auto_id', 'order', 'title', 'title2', 'source', 'type', 'reg_type', 'num_first', 'num_sec', 'cate', 'project_num', 'rx_time', 'address', 'province', 'city', 'area', 'project_level', 'content', 'playtype', 'upvideo', 'img_group', 'video', 'unit', 'protect_unit', 'img_video']
+    SAMPLE: {"status_id": "1", "status": "1", "is_top": "0", "top_start": "0", "top_end": "0", "sortrank": "0", "modified": "1544791767", "id": "15331", "num": "", "auto_id": "", "order": "", "title": "京绣", "title2": "", "source": "", "type": null, "reg_type": "1", "num_first": "0", "num_sec": "0", "cate": null, "project_num": "Ⅰ-FRZX-1", "rx_time": "</br>()", "address": "", "province": "北京市房山区，河北省定兴县", "city": "", "area": "", "project_level": "", "content": "", "playtype": "local", "upvideo": null, "img_group": "", "video": null, "unit": "北京市房山区，河北省定兴县", "protect_unit": "", "img_video": ""}
+    saved E:\develop\myprogram\keshihua\_tools\project_4234.json (4234 rows)
+    NON-EMPTY COVERAGE of 4234:
+      status_id: 4234
+      status: 4234
+      is_top: 4234
+      sortrank: 4234
+      modified: 4234
+      id: 4234
+      title: 4234
+      reg_type: 4234
+      num_first: 4234
+      num_sec: 4234
+      project_num: 4234
+      province: 4234
+      playtype: 4234
+      unit: 4234
+      num: 3851
+      auto_id: 3851
+      type: 3851
+      cate: 3851
+      rx_time: 3851
+      content: 3822
+      protect_unit: 3808
+      address: 3771
+      city: 3544
+      top_start: 3075
+      top_end: 3075
+      area: 2478
+      order: 1156
+      video: 6
+      title2: 4
+[filter &cate=%E6%B0%91%E9%97%] https://www.ihchina.cn/getProject.html/?province=&rx_time=&type=&cate=&keywords=&category_id=16&limit=100000&p=1&cate=%E6%B0%91%E9%97%B4%E6%96%87%E5%AD%A6
+    status=200 bytes=18012638 10.1s X-Cache=MISS TCP_MISS dirn:-2:-2 Age=None | total=3610 p=1 nrows=3610 first_num='Ⅰ-1' first_title='苗族古歌' last_title='傣族服饰（花腰傣服饰）'
+[filter &province=110000] https://www.ihchina.cn/getProject.html/?province=&rx_time=&type=&cate=&keywords=&category_id=16&limit=100000&p=1&province=110000
+    status=200 bytes=596655 0.9s X-Cache=MISS TCP_MISS dirn:-2:-2 Age=None | total=120 p=1 nrows=120 first_num='Ⅰ-32' first_title='八达岭长城传说' last_title='庙会（丫髻山庙会）'
+[filter &rx_time=2006] https://www.ihchina.cn/getProject.html/?province=&rx_time=&type=&cate=&keywords=&category_id=16&limit=100000&p=1&rx_time=2006
+    status=200 bytes=115 0.2s X-Cache=MISS TCP_MISS dirn:-2:-2 Age=None | total=0 p=1 nrows=0
+[filter &keywords=%E6%98%86%E6] https://www.ihchina.cn/getProject.html/?province=&rx_time=&type=&cate=&keywords=&category_id=16&limit=100000&p=1&keywords=%E6%98%86%E6%9B%B2
+    status=200 bytes=46275 0.3s X-Cache=MISS TCP_MISS dirn:-2:-2 Age=None | total=7 p=1 nrows=7 first_num='Ⅱ-44' first_title='十番音乐（遂昌昆曲十番）' last_title='昆曲'

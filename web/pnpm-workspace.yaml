@@ -1,0 +1,5 @@
+# pnpm 11 用它自己生成的 allowBuilds 键来控制哪些依赖可以运行构建脚本。
+# esbuild 必须为 true，否则它不会落地平台二进制、Vite 起不来。
+allowBuilds:
+  esbuild: true
+  vue-demi: true
