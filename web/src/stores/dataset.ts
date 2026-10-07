@@ -38,8 +38,16 @@ interface State {
 
   /** 主视图：地图 / 增长 / 特征 */
   activeView: 'map' | 'growth' | 'features'
-  /** 地图模式：按语区分布 / 按当月活力 */
-  mapMode: 'distribution' | 'vitality'
+  /**
+   * 地图着色依据。
+   *
+   * 注意这里**没有**「有时间 / 没时间」的模式开关：活力层永远在线、永远由
+   * 时间轴驱动大小。早期版本用「分布 / 活力」两个模式互斥切换，导致在分布
+   * 模式下拖时间轴毫无反应 —— 那是设计缺陷，不是 bug，所以直接去掉。
+   */
+  colorBy: 'macroarea' | 'trend'
+  /** 是否叠加活力层（关掉可看纯粹的语区分布） */
+  showVitality: boolean
 
   /** 底部时间轴位置 */
   monthIndex: number
@@ -62,7 +70,8 @@ export const useDataset = defineStore('dataset', {
     onlyReliable: false,
     search: '',
     activeView: 'map',
-    mapMode: 'distribution',
+    colorBy: 'macroarea',
+    showVitality: true,
     monthIndex: 0,
     playing: false,
     selected: null,

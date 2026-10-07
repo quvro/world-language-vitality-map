@@ -5,11 +5,12 @@
  * 它是「全局变量」：切换主视图时不该消失。拖动或播放会改写 store.monthIndex，
  * 所有订阅当前月份的视图随之联动。
  *
- * 与地图的咬合（这次修的重点）：
- *   1. 在「语区分布」模式下时间轴本来看不出效果 —— 现在一拖动就自动切到
- *      「数字活力」，让操作立刻有反馈，并给出提示。
- *   2. 选中某门语言后，时间轴上会画出**它自己的数据覆盖区间** ——
- *      有些维基是 2019 年之后才被统计的，看到区间才不会误读它的曲线。
+ * 与地图的咬合：
+ *   活力层在地图上永远在线、大小由本时间轴驱动，所以拖动**一定**有可见反馈
+ *   （早期版本存在一个没有时间编码的「分布」模式，在那里拖时间轴毫无反应，
+ *   那是设计缺陷，已通过去掉模式划分解决）。
+ *   选中某门语言后，时间轴上会画出**它自己的数据覆盖区间** ——
+ *   有些维基是 2019 年之后才被统计的，看到区间才不会误读它的曲线。
  *
  * 上方折线是全部语言当月浏览量的合计，给时间轴一个「地形」参照。
  */
@@ -80,13 +81,6 @@ const selBand = computed(() => {
   }
 })
 
-const needSwitch = computed(() => store.mapMode === 'distribution')
-
-/** 时间轴只在活力模式下有意义，所以一操作就切过去，让反馈即时可见。 */
-function ensureTimeMode() {
-  if (store.mapMode === 'distribution') store.mapMode = 'vitality'
-}
-
 function stop() {
   if (timer.value != null) { clearInterval(timer.value); timer.value = null }
   store.playing = false
@@ -94,7 +88,6 @@ function stop() {
 
 function play() {
   if (timer.value != null) { stop(); return }
-  ensureTimeMode()
   store.playing = true
   timer.value = window.setInterval(() => {
     if (store.monthIndex >= months.value.length - 1) store.monthIndex = 0
@@ -104,7 +97,6 @@ function play() {
 
 function onInput(ev: Event) {
   stop()
-  ensureTimeMode()
   store.setMonthIndex(Number((ev.target as HTMLInputElement).value))
 }
 
@@ -153,8 +145,7 @@ watch(() => months.value.length, stop)
     </div>
 
     <div class="right">
-      <span v-if="needSwitch" class="tip switch">拖动即切换到「数字活力」</span>
-      <span v-else-if="selBand" class="tip">
+      <span v-if="selBand" class="tip">
         选中：<strong>{{ selBand.name }}</strong> ·
         <span :class="{ warn: selBand.partial }">{{ selBand.months }} 个月数据</span>
       </span>
