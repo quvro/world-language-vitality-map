@@ -32,3 +32,5 @@ Thumbs.db
 *.log
 acl-report-*.jsonl
 acl-backup-*.json
+_tools/commit-msg.txt
+_tools/wals_clone/
