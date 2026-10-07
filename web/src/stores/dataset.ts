@@ -27,6 +27,8 @@ interface State {
   matrix: FeatureMatrix | null
   loading: boolean
   error: string | null
+  /** wals_id -> 在 feature_matrix.language_keys 里的下标，加载后预计算避免每次线性查找 */
+  keyIndex: Record<string, number>
 
   /** 语区筛选；空集表示不过滤 */
   macroAreas: MacroArea[]
@@ -35,6 +37,13 @@ interface State {
   /** 只显示基线可靠（增长率可信）的语言 */
   onlyReliable: boolean
   search: string
+  /**
+   * 按某个语法特征的某个取值筛选（来自「条件对比」里点选的分组）。
+   * 这是把结构特征与活力数据连起来的关键 —— 点一个分组，全站视图跟着过滤。
+   */
+  featureFilter: { featureId: string; value: string } | null
+  /** 当前用于分组对比的特征 */
+  compareFeature: string | null
 
   /** 主视图：地图 / 增长 / 特征 */
   activeView: 'map' | 'growth' | 'features'
@@ -65,10 +74,13 @@ export const useDataset = defineStore('dataset', {
     matrix: null,
     loading: true,
     error: null,
+    keyIndex: {},
     macroAreas: [],
     families: [],
     onlyReliable: false,
     search: '',
+    featureFilter: null,
+    compareFeature: null,
     activeView: 'map',
     colorBy: 'macroarea',
     showVitality: true,
@@ -107,7 +119,13 @@ export const useDataset = defineStore('dataset', {
         .sort((a, b) => b.count - a.count)
     },
 
-    filtered(state): Language[] {
+    /**
+     * 基础筛选结果（**不含**按特征取值的筛选）。
+     *
+     * 「条件对比」必须在这个集合上分组：如果用它算完之后的结果再分组，
+     * 点选一个分组就会让其它分组消失、对比图自己塌掉。
+     */
+    filteredBase(state): Language[] {
       const q = state.search.trim().toLowerCase()
       return state.langs.filter((l) => {
         if (state.macroAreas.length && !state.macroAreas.includes(l.macroarea as MacroArea)) {
@@ -120,6 +138,40 @@ export const useDataset = defineStore('dataset', {
         if (q && !l.name.toLowerCase().includes(q)) return false
         return true
       })
+    },
+
+    /** 全站生效的筛选结果 = 基础筛选 +（可选）特征取值筛选 */
+    filtered(): Language[] {
+      const base = this.filteredBase
+      const ff = this.featureFilter
+      if (!ff || !this.matrix) return base
+      const fi = this.matrix.feature_ids.indexOf(ff.featureId)
+      if (fi < 0) return base
+      const row = this.matrix.values[fi]
+      return base.filter((l) => {
+        const i = this.keyIndex[l.wals_id]
+        return i != null && row[i] === ff.value
+      })
+    },
+
+    /** 某门语言在某个特征上的取值（原始 Value，用于定位 codes 里的 Number） */
+    featureValueOf(state) {
+      return (walsId: string, featureId: string): string | null => {
+        if (!state.matrix) return null
+        const fi = state.matrix.feature_ids.indexOf(featureId)
+        const i = state.keyIndex[walsId]
+        if (fi < 0 || i == null) return null
+        return state.matrix.values[fi][i] ?? null
+      }
+    },
+
+    /** (featureId, Number) -> 取值的中文/英文名称 */
+    codeLabel(state) {
+      const m = new Map<string, string>()
+      for (const c of state.features?.codes ?? []) {
+        m.set(`${c.Parameter_ID}\u0000${c.Number}`, c.Name || c.Description || c.ID)
+      }
+      return m
     },
 
     selectedLanguage(state): Language | null {
@@ -160,6 +212,41 @@ export const useDataset = defineStore('dataset', {
         this.timeseries = timeseries
         this.features = features
         this.matrix = matrix
+        // 预计算下标，避免筛选时对 2,660 条做线性查找
+        const idx: Record<string, number> = {}
+        matrix.language_keys.forEach((k, i) => { idx[k] = i })
+        this.keyIndex = idx
+
+        // 默认对比特征：**自动挑分组差异最大的那个**。
+        // 语序这类"常识型"特征其实差异极小（实测 SVO 15% vs SOV 10%，仅 4 个百分点），
+        // 默认展示它会让整个界面显得没信息；而差异最大的特征可达 80+ 个百分点。
+        const spreadOf = (fid: string): number => {
+          const fi = matrix.feature_ids.indexOf(fid)
+          if (fi < 0) return 0
+          const row = matrix.values[fi]
+          const acc = new Map<string, { t: number; w: number }>()
+          for (const l of langs) {
+            const i = idx[l.wals_id]
+            if (i == null) continue
+            const v = row[i]
+            if (v == null) continue
+            let a = acc.get(v)
+            if (!a) { a = { t: 0, w: 0 }; acc.set(v, a) }
+            a.t++
+            if (l.wiki_code) a.w++
+          }
+          const rates: number[] = []
+          for (const a of acc.values()) if (a.t >= 12) rates.push(a.w / a.t)
+          return rates.length < 2 ? 0 : Math.max(...rates) - Math.min(...rates)
+        }
+        let best: string | null = null
+        let bestSpread = -1
+        for (const fid of matrix.feature_ids) {
+          const s = spreadOf(fid)
+          if (s > bestSpread) { bestSpread = s; best = fid }
+        }
+        this.compareFeature = best ?? features.features[0]?.ID ?? null
+
         // 时间轴默认停在最新月份
         this.monthIndex = Math.max(0, this.months.length - 1)
       } catch (e) {
@@ -186,6 +273,21 @@ export const useDataset = defineStore('dataset', {
       this.families = []
       this.onlyReliable = false
       this.search = ''
+      this.featureFilter = null
+    },
+
+    setCompareFeature(id: string | null) {
+      this.compareFeature = id
+      // 换特征时旧的分组筛选已无意义
+      this.featureFilter = null
+    },
+
+    /** 点选分组：同一个分组再点一次取消 */
+    toggleFeatureFilter(featureId: string, value: string) {
+      const cur = this.featureFilter
+      this.featureFilter = cur && cur.featureId === featureId && cur.value === value
+        ? null
+        : { featureId, value }
     },
 
     setMonthIndex(i: number) {

@@ -13,7 +13,7 @@ import { useDataset } from '@/stores/dataset'
 import FilterPanel from '@/components/FilterPanel.vue'
 import WorldMap from '@/components/WorldMap.vue'
 import GrowthChart from '@/components/GrowthChart.vue'
-import FeatureCoverage from '@/components/FeatureCoverage.vue'
+import FeatureCompare from '@/components/FeatureCompare.vue'
 import LanguageCard from '@/components/LanguageCard.vue'
 import VitalityTimeline from '@/components/VitalityTimeline.vue'
 
@@ -22,7 +22,7 @@ const store = useDataset()
 const VIEWS = [
   { id: 'map', label: '地图' },
   { id: 'growth', label: '活力变化' },
-  { id: 'features', label: '特征' },
+  { id: 'features', label: '条件对比' },
 ] as const
 
 const kpi = computed(() => [
@@ -86,7 +86,7 @@ onMounted(() => store.load())
         <div class="stage">
           <WorldMap v-if="store.activeView === 'map'" />
           <GrowthChart v-else-if="store.activeView === 'growth'" />
-          <FeatureCoverage v-else />
+          <FeatureCompare v-else />
         </div>
       </section>
 
