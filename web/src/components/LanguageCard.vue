@@ -5,11 +5,14 @@
  */
 import { computed } from 'vue'
 import { useDataset } from '@/stores/dataset'
+import { useDisplayNames } from '@/display'
 import { semanticColors } from '@/theme/echarts-theme.js'
 
 const store = useDataset()
+const { family: familyLabel, language: langLabel } = useDisplayNames()
 const C = semanticColors()
 const lang = computed(() => store.selectedLanguage)
+const displayName = computed(() => (lang.value ? langLabel(lang.value) : ''))
 
 const series = computed(() => {
   const l = lang.value
@@ -46,10 +49,11 @@ const facts = computed(() => {
   const l = lang.value
   if (!l) return []
   return [
-    ['语系', l.family || '—'],
+    ['语系', familyLabel(l.family)],
     ['语族', l.subfamily || '—'],
     ['属', l.genus || '—'],
     ['语区', l.macroarea || '—'],
+    ['WALS ID', l.wals_id],
     ['ISO 639-3', l.iso639p3 || '—'],
     ['Glottocode', l.glottocode || '—'],
     ['维基版本', l.wiki_code ? `${l.wiki_code}.wikipedia` : '无'],
@@ -61,7 +65,7 @@ const facts = computed(() => {
   <aside class="card">
     <template v-if="lang">
       <header>
-        <h2>{{ lang.name }}</h2>
+        <h2>{{ displayName }}</h2>
         <button class="x" title="取消选中" @click="store.select(null)">×</button>
       </header>
 

@@ -14,6 +14,13 @@ import type {
 
 const DATA = '/data/processed/'
 
+export interface ZhLabels {
+  by_iso639p3: Record<string, string>
+  by_glottocode: Record<string, string>
+  macroarea: Record<string, string>
+  family: Record<string, string>
+}
+
 async function loadJson<T>(file: string): Promise<T> {
   const res = await fetch(DATA + file)
   if (!res.ok) throw new Error(`${file} 加载失败：HTTP ${res.status}`)
@@ -25,6 +32,8 @@ interface State {
   timeseries: Timeseries | null
   features: Features | null
   matrix: FeatureMatrix | null
+  /** Wikidata 抓来的中文标签；缺失时界面自动回退英文 */
+  zhLabels: ZhLabels | null
   loading: boolean
   error: string | null
   /** wals_id -> 在 feature_matrix.language_keys 里的下标，加载后预计算避免每次线性查找 */
@@ -57,6 +66,17 @@ interface State {
   colorBy: 'macroarea' | 'trend'
   /** 是否叠加活力层（关掉可看纯粹的语区分布） */
   showVitality: boolean
+  /**
+   * 点的大小依据。
+   *
+   * relative —— 相对该语言**自身十年峰值**。默认用这个：实测拖时间轴时
+   *   尺寸中位变化 1.96px、59% 的变化肉眼可辨。
+   * absolute —— 跨语言绝对比较。但德语维基月浏览约 7 亿、多数语言只有几千，
+   *   开方压缩后中位变化仅 0.05px（0.3% 可辨），**等于没有动画**。所以改用当月排名分位。
+   */
+  sizeMode: 'relative' | 'absolute'
+  /** 界面语言 */
+  lang: 'zh' | 'en'
 
   /** 底部时间轴位置 */
   monthIndex: number
@@ -72,6 +92,7 @@ export const useDataset = defineStore('dataset', {
     timeseries: null,
     features: null,
     matrix: null,
+    zhLabels: null,
     loading: true,
     error: null,
     keyIndex: {},
@@ -84,6 +105,8 @@ export const useDataset = defineStore('dataset', {
     activeView: 'map',
     colorBy: 'macroarea',
     showVitality: true,
+    sizeMode: 'relative',
+    lang: 'zh',
     monthIndex: 0,
     playing: false,
     selected: null,
@@ -195,6 +218,40 @@ export const useDataset = defineStore('dataset', {
       const vals = Object.values(this.currentViews)
       return vals.length ? Math.max(...vals) : 1
     },
+
+    /**
+     * 每门语言十年内的月度浏览量峰值。
+     * 「相对自身」尺度需要它：否则单一巨型语种（德语维基月浏览约 7 亿）会把
+     * 其它语言全压到最小尺寸，拖时间轴时中位变化只有 0.05px，等于没有动画。
+     */
+    ownPeak(state): Record<string, number> {
+      const out: Record<string, number> = {}
+      for (const [wid, s] of Object.entries(state.timeseries?.by_language ?? {})) {
+        let mx = 0
+        for (const v of Object.values(s.views)) if (v > mx) mx = v
+        out[wid] = mx || 1
+      }
+      return out
+    },
+
+    /** 当月按浏览量的排名（0 = 第一），「绝对比较」尺度用 */
+    currentRank(): Record<string, number> {
+      const entries = Object.entries(this.currentViews).sort((a, b) => b[1] - a[1])
+      const out: Record<string, number> = {}
+      entries.forEach(([wid], i) => { out[wid] = i })
+      return out
+    },
+
+    /** 当前筛选命中的语言集合 —— 地图用它决定哪些点淡出（而不是消失） */
+    matchedIds(): Set<string> {
+      return new Set(this.filtered.map((l) => l.wals_id))
+    },
+
+    /** 是否有任何筛选生效（含特征分组筛选） */
+    hasFilter(state): boolean {
+      return state.macroAreas.length > 0 || state.families.length > 0 ||
+        state.onlyReliable || !!state.search.trim() || !!state.featureFilter
+    },
   },
 
   actions: {
@@ -212,6 +269,13 @@ export const useDataset = defineStore('dataset', {
         this.timeseries = timeseries
         this.features = features
         this.matrix = matrix
+        // 中文标签是可选的：还没跑 04 脚本时不应该让整个应用报错
+        try {
+          this.zhLabels = await loadJson<ZhLabels>('zh_labels.json')
+        } catch {
+          this.zhLabels = null
+        }
+
         // 预计算下标，避免筛选时对 2,660 条做线性查找
         const idx: Record<string, number> = {}
         matrix.language_keys.forEach((k, i) => { idx[k] = i })

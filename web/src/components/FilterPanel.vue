@@ -2,10 +2,12 @@
 /** 左侧筛选面板。所有筛选都写进 store，由 store 驱动全部视图联动。 */
 import { computed, ref } from 'vue'
 import { useDataset } from '@/stores/dataset'
+import { useDisplayNames } from '@/display'
 import { MACRO_AREAS, type MacroArea } from '@/types'
 import { categoryPalette } from '@/theme/echarts-theme.js'
 
 const store = useDataset()
+const { macro: macroLabel, family: familyLabel } = useDisplayNames()
 const PALETTE = categoryPalette()
 const q = ref('')
 
@@ -35,23 +37,25 @@ const activeCount = computed(() =>
     </label>
 
     <section>
-      <h3>语区</h3>
+      <h3>语区 <span class="tip">点击筛选，可多选</span></h3>
       <div class="chips">
         <button
           v-for="(m, i) in MACRO_AREAS"
           :key="m"
           class="chip"
           :class="{ on: store.macroAreas.includes(m) }"
-          :style="store.macroAreas.includes(m) ? { borderColor: PALETTE[i], color: PALETTE[i] } : {}"
+          :style="store.macroAreas.includes(m) ? { background: PALETTE[i], borderColor: PALETTE[i], color: '#fff' } : {}"
           @click="store.toggleMacroArea(m as MacroArea)"
         >
-          <i :style="{ background: PALETTE[i] }" />{{ m }}
+          <i :style="{ background: store.macroAreas.includes(m) ? '#fff' : PALETTE[i] }" />{{ macroLabel(m) }}
         </button>
       </div>
     </section>
 
     <section class="grow">
-      <h3>语系 <span class="n">{{ store.familyList.length }}</span></h3>
+      <h3>语系 <span class="n">{{ store.familyList.length }}</span>
+        <span class="tip">点击筛选，可多选</span>
+      </h3>
       <input v-model="q" class="mini" type="search" placeholder="过滤语系…">
       <ul class="fams">
         <li v-for="f in families" :key="f.family">
@@ -59,7 +63,7 @@ const activeCount = computed(() =>
             :class="{ on: store.families.includes(f.family) }"
             @click="store.toggleFamily(f.family)"
           >
-            <span class="nm">{{ f.family }}</span>
+            <span class="nm">{{ familyLabel(f.family) }}</span>
             <span class="ct num">{{ f.count }}</span>
           </button>
         </li>
@@ -79,8 +83,16 @@ const activeCount = computed(() =>
     </section>
 
     <div class="tally">
-      命中 <strong class="num">{{ store.filtered.length.toLocaleString('en-US') }}</strong>
-      / {{ store.langs.length.toLocaleString('en-US') }} 条
+      <div class="row">
+        <span>命中</span>
+        <strong class="num">{{ store.filtered.length.toLocaleString('en-US') }}</strong>
+        <span class="of">/ {{ store.langs.length.toLocaleString('en-US') }}</span>
+      </div>
+      <p v-if="store.hasFilter" class="tallynote">
+        地图上未命中的点会<strong>淡出但保留</strong>作为地理参照；
+        其余图表只显示命中的语言。
+      </p>
+      <p v-else class="tallynote">当前没有筛选，显示全部语言。</p>
     </div>
   </aside>
 </template>

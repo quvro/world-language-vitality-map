@@ -2,24 +2,32 @@
 /**
  * 世界语言地图。
  *
- * 结构：两个图层始终存在，各司其职
- *   底图 context  : 全部有坐标的语言，小点。负责回答「语言在哪里」。
- *   活力 vitality : 有维基版本的那一批，大小 = 当月浏览量。负责回答「谁在数字空间活着」。
+ * 两个图层始终共存：
+ *   context  全部有坐标的语言，小点。负责「语言在哪里」。
+ *   vitality 有维基版本的那一批。大小随时间轴变化，负责「谁在数字空间活着」。
  *
- * 为什么是这个结构：早期版本用「分布 / 活力」两个模式互斥切换整套数据集，
- * 结果在分布模式下拖时间轴**完全没有反应**（那个模式里没有任何时间编码），
- * 切到活力模式地图又会空掉一大半。这是设计缺陷而非 bug，所以直接去掉模式划分：
- * 活力层永远在线，时间轴永远有效。着色依据是另一个正交的开关。
+ * 三个坑（都已实测，别再踩）：
  *
- * 大小用 series 级 `symbolSize` 回调（值里带当月浏览量），而不是逐项 symbolSize
- * 属性 —— 回调每次渲染都会重新求值，更新更可靠，也更容易补间。
+ * 1. **大小不能用「当月浏览量 / 当月全局最大」**。
+ *    德语维基月浏览约 7 亿，多数语言只有几千。开方压缩后几乎所有点都被挤在
+ *    最小尺寸附近 —— 实测拖时间轴时尺寸中位变化只有 **0.05px**，0.3% 的变化
+ *    肉眼可辨，看起来就是"点了没反应"。地图其实一直在更新，只是看不见。
+ *    改用「相对该语言自身十年峰值」后中位变化 1.96px、59% 可辨。
+ *
+ * 2. **筛选不能把点从地图上删掉**。多选语区后点一下子变少会让人困惑
+ *    （"选了反而少了"）。所以底图始终绘制全部语言，未命中的淡出作地理参照。
+ *
+ * 3. **快速缩放时点会与地图错位**。geo 漫游动画期间若出现渐进渲染，
+ *    点会短暂画在旧位置。所以要设 scaleLimit 并关掉这两个系列的渐进渲染。
  */
 import { computed, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
 import { useDataset } from '@/stores/dataset'
+import { useDisplayNames } from '@/display'
 import { MACRO_AREAS, type MacroArea } from '@/types'
 import { categoryPalette, semanticColors } from '@/theme/echarts-theme.js'
 
 const store = useDataset()
+const { macro: macroLabel, language: langLabel } = useDisplayNames()
 const host = ref<HTMLDivElement | null>(null)
 const chart = shallowRef<any>(null)
 
@@ -30,7 +38,6 @@ const macroColor = new Map<string, string>(
   MACRO_AREAS.map((m, i) => [m, PALETTE[i]])
 )
 
-/** world.js 是 ECharts 4 格式的注册脚本，必须先用 <script> 注入一次。 */
 let worldReady: Promise<void> | null = null
 function ensureWorld(): Promise<void> {
   if (worldReady) return worldReady
@@ -45,38 +52,90 @@ function ensureWorld(): Promise<void> {
   return worldReady
 }
 
-const trendColor = (g: number | null | undefined, ok?: boolean) =>
-  !ok || g == null ? C.neutral : g >= 0 ? C.positive : C.negative
+const T = {
+  zh: {
+    distTitle: '世界语言分布',
+    distSub: '每个点是一门语言。小点尚无维基百科版本；有维基版本的更大，其大小随底部时间轴变化。未通过筛选的点会淡出但保留，作为地理参照。',
+    vitTitle: '数字活力地图',
+    vitSub: '点的大小表示这门语言当前的活跃程度，颜色表示十年趋势。拖动底部时间轴即可看到此消彼长。',
+    byMacro: '按语区',
+    byTrend: '按趋势',
+    vitalityLayer: '活力层',
+    sizeBy: '大小',
+    sizeRel: '相对自身峰值',
+    sizeAbs: '跨语言比较',
+    month: '当前月份',
+    legendRelative: '点的大小 = 该语言当月浏览量占其十年峰值的比例',
+    legendAbsolute: '点的大小 = 当月浏览量在所有语言中的排名',
+    grown: '十年增长', shrunk: '十年衰退', unreliable: '基线不可信',
+    noWiki: '没有维基百科版本，无时间序列', views: '浏览', trend: '十年趋势',
+    lowBase: '基线过低，趋势不可信',
+  },
+  en: {
+    distTitle: 'World language distribution',
+    distSub: 'Each dot is a language. Small dots have no Wikipedia edition; those that do are larger, sized by the timeline below. Filtered-out dots fade but remain as geographic context.',
+    vitTitle: 'Digital vitality map',
+    vitSub: 'Dot size shows how active a language is right now; colour shows its ten-year trend. Drag the timeline below to watch them shift.',
+    byMacro: 'By area',
+    byTrend: 'By trend',
+    vitalityLayer: 'Vitality',
+    sizeBy: 'Size',
+    sizeRel: 'vs own peak',
+    sizeAbs: 'across languages',
+    month: 'Month',
+    legendRelative: 'Dot size = current month views as a share of that language’s ten-year peak',
+    legendAbsolute: 'Dot size = current month views ranked across all languages',
+    grown: 'Grew', shrunk: 'Declined', unreliable: 'Weak baseline',
+    noWiki: 'No Wikipedia edition, so no time series', views: 'views', trend: '10-year trend',
+    lowBase: 'baseline too low, trend unreliable',
+  },
+} as const
 
-const baseColor = (l: { macroarea: string | null; growth?: number; baseline_ok?: boolean }) =>
-  store.colorBy === 'trend'
-    ? trendColor(l.growth, l.baseline_ok)
-    : (macroColor.get(l.macroarea ?? '') ?? C.neutral)
+const t = computed(() => T[store.lang])
 
-/** 底图：只随筛选/着色依据变化，不随时间变化 —— 拖时间轴时它不抖。 */
-const contextData = computed(() =>
-  store.filtered
+/** 当前月份的可读形式，例如 2017-06 */
+const monthLabel = computed(() => {
+  const m = store.currentMonth
+  return m ? `${m.slice(0, 4)}-${m.slice(4, 6)}` : '—'
+})
+
+/**
+ * 底图：**始终绘制全部语言**，只把未命中筛选的淡出。
+ * 早期版本直接从 filtered 建底图，导致选一个语区后地图上的点骤减，看着像出了错。
+ */
+const contextData = computed(() => {
+  const matched = store.matchedIds
+  const filtering = store.hasFilter
+  return store.langs
     .filter((l) => l.latitude && l.longitude)
     .map((l) => {
+      const hit = !filtering || matched.has(l.wals_id)
       const isSel = store.selected === l.wals_id
-      const dim = store.selected && !isSel
       return {
-        name: l.name, wals_id: l.wals_id,
+        name: l.name, display: langLabel(l), wals_id: l.wals_id,
         value: [l.longitude, l.latitude, isSel ? 1 : 0],
         family: l.family || '—', macroarea: l.macroarea,
         itemStyle: {
-          color: store.colorBy === 'trend'
-            ? (dim ? C.neutral : C.textMuted)
-            : baseColor(l),
-          opacity: dim ? 0.12 : (store.colorBy === 'trend' ? 0.28 : 0.5),
+          color: store.colorBy === 'trend' ? C.textMuted : baseColor(l),
+          opacity: isSel ? 1 : hit ? 0.5 : 0.07,
         },
       }
     })
-)
+})
 
-/** 活力层：按 wals_id 排序，顺序稳定，便于补间。 */
+const trendColor = (g: number | null | undefined, ok?: boolean) =>
+  !ok || g == null ? C.neutral : g >= 0 ? C.positive : C.negative
+
+function baseColor(l: { macroarea: string | null; growth?: number; baseline_ok?: boolean }) {
+  return store.colorBy === 'trend'
+    ? trendColor(l.growth, l.baseline_ok)
+    : (macroColor.get(l.macroarea ?? '') ?? C.neutral)
+}
+
 const vitalityData = computed(() => {
   const views = store.currentViews
+  const rank = store.currentRank
+  const n = Math.max(Object.keys(views).length, 1)
   return store.withVitality
     .filter((l) => l.latitude && l.longitude && views[l.wals_id] != null)
     .slice()
@@ -85,67 +144,91 @@ const vitalityData = computed(() => {
       const v = views[l.wals_id]
       const isSel = store.selected === l.wals_id
       const dim = store.selected && !isSel
+      const peak = store.ownPeak[l.wals_id] || 1
+      // 排名分位（1 = 第一），供「跨语言比较」尺度使用
+      const rankPct = 1 - (rank[l.wals_id] ?? n) / n
       return {
-        name: l.name, wals_id: l.wals_id,
-        // 第三位是当月浏览量，供 symbolSize 回调用
-        value: [l.longitude, l.latitude, v, isSel ? 1 : 0],
+        name: l.name, display: langLabel(l), wals_id: l.wals_id,
+        // 所有 symbolSize 需要的东西都编进 value，避免依赖回调的 params 参数
+        //   [0]经度 [1]纬度 [2]当月浏览量 [3]是否选中 [4]自身十年峰值 [5]排名分位
+        value: [l.longitude, l.latitude, v, isSel ? 1 : 0, peak, rankPct],
         views: v, growth: l.growth, baseline_ok: l.baseline_ok,
         macroarea: l.macroarea,
         itemStyle: {
           color: baseColor(l),
           borderColor: isSel ? C.textPrimary : C.surface,
           borderWidth: isSel ? 2 : 1,
-          opacity: dim ? 0.1 : 0.68,
+          opacity: dim ? 0.1 : 0.72,
         },
       }
     })
 })
 
-const maxViews = computed(() => Math.max(store.currentMax, 1))
-
-function tooltipFormatter(p: any) {
-  const d = p.data
-  if (!d) return ''
-  if (d.views == null) {
-    return `<strong>${d.name}</strong><br>` +
-      `<span style="color:${C.textMuted}">语系</span> ${d.family}<br>` +
-      `<span style="color:${C.textMuted}">语区</span> ${d.macroarea ?? '—'}<br>` +
-      `<em style="color:${C.textMuted}">没有维基百科版本，无时间序列</em>`
+/**
+ * 大小映射。两种尺度都刻意让「相邻月份的差异足够大」：
+ *   relative  相对自身十年峰值 —— 每个点沿自己的轨迹起伏，动画明显
+ *   absolute  当月排名分位 —— 保留跨语言可比性，同时避免被德语维基压平
+ * 只读 val，不依赖 ECharts 是否把 params 传给回调。
+ */
+function sizeOf(val: number[]): number {
+  const isSel = !!val[3]
+  let s: number
+  if (store.sizeMode === 'relative') {
+    const rel = Math.min(Number(val[2] ?? 0) / (Number(val[4]) || 1), 1)
+    s = 4 + Math.sqrt(rel) * 24
+  } else {
+    s = 4 + Math.min(Math.max(Number(val[5] ?? 0), 0), 1) * 26
   }
-  const g = d.growth == null ? '—'
-    : `${d.growth >= 0 ? '+' : ''}${(d.growth * 100).toFixed(1)}%`
-  return `<strong>${d.name}</strong><br>` +
-    `<span style="color:${C.textMuted}">${store.currentMonth} 浏览</span> ` +
-    `${Number(d.views).toLocaleString('en-US')}<br>` +
-    `<span style="color:${C.textMuted}">十年趋势</span> ${g}` +
-    (d.baseline_ok ? '' : '<br><em style="color:${C.textMuted}">基线过低，趋势不可信</em>')
+  return isSel ? s + 5 : s
 }
 
 function buildSeries() {
-  // 大小走回调：ECharts 每次渲染都重新求值，比逐项 symbolSize 属性更新更可靠
-  const vitalitySeries = {
-    id: 'vit', name: '数字活力', type: 'scatter', coordinateSystem: 'geo',
-    data: store.showVitality ? vitalityData.value : [],
-    z: 2,
-    emphasis: { scale: 1.25 },
-    symbolSize: (val: number[]) => {
-      const size = 5 + Math.sqrt(Number(val[2] ?? 0) / maxViews.value) * 34
-      return val[3] ? size + 5 : size
-    },
-  }
-  const contextSeries = {
-    id: 'ctx', name: '全部语言', type: 'scatter', coordinateSystem: 'geo',
+  const ctx = {
+    id: 'ctx', name: 'ctx', type: 'scatter', coordinateSystem: 'geo',
     data: contextData.value,
     z: 1,
     emphasis: { scale: 1.5 },
-    symbolSize: (val: number[]) => (val[2] ? 11 : 3.6),
+    // 关掉渐进渲染：geo 漫游时它会让点短暂画在旧位置（快速缩放"错位"的来源）
+    progressive: 0,
+    symbolSize: (val: number[]) => (val[2] ? 11 : 3.4),
   }
-  return [contextSeries, vitalitySeries]
+  const vit = {
+    id: 'vit', name: 'vit', type: 'scatter', coordinateSystem: 'geo',
+    data: store.showVitality ? vitalityData.value : [],
+    z: 2,
+    emphasis: { scale: 1.2 },
+    progressive: 0,
+    symbolSize: (val: number[]) => sizeOf(val),
+  }
+  return [ctx, vit]
 }
 
 const OPT_BASE = {
-  tooltip: { trigger: 'item', formatter: tooltipFormatter },
-  geo: { map: 'world', roam: true, zoom: 1.15, center: [10, 18] },
+  tooltip: {
+    trigger: 'item',
+    formatter: (p: any) => {
+      const d = p.data
+      if (!d) return ''
+      const nm = d.display ?? d.name
+      if (d.views == null) {
+        return `<strong>${nm}</strong><br>` +
+          `<span style="color:${C.textMuted}">${d.macroarea ?? '—'}</span><br>` +
+          `<em style="color:${C.textMuted}">${t.value.noWiki}</em>`
+      }
+      const g = d.growth == null ? '—'
+        : `${d.growth >= 0 ? '+' : ''}${(d.growth * 100).toFixed(1)}%`
+      return `<strong>${nm}</strong><br>` +
+        `<span style="color:${C.textMuted}">${monthLabel.value} ${t.value.views}</span> ` +
+        `${Number(d.views).toLocaleString('en-US')}<br>` +
+        `<span style="color:${C.textMuted}">${t.value.trend}</span> ${g}` +
+        (d.baseline_ok ? '' : `<br><em style="color:${C.textMuted}">${t.value.lowBase}</em>`)
+    },
+  },
+  // scaleLimit 限制缩放范围，避免缩到极端时点全部挤在一起
+  geo: {
+    map: 'world', roam: true, zoom: 1.15, center: [10, 18],
+    scaleLimit: { min: 0.9, max: 14 },
+  },
 }
 
 function render(full = false) {
@@ -156,8 +239,8 @@ function render(full = false) {
 }
 
 const title = computed(() => store.colorBy === 'trend'
-  ? { t: '数字活力地图', s: `点的大小 = ${store.currentMonth} 的浏览量 · 颜色 = 十年趋势` }
-  : { t: '世界语言分布', s: `小点 = 全部语言（按语区着色）· 大点 = 有维基版本的，大小随 ${store.currentMonth} 的浏览量` }
+  ? { t: t.value.vitTitle, s: t.value.vitSub }
+  : { t: t.value.distTitle, s: t.value.distSub }
 )
 
 onMounted(async () => {
@@ -177,55 +260,72 @@ onBeforeUnmount(() => {
   chart.value?.dispose()
 })
 
-// 结构性变化 → 整幅重绘
-watch(() => [store.colorBy, store.showVitality, store.filtered], () => render(true))
-// 时间轴 / 选中变化 → merge 更新，点的大小平滑补间
-watch(() => [store.monthIndex, store.selected], () => render(false))
+// 用彼此独立的 watcher，避免"数组 getter"带来的比较歧义
+watch(() => store.colorBy, () => render(true))
+watch(() => store.showVitality, () => render(true))
+watch(() => store.filtered, () => render(true))
+watch(() => store.sizeMode, () => render(true))
+watch(() => store.lang, () => render(true))
+watch(() => store.monthIndex, () => render(false))
+watch(() => store.selected, () => render(false))
 </script>
 
 <template>
   <section class="card">
     <header>
-      <div>
+      <div class="tl">
         <h2>{{ title.t }}</h2>
         <p class="hint">{{ title.s }}</p>
       </div>
       <div class="ctrls">
         <div class="seg">
-          <button :class="{ on: store.colorBy === 'macroarea' }" @click="store.colorBy = 'macroarea'">按语区</button>
-          <button :class="{ on: store.colorBy === 'trend' }" @click="store.colorBy = 'trend'">按趋势</button>
+          <button :class="{ on: store.colorBy === 'macroarea' }"
+                  @click="store.colorBy = 'macroarea'">{{ t.byMacro }}</button>
+          <button :class="{ on: store.colorBy === 'trend' }"
+                  @click="store.colorBy = 'trend'">{{ t.byTrend }}</button>
+        </div>
+        <div class="seg">
+          <button :class="{ on: store.sizeMode === 'relative' }"
+                  @click="store.sizeMode = 'relative'">{{ t.sizeRel }}</button>
+          <button :class="{ on: store.sizeMode === 'absolute' }"
+                  @click="store.sizeMode = 'absolute'">{{ t.sizeAbs }}</button>
         </div>
         <label class="chk">
           <input v-model="store.showVitality" type="checkbox">
-          <span>活力层</span>
+          <span>{{ t.vitalityLayer }}</span>
         </label>
       </div>
     </header>
+
+    <div class="monthbar">
+      <span class="lab">{{ t.month }}</span>
+      <strong class="val num">{{ monthLabel }}</strong>
+    </div>
 
     <div ref="host" class="chart" />
 
     <div class="legend">
       <template v-if="store.colorBy === 'macroarea'">
         <span v-for="(m, i) in MACRO_AREAS" :key="m" class="item">
-          <i :style="{ background: PALETTE[i] }" />{{ m }}
+          <i :style="{ background: PALETTE[i] }" />{{ macroLabel(m) }}
         </span>
       </template>
       <template v-else>
-        <span class="item"><i :style="{ background: C.positive }" />十年增长</span>
-        <span class="item"><i :style="{ background: C.negative }" />十年衰退</span>
-        <span class="item"><i :style="{ background: C.neutral }" />基线不可信</span>
+        <span class="item"><i :style="{ background: C.positive }" />{{ t.grown }}</span>
+        <span class="item"><i :style="{ background: C.negative }" />{{ t.shrunk }}</span>
+        <span class="item"><i :style="{ background: C.neutral }" />{{ t.unreliable }}</span>
       </template>
-      <span class="item note"><i class="ring" />点越大 = 当月浏览量越高</span>
+      <span class="item note">
+        <i class="ring" />{{ store.sizeMode === 'relative' ? t.legendRelative : t.legendAbsolute }}
+      </span>
     </div>
   </section>
 </template>
 
 <style scoped>
 .card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
+  background: var(--bg-surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);
   padding: var(--sp-4);
   display: flex; flex-direction: column;
   min-height: 0; height: 100%;
@@ -235,30 +335,39 @@ header {
   gap: var(--sp-3); margin-bottom: var(--sp-2);
 }
 h2 { margin: 0; font-size: var(--fs-h2); font-weight: 600; }
-.hint { margin: 2px 0 0; font-size: var(--fs-small); color: var(--text-muted); }
-.chart { flex: 1; min-height: 400px; }
+.hint { margin: 2px 0 0; font-size: var(--fs-small); color: var(--text-muted); line-height: 1.5; }
 
-.ctrls { display: flex; align-items: center; gap: var(--sp-3); flex: none; }
+.ctrls { display: flex; align-items: center; gap: var(--sp-2); flex: none; flex-wrap: wrap; justify-content: flex-end; }
 .seg { display: flex; border: 1px solid var(--border); border-radius: var(--radius-pill); overflow: hidden; }
 .seg button {
   border: 0; background: transparent; cursor: pointer;
-  padding: 4px 13px; font-size: var(--fs-small); color: var(--text-secondary);
+  padding: 4px 11px; font-size: var(--fs-micro); color: var(--text-secondary);
   font-family: inherit; white-space: nowrap;
   transition: background var(--dur-fast) var(--ease-out);
 }
 .seg button:hover { background: var(--bg-subtle); }
 .seg button.on { background: var(--accent); color: var(--text-inverse); }
-.chk { display: flex; align-items: center; gap: 5px; font-size: var(--fs-small); color: var(--text-secondary); cursor: pointer; }
+.chk { display: flex; align-items: center; gap: 4px; font-size: var(--fs-micro); color: var(--text-secondary); cursor: pointer; }
 .chk input { accent-color: var(--accent); }
 
+/* 当前月份单独一行，不塞进说明句里（那样读起来很别扭） */
+.monthbar {
+  display: flex; align-items: baseline; gap: var(--sp-2);
+  padding: 4px 0 var(--sp-2);
+}
+.monthbar .lab { font-size: var(--fs-micro); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.monthbar .val { font-size: 0.95rem; color: var(--accent); }
+
+.chart { flex: 1; min-height: 380px; }
+
 .legend {
-  display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-4);
+  display: flex; flex-wrap: wrap; gap: var(--sp-1) var(--sp-3);
   padding-top: var(--sp-2); margin-top: var(--sp-1);
   border-top: 1px solid var(--border);
   font-size: var(--fs-micro); color: var(--text-secondary);
 }
 .legend .item { display: inline-flex; align-items: center; gap: 5px; }
 .legend i { width: 8px; height: 8px; border-radius: 50%; flex: none; }
-.legend .note { color: var(--text-muted); margin-left: auto; }
+.legend .note { color: var(--text-muted); }
 .legend .ring { background: transparent; border: 1.5px solid var(--text-muted); }
 </style>

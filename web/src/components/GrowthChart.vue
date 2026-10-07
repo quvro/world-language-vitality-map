@@ -2,9 +2,11 @@
 /** 十年活力变化：跌幅榜与涨幅榜并置，正面回答"谁在退、谁在进"。 */
 import { computed, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
 import { useDataset } from '@/stores/dataset'
+import { useDisplayNames } from '@/display'
 import { semanticColors } from '@/theme/echarts-theme.js'
 
 const store = useDataset()
+const { language: langLabel } = useDisplayNames()
 const host = ref<HTMLDivElement | null>(null)
 const chart = shallowRef<any>(null)
 const C = semanticColors()
@@ -33,7 +35,11 @@ function render() {
         `${p.value >= 0 ? '+' : ''}${p.value}%</span>`,
     },
     xAxis: { type: 'value', axisLabel: { formatter: '{value}%' } },
-    yAxis: { type: 'category', data: picked.map((d) => d.name), axisLabel: { fontSize: 11 } },
+    yAxis: {
+      type: 'category',
+      data: picked.map((d) => langLabel(d)),
+      axisLabel: { fontSize: 11 },
+    },
     series: [{
       type: 'bar',
       barWidth: '60%',

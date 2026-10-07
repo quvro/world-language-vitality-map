@@ -74,6 +74,8 @@ $py = 'C:\Users\sunyn\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\python\
 & $py pipeline\01_fetch_sources.py      # WALS 六表 + ISO 映射（约 1 分钟）
 & $py pipeline\02_fetch_wikimedia.py    # 时间序列（约 10~20 分钟，可中断续抓）
 & $py pipeline\03_build_dataset.py      # 构建 SQLite 与前端 JSON（约 30 秒）
+& $py pipeline\04_fetch_zh_labels.py    # 中文标签（3 次 WDQS 查询，约 4 分钟）
+& $py pipeline\check_dataset.py         # 完整性自检
 ```
 
 常用参数：
@@ -81,10 +83,11 @@ $py = 'C:\Users\sunyn\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\python\
 | 参数 | 作用 |
 |---|---|
 | `--force` | 忽略已有文件，重新抓取 |
-| `--only-joined` | 只抓能关联到 WALS 的 247 个语言版本 |
-| `--limit=N` | 只抓前 N 个（调试用） |
+| `--only-joined` | 只抓能关联到 WALS 的 247 个语言版本（02） |
+| `--limit=N` | 只抓前 N 个（调试用，02） |
 
-三个脚本都是**幂等**的：重复运行会跳过已完成的文件 / 已抓取的语言。
+四个脚本都是**幂等**的：重复运行会跳过已完成的文件 / 已抓取的语言。
+`04` 会把中文标签同时写到 `data/raw/xref/`（缓存）与 `data/processed/`（前端读取）。
 
 ---
 
@@ -138,16 +141,21 @@ web/
 - **时间轴与 mini 折线是手写的**，不用组件库 —— 签名交互要看起来原创。
 - **颜色一律从 `tokens.css` 读**，图表不写死 hex，换肤只改一处。
 
-### 怎么验证「拖时间轴地图真的有反应」
+### 全是可在本机跑的验证脚本
 
-本机没有无头浏览器，但 ECharts 5.6 支持无 DOM 的 SSR 渲染，所以这件事是可测的：
+本机没有无头浏览器，但这些都能在 Node 里跑（ECharts 5.6 支持无 DOM 的 SSR 渲染）：
 
 ```powershell
-& $node web\preview\verify-timeline-render.mjs
+$node = 'C:\Users\sunyn\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\node\bin\node.exe'
+& $node web\preview\verify-timeline-render.mjs   # 时间轴是否改变地图渲染（7/7 输出不同）
+& $node web\preview\verify-size-scale.mjs        # 点大小尺度：相邻月份变化是否够大
+& $node web\preview\verify-compare-signal.mjs    # 条件对比是否有信号
+& $node web\preview\verify-zh-names.mjs          # 中文名覆盖率
+& $node web\preview\verify-data.mjs              # 前端数据处理的假设是否成立
 ```
 
-它会在 Node 里对 7 个时间点各渲染一次 SVG 并比对 hash。当前结果：**7/7 输出互不相同**，
-SVG 体积随月份单调增长，绘制符号数 2,845 → 2,890（差值 45 = 当月有数据的语言 195 → 240）。
+诊断脚本（排查用）：`diagnose-months.mjs`（时间轴月份是否完整）、
+`diagnose-scale.mjs`（尺寸尺度对比）、`repro-merge-bug.mjs`（ECharts merge 更新是否生效）。
 
 ### 两个签名交互
 
@@ -183,6 +191,18 @@ Gap       125 门   数字在场率 30%
 3. **pnpm 11 的构建白名单键是 `allowBuilds`（在 `pnpm-workspace.yaml`），**
    不是 package.json 里的 `pnpm.onlyBuiltDependencies`（那个已失效）。
    不放开 `esbuild` 就不会落地平台二进制，Vite 起不来。
+4. **点的大小用「当月浏览量 / 当月全局最大」是错的 —— 会看起来像"点了没反应"。**
+   德语维基月浏览约 7 亿，多数语言只有几千。开方压缩后几乎所有点都被挤在最小尺寸附近：
+   实测拖时间轴时尺寸**中位变化仅 0.05 px**，只有 **0.3%** 的变化肉眼可辨。
+   地图其实一直在更新，但变化量是人眼分辨率的二十分之一。
+   改成**相对该语言自身十年峰值**后中位变化 1.96 px、**59.7%** 可辨。
+   教训：**尺度选错会让正确的交互看起来完全失效**，而且这种问题"代码能编译、SSR 也能渲染出不同结果"，
+   只有量化「相邻状态之间的差异是否达到感知阈值」才能发现。
+5. **两个并发注意点**：`symbolSize` 回调不要把关键数据放在 `params` 参数里
+   （不确定 ECharts 是否传），应当编进 `value` 数组；`symbolSize` 用 series 级回调、
+   更新用 merge 而非 `notMerge`，否则补间动画会丢。
+6. **TS 对象里含连字符的键必须加引号**：`Chukotko-Kamchatkan: ...` 会让 esbuild 在
+   `-` 处报 `Expected "}" but found "-"`。这类语系名有一堆，留意。
 
 ---
 

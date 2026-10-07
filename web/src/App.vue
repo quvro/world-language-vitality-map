@@ -19,17 +19,50 @@ import VitalityTimeline from '@/components/VitalityTimeline.vue'
 
 const store = useDataset()
 
-const VIEWS = [
-  { id: 'map', label: '地图' },
-  { id: 'growth', label: '活力变化' },
-  { id: 'features', label: '条件对比' },
-] as const
+const T = {
+  zh: {
+    title: '正在消失的声音',
+    subtitle: '数字时代的语言生存图谱',
+    explore: '探索模式', story: '故事模式',
+    vMap: '地图', vGrowth: '活力变化', vCompare: '条件对比',
+    kLang: '语言 / 变体', kCoord: '有坐标', kWiki: '有维基版本',
+    loading: '正在加载数据集…',
+    errTitle: '数据加载失败', errHint: '请确认数据管道已运行：',
+    nlPlaceholder: '用一句话提问，例如「语序是 SOV 且浏览量在增长的语言」',
+    nlTag: 'P5 接入大模型', storyTag: 'P7 阶段实现',
+    toggleLang: 'EN',
+  },
+  en: {
+    title: 'Vanishing Voices',
+    subtitle: 'A survival atlas of languages in the digital age',
+    explore: 'Explore', story: 'Story',
+    vMap: 'Map', vGrowth: 'Vitality', vCompare: 'Comparison',
+    kLang: 'languages', kCoord: 'mapped', kWiki: 'with Wikipedia',
+    loading: 'Loading dataset…',
+    errTitle: 'Failed to load data', errHint: 'Run the data pipeline first:',
+    nlPlaceholder: 'Ask in one sentence, e.g. “SOV languages whose traffic is growing”',
+    nlTag: 'LLM in P5', storyTag: 'planned for P7',
+    toggleLang: '中文',
+  },
+} as const
+
+const t = computed(() => T[store.lang])
+
+const VIEWS = computed(() => [
+  { id: 'map', label: t.value.vMap },
+  { id: 'growth', label: t.value.vGrowth },
+  { id: 'features', label: t.value.vCompare },
+] as const)
 
 const kpi = computed(() => [
-  { v: store.langs.length, l: '语言 / 变体' },
-  { v: store.langs.filter((x) => x.latitude).length, l: '有坐标' },
-  { v: store.withVitality.length, l: '有维基版本' },
+  { v: store.langs.length, l: t.value.kLang },
+  { v: store.langs.filter((x) => x.latitude).length, l: t.value.kCoord },
+  { v: store.withVitality.length, l: t.value.kWiki },
 ])
+
+function toggleLang() {
+  store.lang = store.lang === 'zh' ? 'en' : 'zh'
+}
 
 onMounted(() => store.load())
 </script>
@@ -40,8 +73,8 @@ onMounted(() => store.load())
       <div class="brand">
         <span class="bar" />
         <div>
-          <h1>正在消失的声音</h1>
-          <p>数字时代的语言生存图谱</p>
+          <h1>{{ t.title }}</h1>
+          <p>{{ t.subtitle }}</p>
         </div>
       </div>
 
@@ -53,21 +86,22 @@ onMounted(() => store.load())
       </div>
 
       <div class="modes">
-        <button class="mode on">探索模式</button>
-        <button class="mode" disabled title="P7 阶段实现">故事模式</button>
+        <button class="mode on">{{ t.explore }}</button>
+        <button class="mode" disabled :title="t.storyTag">{{ t.story }}</button>
+        <button class="lang" :title="t.toggleLang" @click="toggleLang">{{ t.toggleLang }}</button>
       </div>
     </header>
 
     <main v-if="store.loading" class="state">
       <div class="spinner" />
-      <p>正在加载数据集…</p>
+      <p>{{ t.loading }}</p>
     </main>
 
     <main v-else-if="store.error" class="state err">
-      <p><strong>数据加载失败</strong></p>
+      <p><strong>{{ t.errTitle }}</strong></p>
       <p class="sub">{{ store.error }}</p>
       <p class="sub">
-        请确认数据管道已运行：<code>python pipeline/03_build_dataset.py</code>
+        {{ t.errHint }}<code>python pipeline/03_build_dataset.py</code>
       </p>
     </main>
 
@@ -97,12 +131,8 @@ onMounted(() => store.load())
 
     <div class="nl" :class="{ off: true }">
       <span class="ico">💬</span>
-      <input
-        type="text"
-        disabled
-        placeholder="用一句话提问，例如「语序是 SOV 且浏览量在增长的语言」"
-      >
-      <span class="tag">P5 接入大模型</span>
+      <input type="text" disabled :placeholder="t.nlPlaceholder">
+      <span class="tag">{{ t.nlTag }}</span>
     </div>
   </div>
 </template>
@@ -134,6 +164,17 @@ h1 { margin: 0; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
 }
 .mode.on { background: var(--accent); color: var(--text-inverse); }
 .mode:disabled { color: var(--text-muted); cursor: not-allowed; }
+
+/* 中英切换：做成一个明确的文字按钮，而不是图标（不需要猜） */
+.lang {
+  margin-left: var(--sp-2);
+  border: 1px solid var(--border-strong); background: var(--bg-surface);
+  color: var(--text-primary); cursor: pointer;
+  padding: 5px 12px; border-radius: var(--radius-pill);
+  font-family: inherit; font-size: var(--fs-small); font-weight: 500;
+  transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+.lang:hover { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
 
 /* ---------------------------------------------------------------- 主体 */
 .body {
