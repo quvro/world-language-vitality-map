@@ -14,6 +14,7 @@ import FilterPanel from '@/components/FilterPanel.vue'
 import WorldMap from '@/components/WorldMap.vue'
 import GrowthChart from '@/components/GrowthChart.vue'
 import FeatureCompare from '@/components/FeatureCompare.vue'
+import FeatureMatrix from '@/components/FeatureMatrix.vue'
 import LanguageCard from '@/components/LanguageCard.vue'
 import VitalityTimeline from '@/components/VitalityTimeline.vue'
 import NlQuery from '@/components/NlQuery.vue'
@@ -25,7 +26,7 @@ const T = {
     title: '世界语言赛博活力图谱',
     subtitle: '数字时代的语言生存图谱',
     explore: '探索模式', story: '故事模式',
-    vMap: '地图', vGrowth: '活力变化', vCompare: '条件对比',
+    vMap: '地图', vGrowth: '活力变化', vCompare: '条件对比', vMatrix: '记录缺口',
     kLang: '语言 / 变体', kCoord: '有坐标', kWiki: '有维基版本',
     loading: '正在加载数据集…',
     errTitle: '数据加载失败', errHint: '请确认数据管道已运行：',
@@ -38,7 +39,7 @@ const T = {
     title: 'Cyber-Vitality Atlas of World Languages',
     subtitle: 'How languages survive in the digital age',
     explore: 'Explore', story: 'Story',
-    vMap: 'Map', vGrowth: 'Vitality', vCompare: 'Comparison',
+    vMap: 'Map', vGrowth: 'Vitality', vCompare: 'Comparison', vMatrix: 'Doc gaps',
     kLang: 'languages', kCoord: 'mapped', kWiki: 'with Wikipedia',
     loading: 'Loading dataset…',
     errTitle: 'Failed to load data', errHint: 'Run the data pipeline first:',
@@ -55,6 +56,7 @@ const VIEWS = computed(() => [
   { id: 'map', label: t.value.vMap },
   { id: 'growth', label: t.value.vGrowth },
   { id: 'features', label: t.value.vCompare },
+  { id: 'matrix', label: t.value.vMatrix },
 ] as const)
 
 const kpi = computed(() => [
@@ -126,6 +128,7 @@ onMounted(() => store.load())
         <div class="stage">
           <WorldMap v-if="store.activeView === 'map'" />
           <GrowthChart v-else-if="store.activeView === 'growth'" />
+          <FeatureMatrix v-else-if="store.activeView === 'matrix'" />
           <FeatureCompare v-else />
         </div>
       </section>

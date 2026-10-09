@@ -85,6 +85,25 @@ def main() -> None:
     dim_language["longitude"] = pd.to_numeric(dim_language["longitude"], errors="coerce")
     dim_language["glottocode"] = dim_language["glottocode"].replace("", None)
 
+    # WALS 的 languages.csv 里**混有语系 / 语族 / 语支的层级占位行**
+    # （ID 形如 family-abun、genus-berber、subfamily-chadic），它们不是语言。
+    # 实测 3,573 行里只有 2,662 行是真语言。不区分的话后果很实际：
+    #   · 顶栏「语言数」虚高约 900
+    #   · 这些行的 Family 为空，于是语系筛选里多出一个巨大的「未分类」桶
+    #   · 搜 "Chadic" 会搜出语系占位行
+    # 所以 dim_language 保留全部原始行并标 kind，导出给前端时再剔除。
+    def _kind(wid: str) -> str:
+        for p in ("family-", "subfamily-", "genus-"):
+            if wid.startswith(p):
+                return p.rstrip("-")
+        return "language"
+
+    dim_language["kind"] = dim_language["wals_id"].map(_kind)
+    kinds = Counter(dim_language["kind"])
+    log("  行类型        = " + "  ".join(f"{k}={human(v)}" for k, v in kinds.most_common()))
+    log(f"    -> 真语言 {human(kinds['language'])} 行；"
+        f"另 {human(len(dim_language) - kinds['language'])} 行是层级占位，导出时剔除")
+
     has_coords = int(dim_language[["latitude", "longitude"]].notna().all(axis=1).sum())
     log(f"  wals_id 唯一  = {dim_language['wals_id'].is_unique}")
     log(f"  有经纬度      = {human(has_coords)} / {human(len(dim_language))}")
@@ -191,7 +210,11 @@ def main() -> None:
     banner("7. 导出前端 JSON")
     # records() turns NaN into None: pandas NaN would be written as bare `NaN`,
     # which JSON.parse rejects, blanking the whole page.
-    langs = records(dim_language)
+    # 只在导出这一层剔除语系/语族占位行；SQLite 的 dim_language 保留全部原始行。
+    real = dim_language[dim_language["kind"] == "language"]
+    langs = records(real)
+    log(f"  剔除层级占位行 {human(len(dim_language) - len(real))} 条，"
+        f"保留真语言 {human(len(langs))} 条")
     wiki_of = {m["wals_id"]: c for c, m in join.items()
                if m.get("joined") and m.get("wals_id")}
     for rec in langs:
@@ -266,6 +289,11 @@ def main() -> None:
         f"- WALS languages: {human(len(languages))} 行",
         f"- dim_language: {human(len(dim_language))} 行（主键 wals_id），"
         f"有经纬度 {human(has_coords)}",
+        f"- 其中**真语言** {human(int(kinds['language']))} 行；"
+        f"另 {human(len(dim_language) - int(kinds['language']))} 行是语系/语族/语支层级占位"
+        f"（family {human(kinds.get('family', 0))}、genus {human(kinds.get('genus', 0))}、"
+        f"subfamily {human(kinds.get('subfamily', 0))}），"
+        f"导出给前端的 languages.json 已剔除",
         f"- fact_language_feature: {human(len(feat))} 行，"
         f"覆盖语言 {human(feat['wals_id'].nunique())}，"
         f"覆盖特征 {human(feat['feature_id'].nunique())}",

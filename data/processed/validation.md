@@ -5,6 +5,7 @@
 - WALS values: 76,475 行
 - WALS languages: 3,573 行
 - dim_language: 3,573 行（主键 wals_id），有经纬度 2,662
+- 其中**真语言** 2,662 行；另 911 行是语系/语族/语支层级占位（family 254、genus 625、subfamily 32），导出给前端的 languages.json 已剔除
 - fact_language_feature: 76,475 行，覆盖语言 2,660，覆盖特征 192
 - feature_vector: 2,660 × 192，填充率 15.0%
 - 时间序列: 61,879 行
