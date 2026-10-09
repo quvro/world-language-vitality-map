@@ -67,6 +67,8 @@ interface State {
   colorBy: 'macroarea' | 'trend'
   /** 是否叠加活力层（关掉可看纯粹的语区分布） */
   showVitality: boolean
+  /** 只看选中的语言 —— 选中后其余点全部隐藏，便于在一堆点里找到它 */
+  hideUnselected: boolean
   /**
    * 点的大小依据。
    *
@@ -106,6 +108,7 @@ export const useDataset = defineStore('dataset', {
     activeView: 'map',
     colorBy: 'macroarea',
     showVitality: true,
+    hideUnselected: false,
     sizeMode: 'relative',
     lang: 'zh',
     monthIndex: 0,

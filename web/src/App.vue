@@ -8,7 +8,7 @@
  *   底部时间轴（常驻）
  *   底部 NL 输入（常驻）
  */
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useDataset } from '@/stores/dataset'
 import FilterPanel from '@/components/FilterPanel.vue'
 import WorldMap from '@/components/WorldMap.vue'
@@ -31,6 +31,7 @@ const T = {
     nlPlaceholder: '用一句话提问，例如「语序是 SOV 且浏览量在增长的语言」',
     nlTag: 'P5 接入大模型', storyTag: 'P7 阶段实现',
     toggleLang: 'EN',
+    collapse: '收起详情面板', expand: '展开详情面板',
   },
   en: {
     title: 'Cyber-Vitality Atlas of World Languages',
@@ -43,6 +44,7 @@ const T = {
     nlPlaceholder: 'Ask in one sentence, e.g. “SOV languages whose traffic is growing”',
     nlTag: 'LLM in P5', storyTag: 'planned for P7',
     toggleLang: '中文',
+    collapse: 'Collapse detail panel', expand: 'Expand detail panel',
   },
 } as const
 
@@ -63,6 +65,9 @@ const kpi = computed(() => [
 function toggleLang() {
   store.lang = store.lang === 'zh' ? 'en' : 'zh'
 }
+
+/** 右栏可折叠：小屏幕或只想看地图时把它收起来，箭头是唯一的交互控件 */
+const rightOpen = ref(true)
 
 onMounted(() => store.load())
 </script>
@@ -105,7 +110,7 @@ onMounted(() => store.load())
       </p>
     </main>
 
-    <main v-else class="body">
+    <main v-else class="body" :class="{ 'right-collapsed': !rightOpen }">
       <FilterPanel class="col-left" />
 
       <section class="col-center">
@@ -124,7 +129,17 @@ onMounted(() => store.load())
         </div>
       </section>
 
-      <LanguageCard class="col-right" />
+      <div class="col-right">
+        <button
+          class="handle"
+          :title="rightOpen ? t.collapse : t.expand"
+          :aria-expanded="rightOpen"
+          @click="rightOpen = !rightOpen"
+        >
+          <span class="arrow" :class="{ flipped: !rightOpen }">›</span>
+        </button>
+        <LanguageCard v-show="rightOpen" class="card-slot" />
+      </div>
     </main>
 
     <VitalityTimeline v-if="!store.loading && !store.error" />
@@ -187,6 +202,29 @@ h1 { margin: 0; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
 }
 .col-left, .col-right { min-height: 0; }
 .col-center { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; min-height: 0; }
+
+/* 右栏：一个窄把手 + 卡片。折叠时列宽收到把手宽度，动画让变化可感知 */
+.col-right {
+  display: flex; align-items: stretch; gap: var(--sp-2);
+  min-width: 0; min-height: 0;
+}
+.handle {
+  flex: none; width: 18px; padding: 0; cursor: pointer;
+  border: 1px solid var(--border); border-radius: var(--radius-md);
+  background: var(--bg-surface); color: var(--text-muted);
+  display: grid; place-items: center;
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.handle:hover { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
+.handle .arrow {
+  font-size: 15px; line-height: 1;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.handle .arrow.flipped { transform: rotate(180deg); }
+.card-slot { flex: 1; min-width: 0; min-height: 0; }
+
+/* 折叠后只留把手那一条 */
+.body.right-collapsed { grid-template-columns: 310px minmax(0, 1fr) 24px; }
 
 .tabs { display: flex; gap: var(--sp-1); }
 .tabs button {

@@ -26,18 +26,20 @@ const timer = ref<number | null>(null)
 
 const T = {
   zh: {
-    hits: '命中', clear: '清空筛选',
+    clear: '清空筛选',
     dragHint: '拖动或播放，地图上的点随之长缩',
     selected: '选中', months: '个月数据',
     timeline: '时间轴', monthUnit: '个月',
-    play: '播放十年变化', pause: '暂停', pickMonth: '选择月份',
+    sparkHint: '折线 = 当前筛选范围内各语言浏览量的合计',
+    play: '播放十年变化', pause: '暂停',
   },
   en: {
-    hits: 'Matching', clear: 'Clear filters',
+    clear: 'Clear filters',
     dragHint: 'Drag or play; the dots on the map grow and shrink',
     selected: 'Selected', months: 'months of data',
     timeline: 'Timeline', monthUnit: 'months',
-    play: 'Play the decade', pause: 'Pause', pickMonth: 'Select month',
+    sparkHint: 'Line = total views of languages in the current filter',
+    play: 'Play the decade', pause: 'Pause',
   },
 } as const
 const t = computed(() => T[store.lang])
@@ -45,12 +47,20 @@ const t = computed(() => T[store.lang])
 const months = computed(() => store.months)
 const idx = computed(() => store.monthIndex)
 
+/**
+ * 折线：当前**筛选范围内**各语言浏览量的逐月合计。
+ *
+ * 早期版本统计的是全部语言，而德语维基月浏览约 7 亿、占绝对主导，
+ * 所以那条线的形状基本就是德语维基的形状，跟你在看什么完全无关。
+ * 现在按筛选走，它才真正是"你当前关注的这批语言的总趋势"。
+ */
 const totals = computed(() => {
   const ts = store.timeseries?.by_language
   if (!ts) return [] as number[]
+  const ids = store.filtered.map((l) => l.wals_id)
   return months.value.map((m) => {
     let sum = 0
-    for (const s of Object.values(ts)) sum += s.views[m] ?? 0
+    for (const id of ids) sum += ts[id]?.views[m] ?? 0
     return sum
   })
 })
@@ -129,19 +139,21 @@ watch(() => months.value.length, stop)
     <div class="left">
       <button
         class="play" :disabled="!months.length"
-        :title="store.playing ? '暂停' : '播放十年变化'"
+        :title="store.playing ? t.pause : t.play"
         @click="play"
       >
         <span v-if="!store.playing">▶</span><span v-else>❚❚</span>
       </button>
       <div class="stamp">
         <div class="m num">{{ label }}</div>
-        <div class="k">{{ t.timeline }} · {{ months.length }} {{ t.monthUnit }}</div>
+        <div class="k">{{ t.sparkHint }}</div>
       </div>
     </div>
 
     <div class="track">
-      <svg class="spark" viewBox="0 0 1000 34" preserveAspectRatio="none" aria-hidden="true">
+      <svg class="spark" viewBox="0 0 1000 34" preserveAspectRatio="none"
+           role="img" :aria-label="t.sparkHint">
+        <title>{{ t.sparkHint }}</title>
         <path :d="spark.area" :fill="C.accent" opacity="0.10" />
         <path :d="spark.line" :stroke="C.accent" :stroke-width="1.6" fill="none" opacity="0.55" />
       </svg>
@@ -165,14 +177,6 @@ watch(() => months.value.length, stop)
     </div>
 
     <div class="right">
-      <div class="tally">
-        <span class="k">{{ t.hits }}</span>
-        <strong class="num">{{ store.filtered.length.toLocaleString('en-US') }}</strong>
-        <span class="of num">/ {{ store.langs.length.toLocaleString('en-US') }}</span>
-        <button v-if="store.hasFilter" class="clr" @click="store.clearFilters()">
-          {{ t.clear }}
-        </button>
-      </div>
       <span v-if="selBand" class="tip">
         {{ t.selected }}：<strong>{{ selBand.name }}</strong> ·
         <span :class="{ warn: selBand.partial }">{{ selBand.months }} {{ t.months }}</span>
@@ -205,8 +209,14 @@ watch(() => months.value.length, stop)
 .play:hover:not(:disabled) { background: var(--accent-soft); transform: scale(1.06); }
 .play:disabled { cursor: not-allowed; color: var(--text-muted); }
 
+.stamp { min-width: 0; }
 .stamp .m { font-size: 1rem; font-weight: 600; letter-spacing: -0.01em; }
-.stamp .k { font-size: var(--fs-micro); color: var(--text-muted); }
+/* 折线含义写在这里；两行截断避免把时间轴挤变形 */
+.stamp .k {
+  font-size: var(--fs-micro); color: var(--text-muted); line-height: 1.35;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 
 .track { position: relative; height: 44px; }
 .spark { position: absolute; inset: 5px 0; width: 100%; height: 34px; }
@@ -240,15 +250,6 @@ watch(() => months.value.length, stop)
 .range::-moz-range-thumb { width: 14px; height: 44px; border: 0; background: transparent; }
 
 .right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 1px; }
-.tally { display: flex; align-items: baseline; gap: 4px; }
-.tally .k { font-size: var(--fs-micro); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
-.tally strong { font-size: 0.95rem; color: var(--accent); }
-.tally .of { font-size: var(--fs-micro); color: var(--text-muted); }
-.tally .clr {
-  margin-left: 4px; border: 0; background: transparent; cursor: pointer;
-  color: var(--accent); font-family: inherit; font-size: var(--fs-micro);
-  text-decoration: underline;
-}
 .tip { font-size: var(--fs-micro); color: var(--text-muted); }
 .tip .warn { color: var(--negative); }
 .tip strong { color: var(--text-primary); }

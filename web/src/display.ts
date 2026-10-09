@@ -62,20 +62,25 @@ export const FAMILY_ZH: Record<string, string> = {
 export function useDisplayNames() {
   const store = useDataset()
 
-  const zh = store.lang === 'zh'
+  // ⚠️ 必须每次调用都读，不能在外层求值一次。
+  // 早期写成 `const zh = store.lang === 'zh'`，后果有两个：
+  //   1. 切换中英后仍按旧语言解析 —— 不同组件表现不一致
+  //   2. 在 computed 里调用不会建立对 store.lang 的响应式依赖，永不重算
+  // 这正是「地图悬停的名称与别处不一致」的根因。
+  const zh = () => store.lang === 'zh'
 
   const macro = (m: string | null | undefined): string => {
     if (!m) return '—'
-    return zh ? (MACRO_ZH[m] ?? m) : m
+    return zh() ? (MACRO_ZH[m] ?? m) : m
   }
 
   const family = (f: string | null | undefined): string => {
     const key = f || '(未分类)'
-    return zh ? (FAMILY_ZH[key] ?? FAMILY_ZH[f ?? ''] ?? key) : key
+    return zh() ? (FAMILY_ZH[key] ?? FAMILY_ZH[f ?? ''] ?? key) : key
   }
 
   const language = (l: Pick<Language, 'name' | 'iso639p3' | 'glottocode'>): string => {
-    if (!zh) return l.name
+    if (!zh()) return l.name
     const dict = store.zhLabels
     if (!dict) return l.name
     const byIso = l.iso639p3 ? dict.by_iso639p3[l.iso639p3.toLowerCase()] : undefined
@@ -85,10 +90,10 @@ export function useDisplayNames() {
 
   /** 语法特征的中文名；没有译名时回退英文（WALS 无官方中文版） */
   const feature = (id: string, fallback: string): string =>
-    zh ? (FEATURE_ZH[id] ?? fallback) : fallback
+    zh() ? (FEATURE_ZH[id] ?? fallback) : fallback
 
   /** 特征取值的中文名；只翻译了有把握的那些，其余回退英文 */
-  const code = (label: string): string => (zh ? (CODE_ZH[label] ?? label) : label)
+  const code = (label: string): string => (zh() ? (CODE_ZH[label] ?? label) : label)
 
   /**
    * 语言的可搜索文本。

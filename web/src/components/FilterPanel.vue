@@ -25,12 +25,18 @@ const T = {
     multi: '可多选', search: '搜索语言名（中英文均可）',
     reliability: '数据可信度', reliableOnly: '只看基线可靠的语言',
     reliableNote: '部分小语种维基在早期几乎没有记录，后来才有流量。它们的"增长率"是统计伪影，勾选此项可排除。',
+    hits: '命中',
+    mapNote: '未命中的点在地图上淡出但保留，作为地理参照；其余图表只显示命中的语言。',
+    noFilter: '当前没有筛选，显示全部语言。',
   },
   en: {
     filters: 'Filters', clear: 'Clear', area: 'Area', family: 'Family',
     multi: 'multi-select', search: 'Search language (Chinese or English)',
     reliability: 'Reliability', reliableOnly: 'Reliable baseline only',
     reliableNote: 'Some small wikis had almost no recorded traffic early on and only later gained visitors. Their "growth" is a measurement artefact; this excludes them.',
+    hits: 'Matching',
+    mapNote: 'Filtered-out dots fade on the map but stay as geographic context; other charts show only matches.',
+    noFilter: 'No filters — showing all languages.',
   },
 } as const
 
@@ -101,6 +107,16 @@ const activeCount = computed(() =>
       </label>
       <p class="note">{{ t.reliableNote }}</p>
     </section>
+
+    <!-- 命中数固定在面板底部：它属于「筛选」的反馈，放在这里最直观 -->
+    <div class="tally">
+      <div class="row">
+        <span class="k">{{ t.hits }}</span>
+        <strong class="num v">{{ store.filtered.length.toLocaleString('en-US') }}</strong>
+        <span class="of num">/ {{ store.langs.length.toLocaleString('en-US') }}</span>
+      </div>
+      <p class="tallynote">{{ store.hasFilter ? t.mapNote : t.noFilter }}</p>
+    </div>
   </aside>
 </template>
 
@@ -182,4 +198,21 @@ h3 {
 .toggle { display: flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-small); cursor: pointer; }
 .toggle input { accent-color: var(--accent); flex: none; }
 .note { margin: var(--sp-2) 0 0; font-size: var(--fs-micro); color: var(--text-muted); line-height: 1.6; }
+
+/* 命中数：固定在面板底部，不随语系列表滚动 */
+.tally {
+  flex: none; margin-top: auto; padding-top: var(--sp-3);
+  border-top: 1px solid var(--border);
+}
+.tally .row { display: flex; align-items: baseline; gap: var(--sp-2); }
+.tally .k {
+  font-size: var(--fs-micro); color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+.tally .v { font-size: 1.35rem; font-weight: 600; color: var(--accent); line-height: 1.1; }
+.tally .of { font-size: var(--fs-small); color: var(--text-muted); }
+.tallynote {
+  margin: var(--sp-1) 0 0; font-size: var(--fs-micro);
+  color: var(--text-muted); line-height: 1.6;
+}
 </style>

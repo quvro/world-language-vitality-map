@@ -23,6 +23,7 @@
 import { computed, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
 import { useDataset } from '@/stores/dataset'
 import { useDisplayNames } from '@/display'
+import { COUNTRY_ZH } from '@/countries'
 import { MACRO_AREAS, type MacroArea } from '@/types'
 import { categoryPalette, semanticColors } from '@/theme/echarts-theme.js'
 
@@ -55,38 +56,38 @@ function ensureWorld(): Promise<void> {
 const T = {
   zh: {
     distTitle: '世界语言分布',
-    distSub: '每个点是一门语言。小点尚无维基百科版本；有维基版本的更大，其大小随底部时间轴变化。未通过筛选的点会淡出但保留，作为地理参照。',
+    distSub: '每个点是一门语言 · 按语区着色',
     vitTitle: '数字活力地图',
-    vitSub: '点的大小表示这门语言当前的活跃程度，颜色表示十年趋势。拖动底部时间轴即可看到此消彼长。',
+    vitSub: '大小 = 活跃程度 · 颜色 = 十年趋势',
     byMacro: '按语区',
     byTrend: '按趋势',
     vitalityLayer: '活力层',
-    sizeBy: '大小',
+    onlySelected: '只看选中',
     sizeRel: '相对自身峰值',
     sizeAbs: '跨语言比较',
     month: '当前月份',
-    legendRelative: '点的大小 = 该语言当月浏览量占其十年峰值的比例',
-    legendAbsolute: '点的大小 = 当月浏览量在所有语言中的排名',
+    legendRelative: '点越大 = 该语言当月浏览量越接近它自己的十年峰值',
+    legendAbsolute: '点越大 = 当月浏览量在所有语言中排名越靠前',
     grown: '十年增长', shrunk: '十年衰退', unreliable: '基线不可信',
     noWiki: '没有维基百科版本，无时间序列', views: '浏览', trend: '十年趋势',
     lowBase: '基线过低，趋势不可信',
   },
   en: {
     distTitle: 'World language distribution',
-    distSub: 'Each dot is a language. Small dots have no Wikipedia edition; those that do are larger, sized by the timeline below. Filtered-out dots fade but remain as geographic context.',
-    vitTitle: 'Digital vitality map',
-    vitSub: 'Dot size shows how active a language is right now; colour shows its ten-year trend. Drag the timeline below to watch them shift.',
+    distSub: 'each dot is a language · coloured by area',
+    vitTitle: 'Digital vitality',
+    vitSub: 'size = current activity · colour = ten-year trend',
     byMacro: 'By area',
     byTrend: 'By trend',
     vitalityLayer: 'Vitality',
-    sizeBy: 'Size',
+    onlySelected: 'Selected only',
     sizeRel: 'vs own peak',
-    sizeAbs: 'across languages',
+    sizeAbs: 'across langs',
     month: 'Month',
-    legendRelative: 'Dot size = current month views as a share of that language’s ten-year peak',
-    legendAbsolute: 'Dot size = current month views ranked across all languages',
+    legendRelative: 'Bigger = this month’s views closer to that language’s own ten-year peak',
+    legendAbsolute: 'Bigger = this month’s views ranked higher across all languages',
     grown: 'Grew', shrunk: 'Declined', unreliable: 'Weak baseline',
-    noWiki: 'No Wikipedia edition, so no time series', views: 'views', trend: '10-year trend',
+    noWiki: 'No Wikipedia edition, so no time series', views: 'views', trend: '10-yr trend',
     lowBase: 'baseline too low, trend unreliable',
   },
 } as const
@@ -107,7 +108,7 @@ const contextData = computed(() => {
   const matched = store.matchedIds
   const filtering = store.hasFilter
   return store.langs
-    .filter((l) => l.latitude && l.longitude)
+    .filter((l) => l.latitude && l.longitude && keepLang(l.wals_id))
     .map((l) => {
       const hit = !filtering || matched.has(l.wals_id)
       const isSel = store.selected === l.wals_id
@@ -118,6 +119,9 @@ const contextData = computed(() => {
         itemStyle: {
           color: store.colorBy === 'trend' ? C.textMuted : baseColor(l),
           opacity: isSel ? 1 : hit ? 0.5 : 0.07,
+          // 选中用主题色描边当"光环"，比单纯放大更容易在一片点里认出来
+          borderColor: isSel ? C.accent : 'transparent',
+          borderWidth: isSel ? 3 : 0,
         },
       }
     })
@@ -132,18 +136,34 @@ function baseColor(l: { macroarea: string | null; growth?: number; baseline_ok?:
     : (macroColor.get(l.macroarea ?? '') ?? C.neutral)
 }
 
+/**
+ * 「只看选中」开关：选中后其余点全部不画。
+ * 地图上 2600 多个点挤在一起时，靠放大+描边仍然很难找到刚点的那一个，
+ * 所以给一个直接隐藏其余点的开关。对比集合里的语言同样保留。
+ */
+function keepLang(id: string): boolean {
+  if (!store.hideUnselected || !store.selected) return true
+  return id === store.selected || store.comparisonSet.includes(id)
+}
+
 const vitalityData = computed(() => {
   const views = store.currentViews
   const rank = store.currentRank
   const n = Math.max(Object.keys(views).length, 1)
+  // 活力层也必须响应筛选 —— 否则加了活力层后，被筛掉的语言仍然亮着，
+  // 「未命中淡出」的效果就看不见了
+  const matched = store.matchedIds
+  const filtering = store.hasFilter
   return store.withVitality
-    .filter((l) => l.latitude && l.longitude && views[l.wals_id] != null)
+    .filter((l) => l.latitude && l.longitude && views[l.wals_id] != null
+      && keepLang(l.wals_id))
     .slice()
     .sort((a, b) => (a.wals_id < b.wals_id ? -1 : 1))
     .map((l) => {
       const v = views[l.wals_id]
       const isSel = store.selected === l.wals_id
-      const dim = store.selected && !isSel
+      const hit = !filtering || matched.has(l.wals_id)
+      const dim = (store.selected && !isSel) || !hit
       const peak = store.ownPeak[l.wals_id] || 1
       // 排名分位（1 = 第一），供「跨语言比较」尺度使用
       const rankPct = 1 - (rank[l.wals_id] ?? n) / n
@@ -156,9 +176,9 @@ const vitalityData = computed(() => {
         macroarea: l.macroarea,
         itemStyle: {
           color: baseColor(l),
-          borderColor: isSel ? C.textPrimary : C.surface,
-          borderWidth: isSel ? 2 : 1,
-          opacity: dim ? 0.1 : 0.72,
+          borderColor: isSel ? C.accent : C.surface,
+          borderWidth: isSel ? 3 : 1,
+          opacity: !hit ? 0.08 : dim ? 0.12 : 0.72,
         },
       }
     })
@@ -207,6 +227,11 @@ const OPT_BASE = {
   tooltip: {
     trigger: 'item',
     formatter: (p: any) => {
+      // 悬停到国家区域（而不是语言点）
+      if (p.componentType === 'geo') {
+        const nm = store.lang === 'zh' ? (COUNTRY_ZH[p.name] ?? p.name) : p.name
+        return `<span style="color:${C.textSecondary}">${nm}</span>`
+      }
       const d = p.data
       if (!d) return ''
       const nm = d.display ?? d.name
@@ -228,6 +253,9 @@ const OPT_BASE = {
   geo: {
     map: 'world', roam: true, zoom: 1.15, center: [10, 18],
     scaleLimit: { min: 0.9, max: 14 },
+    // 国家名的中英切换：world.js 的区域名是 Natural Earth 的缩写英文，没有 ISO 码，
+    // 所以用 countries.ts 里手写的全量映射。
+    nameMap: store.lang === 'zh' ? COUNTRY_ZH : {},
   },
 }
 
@@ -275,7 +303,10 @@ watch(() => store.selected, () => render(false))
     <header>
       <div class="tl">
         <h2>{{ title.t }}</h2>
-        <p class="hint">{{ title.s }}</p>
+        <p class="hint">
+          {{ title.s }} ·
+          <span class="sizetip">{{ store.sizeMode === 'relative' ? t.legendRelative : t.legendAbsolute }}</span>
+        </p>
       </div>
       <div class="ctrls">
         <div class="seg">
@@ -293,6 +324,10 @@ watch(() => store.selected, () => render(false))
         <label class="chk">
           <input v-model="store.showVitality" type="checkbox">
           <span>{{ t.vitalityLayer }}</span>
+        </label>
+        <label class="chk" :class="{ dim: !store.selected }" :title="t.onlySelected">
+          <input v-model="store.hideUnselected" type="checkbox" :disabled="!store.selected">
+          <span>{{ t.onlySelected }}</span>
         </label>
       </div>
     </header>
@@ -315,9 +350,6 @@ watch(() => store.selected, () => render(false))
         <span class="item"><i :style="{ background: C.negative }" />{{ t.shrunk }}</span>
         <span class="item"><i :style="{ background: C.neutral }" />{{ t.unreliable }}</span>
       </template>
-      <span class="item note">
-        <i class="ring" />{{ store.sizeMode === 'relative' ? t.legendRelative : t.legendAbsolute }}
-      </span>
     </div>
   </section>
 </template>
@@ -358,16 +390,21 @@ h2 { margin: 0; font-size: var(--fs-h2); font-weight: 600; }
 .monthbar .lab { font-size: var(--fs-micro); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
 .monthbar .val { font-size: 0.95rem; color: var(--accent); }
 
-.chart { flex: 1; min-height: 380px; }
+/* min-height 必须给 0：之前写 380px，卡片高度受限时图表不肯收缩，
+   于是图例被挤到地图上面压住它。让 flex 自己分配高度即可。 */
+.chart { flex: 1; min-height: 0; }
 
 .legend {
+  flex: none;
   display: flex; flex-wrap: wrap; gap: var(--sp-1) var(--sp-3);
-  padding-top: var(--sp-2); margin-top: var(--sp-1);
+  padding-top: var(--sp-2); margin-top: var(--sp-2);
   border-top: 1px solid var(--border);
   font-size: var(--fs-micro); color: var(--text-secondary);
 }
 .legend .item { display: inline-flex; align-items: center; gap: 5px; }
 .legend i { width: 8px; height: 8px; border-radius: 50%; flex: none; }
-.legend .note { color: var(--text-muted); }
-.legend .ring { background: transparent; border: 1.5px solid var(--text-muted); }
+
+.sizetip { color: var(--text-secondary); }
+.chk.dim { opacity: 0.45; }
+.chk input:disabled { cursor: not-allowed; }
 </style>

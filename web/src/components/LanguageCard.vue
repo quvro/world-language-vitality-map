@@ -14,12 +14,41 @@ const C = semanticColors()
 const lang = computed(() => store.selectedLanguage)
 const displayName = computed(() => (lang.value ? langLabel(lang.value) : ''))
 
+const T = {
+  zh: {
+    close: '取消选中',
+    growthTitle: '十年浏览趋势',
+    unreliable: '（基线低，不可信）',
+    noSeries: '该语言没有对应的维基百科版本，因此没有时间序列。',
+    fFamily: '语系', fSub: '语族', fGenus: '属', fArea: '语区',
+    fIso: 'ISO 639-3', fGlotto: 'Glottocode', fWiki: '维基版本',
+    none: '无',
+    addCompare: '加入对比', removeCompare: '移出对比',
+    emptyTitle: '点一个点看看',
+    emptyBody: '地图上的每一颗点都是一门语言。点击后这里会显示它的结构特征与十年活力曲线。',
+  },
+  en: {
+    close: 'Deselect',
+    growthTitle: 'Ten-year view trend',
+    unreliable: '(weak baseline, unreliable)',
+    noSeries: 'This language has no Wikipedia edition, so there is no time series.',
+    fFamily: 'Family', fSub: 'Subfamily', fGenus: 'Genus', fArea: 'Area',
+    fIso: 'ISO 639-3', fGlotto: 'Glottocode', fWiki: 'Wikipedia',
+    none: 'none',
+    addCompare: 'Add to comparison', removeCompare: 'Remove from comparison',
+    emptyTitle: 'Click a dot',
+    emptyBody: 'Every dot on the map is a language. Click one to see its structural profile and ten-year vitality curve here.',
+  },
+} as const
+const t = computed(() => T[store.lang])
+
 const series = computed(() => {
   const l = lang.value
   if (!l?.wiki_code || !store.timeseries) return null
   const s = store.timeseries.by_language[l.wals_id]
   if (!s) return null
   const months = Object.keys(s.views).sort()
+  if (!months.length) return null
   return { months, values: months.map((m) => s.views[m] ?? 0) }
 })
 
@@ -41,23 +70,26 @@ const path = computed(() => {
 const growthText = computed(() => {
   const g = lang.value?.growth
   if (g == null) return null
-  const ok = lang.value?.baseline_ok
-  return { v: `${g >= 0 ? '+' : ''}${(g * 100).toFixed(1)}%`, up: g >= 0, ok }
+  return {
+    v: `${g >= 0 ? '+' : ''}${(g * 100).toFixed(1)}%`,
+    up: g >= 0,
+    ok: lang.value?.baseline_ok,
+  }
 })
 
 const facts = computed(() => {
   const l = lang.value
-  if (!l) return []
+  if (!l) return [] as [string, string][]
   return [
-    ['语系', familyLabel(l.family)],
-    ['语族', l.subfamily || '—'],
-    ['属', l.genus || '—'],
-    ['语区', l.macroarea || '—'],
+    [t.value.fFamily, familyLabel(l.family)],
+    [t.value.fSub, l.subfamily || '—'],
+    [t.value.fGenus, l.genus || '—'],
+    [t.value.fArea, l.macroarea || '—'],
+    [t.value.fIso, l.iso639p3 || '—'],
     ['WALS ID', l.wals_id],
-    ['ISO 639-3', l.iso639p3 || '—'],
-    ['Glottocode', l.glottocode || '—'],
-    ['维基版本', l.wiki_code ? `${l.wiki_code}.wikipedia` : '无'],
-  ]
+    [t.value.fGlotto, l.glottocode || '—'],
+    [t.value.fWiki, l.wiki_code ? `${l.wiki_code}.wikipedia` : t.value.none],
+  ] as [string, string][]
 })
 </script>
 
@@ -66,13 +98,13 @@ const facts = computed(() => {
     <template v-if="lang">
       <header>
         <h2>{{ displayName }}</h2>
-        <button class="x" title="取消选中" @click="store.select(null)">×</button>
+        <button class="x" :title="t.close" @click="store.select(null)">×</button>
       </header>
 
       <div v-if="growthText" class="growth" :class="{ neg: !growthText.up }">
         <span class="num v">{{ growthText.v }}</span>
-        <span class="k">十年浏览趋势
-          <template v-if="!growthText.ok">（基线低，不可信）</template>
+        <span class="k">{{ t.growthTitle }}
+          <template v-if="!growthText.ok">{{ t.unreliable }}</template>
         </span>
       </div>
 
@@ -87,7 +119,7 @@ const facts = computed(() => {
           <span>{{ series.months[series.months.length - 1]?.slice(0, 4) }}</span>
         </div>
       </div>
-      <p v-else class="none">该语言没有对应的维基百科版本，因此没有时间序列。</p>
+      <p v-else class="none">{{ t.noSeries }}</p>
 
       <dl class="facts">
         <template v-for="[k, v] in facts" :key="k">
@@ -96,7 +128,7 @@ const facts = computed(() => {
       </dl>
 
       <button class="cmp" @click="store.toggleComparison(lang.wals_id)">
-        {{ store.comparisonSet.includes(lang.wals_id) ? '移出' : '加入' }}对比
+        {{ store.comparisonSet.includes(lang.wals_id) ? t.removeCompare : t.addCompare }}
         <span v-if="store.comparisonSet.length" class="num">
           ({{ store.comparisonSet.length }}/4)
         </span>
@@ -105,8 +137,8 @@ const facts = computed(() => {
 
     <div v-else class="empty">
       <div class="ring" />
-      <p><strong>点一个点看看</strong></p>
-      <p class="sub">地图上的每一颗点都是一门语言。点击后这里会显示它的结构特征与十年活力曲线。</p>
+      <p><strong>{{ t.emptyTitle }}</strong></p>
+      <p class="sub">{{ t.emptyBody }}</p>
     </div>
   </aside>
 </template>
@@ -119,7 +151,7 @@ const facts = computed(() => {
   box-shadow: var(--shadow-sm);
   padding: var(--sp-4);
   overflow: hidden auto;
-  min-height: 0;
+  min-height: 0; height: 100%;
 }
 header { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--sp-2); }
 h2 { margin: 0; font-size: 1.15rem; font-weight: 600; line-height: 1.3; }
