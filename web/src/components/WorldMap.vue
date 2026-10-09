@@ -24,6 +24,7 @@ import { computed, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vu
 import { useDataset } from '@/stores/dataset'
 import { useDisplayNames } from '@/display'
 import { COUNTRY_ZH } from '@/countries'
+import { useChartResize } from '@/useChartResize'
 import { MACRO_AREAS, type MacroArea } from '@/types'
 import { categoryPalette, semanticColors } from '@/theme/echarts-theme.js'
 
@@ -271,6 +272,10 @@ const title = computed(() => store.colorBy === 'trend'
   : { t: t.value.distTitle, s: t.value.distSub }
 )
 
+// 跟随**容器**尺寸变化（侧栏折叠、切换选项卡时窗口尺寸并不变，
+// 只监听 window.resize 会导致画布保持旧宽度、压住相邻区域）
+const { schedule: scheduleResize } = useChartResize(host, chart)
+
 onMounted(async () => {
   if (!host.value) return
   chart.value = e().init(host.value, 'vitality-light')
@@ -279,12 +284,13 @@ onMounted(async () => {
   })
   await ensureWorld()
   render(true)
-  window.addEventListener('resize', resize)
+  // 首次渲染后再对一次尺寸：挂载瞬间容器可能还没完成布局
+  scheduleResize()
+  window.addEventListener('resize', scheduleResize)
 })
 
-function resize() { chart.value?.resize() }
 onBeforeUnmount(() => {
-  window.removeEventListener('resize', resize)
+  window.removeEventListener('resize', scheduleResize)
   chart.value?.dispose()
 })
 

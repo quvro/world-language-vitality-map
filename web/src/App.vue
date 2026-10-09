@@ -130,7 +130,7 @@ onMounted(() => store.load())
         </div>
       </section>
 
-      <div class="col-right">
+      <div class="col-right" :class="{ collapsed: !rightOpen }">
         <button
           class="handle"
           :title="rightOpen ? t.collapse : t.expand"
@@ -139,7 +139,10 @@ onMounted(() => store.load())
         >
           <span class="arrow" :class="{ flipped: !rightOpen }">›</span>
         </button>
-        <LanguageCard v-show="rightOpen" class="card-slot" />
+        <!-- 卡片常驻 DOM：折叠时靠位移+淡出，展开时滑回来，而不是显示/隐藏切换 -->
+        <div class="card-wrap">
+          <LanguageCard />
+        </div>
       </div>
     </main>
 
@@ -196,14 +199,18 @@ h1 { margin: 0; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
   grid-template-columns: 310px minmax(0, 1fr) 288px;
   gap: var(--sp-4);
   padding: var(--sp-4) var(--sp-5);
+  /* 折叠时列宽平滑过渡，而不是瞬间跳变 */
+  transition: grid-template-columns var(--dur-base) var(--ease-in-out);
 }
 .col-left, .col-right { min-height: 0; }
 .col-center { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; min-height: 0; }
 
-/* 右栏：一个窄把手 + 卡片。折叠时列宽收到把手宽度，动画让变化可感知 */
+/* 右栏：一个窄把手 + 卡片。折叠时列宽收到把手宽度 */
 .col-right {
   display: flex; align-items: stretch; gap: var(--sp-2);
   min-width: 0; min-height: 0;
+  /* 折叠过程中卡片会被压窄，裁掉溢出避免它"漏"到地图上 */
+  overflow: hidden;
 }
 .handle {
   flex: none; width: 18px; padding: 0; cursor: pointer;
@@ -218,10 +225,26 @@ h1 { margin: 0; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
   transition: transform var(--dur-base) var(--ease-out);
 }
 .handle .arrow.flipped { transform: rotate(180deg); }
-.card-slot { flex: 1; min-width: 0; min-height: 0; }
+
+/* 卡片本体用「平移 + 淡出」进出，产生滑动的感觉 */
+.card-wrap {
+  flex: 1; min-width: 0; min-height: 0;
+  transition: opacity var(--dur-base) var(--ease-out),
+              transform var(--dur-base) var(--ease-out);
+}
+.col-right.collapsed .card-wrap {
+  opacity: 0;
+  transform: translateX(32px);
+  pointer-events: none;
+}
 
 /* 折叠后只留把手那一条 */
 .body.right-collapsed { grid-template-columns: 310px minmax(0, 1fr) 24px; }
+
+/* 尊重系统的减少动效偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .body, .card-wrap, .handle .arrow { transition: none; }
+}
 
 .tabs { display: flex; gap: var(--sp-1); }
 .tabs button {

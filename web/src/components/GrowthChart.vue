@@ -8,6 +8,7 @@
 import { computed, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
 import { useDataset } from '@/stores/dataset'
 import { useDisplayNames } from '@/display'
+import { useChartResize } from '@/useChartResize'
 import { semanticColors } from '@/theme/echarts-theme.js'
 
 const store = useDataset()
@@ -96,15 +97,20 @@ function render() {
   }, true)
 }
 
+// 跟随容器尺寸（侧栏折叠 / 切换选项卡时 window 尺寸不变）
+const { schedule: scheduleResize } = useChartResize(host, chart)
+
 onMounted(() => {
   if (!host.value) return
   chart.value = e().init(host.value, 'vitality-light')
   chart.value.on('click', (p: any) => { if (p.data?.wals_id) store.select(p.data.wals_id) })
   render()
-  window.addEventListener('resize', resize)
+  window.addEventListener('resize', scheduleResize)
 })
-function resize() { chart.value?.resize() }
-onBeforeUnmount(() => { window.removeEventListener('resize', resize); chart.value?.dispose() })
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', scheduleResize)
+  chart.value?.dispose()
+})
 
 watch(() => [store.filtered, store.selected, store.lang], render)
 </script>
