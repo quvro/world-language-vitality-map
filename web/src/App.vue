@@ -16,6 +16,7 @@ import GrowthChart from '@/components/GrowthChart.vue'
 import FeatureCompare from '@/components/FeatureCompare.vue'
 import LanguageCard from '@/components/LanguageCard.vue'
 import VitalityTimeline from '@/components/VitalityTimeline.vue'
+import NlQuery from '@/components/NlQuery.vue'
 
 const store = useDataset()
 
@@ -144,11 +145,7 @@ onMounted(() => store.load())
 
     <VitalityTimeline v-if="!store.loading && !store.error" />
 
-    <div class="nl" :class="{ off: true }">
-      <span class="ico">💬</span>
-      <input type="text" disabled :placeholder="t.nlPlaceholder">
-      <span class="tag">{{ t.nlTag }}</span>
-    </div>
+    <NlQuery v-if="!store.loading && !store.error" />
   </div>
 </template>
 
@@ -250,25 +247,7 @@ h1 { margin: 0; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ------------------------------------------------------------ NL 入口 */
-.nl {
-  display: flex; align-items: center; gap: var(--sp-3);
-  padding: var(--sp-2) var(--sp-5);
-  background: var(--bg-surface);
-  border-top: 1px solid var(--border);
-}
-.nl .ico { font-size: 14px; opacity: 0.7; }
-.nl input {
-  flex: 1; border: 0; background: transparent;
-  font-family: inherit; font-size: var(--fs-small); color: var(--text-primary);
-  padding: 6px 0;
-}
-.nl input::placeholder { color: var(--text-muted); }
-.tag {
-  font-size: var(--fs-micro); color: var(--text-muted);
-  border: 1px solid var(--border); border-radius: var(--radius-pill);
-  padding: 2px 9px; white-space: nowrap;
-}
+/* NL 查询条在 NlQuery 组件内部自带样式，这里不再重复定义 */
 
 @media (max-width: 1200px) {
   .body { grid-template-columns: 240px minmax(0, 1fr); }

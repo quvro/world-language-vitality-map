@@ -9,6 +9,7 @@
  */
 import { defineStore } from 'pinia'
 import { SEARCH_ALIASES } from '@/terms'
+import { MACRO_AREAS } from '@/types'
 import type {
   FeatureMatrix, Features, Language, MacroArea, Timeseries,
 } from '@/types'
@@ -48,12 +49,18 @@ interface State {
   onlyReliable: boolean
   search: string
   /**
-   * 按某个语法特征的某个取值筛选（来自「条件对比」里点选的分组）。
-   * 这是把结构特征与活力数据连起来的关键 —— 点一个分组，全站视图跟着过滤。
+   * 按某个语法特征的某个取值筛选（来自「条件对比」里点选的分组，
+   * 或自然语言查询）。`value` 为 null 表示「只要有该特征的数据」。
    */
-  featureFilter: { featureId: string; value: string } | null
+  featureFilter: { featureId: string; value: string | null } | null
   /** 当前用于分组对比的特征 */
   compareFeature: string | null
+
+  // ---- 以下由自然语言查询写入，也在筛选面板里显示为可清除的条件 ----
+  growthMin: number | null
+  growthMax: number | null
+  wikiOnly: boolean
+  minFeatures: number | null
 
   /** 主视图：地图 / 增长 / 特征 */
   activeView: 'map' | 'growth' | 'features'
@@ -105,6 +112,10 @@ export const useDataset = defineStore('dataset', {
     search: '',
     featureFilter: null,
     compareFeature: null,
+    growthMin: null,
+    growthMax: null,
+    wikiOnly: false,
+    minFeatures: null,
     activeView: 'map',
     colorBy: 'macroarea',
     showVitality: true,
@@ -155,6 +166,7 @@ export const useDataset = defineStore('dataset', {
     filteredBase(state): Language[] {
       const q = state.search.trim().toLowerCase()
       const dict = state.zhLabels
+      const fc = this.featureCount
       return state.langs.filter((l) => {
         if (state.macroAreas.length && !state.macroAreas.includes(l.macroarea as MacroArea)) {
           return false
@@ -163,6 +175,16 @@ export const useDataset = defineStore('dataset', {
           return false
         }
         if (state.onlyReliable && !(l.baseline_ok && l.growth != null)) return false
+        // ---- 自然语言查询写入的条件 ----
+        if (state.wikiOnly && !l.wiki_code) return false
+        if (state.minFeatures != null && (fc[l.wals_id] ?? 0) < state.minFeatures) return false
+        if (state.growthMin != null || state.growthMax != null) {
+          // 没有增长率数据的语言在按增长筛选时直接排除（「在增长」不可能对未知成立）
+          const g = l.growth != null && l.baseline_ok ? l.growth * 100 : null
+          if (g == null) return false
+          if (state.growthMin != null && g < state.growthMin) return false
+          if (state.growthMax != null && g > state.growthMax) return false
+        }
         if (q) {
           // 除中英名外还要匹配别名 —— 否则搜「中文」「普通话」找不到 Mandarin
           // （WALS 把它叫 Mandarin，而 Wikidata 的中文标签是「官话」）
@@ -195,7 +217,9 @@ export const useDataset = defineStore('dataset', {
       const row = this.matrix.values[fi]
       return base.filter((l) => {
         const i = this.keyIndex[l.wals_id]
-        return i != null && row[i] === ff.value
+        if (i == null) return false
+        // value 为 null 表示「只要有该特征的数据」，不限定具体取值
+        return ff.value == null ? row[i] != null : row[i] === ff.value
       })
     },
 
@@ -269,10 +293,31 @@ export const useDataset = defineStore('dataset', {
       return new Set(this.filtered.map((l) => l.wals_id))
     },
 
-    /** 是否有任何筛选生效（含特征分组筛选） */
+    /**
+     * 每门语言在 WALS 里被收录了多少个语法特征（数据完整度）。
+     * 自然语言里的「数据完整的语言」需要它。2660×192 ≈ 51 万次取值，
+     * 实测约 6ms，且 getter 有缓存，不必额外落库。
+     */
+    featureCount(state): Record<string, number> {
+      const out: Record<string, number> = {}
+      const m = state.matrix
+      if (!m) return out
+      m.language_keys.forEach((k, i) => {
+        let n = 0
+        for (let fi = 0; fi < m.values.length; fi++) {
+          if (m.values[fi][i] != null) n++
+        }
+        out[k] = n
+      })
+      return out
+    },
+
+    /** 是否有任何筛选生效（含特征分组与自然语言写入的条件） */
     hasFilter(state): boolean {
       return state.macroAreas.length > 0 || state.families.length > 0 ||
-        state.onlyReliable || !!state.search.trim() || !!state.featureFilter
+        state.onlyReliable || !!state.search.trim() || !!state.featureFilter ||
+        state.wikiOnly || state.minFeatures != null ||
+        state.growthMin != null || state.growthMax != null
     },
   },
 
@@ -360,6 +405,58 @@ export const useDataset = defineStore('dataset', {
       this.onlyReliable = false
       this.search = ''
       this.featureFilter = null
+      this.growthMin = null
+      this.growthMax = null
+      this.wikiOnly = false
+      this.minFeatures = null
+    },
+
+    /**
+     * 应用自然语言解析出的意图。
+     *
+     * 关键：**先清空再设置**，否则上一轮问的条件会残留下来，
+     * 用户看到的结果与这次问的对不上。
+     */
+    applyIntent(intent: Record<string, unknown> | null) {
+      this.clearFilters()
+      if (!intent) return
+      const known = new Set(this.familyList.map((f) => f.family))
+      const areas = (intent.macroAreas as string[] | undefined) ?? []
+      this.macroAreas = areas.filter((a) =>
+        MACRO_AREAS.includes(a as MacroArea)) as MacroArea[]
+      const fams = (intent.families as string[] | undefined) ?? []
+      // 语系名要用真实值，模型可能给出近似的写法
+      this.families = fams.filter((f) => known.has(f))
+      this.search = (intent.nameQuery as string | undefined) ?? ''
+      const fid = intent.featureId as string | undefined
+      if (fid && this.matrix?.feature_ids.includes(fid)) {
+        const raw = (intent.featureValue as string | undefined) ?? null
+        // ⚠️ 矩阵里存的是 WALS 的**数值编码**（values.csv 的 Value 列，如 "2"），
+        // 而自然语言与大模型给出的是**标签**（如 "SOV"）。不转换的话
+        // 「语序是 SOV 的语言」会永远筛出 0 条 —— 这是个很容易漏的坑。
+        let value: string | null = null
+        if (raw != null) {
+          const hit = (this.features?.codes ?? []).find((c) =>
+            c.Parameter_ID === fid &&
+            (c.Name === raw || c.Number === raw || c.ID === raw))
+          value = hit ? hit.Number : raw
+        }
+        this.featureFilter = { featureId: fid, value }
+        // 让「条件对比」面板也切到这个特征，两边保持一致
+        this.compareFeature = fid
+      }
+      if (typeof intent.growthMin === 'number') this.growthMin = intent.growthMin
+      if (typeof intent.growthMax === 'number') this.growthMax = intent.growthMax
+      if (intent.wikiOnly) this.wikiOnly = true
+      if (typeof intent.minFeatures === 'number') this.minFeatures = intent.minFeatures
+      const p = intent.period ? String(intent.period) : ''
+      if (/^\d{4}$/.test(p)) {
+        const i = this.months.findIndex((m) => m.startsWith(p))
+        if (i >= 0) this.monthIndex = i
+      } else if (/^\d{6}$/.test(p)) {
+        const i = this.months.indexOf(p)
+        if (i >= 0) this.monthIndex = i
+      }
     },
 
     setCompareFeature(id: string | null) {
