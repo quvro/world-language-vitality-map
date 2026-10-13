@@ -23,6 +23,24 @@ export interface ZhLabels {
   family: Record<string, string>
 }
 
+/**
+ * UNESCO 濒危等级（来自 pipeline/05_fetch_endangerment.py）。
+ *
+ * 这是项目里**第二个独立的活力维度**：此前所有叫"活力"的指标都来自维基浏览量，
+ * 那测的是数字关注度，不是语言学意义上的语言活力。有了它才能把两个维度对照：
+ * 「一门语言在语言学上还活着，但在数字空间里已经死了吗？」
+ *
+ * 数字越小越安全：1 safe … 6 extinct。
+ * ⚠️ 口径注意：UNESCO 名录**只收濒危语言**（全名录 2,593 条里只有 82 条是 safe），
+ * 所以"未收录"不等于"安全"，不能反推。
+ */
+export interface Endangerment {
+  levels: Record<string, { en: string; zh: string }>
+  by_glottocode: Record<string, number>
+  by_iso639p3: Record<string, number>
+  counts: Record<string, number>
+}
+
 async function loadJson<T>(file: string): Promise<T> {
   const res = await fetch(DATA + file)
   if (!res.ok) throw new Error(`${file} 加载失败：HTTP ${res.status}`)
@@ -36,6 +54,7 @@ interface State {
   matrix: FeatureMatrix | null
   /** Wikidata 抓来的中文标签；缺失时界面自动回退英文 */
   zhLabels: ZhLabels | null
+  endangerment: Endangerment | null
   loading: boolean
   error: string | null
   /** wals_id -> 在 feature_matrix.language_keys 里的下标，加载后预计算避免每次线性查找 */
@@ -61,6 +80,8 @@ interface State {
   growthMax: number | null
   wikiOnly: boolean
   minFeatures: number | null
+  /** UNESCO 濒危等级（1..6）多选；空数组表示不按濒危程度筛选 */
+  endangermentLevels: number[]
 
   /** 主视图：地图 / 增长 / 特征 */
   activeView: 'map' | 'growth' | 'features'
@@ -103,6 +124,7 @@ export const useDataset = defineStore('dataset', {
     features: null,
     matrix: null,
     zhLabels: null,
+    endangerment: null,
     loading: true,
     error: null,
     keyIndex: {},
@@ -116,6 +138,7 @@ export const useDataset = defineStore('dataset', {
     growthMax: null,
     wikiOnly: false,
     minFeatures: null,
+    endangermentLevels: [],
     activeView: 'map',
     colorBy: 'macroarea',
     showVitality: true,
@@ -167,6 +190,8 @@ export const useDataset = defineStore('dataset', {
       const q = state.search.trim().toLowerCase()
       const dict = state.zhLabels
       const fc = this.featureCount
+      const ebw = this.endangermentByWals
+      const lvSel = state.endangermentLevels
       return state.langs.filter((l) => {
         if (state.macroAreas.length && !state.macroAreas.includes(l.macroarea as MacroArea)) {
           return false
@@ -177,6 +202,9 @@ export const useDataset = defineStore('dataset', {
         if (state.onlyReliable && !(l.baseline_ok && l.growth != null)) return false
         // ---- 自然语言查询写入的条件 ----
         if (state.wikiOnly && !l.wiki_code) return false
+        // 按 UNESCO 濒危等级筛选。注意：只选等级时，未被名录收录的语言会被排除 ——
+        // 这是符合直觉的（"极度濒危"当然只应包含名录里标为极度濒危的）。
+        if (lvSel.length && !lvSel.includes(ebw[l.wals_id] ?? 0)) return false
         if (state.minFeatures != null && (fc[l.wals_id] ?? 0) < state.minFeatures) return false
         if (state.growthMin != null || state.growthMax != null) {
           // 没有增长率数据的语言在按增长筛选时直接排除（「在增长」不可能对未知成立）
@@ -294,6 +322,26 @@ export const useDataset = defineStore('dataset', {
     },
 
     /**
+     * wals_id → UNESCO 濒危等级（1..6）。未被名录收录的语言没有键。
+     *
+     * 用 Glottocode 优先、ISO 639-3 兜底。注意粒度差异：
+     * UNESCO 是**语言级**，本项目分析单元是**变体级**，
+     * 所以同一 Glottocode 下的多个变体会得到同一等级（这是正确的，
+     * 濒危状态本就属于语言而不属于某个方言变体）。
+     */
+    endangermentByWals(state): Record<string, number> {
+      const e = state.endangerment
+      if (!e) return {}
+      const out: Record<string, number> = {}
+      for (const l of state.langs) {
+        const lv = e.by_glottocode[l.glottocode ?? ''] ??
+          e.by_iso639p3[(l.iso639p3 ?? '').toLowerCase()]
+        if (lv) out[l.wals_id] = lv
+      }
+      return out
+    },
+
+    /**
      * 每门语言在 WALS 里被收录了多少个语法特征（数据完整度）。
      * 自然语言里的「数据完整的语言」需要它。2660×192 ≈ 51 万次取值，
      * 实测约 6ms，且 getter 有缓存，不必额外落库。
@@ -317,7 +365,8 @@ export const useDataset = defineStore('dataset', {
       return state.macroAreas.length > 0 || state.families.length > 0 ||
         state.onlyReliable || !!state.search.trim() || !!state.featureFilter ||
         state.wikiOnly || state.minFeatures != null ||
-        state.growthMin != null || state.growthMax != null
+        state.growthMin != null || state.growthMax != null ||
+        state.endangermentLevels.length > 0
     },
   },
 
@@ -341,6 +390,12 @@ export const useDataset = defineStore('dataset', {
           this.zhLabels = await loadJson<ZhLabels>('zh_labels.json')
         } catch {
           this.zhLabels = null
+        }
+        // UNESCO 濒危等级也是可选的（跑过 05 脚本才有）
+        try {
+          this.endangerment = await loadJson<Endangerment>('endangerment.json')
+        } catch {
+          this.endangerment = null
         }
 
         // 预计算下标，避免筛选时对 2,660 条做线性查找
@@ -409,6 +464,7 @@ export const useDataset = defineStore('dataset', {
       this.growthMax = null
       this.wikiOnly = false
       this.minFeatures = null
+      this.endangermentLevels = []
     },
 
     /**
@@ -449,6 +505,10 @@ export const useDataset = defineStore('dataset', {
       if (typeof intent.growthMax === 'number') this.growthMax = intent.growthMax
       if (intent.wikiOnly) this.wikiOnly = true
       if (typeof intent.minFeatures === 'number') this.minFeatures = intent.minFeatures
+      const lv = intent.endangermentLevels as number[] | undefined
+      if (Array.isArray(lv)) {
+        this.endangermentLevels = lv.filter((n) => n >= 1 && n <= 6)
+      }
       const p = intent.period ? String(intent.period) : ''
       if (/^\d{4}$/.test(p)) {
         const i = this.months.findIndex((m) => m.startsWith(p))

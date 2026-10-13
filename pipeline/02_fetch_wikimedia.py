@@ -15,6 +15,7 @@ Usage:
 from __future__ import annotations
 
 import csv
+import datetime as dt
 import os
 import sys
 import time
@@ -27,7 +28,33 @@ from common import (  # noqa: E402
 )
 
 START = "2015070100"
-END = "2026010100"
+
+
+def last_complete_month(today: dt.date | None = None) -> str:
+    """最后一个**完整**自然月（YYYYMM）。
+
+    当月的数据是不完整的（API 会返回进行中的部分月份），所以取上一个月。
+    这里原本写死成 "2026010100"，结果随着时间推移数据越来越旧却毫无提示 ——
+    实测到了 2026-10 才发现白丢了 8 个月（API 上其实有到 2026-09 的数据），
+    而界面上还把 2026-01 标成"当前月份"。改成动态计算。
+    需要固定区间复现时用环境变量 WIKI_END_MONTH=YYYYMM 覆盖。
+    """
+    d = today or dt.date.today()
+    prev = d.replace(day=1) - dt.timedelta(days=1)
+    return prev.strftime("%Y%m")
+
+
+def next_month(ym: str) -> str:
+    """'202601' -> '202602'"""
+    y, m = int(ym[:4]), int(ym[4:6])
+    m += 1
+    if m > 12:
+        y, m = y + 1, 1
+    return f"{y}{m:02d}"
+
+
+TARGET_LAST_MONTH = os.environ.get("WIKI_END_MONTH") or last_complete_month()
+END = f"{TARGET_LAST_MONTH}0100"
 # The Wikimedia REST API throttles aggressively from this host: 0.2s spacing
 # produced HTTP 429 on the majority of requests. 1.5s is sustainable.
 DELAY = 1.5
@@ -280,29 +307,78 @@ def is_valid_series(series) -> bool:
                for k in series)
 
 
+def probe_last_month(url_tpl: str, editions: dict[str, dict]) -> str:
+    """探一下**该指标**实际能取到哪个月。
+
+    必要性：编辑量比浏览量晚约一个月（实测浏览量已到 202609 时编辑量只到 202608）。
+    若两个指标都用同一个目标月份判断「是否已覆盖」，
+    那么"没到目标"对编辑量永远成立，于是每次运行都会把 364 个版本的
+    编辑量全部重抓一遍（每次约 9 分钟），白白浪费。
+    用一个内容较多的版本探一次即可，代价是每次运行多 1 个请求。
+    """
+    for code in ("en", "de", "fr", "es", "ru", "zh"):
+        if code not in editions:
+            continue
+        items = fetch_one(url_tpl.format(
+            proj=editions[code]["host"], start=START, end=END))
+        if items:
+            key = "views" if "views" in items[0] else "edits"
+            months = [norm_month(it["timestamp"]) for it in items]
+            if months:
+                return max(months)
+    return TARGET_LAST_MONTH
+
+
 def collect(codes: list[str], label: str, url_tpl: str,
             out_path: str, editions: dict[str, dict]) -> dict[str, dict]:
     banner(f"{label}（{human(len(codes))} 个语言版本）")
     store: dict[str, dict] = {}
-    if exists(out_path) and "--force" not in sys.argv:
+    force = "--force" in sys.argv
+    if exists(out_path) and not force:
         store = read_json(out_path)
         stale = sum(1 for v in store.values() if v and not is_valid_series(v))
         if stale:
             log(f"  检测到 {human(stale)} 条月份的键格式非法，将重新抓取")
         log(f"  已有 {human(len(store))} 条，续抓")
 
-    todo = [c for c in codes if not is_valid_series(store.get(c))]
-    log(f"  待抓 {human(len(todo))} 条，预计 {len(todo) * (DELAY + 0.35) / 60:.1f} 分钟")
+    want = probe_last_month(url_tpl, editions)
+    log(f"  目标区间 {START[:6]} .. {want}"
+        f"{'（该指标可达月份）' if want != TARGET_LAST_MONTH else ''}")
 
-    for i, code in enumerate(todo, 1):
+    def shortfall(code: str):
+        """返回 None 表示已覆盖到目标月份；'all' 表示要全量抓；否则是要补的起始月。
+
+        只判断"序列非空"是不够的 —— 那样把目标区间往后推时，
+        已有的旧序列会被当成有效数据直接跳过，于是数据永远停在旧月份。
+        """
+        s = store.get(code)
+        if force or not is_valid_series(s):
+            return "all"
+        last = max(s)
+        return None if last >= want else last
+
+    plans = [(c, shortfall(c)) for c in codes]
+    todo = [(c, m) for c, m in plans if m is not None]
+    delta = [(c, m) for c, m in todo if m != "all"]
+    log(f"  待抓 {human(len(todo))} 条"
+        f"（其中增量补抓 {human(len(delta))} 条，全量 {human(len(todo) - len(delta))} 条），"
+        f"预计 {len(todo) * (DELAY + 0.35) / 60:.1f} 分钟")
+
+    for i, (code, miss) in enumerate(todo, 1):
         # 用 sitematrix 的**真实域名**，不要拿语言代码拼（yue/nan/lzh/gsw/rup/sgs/vro 会 404）
         proj = editions[code]["host"]
-        items = fetch_one(url_tpl.format(proj=proj, start=START, end=END))
+        # 已有数据的只补缺口，从最后一个月的下一个月开始
+        start = START if miss == "all" else f"{next_month(miss)}0100"
+        items = fetch_one(url_tpl.format(proj=proj, start=start, end=END))
         if items:
             key = "views" if "views" in items[0] else "edits"
-            store[code] = {norm_month(it["timestamp"]): it.get(key, 0)
-                           for it in items}
-        else:
+            fresh = {norm_month(it["timestamp"]): it.get(key, 0) for it in items}
+            if miss == "all":
+                store[code] = fresh
+            else:
+                store[code] = {**store.get(code, {}), **fresh}
+        elif miss == "all":
+            # 该版本确实没有数据（404）。补抓返回空时不动原有数据，避免把好数据抹掉
             store[code] = {}
         if i % SAVE_EVERY == 0 or i == len(todo):
             write_json(out_path, store)
@@ -312,7 +388,9 @@ def collect(codes: list[str], label: str, url_tpl: str,
 
     write_json(out_path, store)
     got = sum(1 for v in store.values() if v)
-    log(f"  完成：{human(got)}/{human(len(store))} 个版本拿到数据 -> {out_path}")
+    covered = sum(1 for v in store.values() if v and max(v) >= want)
+    log(f"  完成：{human(got)}/{human(len(store))} 个版本拿到数据，"
+        f"其中 {human(covered)} 个覆盖到 {want} -> {out_path}")
     return store
 
 

@@ -47,6 +47,11 @@ export function vitalityScale() {
   ]
 }
 
+/** UNESCO 濒危等级色阶，索引 0 即等级 1（safe）… 索引 5 即等级 6（extinct）。 */
+export function endangermentScale() {
+  return [1, 2, 3, 4, 5, 6].map((i) => token(`--endanger-${i}`, '#888888'))
+}
+
 /** 语义色。 */
 export function semanticColors() {
   return {

@@ -63,6 +63,17 @@
   --vital-2: #5fb8ae;
   --vital-3: #1f6f66;
 
+  /* ------------------------------------------------ UNESCO 濒危等级色阶（6 级） */
+  /* 语义是「安全 → 灭绝」，所以从冷色（青）走到暖色（红）。
+     单纯在青与红之间做线性插值会经过发灰的中间色，所以中间几级走黄橙，
+     与主题的暖色调保持一家。1 = safe，6 = extinct。 */
+  --endanger-1: #2f6f66;
+  --endanger-2: #5fa79a;
+  --endanger-3: #e8c86a;
+  --endanger-4: #e8964f;
+  --endanger-5: #dd5f3a;
+  --endanger-6: #a8321b;
+
   /* ------------------------------------------------------------ 字体 */
   --font-sans: "Source Han Sans SC", "Noto Sans SC", "PingFang SC",
     "Microsoft YaHei", system-ui, sans-serif;

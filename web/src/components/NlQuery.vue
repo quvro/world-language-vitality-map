@@ -58,16 +58,16 @@ const hasResult = ref(false)
 
 const EXAMPLES = {
   zh: [
+    '极度濒危的语言',
     '非洲语区里语序是 SOV 且在增长的语言',
     '印欧语系中有声调的语言',
     '有维基百科版本、数据完整、这十年在衰退的语言',
-    '定位到 2018 年',
   ],
   en: [
+    'critically endangered languages',
     'SOV languages in Africa that are growing',
     'Indo-European languages with tone',
     'Languages with a Wikipedia edition and complete data that declined',
-    'Jump to 2018',
   ],
 }
 

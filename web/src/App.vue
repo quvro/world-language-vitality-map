@@ -15,6 +15,7 @@ import WorldMap from '@/components/WorldMap.vue'
 import GrowthChart from '@/components/GrowthChart.vue'
 import FeatureCompare from '@/components/FeatureCompare.vue'
 import FeatureMatrix from '@/components/FeatureMatrix.vue'
+import EndangermentView from '@/components/EndangermentView.vue'
 import LanguageCard from '@/components/LanguageCard.vue'
 import VitalityTimeline from '@/components/VitalityTimeline.vue'
 import NlQuery from '@/components/NlQuery.vue'
@@ -27,6 +28,7 @@ const T = {
     subtitle: '数字时代的语言生存图谱',
     explore: '探索模式', story: '故事模式',
     vMap: '地图', vGrowth: '活力变化', vCompare: '条件对比', vMatrix: '记录缺口',
+    vEndanger: '活力之辨',
     kLang: '语言 / 变体', kCoord: '有坐标', kWiki: '有维基版本',
     loading: '正在加载数据集…',
     errTitle: '数据加载失败', errHint: '请确认数据管道已运行：',
@@ -40,6 +42,7 @@ const T = {
     subtitle: 'How languages survive in the digital age',
     explore: 'Explore', story: 'Story',
     vMap: 'Map', vGrowth: 'Vitality', vCompare: 'Comparison', vMatrix: 'Doc gaps',
+    vEndanger: 'Two vitalities',
     kLang: 'languages', kCoord: 'mapped', kWiki: 'with Wikipedia',
     loading: 'Loading dataset…',
     errTitle: 'Failed to load data', errHint: 'Run the data pipeline first:',
@@ -57,6 +60,7 @@ const VIEWS = computed(() => [
   { id: 'growth', label: t.value.vGrowth },
   { id: 'features', label: t.value.vCompare },
   { id: 'matrix', label: t.value.vMatrix },
+  { id: 'endanger', label: t.value.vEndanger },
 ] as const)
 
 const kpi = computed(() => [
@@ -129,6 +133,7 @@ onMounted(() => store.load())
           <WorldMap v-if="store.activeView === 'map'" />
           <GrowthChart v-else-if="store.activeView === 'growth'" />
           <FeatureMatrix v-else-if="store.activeView === 'matrix'" />
+          <EndangermentView v-else-if="store.activeView === 'endanger'" />
           <FeatureCompare v-else />
         </div>
       </section>

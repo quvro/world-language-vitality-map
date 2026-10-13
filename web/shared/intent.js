@@ -60,6 +60,13 @@ export const INTENT_SCHEMA = {
       type: 'string',
       description: '把时间轴定位到某年或某月，格式 YYYY 或 YYYYMM，例如 2018 或 201803',
     },
+    endangermentLevels: {
+      type: 'array',
+      items: { type: 'integer', enum: [1, 2, 3, 4, 5, 6] },
+      description:
+        'UNESCO 濒危等级筛选。1=安全 2=脆弱 3=明确濒危 4=严重濒危 5=极度濒危 6=已灭绝。' +
+        '用户说「濒危语言」时填 [2,3,4,5,6]；说「极度濒危」时填 [5]。',
+    },
     explanation: {
       type: 'string',
       description: '用一句话向用户复述你理解到的筛选意图，使用与用户提问相同的语言',
@@ -113,8 +120,7 @@ const WORD_ORDER = {
   OSV: ['osv', '宾主动'],
 }
 
-/** 少量"特征 + 取值"的固定搭配（规则解析很难泛化，所以只做几个高频的） */
-const FEATURE_PATTERNS = [
+/** 少数"特征 + 取值"的固定搭配（规则解析很难泛化，所以只做几个高频的） */const FEATURE_PATTERNS = [
   { re: /声调|有声调|tone/i, id: '13A', value: null, hint: '声调' },
   { re: /文字系统|有文字|writing system/i, id: '141A', value: null, hint: '文字系统' },
   { re: /小舌辅音|uvular/i, id: '6A', value: null, hint: '小舌辅音' },
@@ -132,6 +138,18 @@ const FEATURE_PATTERNS = [
  * 于是「印欧语系中有声调的语言」被误加上了「语区=欧亚」。
  * 中文没有词边界概念，仍旧用 includes。
  */
+/** UNESCO 濒危等级关键词。注意"濒危"是 3/4/5 的公共子串，必须先匹配具体档位。 */
+const ENDANGER_WORDS = {
+  1: ['安全', 'safe'],
+  2: ['脆弱', 'vulnerable'],
+  3: ['明确濒危', 'definitely endangered'],
+  4: ['严重濒危', 'severely endangered'],
+  5: ['极度濒危', '极危', 'critically endangered'],
+  6: ['已灭绝', '灭绝', 'extinct'],
+}
+/** 只说了"濒危"没指档位时，理解为名录里的任意濒危档 */
+const ENDANGER_ANY = [2, 3, 4, 5, 6]
+
 function hitAny(text, words) {
   return words.some((w) => {
     if (/^[\x20-\x7e]+$/.test(w)) {
@@ -191,6 +209,17 @@ export function parseLocal(question, ctx = {}) {
   const minF = raw.match(/(?:至少|超过|多于)?\s*(\d{2,3})\s*(?:个|条)?\s*特征/)
   if (minF) out.minFeatures = Number(minF[1])
   else if (/数据完整|资料完整|complete data/i.test(raw)) out.minFeatures = 100
+
+  // UNESCO 濒危等级。先匹配具体档位，"濒危"这个公共子串留到最后兜底
+  const lv = []
+  for (const k of [1, 2, 3, 4, 5, 6]) {
+    if (hitAny(q, ENDANGER_WORDS[k])) lv.push(k)
+  }
+  if (lv.length) {
+    out.endangermentLevels = lv
+  } else if (hitAny(q, ['濒危', 'endangered', '消失的语言'])) {
+    out.endangermentLevels = [...ENDANGER_ANY]
+  }
 
   // 时间定位
   const ym = raw.match(/(20\d{2})\s*年\s*(\d{1,2})\s*月/)
@@ -272,6 +301,18 @@ export function describeIntent(intent, lang = 'zh', featureName = (id) => id) {
       key: 'period',
       label: zh ? '定位到' : 'Jump to',
       value: p.length === 6 ? `${p.slice(0, 4)}-${p.slice(4, 6)}` : p,
+    })
+  }
+  if (intent.endangermentLevels?.length) {
+    const LV = {
+      1: ['安全', 'safe'], 2: ['脆弱', 'vulnerable'],
+      3: ['明确濒危', 'definitely endangered'], 4: ['严重濒危', 'severely endangered'],
+      5: ['极度濒危', 'critically endangered'], 6: ['已灭绝', 'extinct'],
+    }
+    chips.push({
+      key: 'endanger',
+      label: zh ? 'UNESCO 濒危等级' : 'UNESCO status',
+      value: intent.endangermentLevels.map((n) => LV[n][zh ? 0 : 1]).join(zh ? '、' : ', '),
     })
   }
   return chips
