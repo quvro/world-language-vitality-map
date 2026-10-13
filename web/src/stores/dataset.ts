@@ -24,16 +24,26 @@ export interface ZhLabels {
 }
 
 /**
- * UNESCO 濒危等级（来自 pipeline/05_fetch_endangerment.py）。
+ * 统一的「濒危等级」量表（1 未濒危 … 6 已灭绝）。
  *
- * 这是项目里**第二个独立的活力维度**：此前所有叫"活力"的指标都来自维基浏览量，
- * 那测的是数字关注度，不是语言学意义上的语言活力。有了它才能把两个维度对照：
- * 「一门语言在语言学上还活着，但在数字空间里已经死了吗？」
+ * 两个数据源的 6 级是**一一对应**的（依据 Glottolog CLDF codes.csv 的说明）：
+ *   1 not endangered = UNESCO safe            2 threatened   = UNESCO vulnerable
+ *   3 shifting       = UNESCO definitely      4 moribund     = UNESCO severely
+ *   5 nearly extinct = UNESCO critically      6 extinct      = UNESCO extinct
+ * 所以可以合并成一个量表：**AES 优先，UNESCO 补缺**。
  *
- * 数字越小越安全：1 safe … 6 extinct。
- * ⚠️ 口径注意：UNESCO 名录**只收濒危语言**（全名录 2,593 条里只有 82 条是 safe），
- * 所以"未收录"不等于"安全"，不能反推。
+ * 为什么以 AES 为主：UNESCO 名录**只收濒危语言**（全名录 2,593 条里只有 82 条 safe），
+ * 本项目只能匹配上 41.9%，没有"未濒危"这一档作参照，散点图会严重偏斜。
+ * AES 给所有 languoid 都标了级，覆盖 97.3%。
+ *
+ * 合并后覆盖 2,614 / 2,662 = 98.2%。
  */
+export interface Aes {
+  levels: Record<string, { en: string; zh: string; desc?: string }>
+  by_glottocode: Record<string, number>
+  counts: Record<string, number>
+}
+
 export interface Endangerment {
   levels: Record<string, { en: string; zh: string }>
   by_glottocode: Record<string, number>
@@ -55,6 +65,7 @@ interface State {
   /** Wikidata 抓来的中文标签；缺失时界面自动回退英文 */
   zhLabels: ZhLabels | null
   endangerment: Endangerment | null
+  aes: Aes | null
   loading: boolean
   error: string | null
   /** wals_id -> 在 feature_matrix.language_keys 里的下标，加载后预计算避免每次线性查找 */
@@ -125,6 +136,7 @@ export const useDataset = defineStore('dataset', {
     matrix: null,
     zhLabels: null,
     endangerment: null,
+    aes: null,
     loading: true,
     error: null,
     keyIndex: {},
@@ -322,23 +334,43 @@ export const useDataset = defineStore('dataset', {
     },
 
     /**
-     * wals_id → UNESCO 濒危等级（1..6）。未被名录收录的语言没有键。
+     * wals_id → 统一濒危等级（1..6）。未被覆盖的语言没有键。
      *
-     * 用 Glottocode 优先、ISO 639-3 兜底。注意粒度差异：
-     * UNESCO 是**语言级**，本项目分析单元是**变体级**，
-     * 所以同一 Glottocode 下的多个变体会得到同一等级（这是正确的，
-     * 濒危状态本就属于语言而不属于某个方言变体）。
+     * **AES 优先，UNESCO 补缺** —— 两者 6 级一一对应，理由见 Aes 的注释。
+     * 粒度注意：濒危状态是**语言级**的，而本项目分析单元是**变体级**，
+     * 所以同一 Glottocode 下的多个变体会得到同一等级（这是正确的）。
      */
     endangermentByWals(state): Record<string, number> {
       const e = state.endangerment
-      if (!e) return {}
+      const a = state.aes
+      if (!e && !a) return {}
       const out: Record<string, number> = {}
       for (const l of state.langs) {
-        const lv = e.by_glottocode[l.glottocode ?? ''] ??
-          e.by_iso639p3[(l.iso639p3 ?? '').toLowerCase()]
+        const gc = l.glottocode ?? ''
+        const iso = (l.iso639p3 ?? '').toLowerCase()
+        const lv = a?.by_glottocode[gc] ??
+          // UNESCO 只有 Glottocode 没命中时才用 ISO 兜底
+          e?.by_glottocode[gc] ?? e?.by_iso639p3[iso]
         if (lv) out[l.wals_id] = lv
       }
       return out
+    },
+
+    /** 用的是哪个数据源（给口径说明用） */
+    endangermentSources(state): { aes: number; unescoOnly: number; none: number } {
+      const a = state.aes?.by_glottocode ?? {}
+      const e = state.endangerment
+      let aes = 0
+      let unescoOnly = 0
+      let none = 0
+      for (const l of state.langs) {
+        const gc = l.glottocode ?? ''
+        const iso = (l.iso639p3 ?? '').toLowerCase()
+        if (a[gc]) aes++
+        else if (e?.by_glottocode[gc] ?? e?.by_iso639p3[iso]) unescoOnly++
+        else none++
+      }
+      return { aes, unescoOnly, none }
     },
 
     /**
@@ -396,6 +428,12 @@ export const useDataset = defineStore('dataset', {
           this.endangerment = await loadJson<Endangerment>('endangerment.json')
         } catch {
           this.endangerment = null
+        }
+        // Glottolog AES（跑过 06 脚本才有）。它覆盖面大得多，优先使用。
+        try {
+          this.aes = await loadJson<Aes>('aes.json')
+        } catch {
+          this.aes = null
         }
 
         // 预计算下标，避免筛选时对 2,660 条做线性查找
