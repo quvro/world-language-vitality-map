@@ -22,7 +22,13 @@ const check = (label, cond, extra = '') => {
 const withCoords = langs.filter((l) => l.latitude && l.longitude)
 const withWiki = langs.filter((l) => l.wiki_code)
 const reliable = langs.filter((l) => l.baseline_ok && l.growth != null)
-check('languages.json 非空', langs.length > 3000, `${langs.length} 条`)
+// 原先是 `langs.length > 3000` —— 那是剔除语系占位行**之前**写的，
+// 后来 languages.json 从 3,573 条降到 2,662 条，这条断言就永远失败了。
+// 改成检验真正的不变量：只含真语言，且不含 WALS 的层级占位行。
+check('languages.json 只含真语言（无 family-/genus-/subfamily- 占位行）',
+  langs.length > 2000 &&
+  !langs.some((l) => /^(family|genus|subfamily)-/.test(String(l.wals_id))),
+  `${langs.length} 条`)
 check('有坐标的点位', withCoords.length > 2000, `${withCoords.length}`)
 check('关联维基的语言', withWiki.length > 200, `${withWiki.length}`)
 check('可用于增长分析', reliable.length > 150, `${reliable.length}`)

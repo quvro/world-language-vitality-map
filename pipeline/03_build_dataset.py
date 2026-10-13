@@ -171,9 +171,24 @@ def main() -> None:
 
     # ------------------------------------------------------------------- sqlite
     banner("6. 写入 SQLite")
-    if os.path.exists(DB):
-        os.remove(DB)
+    # ⚠️ 这里曾经是 `os.remove(DB)` 直接删库重建 —— 那会把 **05/06 写进同一张库的
+    #    dim_endangerment 表静默清掉**（本次 review 就踩到了：重跑 03 之后
+    #    「濒危 × 关注」的数据在库里消失，而磁盘上的 JSON 还在，所以从界面上看不出来）。
+    #    改成只重建本步骤负责的表，其余表原样保留。
+    OWNED_TABLES = (
+        "dim_language", "dim_feature", "dim_code", "fact_language_feature",
+        "fact_language_timeseries", "dim_genealogy", "dim_wiki_edition",
+        "xref_iso", "feature_vector",
+    )
     con = sqlite3.connect(DB)
+    kept = [r[0] for r in con.execute(
+        "SELECT name FROM sqlite_master WHERE type='table'")]
+    for tbl in OWNED_TABLES:
+        con.execute(f'DROP TABLE IF EXISTS "{tbl}"')
+    surviving = [t for t in kept if t not in OWNED_TABLES]
+    if surviving:
+        log(f"  保留其他步骤写入的表：{', '.join(sorted(surviving))}")
+
     dim_language.to_sql("dim_language", con, index=False)
     parameters.rename(columns={
         "ID": "feature_id", "Name": "name", "Description": "description",

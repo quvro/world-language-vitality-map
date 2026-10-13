@@ -14,6 +14,7 @@ from __future__ import annotations
 import base64
 import json
 import os
+import sqlite3
 import sys
 import time
 import urllib.error
@@ -34,6 +35,7 @@ WALS_DIR = os.path.join(RAW, "wals")
 WIKIMEDIA_DIR = os.path.join(RAW, "wikimedia")
 XREF_DIR = os.path.join(RAW, "xref")
 PROCESSED = os.path.join(DATA, "processed")
+DB = os.path.join(PROCESSED, "language_vitality.db")
 
 for _d in (DATA, RAW, WALS_DIR, WIKIMEDIA_DIR, XREF_DIR, PROCESSED):
     os.makedirs(_d, exist_ok=True)
@@ -168,6 +170,46 @@ def norm_month(ts: str) -> str:
     """
     digits = "".join(ch for ch in str(ts) if ch.isdigit())
     return digits[:6] if len(digits) >= 6 else str(ts)
+
+
+def upsert_endangerment(rows, source: str) -> int:
+    """把濒危等级写进 SQLite 的 dim_endangerment 表。
+
+    为什么要写库：05 / 06 的产出原本只落在 JSON 里，SQLite 里没有这个维度 ——
+    而**数据库是本项目的交付物之一**，只查库时会看不到「濒危 × 关注」这条主线的数据。
+
+    AES（06）覆盖面比 UNESCO（05）大得多，且两套 6 级一一对应，
+    所以两边写同一张表：06 后运行会覆盖重叠部分，
+    最终结果与前端一致 —— **AES 优先、UNESCO 补缺**。
+
+    rows: 可迭代的 (glottocode, level, label_en, label_zh)
+    """
+    if not os.path.exists(DB):
+        log(f"  （{os.path.basename(DB)} 还不存在，跳过写库；请先跑 03）")
+        return 0
+    con = sqlite3.connect(DB)
+    try:
+        con.execute("""
+            CREATE TABLE IF NOT EXISTS dim_endangerment (
+                glottocode TEXT PRIMARY KEY,
+                level      INTEGER NOT NULL,   -- 1 未濒危 … 6 已灭绝
+                source     TEXT    NOT NULL,   -- 'aes' | 'unesco'
+                label_en   TEXT,
+                label_zh   TEXT
+            )""")
+        con.executemany(
+            "INSERT OR REPLACE INTO dim_endangerment VALUES (?,?,?,?,?)",
+            [(gc, lv, source, en, zh) for gc, lv, en, zh in rows])
+        con.commit()
+        n = con.execute("SELECT count(*) FROM dim_endangerment").fetchone()[0]
+        by_src = dict(con.execute(
+            "SELECT source, count(*) FROM dim_endangerment GROUP BY source"))
+    finally:
+        con.close()
+    detail = "  ".join(f"{k}={human(v)}" for k, v in sorted(by_src.items()))
+    log(f"  写入 SQLite dim_endangerment（本次 source={source}）"
+        f"共 {human(n)} 行  [{detail}]")
+    return n
 
 
 # --------------------------------------------------------------------------- wikidata

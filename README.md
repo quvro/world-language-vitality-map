@@ -36,7 +36,7 @@
   四项相乘会**放大**差距 —— 实测末月最高（English 72.3 亿）与最低（Pipil 1,211）
   差 **597 万倍**，但语言活力的差距绝没有这么大
 - **反向可能**：使用者很多但都去读英文维基的语言，会被显示成"不活跃"
-- **覆盖极窄**：2,662 门语言里只有 **263 门**算得出增长率（9.9%），
+- **覆盖极窄**：2,662 门语言里只有 **265 门**算得出增长率（10.0%），
   而且系统性地是那些本就被记录得最全、上网人口最多的语言
 
 ### 所以我们补了第二个维度
@@ -78,24 +78,33 @@
 | `dim_language` | 3,573 条原始记录，其中 **2,662 条是真语言**（另 911 条是 WALS 的语系/语族/语支层级占位行，导出前端时已剔除） |
 | `fact_language_feature` | **76,475 条**（2,660 语言 × 192 特征） |
 | `feature_vector`（宽表） | 2,660 × 192，填充率 15.0%（含缺失掩码） |
-| `fact_language_timeseries` | **55,427 条**（244 个语言 × 127 个月 × 浏览量/编辑量） |
-| 维基语言版本 | 364 个，其中 **247 个可关联到 WALS** |
-| **合计** | **约 13.2 万条结构化记录** |
+| `fact_language_timeseries` | **66,103 条**（267 个语言 × 135 个月 × 浏览量/编辑量） |
+| `dim_endangerment` | **8,872 条**（Glottolog AES 8,672 + UNESCO 补缺 200） |
+| 维基语言版本 | 364 个，其中 **271 个可关联到 WALS** |
+| **合计** | **约 16.0 万条结构化记录** |
+
+> 时间范围 **2015-07 ～ 2026-09（135 个月）**。
+> 注意 02 脚本原先把这个区间写死在 `END` 常量里，随着时间推移数据越来越旧却毫无提示 ——
+> 实测到 2026-10 才发现白丢了 8 个月。现在改为动态取「上一个完整自然月」。
 
 特征覆盖率（决定条件对比交互能用哪些特征）：
 每特征覆盖语言数**中位数 257**，**88 个特征覆盖 ≥ 300 种语言**，
-覆盖最好的是语序类特征（"Order of Object and Verb" 覆盖 1,495 种语言）。
+覆盖最好的是语序类特征（"Order of Object and Verb" 覆盖 1,518 种语言）。
 
 ### 一个已经看得到的结论
 
-用「首 3 月均值 vs 末 3 月均值」算 10 年变化（已剔除基线不可靠的统计伪影）：
+用「首 3 月均值 vs 末 3 月均值」算十年变化（基线不可靠者已剔除；当前基线=2015-07~09，末期=2026-07~09）：
 
 | 方向 | 语言 |
 |---|---|
-| **下滑** | 西班牙语(加那利) −48.6%、葡萄牙语 −44.6%、他加禄语 −52.1%、藏语(书面) −48.9% |
-| **增长** | 达格班语 +4210%、拉定语 +4050%、汤加语 +3053%、巴厘语 +2151%、豪萨语 +1486% |
+| **下滑** | 他加禄语 −79.2%、西班牙语 −54.0%、索布语 −49.0%、印尼语 −47.6%、葡萄牙语 −45.4% |
+| **增长** | 赛德克语 +10271%、斐济语 +6336%、伊努皮克语 +4221%、平原克里语 +4200%、豪萨语 +3828% |
 
-欧洲老牌语言在退、非洲与亚洲语言在进——这就是 pre 时可以讲的核心发现。
+欧洲老牌语言在退、太平洋与非洲语言在进 —— 这是 pre 时可以讲的核心发现。
+
+> 注意**增长榜的榜首是几门濒危语言**（赛德克语、伊努皮克语、平原克里语）。
+> 这不是巧合：它们的基数极小，且往往有语言复兴社群在推动。
+> 「濒危 × 关注」那个视图就是为此做的。
 
 ---
 
@@ -105,17 +114,27 @@
 keshihua/
 ├── pipeline/              数据管道（Python，仅用标准库 + pandas）
 │   ├── common.py          公共模块：路径、HTTP、GitHub blob、WDQS、月份归一
-│   ├── 01_fetch_sources.py    WALS 六表 + Wikidata ISO 映射
-│   ├── 02_fetch_wikimedia.py  维基百科逐语言版本时间序列（可续抓）
-│   └── 03_build_dataset.py    构建 SQLite + 前端 JSON + 校验报告
+│   ├── 01_fetch_sources.py       WALS 六表 + Wikidata ISO / 宏观语言映射
+│   ├── 02_fetch_wikimedia.py     维基百科逐语言版本时间序列（可续抓、可增量补）
+│   ├── 03_build_dataset.py       构建 SQLite + 前端 JSON + 校验报告
+│   ├── 04_fetch_zh_labels.py     中文名称（Wikidata）
+│   ├── 05_fetch_endangerment.py  UNESCO 濒危等级（Wikidata P1999）
+│   ├── 06_fetch_aes.py           Glottolog AES 濒危等级（覆盖面更大，优先使用）
+│   └── check_dataset.py          完整性自检
 ├── data/
 │   ├── raw/               原始数据（只增不改）
 │   │   ├── wals/          WALS CLDF 六表
 │   │   ├── wikimedia/     pageviews / edits / join
-│   │   └── xref/          ISO 639-1 ↔ 639-3 映射
+│   │   ├── glottolog/     Glottolog CLDF values.csv + codes.csv（AES 来源）
+│   │   └── xref/          ISO 映射 / 宏观语言 / UNESCO / 中文标签
 │   └── processed/         SQLite + 前端用 JSON + 校验报告
 ├── docs/plans/            设计文档
-├── _tools/                选型阶段的探测脚本（保留备查）
+├── web/
+│   ├── src/               Vue 应用（components / stores / theme / terms）
+│   ├── shared/intent.js   自然语言意图定义（前后端共用）
+│   ├── preview/           零构建验证脚本（在 Node 里跑，不需要浏览器）
+│   └── public/vendor/     echarts / world.js 等浏览器端传统脚本
+├── _tools/                选型阶段的探测脚本（见 _tools/README.md 的阶段归属说明）
 └── _refs_out/             探测输出
 ```
 
@@ -129,26 +148,34 @@ keshihua/
 C:\Users\sunyn\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\python\python.exe
 ```
 
+**按顺序执行**（03 需要 01/02 的产出；05/06 的产出被前端读取，但不阻塞 03）：
+
 ```powershell
 $py = 'C:\Users\sunyn\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\python\python.exe'
 
-& $py pipeline\01_fetch_sources.py      # WALS 六表 + ISO 映射（约 1 分钟）
-& $py pipeline\02_fetch_wikimedia.py    # 时间序列（约 10~20 分钟，可中断续抓）
-& $py pipeline\03_build_dataset.py      # 构建 SQLite 与前端 JSON（约 30 秒）
-& $py pipeline\04_fetch_zh_labels.py    # 中文标签（3 次 WDQS 查询，约 4 分钟）
-& $py pipeline\check_dataset.py         # 完整性自检
+& $py pipeline\01_fetch_sources.py        # WALS 六表 + ISO / 宏观语言映射（约 1 分钟）
+& $py pipeline\02_fetch_wikimedia.py      # 时间序列（首次约 20 分钟，可中断续抓）
+& $py pipeline\03_build_dataset.py        # 构建 SQLite 与前端 JSON（约 30 秒）
+& $py pipeline\04_fetch_zh_labels.py      # 中文名称（3 次 WDQS 查询，约 4 分钟）
+& $py pipeline\05_fetch_endangerment.py   # UNESCO 濒危等级（1 次 WDQS 查询）
+& $py pipeline\06_fetch_aes.py            # Glottolog AES（下载 21 MB，约 15 秒）
+& $py pipeline\check_dataset.py           # 完整性自检
 ```
+
+> 04/05/06 都是**可选**的：对应 JSON 缺失时前端不会报错，只是名称/濒危维度不可用。
+> 但 README 里引用的濒危分析结论需要 05 与 06 都跑过。
 
 常用参数：
 
 | 参数 | 作用 |
 |---|---|
 | `--force` | 忽略已有文件，重新抓取 |
-| `--only-joined` | 只抓能关联到 WALS 的 247 个语言版本（02） |
+| `--only-joined` | 只抓能关联到 WALS 的 271 个语言版本（02） |
 | `--limit=N` | 只抓前 N 个（调试用，02） |
 
-四个脚本都是**幂等**的：重复运行会跳过已完成的文件 / 已抓取的语言。
-`04` 会把中文标签同时写到 `data/raw/xref/`（缓存）与 `data/processed/`（前端读取）。
+六个脚本都是**幂等**的：重复运行会跳过已完成的文件 / 已抓取的语言。
+`04` / `05` / `06` 会把产出同时写到 `data/raw/`（缓存）与 `data/processed/`（前端读取）。
+`02` 支持**增量补抓**：目标月份往后推时只补缺口那一段，不会全量重抓。
 
 ---
 
@@ -156,7 +183,7 @@ $py = 'C:\Users\sunyn\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\python\
 
 ```powershell
 $node = 'C:\Users\sunyn\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\node\bin\node.exe'
-$pnpm = 'C:\Users\sunyn\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\pnpm\bin\pnpm.mjs'
+$pnpm = 'C:\Users\sunyn\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\pnpm\bin\pnpm.cjs'
 
 cd web
 & $node $pnpm install          # 首次
@@ -168,6 +195,23 @@ cd web
 > ⚠️ **本机必须放宽权限才能起开发服务器。** Vite 依赖 esbuild，而 esbuild 需要
 > 启动子进程并通过管道通信；沙箱会拒绝该子进程（`spawn EPERM`）。
 > 这不是代码问题，换一台没有沙箱的机器直接 `pnpm dev` 即可。
+
+> ⚠️ **`pnpm install` 在本机会报 `ERR_PNPM_UNEXPECTED_STORE`**：
+> 依赖当初是从 `E:\.pnpm-store\v11` 装的，而工作区里存在一个空的本地
+> `.pnpm-store/` 会让 pnpm 改用它。加 `--store-dir E:\.pnpm-store\v11` 即可
+> （该目录在工作区之外，受沙箱限制时需要放宽权限）。
+
+### 类型检查与构建
+
+```powershell
+& $node $pnpm typecheck    # vue-tsc --noEmit
+& $node $pnpm build        # 先类型检查，再 vite build
+```
+
+> **改完前端一定要跑 `typecheck`。** 日常开发用的是 `vite dev`，
+> 而 **Vite 只转译、不做类型检查** —— 本次 review 就从 `vue-tsc` 里
+> 挖出 20 个错（含 store 的 `activeView` 联合类型漏了两个新视图，
+> 那会让 `pnpm build` 直接失败）。
 
 ### 前端结构
 
@@ -204,25 +248,39 @@ web/
 
 ### 全是可在本机跑的验证脚本
 
-本机没有无头浏览器，但这些都能在 Node 里跑（ECharts 5.6 支持无 DOM 的 SSR 渲染）：
+本机没有无头浏览器，但这些都能在 Node 里跑（ECharts 5.6 支持无 DOM 的 SSR 渲染）。
+**改完任何一处都建议全跑一遍**：
 
 ```powershell
 $node = 'C:\Users\sunyn\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\node\bin\node.exe'
-& $node web\preview\verify-timeline-render.mjs   # 时间轴是否改变地图渲染（7/7 输出不同）
-& $node web\preview\verify-size-scale.mjs        # 点大小尺度：相邻月份变化是否够大
-& $node web\preview\verify-compare-signal.mjs    # 条件对比是否有信号
-& $node web\preview\verify-zh-names.mjs          # 中文名覆盖率
-& $node web\preview\verify-data.mjs              # 前端数据处理的假设是否成立
+Get-ChildItem web\preview\verify-*.mjs | ForEach-Object { & $node $_.FullName; "$($_.Name): exit=$LASTEXITCODE" }
 ```
 
+| 脚本 | 验什么 |
+|---|---|
+| `verify-data.mjs` | 前端数据处理的假设是否成立（含"只含真语言、无占位行"） |
+| `verify-timeline-render.mjs` | 时间轴是否真的改变地图渲染（SSR 输出比对） |
+| `verify-size-scale.mjs` | 点大小尺度：相邻月份的变化是否够大 |
+| `verify-compare-signal.mjs` | 条件对比是否有真实信号 |
+| `verify-nl-local.mjs` | 自然语言：12 个中英问法端到端（含"筛空=0"） |
+| `verify-search-alias.mjs` | 搜「中文/普通话/汉语」能否找到 Mandarin |
+| `verify-zh-names.mjs` | 中文名覆盖率 |
+| `verify-round2-fixes.mjs` | 榜单重复、时间轴随筛选、国家名映射、名称解析响应式 |
+| `verify-feature-matrix.mjs` | 记录缺口图：稀疏度、阶梯形状、双重缺席分桶 |
+| `verify-endangerment.mjs` | UNESCO 口径的比例单调性与结论句硬数字 |
+| `verify-aes-attention.mjs` | AES 结论 1/2/3 + **表现陷阱检查**（散点覆盖不到多数语言） |
+| `verify-map-repaint.mjs` | **地图重绘回归防线**：每个 store 字段都能触发重绘 + 10 条结构不变量 |
+| `verify-halo-ssr.mjs` | 高亮环是否真被画进 SVG（并输出 `out-halo.svg` 供人工查看） |
+
 诊断脚本（排查用）：`diagnose-months.mjs`（时间轴月份是否完整）、
-`diagnose-scale.mjs`（尺寸尺度对比）、`repro-merge-bug.mjs`（ECharts merge 更新是否生效）。
+`diagnose-scale.mjs`（尺寸尺度对比）、`repro-merge-bug.mjs`（ECharts merge 更新是否生效）、
+`investigate-zh-and-chinese.mjs`（汉语族语言在数据里的状态）。
 
 ### 三个签名交互
 
 | 交互 | 做什么 | 可验证性 |
 |---|---|---|
-| **时间轴回放** | 拖动 2015-07 → 2026-01，地图上点的大小随之变化 | `verify-timeline-render.mjs`（SSR 渲染比对） |
+| **时间轴回放** | 拖动 2015-07 → 2026-09，地图上点的大小随之变化 | `verify-timeline-render.mjs`（SSR 渲染比对） |
 | **条件对比** | 选一个语法特征，按取值分组，比较各组的**数字在场率**与十年趋势 | `verify-compare-signal.mjs`（确认有信号） |
 | **自然语言查询** | 一句话 → 结构化筛选条件 → 全部视图联动 → 基于真实数据生成解释 | `verify-nl-local.mjs`（12 个问法端到端） |
 
@@ -463,7 +521,7 @@ npm registry 和 `*.wikipedia.org` 需要代理。管道已按此选择绕法，
    不归一会静默产生 `2015-0` 这种错误键，且**原始月份信息不可恢复**
    （必须重抓；管道现在会主动检测并只重抓受影响的序列）。
 4. **跨源关联的不确定性显式落库** —— `dim_wiki_edition.join_ambiguous` /
-   `iso_candidates`。实测 247 个关联**全部**是多对一：因为 ISO 639-3 标识「语言」
+   `iso_candidates`。实测 271 个关联**全部**是多对一：因为 ISO 639-3 标识「语言」
    而 WALS 收录「变体」。这不是错误，但要记录我们的择优规则（取特征数据最丰富者，
    并列时按 `wals_id` 保证确定性），以便复核。
 
@@ -491,4 +549,4 @@ npm registry 和 `*.wikipedia.org` 需要代理。管道已按此选择绕法，
 
 > 答辩要点：**我们没有现成的宽表**——三个数据源的语言标识体系各不相同
 > （WALS 用自增 ID 与 ISO 639-3，维基用语言子域码混用 ISO 639-1/639-3），
-> 是我们自己构建了 185 组 ISO 映射把 247 个语言对齐起来的。
+> 是我们自己构建了 185 组 ISO 映射把 271 个语言对齐起来的。

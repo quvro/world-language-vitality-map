@@ -39,7 +39,8 @@ from collections import Counter, defaultdict
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from common import (  # noqa: E402
-    PROCESSED, XREF_DIR, banner, exists, human, log, read_json, wdqs, write_json,
+    PROCESSED, XREF_DIR, banner, exists, human, log, read_json, upsert_endangerment,
+    wdqs, write_json,
 )
 
 OUT = os.path.join(XREF_DIR, "unesco_raw.json")
@@ -149,6 +150,10 @@ def main() -> None:
         f"（无法解析的 {payload['skipped_unparsable']} 行）")
     write_json(OUT_PUBLISHED, payload)
     log(f"  写入 {OUT_PUBLISHED}")
+    upsert_endangerment(
+        ((gc, lv, LEVELS[lv]["en"], LEVELS[lv]["zh"])
+         for gc, lv in payload["by_glottocode"].items()),
+        "unesco")
     report(payload)
 
 

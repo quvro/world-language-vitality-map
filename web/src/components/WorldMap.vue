@@ -25,7 +25,7 @@ import { useDataset } from '@/stores/dataset'
 import { useDisplayNames } from '@/display'
 import { COUNTRY_ZH } from '@/countries'
 import { useChartResize } from '@/useChartResize'
-import { MACRO_AREAS, type MacroArea } from '@/types'
+import { MACRO_AREAS } from '@/types'
 import { categoryPalette, semanticColors } from '@/theme/echarts-theme.js'
 
 const store = useDataset()

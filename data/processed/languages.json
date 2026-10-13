@@ -135,12 +135,12 @@
   "wiki_code": "ab",
   "month_first": "201507",
   "views_first": 64904,
-  "month_last": "202601",
-  "views_last": 108311,
+  "month_last": "202609",
+  "views_last": 294249,
   "views_baseline": 73513.0,
-  "views_recent": 118048.0,
+  "views_recent": 396589.0,
   "baseline_ok": true,
-  "growth": 0.6058
+  "growth": 4.3948
  },
  {
   "wals_id": "abm",
@@ -263,12 +263,12 @@
   "wiki_code": "ace",
   "month_first": "201507",
   "views_first": 173949,
-  "month_last": "202601",
-  "views_last": 96414,
+  "month_last": "202609",
+  "views_last": 309578,
   "views_baseline": 157897.0,
-  "views_recent": 287084.0,
+  "views_recent": 1029990.0,
   "baseline_ok": true,
-  "growth": 0.8182
+  "growth": 5.5232
  },
  {
   "wals_id": "acg",
@@ -496,12 +496,12 @@
   "wiki_code": "ady",
   "month_first": "201602",
   "views_first": 24087,
-  "month_last": "202601",
-  "views_last": 29485,
+  "month_last": "202609",
+  "views_last": 68642,
   "views_baseline": 32938.3,
-  "views_recent": 32511.0,
+  "views_recent": 82225.7,
   "baseline_ok": true,
-  "growth": -0.013
+  "growth": 1.4964
  },
  {
   "wals_id": "adz",
@@ -549,12 +549,12 @@
   "wiki_code": "arz",
   "month_first": "201507",
   "views_first": 2650420,
-  "month_last": "202601",
-  "views_last": 5888294,
+  "month_last": "202609",
+  "views_last": 6408927,
   "views_baseline": 2538920.0,
-  "views_recent": 5516645.0,
+  "views_recent": 7076814.3,
   "baseline_ok": true,
-  "growth": 1.1728
+  "growth": 1.7873
  },
  {
   "wals_id": "ael",
@@ -587,12 +587,12 @@
   "wiki_code": "af",
   "month_first": "201507",
   "views_first": 1852030,
-  "month_last": "202601",
-  "views_last": 1438471,
+  "month_last": "202609",
+  "views_last": 3192886,
   "views_baseline": 2284501.0,
-  "views_recent": 3386238.7,
+  "views_recent": 3100149.3,
   "baseline_ok": true,
-  "growth": 0.4823
+  "growth": 0.357
  },
  {
   "wals_id": "aga",
@@ -1045,12 +1045,12 @@
   "wiki_code": "ak",
   "month_first": "201507",
   "views_first": 37377,
-  "month_last": "202601",
-  "views_last": 42645,
+  "month_last": "202609",
+  "views_last": 102449,
   "views_baseline": 35123.3,
-  "views_recent": 447492.0,
+  "views_recent": 1156272.3,
   "baseline_ok": true,
-  "growth": 11.7406
+  "growth": 31.9203
  },
  {
   "wals_id": "ako",
@@ -1128,12 +1128,12 @@
   "wiki_code": "sq",
   "month_first": "201507",
   "views_first": 1880701,
-  "month_last": "202601",
-  "views_last": 2870861,
+  "month_last": "202609",
+  "views_last": 3065242,
   "views_baseline": 2288476.3,
-  "views_recent": 4631348.3,
+  "views_recent": 3047275.3,
   "baseline_ok": true,
-  "growth": 1.0238
+  "growth": 0.3316
  },
  {
   "wals_id": "alc",
@@ -1268,7 +1268,15 @@
   "genus": "Germanic",
   "country_id": "FR",
   "kind": "language",
-  "wiki_code": "gsw"
+  "wiki_code": "gsw",
+  "month_first": "202512",
+  "views_first": 2,
+  "month_last": "202609",
+  "views_last": 511028,
+  "views_baseline": 333851.3,
+  "views_recent": 746212.3,
+  "baseline_ok": true,
+  "growth": 1.2352
  },
  {
   "wals_id": "alu",
@@ -1421,12 +1429,12 @@
   "wiki_code": "am",
   "month_first": "201507",
   "views_first": 327632,
-  "month_last": "202601",
-  "views_last": 369723,
+  "month_last": "202609",
+  "views_last": 488064,
   "views_baseline": 337938.3,
-  "views_recent": 427264.7,
+  "views_recent": 404265.0,
   "baseline_ok": true,
-  "growth": 0.2643
+  "growth": 0.1963
  },
  {
   "wals_id": "ami",
@@ -1444,12 +1452,12 @@
   "wiki_code": "ami",
   "month_first": "202110",
   "views_first": 724,
-  "month_last": "202601",
-  "views_last": 32887,
+  "month_last": "202609",
+  "views_last": 55718,
   "views_baseline": 5885.7,
-  "views_recent": 94448.7,
+  "views_recent": 87830.0,
   "baseline_ok": false,
-  "growth": 15.0472
+  "growth": 13.9227
  },
  {
   "wals_id": "amk",
@@ -1572,12 +1580,12 @@
   "wiki_code": "ary",
   "month_first": "202007",
   "views_first": 29646,
-  "month_last": "202601",
-  "views_last": 270131,
+  "month_last": "202609",
+  "views_last": 657248,
   "views_baseline": 89747.3,
-  "views_recent": 272727.0,
+  "views_recent": 626613.0,
   "baseline_ok": true,
-  "growth": 2.0388
+  "growth": 5.982
  },
  {
   "wals_id": "ams",
@@ -1595,12 +1603,12 @@
   "wiki_code": "ar",
   "month_first": "201507",
   "views_first": 116534918,
-  "month_last": "202601",
-  "views_last": 120999872,
+  "month_last": "202609",
+  "views_last": 101031885,
   "views_baseline": 114982027.7,
-  "views_recent": 121831724.0,
+  "views_recent": 106940715.3,
   "baseline_ok": true,
-  "growth": 0.0596
+  "growth": -0.0699
  },
  {
   "wals_id": "amt",
@@ -2203,12 +2211,12 @@
   "wiki_code": "hy",
   "month_first": "201507",
   "views_first": 2424358,
-  "month_last": "202601",
-  "views_last": 5847202,
+  "month_last": "202609",
+  "views_last": 5341979,
   "views_baseline": 2678961.7,
-  "views_recent": 6778863.0,
+  "views_recent": 5173124.7,
   "baseline_ok": true,
-  "growth": 1.5304
+  "growth": 0.931
  },
  {
   "wals_id": "arn",
@@ -2331,12 +2339,12 @@
   "wiki_code": "hyw",
   "month_first": "201903",
   "views_first": 3,
-  "month_last": "202601",
-  "views_last": 147771,
+  "month_last": "202609",
+  "views_last": 185179,
   "views_baseline": 56006.3,
-  "views_recent": 149207.3,
+  "views_recent": 156551.7,
   "baseline_ok": true,
-  "growth": 1.6641
+  "growth": 1.7952
  },
  {
   "wals_id": "arx",
@@ -2429,12 +2437,12 @@
   "wiki_code": "alt",
   "month_first": "202102",
   "views_first": 14607,
-  "month_last": "202601",
-  "views_last": 56316,
+  "month_last": "202609",
+  "views_last": 76037,
   "views_baseline": 30403.0,
-  "views_recent": 47782.0,
+  "views_recent": 100515.3,
   "baseline_ok": true,
-  "growth": 0.5716
+  "growth": 2.3061
  },
  {
   "wals_id": "ass",
@@ -2452,12 +2460,12 @@
   "wiki_code": "as",
   "month_first": "201507",
   "views_first": 337663,
-  "month_last": "202601",
-  "views_last": 891902,
+  "month_last": "202609",
+  "views_last": 857978,
   "views_baseline": 352074.7,
-  "views_recent": 1147395.0,
+  "views_recent": 804561.7,
   "baseline_ok": true,
-  "growth": 2.259
+  "growth": 1.2852
  },
  {
   "wals_id": "ast",
@@ -2475,12 +2483,12 @@
   "wiki_code": "ast",
   "month_first": "201507",
   "views_first": 512499,
-  "month_last": "202601",
-  "views_last": 1032454,
+  "month_last": "202609",
+  "views_last": 1695644,
   "views_baseline": 492378.7,
-  "views_recent": 3618826.0,
+  "views_recent": 1845771.3,
   "baseline_ok": true,
-  "growth": 6.3497
+  "growth": 2.7487
  },
  {
   "wals_id": "asu",
@@ -2528,12 +2536,12 @@
   "wiki_code": "tay",
   "month_first": "202103",
   "views_first": 8943,
-  "month_last": "202601",
-  "views_last": 58340,
+  "month_last": "202609",
+  "views_last": 41205,
   "views_baseline": 14625.0,
-  "views_recent": 100355.0,
+  "views_recent": 150518.0,
   "baseline_ok": true,
-  "growth": 5.8619
+  "growth": 9.2918
  },
  {
   "wals_id": "atb",
@@ -2596,12 +2604,12 @@
   "wiki_code": "atj",
   "month_first": "201706",
   "views_first": 12753,
-  "month_last": "202601",
-  "views_last": 27372,
+  "month_last": "202609",
+  "views_last": 76543,
   "views_baseline": 33570.0,
-  "views_recent": 43340.7,
+  "views_recent": 88166.3,
   "baseline_ok": true,
-  "growth": 0.2911
+  "growth": 1.6263
  },
  {
   "wals_id": "atk",
@@ -2754,12 +2762,12 @@
   "wiki_code": "av",
   "month_first": "201507",
   "views_first": 77450,
-  "month_last": "202601",
-  "views_last": 62475,
+  "month_last": "202609",
+  "views_last": 192330,
   "views_baseline": 90206.7,
-  "views_recent": 71891.3,
+  "views_recent": 140617.7,
   "baseline_ok": true,
-  "growth": -0.203
+  "growth": 0.5588
  },
  {
   "wals_id": "avk",
@@ -2837,12 +2845,12 @@
   "wiki_code": "awa",
   "month_first": "202005",
   "views_first": 4453,
-  "month_last": "202601",
-  "views_last": 165716,
+  "month_last": "202609",
+  "views_last": 331191,
   "views_baseline": 28110.7,
-  "views_recent": 221876.3,
+  "views_recent": 301071.7,
   "baseline_ok": true,
-  "growth": 6.893
+  "growth": 9.7102
  },
  {
   "wals_id": "awe",
@@ -3070,12 +3078,12 @@
   "wiki_code": "azb",
   "month_first": "201507",
   "views_first": 3514587,
-  "month_last": "202601",
-  "views_last": 857786,
+  "month_last": "202609",
+  "views_last": 919605,
   "views_baseline": 2311159.7,
-  "views_recent": 8994699.0,
+  "views_recent": 4505175.0,
   "baseline_ok": true,
-  "growth": 2.8919
+  "growth": 0.9493
  },
  {
   "wals_id": "azi",
@@ -3273,12 +3281,12 @@
   "wiki_code": "ban",
   "month_first": "201910",
   "views_first": 32904,
-  "month_last": "202601",
-  "views_last": 197707,
+  "month_last": "202609",
+  "views_last": 478901,
   "views_baseline": 41409.0,
-  "views_recent": 932241.0,
+  "views_recent": 441699.0,
   "baseline_ok": true,
-  "growth": 21.513
+  "growth": 9.6667
  },
  {
   "wals_id": "bam",
@@ -3296,12 +3304,12 @@
   "wiki_code": "bm",
   "month_first": "201507",
   "views_first": 60693,
-  "month_last": "202601",
-  "views_last": 30744,
+  "month_last": "202609",
+  "views_last": 71755,
   "views_baseline": 55096.7,
-  "views_recent": 129700.7,
+  "views_recent": 66861.0,
   "baseline_ok": true,
-  "growth": 1.3541
+  "growth": 0.2135
  },
  {
   "wals_id": "ban",
@@ -3754,12 +3762,12 @@
   "wiki_code": "bn",
   "month_first": "201507",
   "views_first": 5263421,
-  "month_last": "202601",
-  "views_last": 10779650,
+  "month_last": "202609",
+  "views_last": 9233103,
   "views_baseline": 6217100.0,
-  "views_recent": 11787700.0,
+  "views_recent": 9045794.3,
   "baseline_ok": true,
-  "growth": 0.896
+  "growth": 0.455
  },
  {
   "wals_id": "beo",
@@ -4392,12 +4400,12 @@
   "wiki_code": "bcl",
   "month_first": "201507",
   "views_first": 154901,
-  "month_last": "202601",
-  "views_last": 189924,
+  "month_last": "202609",
+  "views_last": 562837,
   "views_baseline": 148513.3,
-  "views_recent": 882245.3,
+  "views_recent": 665972.3,
   "baseline_ok": true,
-  "growth": 4.9405
+  "growth": 3.4843
  },
  {
   "wals_id": "bkn",
@@ -4595,12 +4603,12 @@
   "wiki_code": "be",
   "month_first": "201507",
   "views_first": 1403759,
-  "month_last": "202601",
-  "views_last": 1717009,
+  "month_last": "202609",
+  "views_last": 1808990,
   "views_baseline": 1565476.3,
-  "views_recent": 2164547.3,
+  "views_recent": 1612337.7,
   "baseline_ok": true,
-  "growth": 0.3827
+  "growth": 0.0299
  },
  {
   "wals_id": "blt",
@@ -5173,12 +5181,12 @@
   "wiki_code": "bs",
   "month_first": "201507",
   "views_first": 3185669,
-  "month_last": "202601",
-  "views_last": 1934673,
+  "month_last": "202609",
+  "views_last": 2110364,
   "views_baseline": 3240392.3,
-  "views_recent": 3581384.0,
+  "views_recent": 2571828.0,
   "baseline_ok": true,
-  "growth": 0.1052
+  "growth": -0.2063
  },
  {
   "wals_id": "bou",
@@ -5466,12 +5474,12 @@
   "wiki_code": "br",
   "month_first": "201507",
   "views_first": 762377,
-  "month_last": "202601",
-  "views_last": 724795,
+  "month_last": "202609",
+  "views_last": 943346,
   "views_baseline": 735777.7,
-  "views_recent": 3246528.0,
+  "views_recent": 725553.3,
   "baseline_ok": true,
-  "growth": 3.4124
+  "growth": -0.0139
  },
  {
   "wals_id": "brf",
@@ -5579,12 +5587,12 @@
   "wiki_code": "my",
   "month_first": "201507",
   "views_first": 457049,
-  "month_last": "202601",
-  "views_last": 1896554,
+  "month_last": "202609",
+  "views_last": 1939573,
   "views_baseline": 504678.0,
-  "views_recent": 1988613.3,
+  "views_recent": 1904524.0,
   "baseline_ok": true,
-  "growth": 2.9404
+  "growth": 2.7737
  },
  {
   "wals_id": "brn",
@@ -5797,12 +5805,12 @@
   "wiki_code": "ba",
   "month_first": "201507",
   "views_first": 326135,
-  "month_last": "202601",
-  "views_last": 551550,
+  "month_last": "202609",
+  "views_last": 472826,
   "views_baseline": 378241.0,
-  "views_recent": 523381.3,
+  "views_recent": 451468.7,
   "baseline_ok": true,
-  "growth": 0.3837
+  "growth": 0.1936
  },
  {
   "wals_id": "bsl",
@@ -5835,12 +5843,12 @@
   "wiki_code": "bi",
   "month_first": "201507",
   "views_first": 52717,
-  "month_last": "202601",
-  "views_last": 119393,
+  "month_last": "202609",
+  "views_last": 163423,
   "views_baseline": 48286.7,
-  "views_recent": 225620.0,
+  "views_recent": 344688.3,
   "baseline_ok": true,
-  "growth": 3.6725
+  "growth": 6.1384
  },
  {
   "wals_id": "bso",
@@ -5873,12 +5881,12 @@
   "wiki_code": "eu",
   "month_first": "201507",
   "views_first": 1777896,
-  "month_last": "202601",
-  "views_last": 2616603,
+  "month_last": "202609",
+  "views_last": 3698638,
   "views_baseline": 1908006.0,
-  "views_recent": 8680913.0,
+  "views_recent": 3161153.7,
   "baseline_ok": true,
-  "growth": 3.5497
+  "growth": 0.6568
  },
  {
   "wals_id": "bsr",
@@ -5956,12 +5964,12 @@
   "wiki_code": "bbc",
   "month_first": "202311",
   "views_first": 27268,
-  "month_last": "202601",
-  "views_last": 39696,
+  "month_last": "202609",
+  "views_last": 74319,
   "views_baseline": 29859.0,
-  "views_recent": 92120.7,
+  "views_recent": 83745.0,
   "baseline_ok": true,
-  "growth": 2.0852
+  "growth": 1.8047
  },
  {
   "wals_id": "bua",
@@ -6024,12 +6032,12 @@
   "wiki_code": "bug",
   "month_first": "201507",
   "views_first": 160560,
-  "month_last": "202601",
-  "views_last": 81570,
+  "month_last": "202609",
+  "views_last": 134574,
   "views_baseline": 112619.0,
-  "views_recent": 785383.7,
+  "views_recent": 118197.3,
   "baseline_ok": true,
-  "growth": 5.9738
+  "growth": 0.0495
  },
  {
   "wals_id": "bui",
@@ -6092,12 +6100,12 @@
   "wiki_code": "bg",
   "month_first": "201507",
   "views_first": 16865450,
-  "month_last": "202601",
-  "views_last": 22537672,
+  "month_last": "202609",
+  "views_last": 16704554,
   "views_baseline": 17744335.7,
-  "views_recent": 21310728.3,
+  "views_recent": 18739662.7,
   "baseline_ok": true,
-  "growth": 0.201
+  "growth": 0.0561
  },
  {
   "wals_id": "bum",
@@ -6265,12 +6273,12 @@
   "wiki_code": "bdr",
   "month_first": "202408",
   "views_first": 7362,
-  "month_last": "202601",
-  "views_last": 19471,
+  "month_last": "202609",
+  "views_last": 26853,
   "views_baseline": 7450.0,
-  "views_recent": 28575.7,
+  "views_recent": 28435.7,
   "baseline_ok": false,
-  "growth": 2.8357
+  "growth": 2.8169
  },
  {
   "wals_id": "bxj",
@@ -6693,12 +6701,12 @@
   "wiki_code": "cho",
   "month_first": "201507",
   "views_first": 6735,
-  "month_last": "202601",
-  "views_last": 21405,
+  "month_last": "202609",
+  "views_last": 9936,
   "views_baseline": 7495.7,
-  "views_recent": 19823.0,
+  "views_recent": 15209.3,
   "baseline_ok": false,
-  "growth": 1.6446
+  "growth": 1.0291
  },
  {
   "wals_id": "cde",
@@ -6746,12 +6754,12 @@
   "wiki_code": "ceb",
   "month_first": "201507",
   "views_first": 696938,
-  "month_last": "202601",
-  "views_last": 10965116,
+  "month_last": "202609",
+  "views_last": 14599806,
   "views_baseline": 1194184.7,
-  "views_recent": 13251413.0,
+  "views_recent": 10569596.3,
   "baseline_ok": true,
-  "growth": 10.0966
+  "growth": 7.8509
  },
  {
   "wals_id": "cec",
@@ -6814,12 +6822,12 @@
   "wiki_code": "ch",
   "month_first": "201507",
   "views_first": 36250,
-  "month_last": "202601",
-  "views_last": 58367,
+  "month_last": "202609",
+  "views_last": 52976,
   "views_baseline": 34829.7,
-  "views_recent": 93022.0,
+  "views_recent": 76899.7,
   "baseline_ok": true,
-  "growth": 1.6708
+  "growth": 1.2079
  },
  {
   "wals_id": "chb",
@@ -6852,12 +6860,12 @@
   "wiki_code": "ce",
   "month_first": "201507",
   "views_first": 197187,
-  "month_last": "202601",
-  "views_last": 799055,
+  "month_last": "202609",
+  "views_last": 2239566,
   "views_baseline": 275911.3,
-  "views_recent": 1521854.3,
+  "views_recent": 1714904.0,
   "baseline_ok": true,
-  "growth": 4.5157
+  "growth": 5.2154
  },
  {
   "wals_id": "chd",
@@ -6890,12 +6898,12 @@
   "wiki_code": "chr",
   "month_first": "201507",
   "views_first": 54442,
-  "month_last": "202601",
-  "views_last": 50324,
+  "month_last": "202609",
+  "views_last": 69720,
   "views_baseline": 50947.3,
-  "views_recent": 64156.3,
+  "views_recent": 235392.3,
   "baseline_ok": true,
-  "growth": 0.2593
+  "growth": 3.6203
  },
  {
   "wals_id": "chg",
@@ -7138,12 +7146,12 @@
   "wiki_code": "cv",
   "month_first": "201507",
   "views_first": 217688,
-  "month_last": "202601",
-  "views_last": 338529,
+  "month_last": "202609",
+  "views_last": 677700,
   "views_baseline": 285678.7,
-  "views_recent": 304194.3,
+  "views_recent": 613222.7,
   "baseline_ok": true,
-  "growth": 0.0648
+  "growth": 1.1465
  },
  {
   "wals_id": "chw",
@@ -7206,12 +7214,12 @@
   "wiki_code": "ny",
   "month_first": "201507",
   "views_first": 29700,
-  "month_last": "202601",
-  "views_last": 57109,
+  "month_last": "202609",
+  "views_last": 156634,
   "views_baseline": 29208.7,
-  "views_recent": 236312.3,
+  "views_recent": 174787.0,
   "baseline_ok": true,
-  "growth": 7.0905
+  "growth": 4.9841
  },
  {
   "wals_id": "cil",
@@ -7589,12 +7597,12 @@
   "wiki_code": "yue",
   "month_first": "201507",
   "views_first": 2310308,
-  "month_last": "202601",
-  "views_last": 5215564,
+  "month_last": "202609",
+  "views_last": 4395436,
   "views_baseline": 2449999.7,
-  "views_recent": 5870195.0,
+  "views_recent": 4580475.3,
   "baseline_ok": true,
-  "growth": 1.396
+  "growth": 0.8696
  },
  {
   "wals_id": "coa",
@@ -7882,12 +7890,12 @@
   "wiki_code": "cr",
   "month_first": "201507",
   "views_first": 24477,
-  "month_last": "202601",
-  "views_last": 77933,
+  "month_last": "202609",
+  "views_last": 673058,
   "views_baseline": 24325.0,
-  "views_recent": 105852.7,
+  "views_recent": 1045994.3,
   "baseline_ok": true,
-  "growth": 3.3516
+  "growth": 42.0008
  },
  {
   "wals_id": "crg",
@@ -7935,12 +7943,12 @@
   "wiki_code": "crh",
   "month_first": "201507",
   "views_first": 139197,
-  "month_last": "202601",
-  "views_last": 131806,
+  "month_last": "202609",
+  "views_last": 535663,
   "views_baseline": 124455.3,
-  "views_recent": 325263.7,
+  "views_recent": 551843.3,
   "baseline_ok": true,
-  "growth": 1.6135
+  "growth": 3.4341
  },
  {
   "wals_id": "crj",
@@ -8003,12 +8011,12 @@
   "wiki_code": "kw",
   "month_first": "201507",
   "views_first": 102967,
-  "month_last": "202601",
-  "views_last": 166588,
+  "month_last": "202609",
+  "views_last": 271069,
   "views_baseline": 102305.0,
-  "views_recent": 497742.0,
+  "views_recent": 2151679.0,
   "baseline_ok": true,
-  "growth": 3.8653
+  "growth": 20.032
  },
  {
   "wals_id": "cro",
@@ -8221,12 +8229,12 @@
   "wiki_code": "ca",
   "month_first": "201507",
   "views_first": 12975675,
-  "month_last": "202601",
-  "views_last": 13381288,
+  "month_last": "202609",
+  "views_last": 17978002,
   "views_baseline": 13824642.0,
-  "views_recent": 20199532.0,
+  "views_recent": 16521093.3,
   "baseline_ok": true,
-  "growth": 0.4611
+  "growth": 0.195
  },
  {
   "wals_id": "ctm",
@@ -8514,12 +8522,12 @@
   "wiki_code": "chy",
   "month_first": "201507",
   "views_first": 48662,
-  "month_last": "202601",
-  "views_last": 39197,
+  "month_last": "202609",
+  "views_last": 1089937,
   "views_baseline": 47325.3,
-  "views_recent": 119007.0,
+  "views_recent": 1026113.7,
   "baseline_ok": true,
-  "growth": 1.5147
+  "growth": 20.6821
  },
  {
   "wals_id": "cyv",
@@ -8552,12 +8560,12 @@
   "wiki_code": "cs",
   "month_first": "201507",
   "views_first": 47178358,
-  "month_last": "202601",
-  "views_last": 67410000,
+  "month_last": "202609",
+  "views_last": 50442196,
   "views_baseline": 51635250.7,
-  "views_recent": 66753592.3,
+  "views_recent": 51680343.7,
   "baseline_ok": true,
-  "growth": 0.2928
+  "growth": 0.0009
  },
  {
   "wals_id": "daa",
@@ -8965,12 +8973,12 @@
   "wiki_code": "dga",
   "month_first": "202311",
   "views_first": 9525,
-  "month_last": "202601",
-  "views_last": 58523,
+  "month_last": "202609",
+  "views_last": 67114,
   "views_baseline": 12692.7,
-  "views_recent": 137123.0,
+  "views_recent": 88845.0,
   "baseline_ok": true,
-  "growth": 9.8033
+  "growth": 5.9997
  },
  {
   "wals_id": "dgb",
@@ -8988,12 +8996,12 @@
   "wiki_code": "dag",
   "month_first": "202106",
   "views_first": 163,
-  "month_last": "202601",
-  "views_last": 189235,
+  "month_last": "202609",
+  "views_last": 264367,
   "views_baseline": 15728.3,
-  "views_recent": 677983.7,
+  "views_recent": 384888.3,
   "baseline_ok": true,
-  "growth": 42.1059
+  "growth": 23.471
  },
  {
   "wals_id": "dge",
@@ -9116,12 +9124,12 @@
   "wiki_code": "dv",
   "month_first": "201507",
   "views_first": 90310,
-  "month_last": "202601",
-  "views_last": 84844,
+  "month_last": "202609",
+  "views_last": 129058,
   "views_baseline": 99718.0,
-  "views_recent": 583051.7,
+  "views_recent": 305202.3,
   "baseline_ok": true,
-  "growth": 4.847
+  "growth": 2.0607
  },
  {
   "wals_id": "dhl",
@@ -9274,12 +9282,12 @@
   "wiki_code": "din",
   "month_first": "201707",
   "views_first": 12189,
-  "month_last": "202601",
-  "views_last": 27542,
+  "month_last": "202609",
+  "views_last": 41605,
   "views_baseline": 69145.0,
-  "views_recent": 49696.7,
+  "views_recent": 44401.3,
   "baseline_ok": true,
-  "growth": -0.2813
+  "growth": -0.3579
  },
  {
   "wals_id": "dio",
@@ -9732,12 +9740,12 @@
   "wiki_code": "da",
   "month_first": "201507",
   "views_first": 23099214,
-  "month_last": "202601",
-  "views_last": 20142780,
+  "month_last": "202609",
+  "views_last": 15125156,
   "views_baseline": 25685669.0,
-  "views_recent": 22647786.7,
+  "views_recent": 17511753.7,
   "baseline_ok": true,
-  "growth": -0.1183
+  "growth": -0.3182
  },
  {
   "wals_id": "dts",
@@ -9860,12 +9868,12 @@
   "wiki_code": "nl",
   "month_first": "201507",
   "views_first": 128086328,
-  "month_last": "202601",
-  "views_last": 107894735,
+  "month_last": "202609",
+  "views_last": 95990506,
   "views_baseline": 135102755.0,
-  "views_recent": 112055587.0,
+  "views_recent": 100302315.7,
   "baseline_ok": true,
-  "growth": -0.1706
+  "growth": -0.2576
  },
  {
   "wals_id": "duz",
@@ -9883,12 +9891,12 @@
   "wiki_code": "zea",
   "month_first": "201507",
   "views_first": 81999,
-  "month_last": "202601",
-  "views_last": 185703,
+  "month_last": "202609",
+  "views_last": 315062,
   "views_baseline": 81603.0,
-  "views_recent": 494046.3,
+  "views_recent": 332718.0,
   "baseline_ok": true,
-  "growth": 5.0543
+  "growth": 3.0773
  },
  {
   "wals_id": "dyi",
@@ -10206,12 +10214,12 @@
   "wiki_code": "en",
   "month_first": "201507",
   "views_first": 7665421980,
-  "month_last": "202601",
-  "views_last": 7230285460,
+  "month_last": "202609",
+  "views_last": 6271394362,
   "views_baseline": 7651977412.7,
-  "views_recent": 6992593014.0,
+  "views_recent": 6506110436.7,
   "baseline_ok": true,
-  "growth": -0.0862
+  "growth": -0.1497
  },
  {
   "wals_id": "eno",
@@ -10349,12 +10357,12 @@
   "wiki_code": "et",
   "month_first": "201507",
   "views_first": 5165235,
-  "month_last": "202601",
-  "views_last": 8476758,
+  "month_last": "202609",
+  "views_last": 7880248,
   "views_baseline": 5827864.0,
-  "views_recent": 10373417.0,
+  "views_recent": 7554417.3,
   "baseline_ok": true,
-  "growth": 0.78
+  "growth": 0.2963
  },
  {
   "wals_id": "ets",
@@ -10447,12 +10455,12 @@
   "wiki_code": "ee",
   "month_first": "201507",
   "views_first": 40301,
-  "month_last": "202601",
-  "views_last": 43848,
+  "month_last": "202609",
+  "views_last": 134453,
   "views_baseline": 39936.7,
-  "views_recent": 189409.7,
+  "views_recent": 403346.3,
   "baseline_ok": true,
-  "growth": 3.7428
+  "growth": 9.0996
  },
  {
   "wals_id": "ewo",
@@ -10500,12 +10508,12 @@
   "wiki_code": "fo",
   "month_first": "201507",
   "views_first": 365043,
-  "month_last": "202601",
-  "views_last": 166065,
+  "month_last": "202609",
+  "views_last": 300494,
   "views_baseline": 379678.0,
-  "views_recent": 592698.7,
+  "views_recent": 380302.3,
   "baseline_ok": true,
-  "growth": 0.5611
+  "growth": 0.0016
  },
  {
   "wals_id": "fas",
@@ -10598,12 +10606,12 @@
   "wiki_code": "fj",
   "month_first": "201507",
   "views_first": 31833,
-  "month_last": "202601",
-  "views_last": 52088,
+  "month_last": "202609",
+  "views_last": 879205,
   "views_baseline": 31685.3,
-  "views_recent": 160482.0,
+  "views_recent": 2039311.7,
   "baseline_ok": true,
-  "growth": 4.0649
+  "growth": 63.3614
  },
  {
   "wals_id": "fin",
@@ -10621,12 +10629,12 @@
   "wiki_code": "fi",
   "month_first": "201507",
   "views_first": 55218945,
-  "month_last": "202601",
-  "views_last": 52549693,
+  "month_last": "202609",
+  "views_last": 46306692,
   "views_baseline": 58254278.0,
-  "views_recent": 54896435.7,
+  "views_recent": 47649154.7,
   "baseline_ok": true,
-  "growth": -0.0576
+  "growth": -0.182
  },
  {
   "wals_id": "fio",
@@ -10689,12 +10697,12 @@
   "wiki_code": "ff",
   "month_first": "201507",
   "views_first": 44203,
-  "month_last": "202601",
-  "views_last": 95096,
+  "month_last": "202609",
+  "views_last": 187368,
   "views_baseline": 38171.7,
-  "views_recent": 164122.3,
+  "views_recent": 502807.0,
   "baseline_ok": true,
-  "growth": 3.2996
+  "growth": 12.1723
  },
  {
   "wals_id": "fni",
@@ -10727,12 +10735,12 @@
   "wiki_code": "frr",
   "month_first": "201507",
   "views_first": 211247,
-  "month_last": "202601",
-  "views_last": 181214,
+  "month_last": "202609",
+  "views_last": 245612,
   "views_baseline": 170801.0,
-  "views_recent": 1012861.0,
+  "views_recent": 254288.3,
   "baseline_ok": true,
-  "growth": 4.9301
+  "growth": 0.4888
  },
  {
   "wals_id": "foe",
@@ -10765,12 +10773,12 @@
   "wiki_code": "fon",
   "month_first": "202310",
   "views_first": 33812,
-  "month_last": "202601",
-  "views_last": 27043,
+  "month_last": "202609",
+  "views_last": 59274,
   "views_baseline": 25953.7,
-  "views_recent": 32321.7,
+  "views_recent": 85964.0,
   "baseline_ok": true,
-  "growth": 0.2454
+  "growth": 2.3122
  },
  {
   "wals_id": "for",
@@ -10848,12 +10856,12 @@
   "wiki_code": "fr",
   "month_first": "201507",
   "views_first": 622483703,
-  "month_last": "202601",
-  "views_last": 655022393,
+  "month_last": "202609",
+  "views_last": 552337623,
   "views_baseline": 659496221.3,
-  "views_recent": 631691357.3,
+  "views_recent": 565840472.0,
   "baseline_ok": true,
-  "growth": -0.0422
+  "growth": -0.142
  },
  {
   "wals_id": "fri",
@@ -10871,12 +10879,12 @@
   "wiki_code": "fy",
   "month_first": "201507",
   "views_first": 556763,
-  "month_last": "202601",
-  "views_last": 519621,
+  "month_last": "202609",
+  "views_last": 566286,
   "views_baseline": 524570.3,
-  "views_recent": 1186411.7,
+  "views_recent": 569170.3,
   "baseline_ok": true,
-  "growth": 1.2617
+  "growth": 0.085
  },
  {
   "wals_id": "frw",
@@ -11029,12 +11037,12 @@
   "wiki_code": "cdo",
   "month_first": "201507",
   "views_first": 98512,
-  "month_last": "202601",
-  "views_last": 99483,
+  "month_last": "202609",
+  "views_last": 230067,
   "views_baseline": 100022.0,
-  "views_recent": 392763.0,
+  "views_recent": 476547.3,
   "baseline_ok": true,
-  "growth": 2.9268
+  "growth": 3.7644
  },
  {
   "wals_id": "fye",
@@ -11112,12 +11120,12 @@
   "wiki_code": "gd",
   "month_first": "201507",
   "views_first": 243242,
-  "month_last": "202601",
-  "views_last": 136811,
+  "month_last": "202609",
+  "views_last": 293544,
   "views_baseline": 232785.3,
-  "views_recent": 597911.7,
+  "views_recent": 517024.0,
   "baseline_ok": true,
-  "growth": 1.5685
+  "growth": 1.221
  },
  {
   "wals_id": "gag",
@@ -11135,12 +11143,12 @@
   "wiki_code": "gag",
   "month_first": "201507",
   "views_first": 116992,
-  "month_last": "202601",
-  "views_last": 56288,
+  "month_last": "202609",
+  "views_last": 134739,
   "views_baseline": 101913.7,
-  "views_recent": 199407.0,
+  "views_recent": 163464.0,
   "baseline_ok": true,
-  "growth": 0.9566
+  "growth": 0.6039
  },
  {
   "wals_id": "gah",
@@ -11248,12 +11256,12 @@
   "wiki_code": "bar",
   "month_first": "201507",
   "views_first": 497884,
-  "month_last": "202601",
-  "views_last": 313753,
+  "month_last": "202609",
+  "views_last": 359566,
   "views_baseline": 427600.7,
-  "views_recent": 869738.7,
+  "views_recent": 356741.3,
   "baseline_ok": true,
-  "growth": 1.034
+  "growth": -0.1657
  },
  {
   "wals_id": "gav",
@@ -11541,12 +11549,12 @@
   "wiki_code": "ka",
   "month_first": "201507",
   "views_first": 2914142,
-  "month_last": "202601",
-  "views_last": 5830442,
+  "month_last": "202609",
+  "views_last": 4093263,
   "views_baseline": 3198321.0,
-  "views_recent": 6710667.0,
+  "views_recent": 4034683.0,
   "baseline_ok": true,
-  "growth": 1.0982
+  "growth": 0.2615
  },
  {
   "wals_id": "ger",
@@ -11564,12 +11572,12 @@
   "wiki_code": "de",
   "month_first": "201507",
   "views_first": 978324726,
-  "month_last": "202601",
-  "views_last": 780199458,
+  "month_last": "202609",
+  "views_last": 658156153,
   "views_baseline": 973220299.7,
-  "views_recent": 739769491.0,
+  "views_recent": 679764345.7,
   "baseline_ok": true,
-  "growth": -0.2399
+  "growth": -0.3015
  },
  {
   "wals_id": "gfr",
@@ -11587,12 +11595,12 @@
   "wiki_code": "gcr",
   "month_first": "201911",
   "views_first": 9720,
-  "month_last": "202601",
-  "views_last": 38113,
+  "month_last": "202609",
+  "views_last": 69795,
   "views_baseline": 41843.3,
-  "views_recent": 104487.3,
+  "views_recent": 66728.3,
   "baseline_ok": true,
-  "growth": 1.4971
+  "growth": 0.5947
  },
  {
   "wals_id": "ggd",
@@ -11715,12 +11723,12 @@
   "wiki_code": "glk",
   "month_first": "201507",
   "views_first": 43544,
-  "month_last": "202601",
-  "views_last": 140717,
+  "month_last": "202609",
+  "views_last": 175355,
   "views_baseline": 49340.3,
-  "views_recent": 156131.0,
+  "views_recent": 188160.0,
   "baseline_ok": true,
-  "growth": 2.1644
+  "growth": 2.8135
  },
  {
   "wals_id": "gim",
@@ -11858,12 +11866,12 @@
   "wiki_code": "gl",
   "month_first": "201507",
   "views_first": 1993568,
-  "month_last": "202601",
-  "views_last": 2052983,
+  "month_last": "202609",
+  "views_last": 3139244,
   "views_baseline": 1991163.0,
-  "views_recent": 4691561.0,
+  "views_recent": 2527931.7,
   "baseline_ok": true,
-  "growth": 1.3562
+  "growth": 0.2696
  },
  {
   "wals_id": "gll",
@@ -12106,12 +12114,12 @@
   "wiki_code": "guc",
   "month_first": "202302",
   "views_first": 1680,
-  "month_last": "202601",
-  "views_last": 17643,
+  "month_last": "202609",
+  "views_last": 39921,
   "views_baseline": 14496.7,
-  "views_recent": 24739.0,
+  "views_recent": 104990.7,
   "baseline_ok": true,
-  "growth": 0.7065
+  "growth": 6.2424
  },
  {
   "wals_id": "god",
@@ -12369,12 +12377,12 @@
   "wiki_code": "el",
   "month_first": "201507",
   "views_first": 20315509,
-  "month_last": "202601",
-  "views_last": 33892918,
+  "month_last": "202609",
+  "views_last": 25797815,
   "views_baseline": 20161961.3,
-  "views_recent": 31561827.7,
+  "views_recent": 27469369.0,
   "baseline_ok": true,
-  "growth": 0.5654
+  "growth": 0.3624
  },
  {
   "wals_id": "grm",
@@ -12407,12 +12415,12 @@
   "wiki_code": "gur",
   "month_first": "202302",
   "views_first": 1171,
-  "month_last": "202601",
-  "views_last": 28668,
+  "month_last": "202609",
+  "views_last": 33976,
   "views_baseline": 18150.7,
-  "views_recent": 45600.0,
+  "views_recent": 46402.7,
   "baseline_ok": true,
-  "growth": 1.5123
+  "growth": 1.5565
  },
  {
   "wals_id": "gro",
@@ -12445,12 +12453,12 @@
   "wiki_code": "ksh",
   "month_first": "201507",
   "views_first": 206354,
-  "month_last": "202601",
-  "views_last": 77914,
+  "month_last": "202609",
+  "views_last": 199727,
   "views_baseline": 225494.7,
-  "views_recent": 158778.3,
+  "views_recent": 210219.7,
   "baseline_ok": true,
-  "growth": -0.2959
+  "growth": -0.0677
  },
  {
   "wals_id": "grr",
@@ -12498,12 +12506,12 @@
   "wiki_code": "gor",
   "month_first": "201804",
   "views_first": 11373,
-  "month_last": "202601",
-  "views_last": 121106,
+  "month_last": "202609",
+  "views_last": 178969,
   "views_baseline": 28097.3,
-  "views_recent": 205592.0,
+  "views_recent": 217753.3,
   "baseline_ok": true,
-  "growth": 6.3171
+  "growth": 6.75
  },
  {
   "wals_id": "grw",
@@ -12521,12 +12529,12 @@
   "wiki_code": "kl",
   "month_first": "201507",
   "views_first": 73503,
-  "month_last": "202601",
-  "views_last": 28427,
+  "month_last": "202609",
+  "views_last": 716217,
   "views_baseline": 72359.7,
-  "views_recent": 48310.0,
+  "views_recent": 834928.3,
   "baseline_ok": true,
-  "growth": -0.3324
+  "growth": 10.5386
  },
  {
   "wals_id": "gsl",
@@ -12634,12 +12642,12 @@
   "wiki_code": "gn",
   "month_first": "201507",
   "views_first": 182588,
-  "month_last": "202601",
-  "views_last": 101429,
+  "month_last": "202609",
+  "views_last": 147749,
   "views_baseline": 184335.3,
-  "views_recent": 238850.7,
+  "views_recent": 147719.3,
   "baseline_ok": true,
-  "growth": 0.2957
+  "growth": -0.1986
  },
  {
   "wals_id": "gud",
@@ -12732,12 +12740,12 @@
   "wiki_code": "gu",
   "month_first": "201507",
   "views_first": 742866,
-  "month_last": "202601",
-  "views_last": 1020647,
+  "month_last": "202609",
+  "views_last": 747332,
   "views_baseline": 745593.7,
-  "views_recent": 1047026.7,
+  "views_recent": 772586.3,
   "baseline_ok": true,
-  "growth": 0.4043
+  "growth": 0.0362
  },
  {
   "wals_id": "gul",
@@ -12860,12 +12868,12 @@
   "wiki_code": "guw",
   "month_first": "202203",
   "views_first": 6407,
-  "month_last": "202601",
-  "views_last": 22095,
+  "month_last": "202609",
+  "views_last": 58986,
   "views_baseline": 20123.7,
-  "views_recent": 42192.0,
+  "views_recent": 121044.3,
   "baseline_ok": true,
-  "growth": 1.0966
+  "growth": 5.015
  },
  {
   "wals_id": "gvi",
@@ -12928,12 +12936,12 @@
   "wiki_code": "kcg",
   "month_first": "202205",
   "views_first": 18059,
-  "month_last": "202601",
-  "views_last": 42166,
+  "month_last": "202609",
+  "views_last": 101080,
   "views_baseline": 33507.0,
-  "views_recent": 61352.7,
+  "views_recent": 121688.0,
   "baseline_ok": true,
-  "growth": 0.831
+  "growth": 2.6317
  },
  {
   "wals_id": "gyb",
@@ -13026,12 +13034,12 @@
   "wiki_code": "hak",
   "month_first": "201507",
   "views_first": 113479,
-  "month_last": "202601",
-  "views_last": 151156,
+  "month_last": "202609",
+  "views_last": 267042,
   "views_baseline": 124635.7,
-  "views_recent": 575330.0,
+  "views_recent": 2030666.3,
   "baseline_ok": true,
-  "growth": 3.6161
+  "growth": 15.2928
  },
  {
   "wals_id": "hal",
@@ -13124,12 +13132,12 @@
   "wiki_code": "ha",
   "month_first": "201507",
   "views_first": 76448,
-  "month_last": "202601",
-  "views_last": 628622,
+  "month_last": "202609",
+  "views_last": 1182217,
   "views_baseline": 73034.0,
-  "views_recent": 1158189.0,
+  "views_recent": 2868657.0,
   "baseline_ok": true,
-  "growth": 14.8582
+  "growth": 38.2784
  },
  {
   "wals_id": "hav",
@@ -13162,12 +13170,12 @@
   "wiki_code": "haw",
   "month_first": "201507",
   "views_first": 58651,
-  "month_last": "202601",
-  "views_last": 114488,
+  "month_last": "202609",
+  "views_last": 122936,
   "views_baseline": 55736.7,
-  "views_recent": 440990.3,
+  "views_recent": 320264.3,
   "baseline_ok": true,
-  "growth": 6.912
+  "growth": 4.746
  },
  {
   "wals_id": "hay",
@@ -13215,12 +13223,12 @@
   "wiki_code": "ht",
   "month_first": "201507",
   "views_first": 242952,
-  "month_last": "202601",
-  "views_last": 233800,
+  "month_last": "202609",
+  "views_last": 482790,
   "views_baseline": 225634.7,
-  "views_recent": 427201.7,
+  "views_recent": 388224.3,
   "baseline_ok": true,
-  "growth": 0.8933
+  "growth": 0.7206
  },
  {
   "wals_id": "hdi",
@@ -13253,12 +13261,12 @@
   "wiki_code": "he",
   "month_first": "201507",
   "views_first": 43534775,
-  "month_last": "202601",
-  "views_last": 49385681,
+  "month_last": "202609",
+  "views_last": 46435277,
   "views_baseline": 42465007.0,
-  "views_recent": 50903885.7,
+  "views_recent": 47113388.3,
   "baseline_ok": true,
-  "growth": 0.1987
+  "growth": 0.1095
  },
  {
   "wals_id": "heh",
@@ -13321,12 +13329,12 @@
   "wiki_code": "hz",
   "month_first": "201507",
   "views_first": 4602,
-  "month_last": "202601",
-  "views_last": 11766,
+  "month_last": "202609",
+  "views_last": 14055,
   "views_baseline": 5916.0,
-  "views_recent": 16222.3,
+  "views_recent": 40961.0,
   "baseline_ok": false,
-  "growth": 1.7421
+  "growth": 5.9238
  },
  {
   "wals_id": "hhu",
@@ -13404,12 +13412,12 @@
   "wiki_code": "hi",
   "month_first": "201507",
   "views_first": 10896193,
-  "month_last": "202601",
-  "views_last": 18010750,
+  "month_last": "202609",
+  "views_last": 15792473,
   "views_baseline": 11338508.7,
-  "views_recent": 18525250.7,
+  "views_recent": 16314502.7,
   "baseline_ok": true,
-  "growth": 0.6338
+  "growth": 0.4389
  },
  {
   "wals_id": "hix",
@@ -13742,12 +13750,12 @@
   "wiki_code": "nan",
   "month_first": "201507",
   "views_first": 298199,
-  "month_last": "202601",
-  "views_last": 955406,
+  "month_last": "202609",
+  "views_last": 1505358,
   "views_baseline": 336908.0,
-  "views_recent": 4826371.7,
+  "views_recent": 1624894.0,
   "baseline_ok": true,
-  "growth": 13.3255
+  "growth": 3.823
  },
  {
   "wals_id": "hol",
@@ -13945,12 +13953,12 @@
   "wiki_code": "hu",
   "month_first": "201507",
   "views_first": 35959941,
-  "month_last": "202601",
-  "views_last": 49521347,
+  "month_last": "202609",
+  "views_last": 36613829,
   "views_baseline": 38504700.7,
-  "views_recent": 51203753.0,
+  "views_recent": 40095442.3,
   "baseline_ok": true,
-  "growth": 0.3298
+  "growth": 0.0413
  },
  {
   "wals_id": "hup",
@@ -14118,12 +14126,12 @@
   "wiki_code": "iba",
   "month_first": "202410",
   "views_first": 22685,
-  "month_last": "202601",
-  "views_last": 69225,
+  "month_last": "202609",
+  "views_last": 143265,
   "views_baseline": 53397.3,
-  "views_recent": 230584.3,
+  "views_recent": 121860.3,
   "baseline_ok": true,
-  "growth": 3.3183
+  "growth": 1.2821
  },
  {
   "wals_id": "ibi",
@@ -14171,12 +14179,12 @@
   "wiki_code": "is",
   "month_first": "201507",
   "views_first": 1001463,
-  "month_last": "202601",
-  "views_last": 1415608,
+  "month_last": "202609",
+  "views_last": 1379474,
   "views_baseline": 1103777.0,
-  "views_recent": 2212074.7,
+  "views_recent": 1734541.7,
   "baseline_ok": true,
-  "growth": 1.0041
+  "growth": 0.5715
  },
  {
   "wals_id": "ics",
@@ -14314,12 +14322,12 @@
   "wiki_code": "ig",
   "month_first": "201507",
   "views_first": 524943,
-  "month_last": "202601",
-  "views_last": 163535,
+  "month_last": "202609",
+  "views_last": 337672,
   "views_baseline": 483697.3,
-  "views_recent": 406383.3,
+  "views_recent": 334406.0,
   "baseline_ok": true,
-  "growth": -0.1598
+  "growth": -0.3086
  },
  {
   "wals_id": "ige",
@@ -14487,12 +14495,12 @@
   "wiki_code": "ilo",
   "month_first": "201507",
   "views_first": 342164,
-  "month_last": "202601",
-  "views_last": 149095,
+  "month_last": "202609",
+  "views_last": 242096,
   "views_baseline": 353207.3,
-  "views_recent": 527254.3,
+  "views_recent": 216399.0,
   "baseline_ok": true,
-  "growth": 0.4928
+  "growth": -0.3873
  },
  {
   "wals_id": "imo",
@@ -14540,12 +14548,12 @@
   "wiki_code": "ms",
   "month_first": "201507",
   "views_first": 94578438,
-  "month_last": "202601",
-  "views_last": 11689445,
+  "month_last": "202609",
+  "views_last": 11925998,
   "views_baseline": 77699576.7,
-  "views_recent": 49325844.3,
+  "views_recent": 40697790.0,
   "baseline_ok": true,
-  "growth": -0.3652
+  "growth": -0.4762
  },
  {
   "wals_id": "ing",
@@ -14563,12 +14571,12 @@
   "wiki_code": "inh",
   "month_first": "201804",
   "views_first": 18349,
-  "month_last": "202601",
-  "views_last": 69811,
+  "month_last": "202609",
+  "views_last": 127944,
   "views_baseline": 44639.0,
-  "views_recent": 65576.3,
+  "views_recent": 143261.3,
   "baseline_ok": true,
-  "growth": 0.469
+  "growth": 2.2093
  },
  {
   "wals_id": "inj",
@@ -14646,12 +14654,12 @@
   "wiki_code": "ik",
   "month_first": "201507",
   "views_first": 30472,
-  "month_last": "202601",
-  "views_last": 49309,
+  "month_last": "202609",
+  "views_last": 933928,
   "views_baseline": 30952.3,
-  "views_recent": 106670.7,
+  "views_recent": 1337517.7,
   "baseline_ok": true,
-  "growth": 2.4463
+  "growth": 42.2122
  },
  {
   "wals_id": "ipi",
@@ -14744,12 +14752,12 @@
   "wiki_code": "ga",
   "month_first": "201507",
   "views_first": 448546,
-  "month_last": "202601",
-  "views_last": 459041,
+  "month_last": "202609",
+  "views_last": 2347404,
   "views_baseline": 478083.0,
-  "views_recent": 1350160.7,
+  "views_recent": 2339474.3,
   "baseline_ok": true,
-  "growth": 1.8241
+  "growth": 3.8934
  },
  {
   "wals_id": "irm",
@@ -14962,12 +14970,12 @@
   "wiki_code": "it",
   "month_first": "201507",
   "views_first": 476624935,
-  "month_last": "202601",
-  "views_last": 431850684,
+  "month_last": "202609",
+  "views_last": 355492499,
   "views_baseline": 485513271.3,
-  "views_recent": 409262980.0,
+  "views_recent": 370678245.7,
   "baseline_ok": true,
-  "growth": -0.1571
+  "growth": -0.2365
  },
  {
   "wals_id": "itb",
@@ -15015,12 +15023,12 @@
   "wiki_code": "lij",
   "month_first": "201507",
   "views_first": 98791,
-  "month_last": "202601",
-  "views_last": 103440,
+  "month_last": "202609",
+  "views_last": 290036,
   "views_baseline": 93266.0,
-  "views_recent": 739426.0,
+  "views_recent": 279179.7,
   "baseline_ok": true,
-  "growth": 6.9281
+  "growth": 1.9934
  },
  {
   "wals_id": "itn",
@@ -15038,12 +15046,12 @@
   "wiki_code": "nap",
   "month_first": "201507",
   "views_first": 216898,
-  "month_last": "202601",
-  "views_last": 163379,
+  "month_last": "202609",
+  "views_last": 201798,
   "views_baseline": 196585.7,
-  "views_recent": 1116974.7,
+  "views_recent": 173361.0,
   "baseline_ok": true,
-  "growth": 4.6819
+  "growth": -0.1181
  },
  {
   "wals_id": "ito",
@@ -15076,12 +15084,12 @@
   "wiki_code": "pms",
   "month_first": "201507",
   "views_first": 277285,
-  "month_last": "202601",
-  "views_last": 369942,
+  "month_last": "202609",
+  "views_last": 290464,
   "views_baseline": 251570.7,
-  "views_recent": 2499879.3,
+  "views_recent": 473032.0,
   "baseline_ok": true,
-  "growth": 8.9371
+  "growth": 0.8803
  },
  {
   "wals_id": "itw",
@@ -15339,12 +15347,12 @@
   "wiki_code": "jv",
   "month_first": "201507",
   "views_first": 690475,
-  "month_last": "202601",
-  "views_last": 371546,
+  "month_last": "202609",
+  "views_last": 557680,
   "views_baseline": 726708.0,
-  "views_recent": 1558426.3,
+  "views_recent": 613667.7,
   "baseline_ok": true,
-  "growth": 1.1445
+  "growth": -0.1556
  },
  {
   "wals_id": "jbt",
@@ -15377,12 +15385,12 @@
   "wiki_code": "jam",
   "month_first": "201605",
   "views_first": 61573,
-  "month_last": "202601",
-  "views_last": 85042,
+  "month_last": "202609",
+  "views_last": 68771,
   "views_baseline": 63715.7,
-  "views_recent": 113145.3,
+  "views_recent": 77892.0,
   "baseline_ok": true,
-  "growth": 0.7758
+  "growth": 0.2225
  },
  {
   "wals_id": "jeb",
@@ -15625,12 +15633,12 @@
   "wiki_code": "ja",
   "month_first": "201507",
   "views_first": 1224750136,
-  "month_last": "202601",
-  "views_last": 920140159,
+  "month_last": "202609",
+  "views_last": 916161490,
   "views_baseline": 1224453311.7,
-  "views_recent": 885327774.3,
+  "views_recent": 908811625.0,
   "baseline_ok": true,
-  "growth": -0.277
+  "growth": -0.2578
  },
  {
   "wals_id": "jpr",
@@ -15828,12 +15836,12 @@
   "wiki_code": "kbd",
   "month_first": "201507",
   "views_first": 52939,
-  "month_last": "202601",
-  "views_last": 33210,
+  "month_last": "202609",
+  "views_last": 66584,
   "views_baseline": 62620.3,
-  "views_recent": 42325.3,
+  "views_recent": 61320.0,
   "baseline_ok": true,
-  "growth": -0.3241
+  "growth": -0.0208
  },
  {
   "wals_id": "kac",
@@ -15896,12 +15904,12 @@
   "wiki_code": "kge",
   "month_first": "202409",
   "views_first": 836,
-  "month_last": "202601",
-  "views_last": 37846,
+  "month_last": "202609",
+  "views_last": 52632,
   "views_baseline": 25108.7,
-  "views_recent": 195128.0,
+  "views_recent": 54482.3,
   "baseline_ok": true,
-  "growth": 6.7713
+  "growth": 1.1699
  },
  {
   "wals_id": "kai",
@@ -16069,12 +16077,12 @@
   "wiki_code": "ks",
   "month_first": "201507",
   "views_first": 25539,
-  "month_last": "202601",
-  "views_last": 97281,
+  "month_last": "202609",
+  "views_last": 202676,
   "views_baseline": 29253.0,
-  "views_recent": 113347.0,
+  "views_recent": 253638.3,
   "baseline_ok": true,
-  "growth": 2.8747
+  "growth": 7.6705
  },
  {
   "wals_id": "kat",
@@ -16152,12 +16160,12 @@
   "wiki_code": "kk",
   "month_first": "201507",
   "views_first": 2326370,
-  "month_last": "202601",
-  "views_last": 4807894,
+  "month_last": "202609",
+  "views_last": 4392634,
   "views_baseline": 5409959.7,
-  "views_recent": 5626502.7,
+  "views_recent": 3401274.3,
   "baseline_ok": true,
-  "growth": 0.04
+  "growth": -0.3713
  },
  {
   "wals_id": "kba",
@@ -16205,12 +16213,12 @@
   "wiki_code": "kab",
   "month_first": "201507",
   "views_first": 63623,
-  "month_last": "202601",
-  "views_last": 165532,
+  "month_last": "202609",
+  "views_last": 1162482,
   "views_baseline": 67309.3,
-  "views_recent": 328730.3,
+  "views_recent": 1406175.7,
   "baseline_ok": true,
-  "growth": 3.8839
+  "growth": 19.8912
  },
  {
   "wals_id": "kbo",
@@ -16303,12 +16311,12 @@
   "wiki_code": "kbp",
   "month_first": "201706",
   "views_first": 7139,
-  "month_last": "202601",
-  "views_last": 35189,
+  "month_last": "202609",
+  "views_last": 505421,
   "views_baseline": 52152.3,
-  "views_recent": 76595.3,
+  "views_recent": 361647.0,
   "baseline_ok": true,
-  "growth": 0.4687
+  "growth": 5.9344
  },
  {
   "wals_id": "kch",
@@ -16716,12 +16724,12 @@
   "wiki_code": "iu",
   "month_first": "201507",
   "views_first": 54217,
-  "month_last": "202601",
-  "views_last": 47975,
+  "month_last": "202609",
+  "views_last": 421999,
   "views_baseline": 51838.0,
-  "views_recent": 63467.7,
+  "views_recent": 388370.7,
   "baseline_ok": true,
-  "growth": 0.2243
+  "growth": 6.492
  },
  {
   "wals_id": "kgu",
@@ -16769,12 +16777,12 @@
   "wiki_code": "ky",
   "month_first": "201507",
   "views_first": 215582,
-  "month_last": "202601",
-  "views_last": 1467248,
+  "month_last": "202609",
+  "views_last": 867521,
   "views_baseline": 344364.3,
-  "views_recent": 1702473.7,
+  "views_recent": 612525.0,
   "baseline_ok": true,
-  "growth": 3.9438
+  "growth": 0.7787
  },
  {
   "wals_id": "kha",
@@ -16792,12 +16800,12 @@
   "wiki_code": "mn",
   "month_first": "201507",
   "views_first": 468973,
-  "month_last": "202601",
-  "views_last": 1408636,
+  "month_last": "202609",
+  "views_last": 1368553,
   "views_baseline": 660662.3,
-  "views_recent": 1640832.7,
+  "views_recent": 1260871.7,
   "baseline_ok": true,
-  "growth": 1.4836
+  "growth": 0.9085
  },
  {
   "wals_id": "khd",
@@ -16890,12 +16898,12 @@
   "wiki_code": "km",
   "month_first": "201507",
   "views_first": 304735,
-  "month_last": "202601",
-  "views_last": 956358,
+  "month_last": "202609",
+  "views_last": 594787,
   "views_baseline": 291808.0,
-  "views_recent": 978379.7,
+  "views_recent": 627647.0,
   "baseline_ok": true,
-  "growth": 2.3528
+  "growth": 1.1509
  },
  {
   "wals_id": "khn",
@@ -17063,12 +17071,12 @@
   "wiki_code": "ki",
   "month_first": "201507",
   "views_first": 32189,
-  "month_last": "202601",
-  "views_last": 36017,
+  "month_last": "202609",
+  "views_last": 58297,
   "views_baseline": 31268.7,
-  "views_recent": 266142.0,
+  "views_recent": 564141.3,
   "baseline_ok": true,
-  "growth": 7.5115
+  "growth": 17.0417
  },
  {
   "wals_id": "kil",
@@ -17116,12 +17124,12 @@
   "wiki_code": "rw",
   "month_first": "201507",
   "views_first": 93100,
-  "month_last": "202601",
-  "views_last": 289653,
+  "month_last": "202609",
+  "views_last": 322857,
   "views_baseline": 82383.7,
-  "views_recent": 636609.3,
+  "views_recent": 1204313.7,
   "baseline_ok": true,
-  "growth": 6.7274
+  "growth": 13.6184
  },
  {
   "wals_id": "kio",
@@ -17259,12 +17267,12 @@
   "wiki_code": "ku",
   "month_first": "201507",
   "views_first": 419389,
-  "month_last": "202601",
-  "views_last": 729565,
+  "month_last": "202609",
+  "views_last": 922601,
   "views_baseline": 459065.7,
-  "views_recent": 3529356.7,
+  "views_recent": 1103170.3,
   "baseline_ok": true,
-  "growth": 6.6881
+  "growth": 1.4031
  },
  {
   "wals_id": "kjn",
@@ -17387,12 +17395,12 @@
   "wiki_code": "kaa",
   "month_first": "201507",
   "views_first": 80062,
-  "month_last": "202601",
-  "views_last": 100274,
+  "month_last": "202609",
+  "views_last": 234117,
   "views_baseline": 74680.0,
-  "views_recent": 435150.0,
+  "views_recent": 205764.0,
   "baseline_ok": true,
-  "growth": 4.8269
+  "growth": 1.7553
  },
  {
   "wals_id": "kkq",
@@ -17875,12 +17883,12 @@
   "wiki_code": "xal",
   "month_first": "201507",
   "views_first": 88542,
-  "month_last": "202601",
-  "views_last": 30523,
+  "month_last": "202609",
+  "views_last": 576205,
   "views_baseline": 90936.0,
-  "views_recent": 39077.0,
+  "views_recent": 532674.7,
   "baseline_ok": true,
-  "growth": -0.5703
+  "growth": 4.8577
  },
  {
   "wals_id": "kmn",
@@ -18078,12 +18086,12 @@
   "wiki_code": "kn",
   "month_first": "201507",
   "views_first": 1037870,
-  "month_last": "202601",
-  "views_last": 1877730,
+  "month_last": "202609",
+  "views_last": 1621475,
   "views_baseline": 1008841.7,
-  "views_recent": 2535046.3,
+  "views_recent": 1618186.7,
   "baseline_ok": true,
-  "growth": 1.5128
+  "growth": 0.604
  },
  {
   "wals_id": "kng",
@@ -18221,12 +18229,12 @@
   "wiki_code": "kr",
   "month_first": "201507",
   "views_first": 9016,
-  "month_last": "202601",
-  "views_last": 16475,
+  "month_last": "202609",
+  "views_last": 12904,
   "views_baseline": 9032.7,
-  "views_recent": 48813.7,
+  "views_recent": 57655.3,
   "baseline_ok": false,
-  "growth": 4.4041
+  "growth": 5.383
  },
  {
   "wals_id": "knu",
@@ -18424,12 +18432,12 @@
   "wiki_code": "kg",
   "month_first": "201507",
   "views_first": 48188,
-  "month_last": "202601",
-  "views_last": 70772,
+  "month_last": "202609",
+  "views_last": 99906,
   "views_baseline": 45479.7,
-  "views_recent": 234759.0,
+  "views_recent": 464271.7,
   "baseline_ok": true,
-  "growth": 4.1618
+  "growth": 9.2083
  },
  {
   "wals_id": "koo",
@@ -18462,12 +18470,12 @@
   "wiki_code": "koi",
   "month_first": "201507",
   "views_first": 41698,
-  "month_last": "202601",
-  "views_last": 40641,
+  "month_last": "202609",
+  "views_last": 102122,
   "views_baseline": 59048.3,
-  "views_recent": 42413.3,
+  "views_recent": 121830.3,
   "baseline_ok": true,
-  "growth": -0.2817
+  "growth": 1.0632
  },
  {
   "wals_id": "kor",
@@ -18485,12 +18493,12 @@
   "wiki_code": "ko",
   "month_first": "201507",
   "views_first": 78403153,
-  "month_last": "202601",
-  "views_last": 59007562,
+  "month_last": "202609",
+  "views_last": 56124119,
   "views_baseline": 77366931.7,
-  "views_recent": 54108097.0,
+  "views_recent": 61431124.7,
   "baseline_ok": true,
-  "growth": -0.3006
+  "growth": -0.206
  },
  {
   "wals_id": "kos",
@@ -18613,12 +18621,12 @@
   "wiki_code": "pam",
   "month_first": "201507",
   "views_first": 166836,
-  "month_last": "202601",
-  "views_last": 143884,
+  "month_last": "202609",
+  "views_last": 381524,
   "views_baseline": 168756.7,
-  "views_recent": 722294.3,
+  "views_recent": 533715.0,
   "baseline_ok": true,
-  "growth": 3.2801
+  "growth": 2.1626
  },
  {
   "wals_id": "kpn",
@@ -18726,12 +18734,12 @@
   "wiki_code": "krc",
   "month_first": "201507",
   "views_first": 79366,
-  "month_last": "202601",
-  "views_last": 76464,
+  "month_last": "202609",
+  "views_last": 92959,
   "views_baseline": 102265.0,
-  "views_recent": 64240.0,
+  "views_recent": 100890.0,
   "baseline_ok": true,
-  "growth": -0.3718
+  "growth": -0.0134
  },
  {
   "wals_id": "krd",
@@ -18749,12 +18757,12 @@
   "wiki_code": "ckb",
   "month_first": "201507",
   "views_first": 416606,
-  "month_last": "202601",
-  "views_last": 1158979,
+  "month_last": "202609",
+  "views_last": 1047815,
   "views_baseline": 428766.7,
-  "views_recent": 1106326.3,
+  "views_recent": 1141977.0,
   "baseline_ok": true,
-  "growth": 1.5803
+  "growth": 1.6634
  },
  {
   "wals_id": "kre",
@@ -20062,12 +20070,12 @@
   "wiki_code": "kv",
   "month_first": "201507",
   "views_first": 82600,
-  "month_last": "202601",
-  "views_last": 63170,
+  "month_last": "202609",
+  "views_last": 258891,
   "views_baseline": 101271.0,
-  "views_recent": 68868.0,
+  "views_recent": 263576.0,
   "baseline_ok": true,
-  "growth": -0.32
+  "growth": 1.6027
  },
  {
   "wals_id": "laa",
@@ -20205,12 +20213,12 @@
   "wiki_code": "lbe",
   "month_first": "201507",
   "views_first": 38765,
-  "month_last": "202601",
-  "views_last": 30948,
+  "month_last": "202609",
+  "views_last": 64909,
   "views_baseline": 54257.3,
-  "views_recent": 34390.0,
+  "views_recent": 71626.3,
   "baseline_ok": true,
-  "growth": -0.3662
+  "growth": 0.3201
  },
  {
   "wals_id": "lal",
@@ -20273,12 +20281,12 @@
   "wiki_code": "lo",
   "month_first": "201507",
   "views_first": 115954,
-  "month_last": "202601",
-  "views_last": 146237,
+  "month_last": "202609",
+  "views_last": 213583,
   "views_baseline": 121073.3,
-  "views_recent": 151741.0,
+  "views_recent": 357377.0,
   "baseline_ok": true,
-  "growth": 0.2533
+  "growth": 1.9517
  },
  {
   "wals_id": "lar",
@@ -20311,12 +20319,12 @@
   "wiki_code": "lv",
   "month_first": "201507",
   "views_first": 2653288,
-  "month_last": "202601",
-  "views_last": 4650441,
+  "month_last": "202609",
+  "views_last": 4144869,
   "views_baseline": 2902145.0,
-  "views_recent": 5125537.7,
+  "views_recent": 4335692.3,
   "baseline_ok": true,
-  "growth": 0.7661
+  "growth": 0.494
  },
  {
   "wals_id": "lau",
@@ -20424,12 +20432,12 @@
   "wiki_code": "lg",
   "month_first": "201507",
   "views_first": 27492,
-  "month_last": "202601",
-  "views_last": 62092,
+  "month_last": "202609",
+  "views_last": 116265,
   "views_baseline": 26732.0,
-  "views_recent": 142003.0,
+  "views_recent": 143225.7,
   "baseline_ok": true,
-  "growth": 4.3121
+  "growth": 4.3578
  },
  {
   "wals_id": "ldn",
@@ -20447,12 +20455,12 @@
   "wiki_code": "lld",
   "month_first": "202008",
   "views_first": 19343,
-  "month_last": "202601",
-  "views_last": 329214,
+  "month_last": "202609",
+  "views_last": 496191,
   "views_baseline": 56126.0,
-  "views_recent": 2329389.7,
+  "views_recent": 475318.7,
   "baseline_ok": true,
-  "growth": 40.5029
+  "growth": 7.4688
  },
  {
   "wals_id": "ldo",
@@ -20635,12 +20643,12 @@
   "wiki_code": "lez",
   "month_first": "201507",
   "views_first": 70765,
-  "month_last": "202601",
-  "views_last": 69969,
+  "month_last": "202609",
+  "views_last": 111049,
   "views_baseline": 92174.3,
-  "views_recent": 70294.3,
+  "views_recent": 110289.3,
   "baseline_ok": true,
-  "growth": -0.2374
+  "growth": 0.1965
  },
  {
   "wals_id": "lga",
@@ -20673,12 +20681,12 @@
   "wiki_code": "nds",
   "month_first": "201507",
   "views_first": 426444,
-  "month_last": "202601",
-  "views_last": 336358,
+  "month_last": "202609",
+  "views_last": 450412,
   "views_baseline": 428120.3,
-  "views_recent": 944394.0,
+  "views_recent": 432200.7,
   "baseline_ok": true,
-  "growth": 1.2059
+  "growth": 0.0095
  },
  {
   "wals_id": "lgh",
@@ -20861,12 +20869,12 @@
   "wiki_code": "ln",
   "month_first": "201507",
   "views_first": 88825,
-  "month_last": "202601",
-  "views_last": 58258,
+  "month_last": "202609",
+  "views_last": 110941,
   "views_baseline": 83859.3,
-  "views_recent": 207340.7,
+  "views_recent": 103949.7,
   "baseline_ok": true,
-  "growth": 1.4725
+  "growth": 0.2396
  },
  {
   "wals_id": "lis",
@@ -20899,12 +20907,12 @@
   "wiki_code": "lt",
   "month_first": "201507",
   "views_first": 6463706,
-  "month_last": "202601",
-  "views_last": 7226116,
+  "month_last": "202609",
+  "views_last": 6452012,
   "views_baseline": 7227624.0,
-  "views_recent": 7951090.3,
+  "views_recent": 6061761.0,
   "baseline_ok": true,
-  "growth": 0.1001
+  "growth": -0.1613
  },
  {
   "wals_id": "liv",
@@ -21177,12 +21185,12 @@
   "wiki_code": "lad",
   "month_first": "201507",
   "views_first": 121491,
-  "month_last": "202601",
-  "views_last": 103264,
+  "month_last": "202609",
+  "views_last": 310366,
   "views_baseline": 109971.0,
-  "views_recent": 340051.7,
+  "views_recent": 299565.7,
   "baseline_ok": true,
-  "growth": 2.0922
+  "growth": 1.724
  },
  {
   "wals_id": "lns",
@@ -21590,12 +21598,12 @@
   "wiki_code": "lrc",
   "month_first": "201507",
   "views_first": 46109,
-  "month_last": "202601",
-  "views_last": 21334,
+  "month_last": "202609",
+  "views_last": 81364,
   "views_baseline": 41765.3,
-  "views_recent": 18557.3,
+  "views_recent": 61337.0,
   "baseline_ok": true,
-  "growth": -0.5557
+  "growth": 0.4686
  },
  {
   "wals_id": "lus",
@@ -21643,12 +21651,12 @@
   "wiki_code": "lb",
   "month_first": "201507",
   "views_first": 765368,
-  "month_last": "202601",
-  "views_last": 587836,
+  "month_last": "202609",
+  "views_last": 820242,
   "views_baseline": 760205.3,
-  "views_recent": 1774300.7,
+  "views_recent": 1080916.7,
   "baseline_ok": true,
-  "growth": 1.334
+  "growth": 0.4219
  },
  {
   "wals_id": "luy",
@@ -21801,12 +21809,12 @@
   "wiki_code": "mrj",
   "month_first": "201507",
   "views_first": 76515,
-  "month_last": "202601",
-  "views_last": 61562,
+  "month_last": "202609",
+  "views_last": 107572,
   "views_baseline": 137881.3,
-  "views_recent": 61585.0,
+  "views_recent": 108964.3,
   "baseline_ok": true,
-  "growth": -0.5533
+  "growth": -0.2097
  },
  {
   "wals_id": "mai",
@@ -21824,12 +21832,12 @@
   "wiki_code": "mai",
   "month_first": "201507",
   "views_first": 36321,
-  "month_last": "202601",
-  "views_last": 181399,
+  "month_last": "202609",
+  "views_last": 411324,
   "views_baseline": 38223.0,
-  "views_recent": 180283.7,
+  "views_recent": 375245.3,
   "baseline_ok": true,
-  "growth": 3.7166
+  "growth": 8.8173
  },
  {
   "wals_id": "maj",
@@ -21877,12 +21885,12 @@
   "wiki_code": "mg",
   "month_first": "201507",
   "views_first": 272442,
-  "month_last": "202601",
-  "views_last": 512794,
+  "month_last": "202609",
+  "views_last": 787531,
   "views_baseline": 260014.3,
-  "views_recent": 2047297.7,
+  "views_recent": 861464.3,
   "baseline_ok": true,
-  "growth": 6.8738
+  "growth": 2.3131
  },
  {
   "wals_id": "mam",
@@ -21930,12 +21938,12 @@
   "wiki_code": "mi",
   "month_first": "201507",
   "views_first": 171764,
-  "month_last": "202601",
-  "views_last": 137716,
+  "month_last": "202609",
+  "views_last": 213535,
   "views_baseline": 129690.0,
-  "views_recent": 262840.7,
+  "views_recent": 264177.0,
   "baseline_ok": true,
-  "growth": 1.0267
+  "growth": 1.037
  },
  {
   "wals_id": "map",
@@ -22313,12 +22321,12 @@
   "wiki_code": "mk",
   "month_first": "201507",
   "views_first": 1330682,
-  "month_last": "202601",
-  "views_last": 3056421,
+  "month_last": "202609",
+  "views_last": 2502722,
   "views_baseline": 1769983.7,
-  "views_recent": 3101229.0,
+  "views_recent": 2512551.7,
   "baseline_ok": true,
-  "growth": 0.7521
+  "growth": 0.4195
  },
  {
   "wals_id": "mce",
@@ -22606,12 +22614,12 @@
   "wiki_code": "mad",
   "month_first": "202012",
   "views_first": 13483,
-  "month_last": "202601",
-  "views_last": 98809,
+  "month_last": "202609",
+  "views_last": 185134,
   "views_baseline": 24329.7,
-  "views_recent": 161859.0,
+  "views_recent": 141610.3,
   "baseline_ok": true,
-  "growth": 5.6527
+  "growth": 4.8205
  },
  {
   "wals_id": "mds",
@@ -22704,12 +22712,12 @@
   "wiki_code": "bew",
   "month_first": "202404",
   "views_first": 2589,
-  "month_last": "202601",
-  "views_last": 53509,
+  "month_last": "202609",
+  "views_last": 87078,
   "views_baseline": 31986.7,
-  "views_recent": 139499.0,
+  "views_recent": 112654.7,
   "baseline_ok": true,
-  "growth": 3.3612
+  "growth": 2.5219
  },
  {
   "wals_id": "mee",
@@ -22757,12 +22765,12 @@
   "wiki_code": "mni",
   "month_first": "202102",
   "views_first": 10853,
-  "month_last": "202601",
-  "views_last": 153056,
+  "month_last": "202609",
+  "views_last": 421979,
   "views_baseline": 30493.0,
-  "views_recent": 168194.0,
+  "views_recent": 650018.0,
   "baseline_ok": true,
-  "growth": 4.5158
+  "growth": 20.317
  },
  {
   "wals_id": "mek",
@@ -22960,12 +22968,12 @@
   "wiki_code": "xmf",
   "month_first": "201507",
   "views_first": 193495,
-  "month_last": "202601",
-  "views_last": 237265,
+  "month_last": "202609",
+  "views_last": 243854,
   "views_baseline": 215824.0,
-  "views_recent": 235513.3,
+  "views_recent": 205686.3,
   "baseline_ok": true,
-  "growth": 0.0912
+  "growth": -0.047
  },
  {
   "wals_id": "mgn",
@@ -23058,12 +23066,12 @@
   "wiki_code": "mr",
   "month_first": "201507",
   "views_first": 1861871,
-  "month_last": "202601",
-  "views_last": 3928942,
+  "month_last": "202609",
+  "views_last": 3372201,
   "views_baseline": 2062553.7,
-  "views_recent": 3947371.7,
+  "views_recent": 3191898.3,
   "baseline_ok": true,
-  "growth": 0.9138
+  "growth": 0.5475
  },
  {
   "wals_id": "mhk",
@@ -23261,12 +23269,12 @@
   "wiki_code": "min",
   "month_first": "201507",
   "views_first": 195795,
-  "month_last": "202601",
-  "views_last": 325531,
+  "month_last": "202609",
+  "views_last": 1127538,
   "views_baseline": 230094.7,
-  "views_recent": 901101.7,
+  "views_recent": 779819.3,
   "baseline_ok": true,
-  "growth": 2.9162
+  "growth": 2.3891
  },
  {
   "wals_id": "mir",
@@ -23779,12 +23787,12 @@
   "wiki_code": "mt",
   "month_first": "201507",
   "views_first": 120076,
-  "month_last": "202601",
-  "views_last": 124116,
+  "month_last": "202609",
+  "views_last": 216981,
   "views_baseline": 122239.7,
-  "views_recent": 385486.0,
+  "views_recent": 182144.3,
   "baseline_ok": true,
-  "growth": 2.1535
+  "growth": 0.4901
  },
  {
   "wals_id": "mlu",
@@ -23862,12 +23870,12 @@
   "wiki_code": "mhr",
   "month_first": "201507",
   "views_first": 119414,
-  "month_last": "202601",
-  "views_last": 109946,
+  "month_last": "202609",
+  "views_last": 201290,
   "views_baseline": 150530.7,
-  "views_recent": 105363.7,
+  "views_recent": 187525.7,
   "baseline_ok": true,
-  "growth": -0.3001
+  "growth": 0.2458
  },
  {
   "wals_id": "mmi",
@@ -23915,12 +23923,12 @@
   "wiki_code": "mdf",
   "month_first": "201507",
   "views_first": 44636,
-  "month_last": "202601",
-  "views_last": 94910,
+  "month_last": "202609",
+  "views_last": 280681,
   "views_baseline": 48038.0,
-  "views_recent": 88873.0,
+  "views_recent": 256640.0,
   "baseline_ok": true,
-  "growth": 0.8501
+  "growth": 4.3424
  },
  {
   "wals_id": "mmp",
@@ -24043,12 +24051,12 @@
   "wiki_code": "zh",
   "month_first": "201507",
   "views_first": 308149295,
-  "month_last": "202601",
-  "views_last": 371510101,
+  "month_last": "202609",
+  "views_last": 325083270,
   "views_baseline": 305573208.7,
-  "views_recent": 415160789.0,
+  "views_recent": 359770920.0,
   "baseline_ok": true,
-  "growth": 0.3586
+  "growth": 0.1774
  },
  {
   "wals_id": "mne",
@@ -24246,12 +24254,12 @@
   "wiki_code": "gv",
   "month_first": "201507",
   "views_first": 160925,
-  "month_last": "202601",
-  "views_last": 223298,
+  "month_last": "202609",
+  "views_last": 253101,
   "views_baseline": 151624.0,
-  "views_recent": 415462.0,
+  "views_recent": 327744.7,
   "baseline_ok": true,
-  "growth": 1.7401
+  "growth": 1.1616
  },
  {
   "wals_id": "mny",
@@ -24329,12 +24337,12 @@
   "wiki_code": "myv",
   "month_first": "201507",
   "views_first": 68647,
-  "month_last": "202601",
-  "views_last": 95336,
+  "month_last": "202609",
+  "views_last": 142310,
   "views_baseline": 88725.7,
-  "views_recent": 81559.3,
+  "views_recent": 138620.7,
   "baseline_ok": true,
-  "growth": -0.0808
+  "growth": 0.5624
  },
  {
   "wals_id": "mof",
@@ -24457,12 +24465,12 @@
   "wiki_code": "mnw",
   "month_first": "201911",
   "views_first": 14721,
-  "month_last": "202601",
-  "views_last": 46435,
+  "month_last": "202609",
+  "views_last": 95903,
   "views_baseline": 27634.0,
-  "views_recent": 47811.0,
+  "views_recent": 86161.0,
   "baseline_ok": true,
-  "growth": 0.7302
+  "growth": 2.1179
  },
  {
   "wals_id": "moo",
@@ -24480,12 +24488,12 @@
   "wiki_code": "mos",
   "month_first": "202409",
   "views_first": 1321,
-  "month_last": "202601",
-  "views_last": 25869,
+  "month_last": "202609",
+  "views_last": 33068,
   "views_baseline": 10439.3,
-  "views_recent": 35121.0,
+  "views_recent": 44267.3,
   "baseline_ok": true,
-  "growth": 2.3643
+  "growth": 3.2404
  },
  {
   "wals_id": "mop",
@@ -25013,12 +25021,12 @@
   "wiki_code": "mh",
   "month_first": "201507",
   "views_first": 4821,
-  "month_last": "202601",
-  "views_last": 16468,
+  "month_last": "202609",
+  "views_last": 12460,
   "views_baseline": 5591.0,
-  "views_recent": 18790.3,
+  "views_recent": 27882.0,
   "baseline_ok": false,
-  "growth": 2.3608
+  "growth": 3.9869
  },
  {
   "wals_id": "msk",
@@ -25951,12 +25959,12 @@
   "wiki_code": "ml",
   "month_first": "201507",
   "views_first": 1906062,
-  "month_last": "202601",
-  "views_last": 3773349,
+  "month_last": "202609",
+  "views_last": 3272844,
   "views_baseline": 1902536.7,
-  "views_recent": 3953792.7,
+  "views_recent": 2916390.7,
   "baseline_ok": true,
-  "growth": 1.0782
+  "growth": 0.5329
  },
  {
   "wals_id": "myn",
@@ -26064,12 +26072,12 @@
   "wiki_code": "mzn",
   "month_first": "201507",
   "views_first": 330865,
-  "month_last": "202601",
-  "views_last": 334595,
+  "month_last": "202609",
+  "views_last": 614528,
   "views_baseline": 305772.3,
-  "views_recent": 380730.3,
+  "views_recent": 570046.3,
   "baseline_ok": true,
-  "growth": 0.2451
+  "growth": 0.8643
  },
  {
   "wals_id": "naa",
@@ -26327,12 +26335,12 @@
   "wiki_code": "na",
   "month_first": "201507",
   "views_first": 75194,
-  "month_last": "202601",
-  "views_last": 26513,
+  "month_last": "202609",
+  "views_last": 557533,
   "views_baseline": 70966.3,
-  "views_recent": 50875.0,
+  "views_recent": 585105.7,
   "baseline_ok": true,
-  "growth": -0.2831
+  "growth": 7.2448
  },
  {
   "wals_id": "nav",
@@ -26350,12 +26358,12 @@
   "wiki_code": "nv",
   "month_first": "201507",
   "views_first": 160089,
-  "month_last": "202601",
-  "views_last": 101929,
+  "month_last": "202609",
+  "views_last": 143603,
   "views_baseline": 187669.3,
-  "views_recent": 95800.7,
+  "views_recent": 137083.0,
   "baseline_ok": true,
-  "growth": -0.4895
+  "growth": -0.2696
  },
  {
   "wals_id": "nax",
@@ -26613,12 +26621,12 @@
   "wiki_code": "ng",
   "month_first": "201507",
   "views_first": 8729,
-  "month_last": "202601",
-  "views_last": 18906,
+  "month_last": "202609",
+  "views_last": 21357,
   "views_baseline": 8296.7,
-  "views_recent": 24039.0,
+  "views_recent": 28377.3,
   "baseline_ok": false,
-  "growth": 1.8974
+  "growth": 2.4203
  },
  {
   "wals_id": "ndr",
@@ -26801,12 +26809,12 @@
   "wiki_code": "new",
   "month_first": "201507",
   "views_first": 189321,
-  "month_last": "202601",
-  "views_last": 242556,
+  "month_last": "202609",
+  "views_last": 419604,
   "views_baseline": 197459.3,
-  "views_recent": 267978.7,
+  "views_recent": 645020.7,
   "baseline_ok": true,
-  "growth": 0.3571
+  "growth": 2.2666
  },
  {
   "wals_id": "ney",
@@ -27259,12 +27267,12 @@
   "wiki_code": "nia",
   "month_first": "202101",
   "views_first": 25487,
-  "month_last": "202601",
-  "views_last": 42410,
+  "month_last": "202609",
+  "views_last": 68429,
   "views_baseline": 39157.0,
-  "views_recent": 79937.7,
+  "views_recent": 99025.0,
   "baseline_ok": true,
-  "growth": 1.0415
+  "growth": 1.5289
  },
  {
   "wals_id": "nic",
@@ -27912,12 +27920,12 @@
   "wiki_code": "no",
   "month_first": "201507",
   "views_first": 23713531,
-  "month_last": "202601",
-  "views_last": 23462443,
+  "month_last": "202609",
+  "views_last": 25593375,
   "views_baseline": 26104229.7,
-  "views_recent": 28398475.0,
+  "views_recent": 27116109.0,
   "baseline_ok": true,
-  "growth": 0.0879
+  "growth": 0.0388
  },
  {
   "wals_id": "npa",
@@ -27965,12 +27973,12 @@
   "wiki_code": "pcm",
   "month_first": "202208",
   "views_first": 4137,
-  "month_last": "202601",
-  "views_last": 44002,
+  "month_last": "202609",
+  "views_last": 145765,
   "views_baseline": 9812.0,
-  "views_recent": 139233.3,
+  "views_recent": 138371.0,
   "baseline_ok": false,
-  "growth": 13.1901
+  "growth": 13.1022
  },
  {
   "wals_id": "npn",
@@ -28033,12 +28041,12 @@
   "wiki_code": "nrm",
   "month_first": "201507",
   "views_first": 103664,
-  "month_last": "202601",
-  "views_last": 80193,
+  "month_last": "202609",
+  "views_last": 179578,
   "views_baseline": 103262.7,
-  "views_recent": 174761.3,
+  "views_recent": 173264.3,
   "baseline_ok": true,
-  "growth": 0.6924
+  "growth": 0.6779
  },
  {
   "wals_id": "nro",
@@ -28341,12 +28349,12 @@
   "wiki_code": "nup",
   "month_first": "202504",
   "views_first": 989,
-  "month_last": "202601",
-  "views_last": 31774,
+  "month_last": "202609",
+  "views_last": 50980,
   "views_baseline": 8693.7,
-  "views_recent": 58163.3,
+  "views_recent": 56628.3,
   "baseline_ok": false,
-  "growth": 5.6903
+  "growth": 5.5137
  },
  {
   "wals_id": "nus",
@@ -28649,12 +28657,12 @@
   "wiki_code": "ann",
   "month_first": "202410",
   "views_first": 6346,
-  "month_last": "202601",
-  "views_last": 24901,
+  "month_last": "202609",
+  "views_last": 53930,
   "views_baseline": 15868.3,
-  "views_recent": 40145.7,
+  "views_recent": 45501.7,
   "baseline_ok": true,
-  "growth": 1.5299
+  "growth": 1.8675
  },
  {
   "wals_id": "oca",
@@ -28687,12 +28695,12 @@
   "wiki_code": "oc",
   "month_first": "201507",
   "views_first": 751999,
-  "month_last": "202601",
-  "views_last": 494052,
+  "month_last": "202609",
+  "views_last": 1167352,
   "views_baseline": 760900.7,
-  "views_recent": 3476358.7,
+  "views_recent": 1198202.7,
   "baseline_ok": true,
-  "growth": 3.5687
+  "growth": 0.5747
  },
  {
   "wals_id": "ocu",
@@ -29145,12 +29153,12 @@
   "wiki_code": "om",
   "month_first": "201507",
   "views_first": 75370,
-  "month_last": "202601",
-  "views_last": 120736,
+  "month_last": "202609",
+  "views_last": 134497,
   "views_baseline": 76748.7,
-  "views_recent": 164686.3,
+  "views_recent": 171101.7,
   "baseline_ok": true,
-  "growth": 1.1458
+  "growth": 1.2294
  },
  {
   "wals_id": "ori",
@@ -29303,12 +29311,12 @@
   "wiki_code": "os",
   "month_first": "201507",
   "views_first": 153150,
-  "month_last": "202601",
-  "views_last": 176805,
+  "month_last": "202609",
+  "views_last": 247520,
   "views_baseline": 189951.7,
-  "views_recent": 169878.3,
+  "views_recent": 304326.3,
   "baseline_ok": true,
-  "growth": -0.1057
+  "growth": 0.6021
  },
  {
   "wals_id": "otm",
@@ -29416,12 +29424,12 @@
   "wiki_code": "or",
   "month_first": "201507",
   "views_first": 594575,
-  "month_last": "202601",
-  "views_last": 507985,
+  "month_last": "202609",
+  "views_last": 424324,
   "views_baseline": 374585.0,
-  "views_recent": 474532.7,
+  "views_recent": 431563.3,
   "baseline_ok": true,
-  "growth": 0.2668
+  "growth": 0.1521
  },
  {
   "wals_id": "paa",
@@ -29514,12 +29522,12 @@
   "wiki_code": "pwn",
   "month_first": "202110",
   "views_first": 630,
-  "month_last": "202601",
-  "views_last": 15026,
+  "month_last": "202609",
+  "views_last": 28982,
   "views_baseline": 6933.0,
-  "views_recent": 23810.7,
+  "views_recent": 29334.7,
   "baseline_ok": false,
-  "growth": 2.4344
+  "growth": 3.2312
  },
  {
   "wals_id": "pak",
@@ -29582,12 +29590,12 @@
   "wiki_code": "pa",
   "month_first": "201507",
   "views_first": 347716,
-  "month_last": "202601",
-  "views_last": 797657,
+  "month_last": "202609",
+  "views_last": 943322,
   "views_baseline": 336131.3,
-  "views_recent": 826397.3,
+  "views_recent": 983896.0,
   "baseline_ok": true,
-  "growth": 1.4586
+  "growth": 1.9271
  },
  {
   "wals_id": "pap",
@@ -29605,12 +29613,12 @@
   "wiki_code": "pap",
   "month_first": "201507",
   "views_first": 73941,
-  "month_last": "202601",
-  "views_last": 120492,
+  "month_last": "202609",
+  "views_last": 156272,
   "views_baseline": 73294.3,
-  "views_recent": 482744.3,
+  "views_recent": 144984.7,
   "baseline_ok": true,
-  "growth": 5.5864
+  "growth": 0.9781
  },
  {
   "wals_id": "par",
@@ -29880,7 +29888,15 @@
   "genus": "Aztecan",
   "country_id": "SV",
   "kind": "language",
-  "wiki_code": "ppl"
+  "wiki_code": "ppl",
+  "month_first": "202601",
+  "views_first": 1211,
+  "month_last": "202609",
+  "views_last": 26975,
+  "views_baseline": 64098.3,
+  "views_recent": 35464.7,
+  "baseline_ok": true,
+  "growth": -0.4467
  },
  {
   "wals_id": "pir",
@@ -30183,12 +30199,12 @@
   "wiki_code": "pag",
   "month_first": "201507",
   "views_first": 58829,
-  "month_last": "202601",
-  "views_last": 43566,
+  "month_last": "202609",
+  "views_last": 101514,
   "views_baseline": 59149.3,
-  "views_recent": 155103.7,
+  "views_recent": 134019.3,
   "baseline_ok": true,
-  "growth": 1.6222
+  "growth": 1.2658
  },
  {
   "wals_id": "pno",
@@ -30356,12 +30372,12 @@
   "wiki_code": "pl",
   "month_first": "201507",
   "views_first": 202495574,
-  "month_last": "202601",
-  "views_last": 204283824,
+  "month_last": "202609",
+  "views_last": 167298453,
   "views_baseline": 212984470.3,
-  "views_recent": 207580983.3,
+  "views_recent": 174200011.7,
   "baseline_ok": true,
-  "growth": -0.0254
+  "growth": -0.1821
  },
  {
   "wals_id": "pop",
@@ -30394,12 +30410,12 @@
   "wiki_code": "pt",
   "month_first": "201507",
   "views_first": 322147370,
-  "month_last": "202601",
-  "views_last": 185922894,
+  "month_last": "202609",
+  "views_last": 165084903,
   "views_baseline": 332374429.3,
-  "views_recent": 184184274.3,
+  "views_recent": 181404379.3,
   "baseline_ok": true,
-  "growth": -0.4459
+  "growth": -0.4542
  },
  {
   "wals_id": "pot",
@@ -30597,12 +30613,12 @@
   "wiki_code": "fa",
   "month_first": "201507",
   "views_first": 67173938,
-  "month_last": "202601",
-  "views_last": 118761410,
+  "month_last": "202609",
+  "views_last": 146254398,
   "views_baseline": 65785447.3,
-  "views_recent": 160008022.0,
+  "views_recent": 153394342.3,
   "baseline_ok": true,
-  "growth": 1.4323
+  "growth": 1.3317
  },
  {
   "wals_id": "prt",
@@ -30635,12 +30651,12 @@
   "wiki_code": "ps",
   "month_first": "201507",
   "views_first": 166083,
-  "month_last": "202601",
-  "views_last": 286275,
+  "month_last": "202609",
+  "views_last": 296052,
   "views_baseline": 218624.0,
-  "views_recent": 276418.3,
+  "views_recent": 292177.0,
   "baseline_ok": true,
-  "growth": 0.2644
+  "growth": 0.3364
  },
  {
   "wals_id": "psj",
@@ -30958,12 +30974,12 @@
   "wiki_code": "aa",
   "month_first": "201507",
   "views_first": 9413,
-  "month_last": "202601",
-  "views_last": 18655,
+  "month_last": "202609",
+  "views_last": 26027,
   "views_baseline": 10373.7,
-  "views_recent": 38505.0,
+  "views_recent": 33985.7,
   "baseline_ok": true,
-  "growth": 2.7118
+  "growth": 2.2761
  },
  {
   "wals_id": "qan",
@@ -31596,12 +31612,12 @@
   "wiki_code": "rmy",
   "month_first": "201507",
   "views_first": 44250,
-  "month_last": "202601",
-  "views_last": 31180,
+  "month_last": "202609",
+  "views_last": 661600,
   "views_baseline": 43237.0,
-  "views_recent": 80222.3,
+  "views_recent": 355650.7,
   "baseline_ok": true,
-  "growth": 0.8554
+  "growth": 7.2256
  },
  {
   "wals_id": "rlo",
@@ -31664,12 +31680,12 @@
   "wiki_code": "rn",
   "month_first": "201507",
   "views_first": 23424,
-  "month_last": "202601",
-  "views_last": 49145,
+  "month_last": "202609",
+  "views_last": 71463,
   "views_baseline": 22380.0,
-  "views_recent": 99516.0,
+  "views_recent": 96643.0,
   "baseline_ok": true,
-  "growth": 3.4466
+  "growth": 3.3183
  },
  {
   "wals_id": "rng",
@@ -31747,12 +31763,12 @@
   "wiki_code": "ro",
   "month_first": "201507",
   "views_first": 21927090,
-  "month_last": "202601",
-  "views_last": 29392052,
+  "month_last": "202609",
+  "views_last": 22359032,
   "views_baseline": 23263559.3,
-  "views_recent": 33644612.7,
+  "views_recent": 23721875.7,
   "baseline_ok": true,
-  "growth": 0.4462
+  "growth": 0.0197
  },
  {
   "wals_id": "ron",
@@ -31935,12 +31951,12 @@
   "wiki_code": "rm",
   "month_first": "201507",
   "views_first": 76196,
-  "month_last": "202601",
-  "views_last": 68982,
+  "month_last": "202609",
+  "views_last": 112271,
   "views_baseline": 85067.0,
-  "views_recent": 258907.7,
+  "views_recent": 97613.0,
   "baseline_ok": true,
-  "growth": 2.0436
+  "growth": 0.1475
  },
  {
   "wals_id": "rti",
@@ -32033,12 +32049,12 @@
   "wiki_code": "ru",
   "month_first": "201507",
   "views_first": 824527567,
-  "month_last": "202601",
-  "views_last": 733333781,
+  "month_last": "202609",
+  "views_last": 533024279,
   "views_baseline": 844764448.7,
-  "views_recent": 720209739.3,
+  "views_recent": 554313586.3,
   "baseline_ok": true,
-  "growth": -0.1474
+  "growth": -0.3438
  },
  {
   "wals_id": "rut",
@@ -32206,12 +32222,12 @@
   "wiki_code": "sm",
   "month_first": "201507",
   "views_first": 35478,
-  "month_last": "202601",
-  "views_last": 41893,
+  "month_last": "202609",
+  "views_last": 64448,
   "views_baseline": 32548.0,
-  "views_recent": 106362.3,
+  "views_recent": 96408.0,
   "baseline_ok": true,
-  "growth": 2.2679
+  "growth": 1.962
  },
  {
   "wals_id": "san",
@@ -32229,12 +32245,12 @@
   "wiki_code": "sg",
   "month_first": "201507",
   "views_first": 35169,
-  "month_last": "202601",
-  "views_last": 22188,
+  "month_last": "202609",
+  "views_last": 47032,
   "views_baseline": 34046.0,
-  "views_recent": 52851.3,
+  "views_recent": 41168.0,
   "baseline_ok": true,
-  "growth": 0.5524
+  "growth": 0.2092
  },
  {
   "wals_id": "sao",
@@ -32387,12 +32403,12 @@
   "wiki_code": "sh",
   "month_first": "201507",
   "views_first": 5483232,
-  "month_last": "202601",
-  "views_last": 3745085,
+  "month_last": "202609",
+  "views_last": 6406179,
   "views_baseline": 5883115.3,
-  "views_recent": 8375572.3,
+  "views_recent": 6036208.0,
   "baseline_ok": true,
-  "growth": 0.4237
+  "growth": 0.026
  },
  {
   "wals_id": "scs",
@@ -32425,12 +32441,12 @@
   "wiki_code": "sd",
   "month_first": "201507",
   "views_first": 53096,
-  "month_last": "202601",
-  "views_last": 299456,
+  "month_last": "202609",
+  "views_last": 298796,
   "views_baseline": 58859.7,
-  "views_recent": 252248.7,
+  "views_recent": 286500.0,
   "baseline_ok": true,
-  "growth": 3.2856
+  "growth": 3.8675
  },
  {
   "wals_id": "sdw",
@@ -32523,12 +32539,12 @@
   "wiki_code": "trv",
   "month_first": "202103",
   "views_first": 8510,
-  "month_last": "202601",
-  "views_last": 61199,
+  "month_last": "202609",
+  "views_last": 877578,
   "views_baseline": 13761.3,
-  "views_recent": 161168.7,
+  "views_recent": 1427130.7,
   "baseline_ok": true,
-  "growth": 10.7117
+  "growth": 102.7058
  },
  {
   "wals_id": "sel",
@@ -32606,12 +32622,12 @@
   "wiki_code": "st",
   "month_first": "201507",
   "views_first": 89021,
-  "month_last": "202601",
-  "views_last": 48369,
+  "month_last": "202609",
+  "views_last": 70392,
   "views_baseline": 87488.3,
-  "views_recent": 156763.0,
+  "views_recent": 106564.7,
   "baseline_ok": true,
-  "growth": 0.7918
+  "growth": 0.218
  },
  {
   "wals_id": "sey",
@@ -32734,12 +32750,12 @@
   "wiki_code": "shn",
   "month_first": "201811",
   "views_first": 14230,
-  "month_last": "202601",
-  "views_last": 135412,
+  "month_last": "202609",
+  "views_last": 224524,
   "views_baseline": 38080.7,
-  "views_recent": 104994.0,
+  "views_recent": 209385.0,
   "baseline_ok": true,
-  "growth": 1.7571
+  "growth": 4.4985
  },
  {
   "wals_id": "shb",
@@ -32877,12 +32893,12 @@
   "wiki_code": "sn",
   "month_first": "201507",
   "views_first": 195725,
-  "month_last": "202601",
-  "views_last": 111525,
+  "month_last": "202609",
+  "views_last": 183505,
   "views_baseline": 199875.3,
-  "views_recent": 402221.3,
+  "views_recent": 413727.0,
   "baseline_ok": true,
-  "growth": 1.0124
+  "growth": 1.0699
  },
  {
   "wals_id": "sho",
@@ -33365,12 +33381,12 @@
   "wiki_code": "sl",
   "month_first": "201507",
   "views_first": 4847943,
-  "month_last": "202601",
-  "views_last": 7109255,
+  "month_last": "202609",
+  "views_last": 5990962,
   "views_baseline": 5493093.7,
-  "views_recent": 8811399.3,
+  "views_recent": 5796803.3,
   "baseline_ok": true,
-  "growth": 0.6041
+  "growth": 0.0553
  },
  {
   "wals_id": "slp",
@@ -33508,12 +33524,12 @@
   "wiki_code": "mus",
   "month_first": "201507",
   "views_first": 5610,
-  "month_last": "202601",
-  "views_last": 16069,
+  "month_last": "202609",
+  "views_last": 10663,
   "views_baseline": 5992.3,
-  "views_recent": 18385.7,
+  "views_recent": 27489.7,
   "baseline_ok": false,
-  "growth": 2.0682
+  "growth": 3.5875
  },
  {
   "wals_id": "smp",
@@ -33621,12 +33637,12 @@
   "wiki_code": "si",
   "month_first": "201507",
   "views_first": 475249,
-  "month_last": "202601",
-  "views_last": 1236090,
+  "month_last": "202609",
+  "views_last": 1154496,
   "views_baseline": 557286.7,
-  "views_recent": 1281229.3,
+  "views_recent": 1323677.0,
   "baseline_ok": true,
-  "growth": 1.299
+  "growth": 1.3752
  },
  {
   "wals_id": "snm",
@@ -33674,12 +33690,12 @@
   "wiki_code": "se",
   "month_first": "201507",
   "views_first": 139116,
-  "month_last": "202601",
-  "views_last": 109288,
+  "month_last": "202609",
+  "views_last": 361663,
   "views_baseline": 132104.3,
-  "views_recent": 393720.0,
+  "views_recent": 222480.3,
   "baseline_ok": true,
-  "growth": 1.9804
+  "growth": 0.6841
  },
  {
   "wals_id": "snt",
@@ -33772,12 +33788,12 @@
   "wiki_code": "so",
   "month_first": "201507",
   "views_first": 354037,
-  "month_last": "202601",
-  "views_last": 505199,
+  "month_last": "202609",
+  "views_last": 570164,
   "views_baseline": 316665.0,
-  "views_recent": 772762.0,
+  "views_recent": 645561.7,
   "baseline_ok": true,
-  "growth": 1.4403
+  "growth": 1.0386
  },
  {
   "wals_id": "son",
@@ -33870,12 +33886,12 @@
   "wiki_code": "es",
   "month_first": "201507",
   "views_first": 992595728,
-  "month_last": "202601",
-  "views_last": 596404635,
+  "month_last": "202609",
+  "views_last": 475338349,
   "views_baseline": 1097343011.0,
-  "views_recent": 564403513.7,
+  "views_recent": 504362838.3,
   "baseline_ok": true,
-  "growth": -0.4857
+  "growth": -0.5404
  },
  {
   "wals_id": "spc",
@@ -33968,12 +33984,12 @@
   "wiki_code": "srn",
   "month_first": "201507",
   "views_first": 34612,
-  "month_last": "202601",
-  "views_last": 69912,
+  "month_last": "202609",
+  "views_last": 58211,
   "views_baseline": 33872.7,
-  "views_recent": 83405.7,
+  "views_recent": 60969.7,
   "baseline_ok": true,
-  "growth": 1.4623
+  "growth": 0.8
  },
  {
   "wals_id": "srb",
@@ -33991,12 +34007,12 @@
   "wiki_code": "hsb",
   "month_first": "201507",
   "views_first": 268719,
-  "month_last": "202601",
-  "views_last": 117186,
+  "month_last": "202609",
+  "views_last": 213412,
   "views_baseline": 271571.3,
-  "views_recent": 96361.7,
+  "views_recent": 138513.7,
   "baseline_ok": true,
-  "growth": -0.6452
+  "growth": -0.49
  },
  {
   "wals_id": "src",
@@ -34029,12 +34045,12 @@
   "wiki_code": "sc",
   "month_first": "201507",
   "views_first": 113989,
-  "month_last": "202601",
-  "views_last": 171167,
+  "month_last": "202609",
+  "views_last": 235506,
   "views_baseline": 120373.7,
-  "views_recent": 619627.3,
+  "views_recent": 414765.0,
   "baseline_ok": true,
-  "growth": 4.1475
+  "growth": 2.4456
  },
  {
   "wals_id": "sre",
@@ -34292,12 +34308,12 @@
   "wiki_code": "sat",
   "month_first": "201808",
   "views_first": 49611,
-  "month_last": "202601",
-  "views_last": 89171,
+  "month_last": "202609",
+  "views_last": 145164,
   "views_baseline": 65857.7,
-  "views_recent": 175411.3,
+  "views_recent": 147900.7,
   "baseline_ok": true,
-  "growth": 1.6635
+  "growth": 1.2458
  },
  {
   "wals_id": "stn",
@@ -34315,12 +34331,12 @@
   "wiki_code": "nso",
   "month_first": "201507",
   "views_first": 57901,
-  "month_last": "202601",
-  "views_last": 183025,
+  "month_last": "202609",
+  "views_last": 132569,
   "views_baseline": 65385.0,
-  "views_recent": 237214.7,
+  "views_recent": 197088.3,
   "baseline_ok": true,
-  "growth": 2.628
+  "growth": 2.0143
  },
  {
   "wals_id": "sto",
@@ -34473,12 +34489,12 @@
   "wiki_code": "su",
   "month_first": "201507",
   "views_first": 401630,
-  "month_last": "202601",
-  "views_last": 183187,
+  "month_last": "202609",
+  "views_last": 637815,
   "views_baseline": 450951.3,
-  "views_recent": 758872.0,
+  "views_recent": 695588.0,
   "baseline_ok": true,
-  "growth": 0.6828
+  "growth": 0.5425
  },
  {
   "wals_id": "sup",
@@ -34556,12 +34572,12 @@
   "wiki_code": "csb",
   "month_first": "201507",
   "views_first": 114857,
-  "month_last": "202601",
-  "views_last": 99192,
+  "month_last": "202609",
+  "views_last": 934661,
   "views_baseline": 108747.0,
-  "views_recent": 154701.0,
+  "views_recent": 1427232.3,
   "baseline_ok": true,
-  "growth": 0.4226
+  "growth": 12.1243
  },
  {
   "wals_id": "svk",
@@ -34579,12 +34595,12 @@
   "wiki_code": "sk",
   "month_first": "201507",
   "views_first": 8612601,
-  "month_last": "202601",
-  "views_last": 12237478,
+  "month_last": "202609",
+  "views_last": 10861493,
   "views_baseline": 9114736.7,
-  "views_recent": 14813573.0,
+  "views_recent": 11584642.7,
   "baseline_ok": true,
-  "growth": 0.6252
+  "growth": 0.271
  },
  {
   "wals_id": "svs",
@@ -34632,12 +34648,12 @@
   "wiki_code": "sw",
   "month_first": "201507",
   "views_first": 1254015,
-  "month_last": "202601",
-  "views_last": 1371482,
+  "month_last": "202609",
+  "views_last": 1717403,
   "views_baseline": 1228781.7,
-  "views_recent": 2907217.0,
+  "views_recent": 2908526.0,
   "baseline_ok": true,
-  "growth": 1.3659
+  "growth": 1.367
  },
  {
   "wals_id": "swe",
@@ -34655,12 +34671,12 @@
   "wiki_code": "sv",
   "month_first": "201507",
   "views_first": 81589706,
-  "month_last": "202601",
-  "views_last": 71490813,
+  "month_last": "202609",
+  "views_last": 64985345,
   "views_baseline": 84294874.3,
-  "views_recent": 74903502.3,
+  "views_recent": 72514016.0,
   "baseline_ok": true,
-  "growth": -0.1114
+  "growth": -0.1398
  },
  {
   "wals_id": "swi",
@@ -34708,12 +34724,12 @@
   "wiki_code": "ss",
   "month_first": "201507",
   "views_first": 50935,
-  "month_last": "202601",
-  "views_last": 109690,
+  "month_last": "202609",
+  "views_last": 107870,
   "views_baseline": 48436.3,
-  "views_recent": 180394.7,
+  "views_recent": 221826.3,
   "baseline_ok": true,
-  "growth": 2.7244
+  "growth": 3.5798
  },
  {
   "wals_id": "swv",
@@ -34821,12 +34837,12 @@
   "wiki_code": "tl",
   "month_first": "201507",
   "views_first": 9323235,
-  "month_last": "202601",
-  "views_last": 1798018,
+  "month_last": "202609",
+  "views_last": 1431886,
   "views_baseline": 8354185.3,
-  "views_recent": 3999282.0,
+  "views_recent": 1738906.0,
   "baseline_ok": true,
-  "growth": -0.5213
+  "growth": -0.7919
  },
  {
   "wals_id": "tah",
@@ -34844,12 +34860,12 @@
   "wiki_code": "ty",
   "month_first": "201507",
   "views_first": 34345,
-  "month_last": "202601",
-  "views_last": 31301,
+  "month_last": "202609",
+  "views_last": 59709,
   "views_baseline": 33189.7,
-  "views_recent": 81682.7,
+  "views_recent": 64542.7,
   "baseline_ok": true,
-  "growth": 1.4611
+  "growth": 0.9447
  },
  {
   "wals_id": "tai",
@@ -34882,12 +34898,12 @@
   "wiki_code": "tg",
   "month_first": "201507",
   "views_first": 286959,
-  "month_last": "202601",
-  "views_last": 1263094,
+  "month_last": "202609",
+  "views_last": 976303,
   "views_baseline": 358666.0,
-  "views_recent": 1367923.0,
+  "views_recent": 834418.7,
   "baseline_ok": true,
-  "growth": 2.8139
+  "growth": 1.3265
  },
  {
   "wals_id": "tak",
@@ -35010,12 +35026,12 @@
   "wiki_code": "shi",
   "month_first": "202106",
   "views_first": 304,
-  "month_last": "202601",
-  "views_last": 90562,
+  "month_last": "202609",
+  "views_last": 701707,
   "views_baseline": 27929.7,
-  "views_recent": 150983.3,
+  "views_recent": 721932.7,
   "baseline_ok": true,
-  "growth": 4.4058
+  "growth": 24.8482
  },
  {
   "wals_id": "tat",
@@ -35093,12 +35109,12 @@
   "wiki_code": "tly",
   "month_first": "202308",
   "views_first": 4139,
-  "month_last": "202601",
-  "views_last": 71464,
+  "month_last": "202609",
+  "views_last": 377131,
   "views_baseline": 100660.0,
-  "views_recent": 266737.3,
+  "views_recent": 329742.3,
   "baseline_ok": true,
-  "growth": 1.6499
+  "growth": 2.2758
  },
  {
   "wals_id": "tba",
@@ -35386,12 +35402,12 @@
   "wiki_code": "te",
   "month_first": "201507",
   "views_first": 1494374,
-  "month_last": "202601",
-  "views_last": 4536816,
+  "month_last": "202609",
+  "views_last": 4103055,
   "views_baseline": 1596057.7,
-  "views_recent": 4588249.0,
+  "views_recent": 4116752.7,
   "baseline_ok": true,
-  "growth": 1.8747
+  "growth": 1.5793
  },
  {
   "wals_id": "tem",
@@ -35664,12 +35680,12 @@
   "wiki_code": "tig",
   "month_first": "202412",
   "views_first": 9820,
-  "month_last": "202601",
-  "views_last": 26893,
+  "month_last": "202609",
+  "views_last": 18840,
   "views_baseline": 18199.3,
-  "views_recent": 19268.3,
+  "views_recent": 44504.0,
   "baseline_ok": true,
-  "growth": 0.0587
+  "growth": 1.4454
  },
  {
   "wals_id": "tgw",
@@ -35702,12 +35718,12 @@
   "wiki_code": "th",
   "month_first": "201507",
   "views_first": 48140501,
-  "month_last": "202601",
-  "views_last": 30727655,
+  "month_last": "202609",
+  "views_last": 27414993,
   "views_baseline": 47291669.3,
-  "views_recent": 30926172.3,
+  "views_recent": 31250363.0,
   "baseline_ok": true,
-  "growth": -0.3461
+  "growth": -0.3392
  },
  {
   "wals_id": "thd",
@@ -35890,12 +35906,12 @@
   "wiki_code": "bo",
   "month_first": "201507",
   "views_first": 167176,
-  "month_last": "202601",
-  "views_last": 178497,
+  "month_last": "202609",
+  "views_last": 270564,
   "views_baseline": 386427.0,
-  "views_recent": 197491.0,
+  "views_recent": 327273.7,
   "baseline_ok": true,
-  "growth": -0.4889
+  "growth": -0.1531
  },
  {
   "wals_id": "tic",
@@ -35958,12 +35974,12 @@
   "wiki_code": "ti",
   "month_first": "201507",
   "views_first": 27486,
-  "month_last": "202601",
-  "views_last": 43973,
+  "month_last": "202609",
+  "views_last": 89535,
   "views_baseline": 25492.0,
-  "views_recent": 35443.3,
+  "views_recent": 73669.7,
   "baseline_ok": true,
-  "growth": 0.3904
+  "growth": 1.8899
  },
  {
   "wals_id": "tik",
@@ -36161,12 +36177,12 @@
   "wiki_code": "tk",
   "month_first": "201507",
   "views_first": 150612,
-  "month_last": "202601",
-  "views_last": 284428,
+  "month_last": "202609",
+  "views_last": 276005,
   "views_baseline": 149701.3,
-  "views_recent": 479147.0,
+  "views_recent": 230731.3,
   "baseline_ok": true,
-  "growth": 2.2007
+  "growth": 0.5413
  },
  {
   "wals_id": "tks",
@@ -36409,12 +36425,12 @@
   "wiki_code": "ta",
   "month_first": "201507",
   "views_first": 3385509,
-  "month_last": "202601",
-  "views_last": 6805961,
+  "month_last": "202609",
+  "views_last": 5644336,
   "views_baseline": 3336011.3,
-  "views_recent": 7076673.7,
+  "views_recent": 5889091.0,
   "baseline_ok": true,
-  "growth": 1.1213
+  "growth": 0.7653
  },
  {
   "wals_id": "tmm",
@@ -36612,12 +36628,12 @@
   "wiki_code": "to",
   "month_first": "201507",
   "views_first": 30847,
-  "month_last": "202601",
-  "views_last": 356687,
+  "month_last": "202609",
+  "views_last": 95559,
   "views_baseline": 31009.3,
-  "views_recent": 977863.0,
+  "views_recent": 480641.3,
   "baseline_ok": true,
-  "growth": 30.5345
+  "growth": 14.4999
  },
  {
   "wals_id": "tni",
@@ -37025,12 +37041,12 @@
   "wiki_code": "tpi",
   "month_first": "201507",
   "views_first": 72941,
-  "month_last": "202601",
-  "views_last": 82241,
+  "month_last": "202609",
+  "views_last": 142103,
   "views_baseline": 67635.3,
-  "views_recent": 202460.0,
+  "views_recent": 361157.3,
   "baseline_ok": true,
-  "growth": 1.9934
+  "growth": 4.3398
  },
  {
   "wals_id": "tpn",
@@ -37438,12 +37454,12 @@
   "wiki_code": "ts",
   "month_first": "201507",
   "views_first": 38911,
-  "month_last": "202601",
-  "views_last": 111394,
+  "month_last": "202609",
+  "views_last": 101120,
   "views_baseline": 38161.7,
-  "views_recent": 182975.0,
+  "views_recent": 277115.3,
   "baseline_ok": true,
-  "growth": 3.7947
+  "growth": 6.2616
  },
  {
   "wals_id": "tso",
@@ -37521,12 +37537,12 @@
   "wiki_code": "tn",
   "month_first": "201507",
   "views_first": 35962,
-  "month_last": "202601",
-  "views_last": 56197,
+  "month_last": "202609",
+  "views_last": 106134,
   "views_baseline": 44250.7,
-  "views_recent": 148975.3,
+  "views_recent": 142886.3,
   "baseline_ok": true,
-  "growth": 2.3666
+  "growth": 2.229
  },
  {
   "wals_id": "tsz",
@@ -37604,12 +37620,12 @@
   "wiki_code": "tet",
   "month_first": "201507",
   "views_first": 53423,
-  "month_last": "202601",
-  "views_last": 65918,
+  "month_last": "202609",
+  "views_last": 524662,
   "views_baseline": 56130.0,
-  "views_recent": 116117.3,
+  "views_recent": 463951.7,
   "baseline_ok": true,
-  "growth": 1.0687
+  "growth": 7.2657
  },
  {
   "wals_id": "tts",
@@ -37762,12 +37778,12 @@
   "wiki_code": "tcy",
   "month_first": "201608",
   "views_first": 46844,
-  "month_last": "202601",
-  "views_last": 66441,
+  "month_last": "202609",
+  "views_last": 128421,
   "views_baseline": 34333.0,
-  "views_recent": 96756.7,
+  "views_recent": 196322.0,
   "baseline_ok": true,
-  "growth": 1.8182
+  "growth": 4.7182
  },
  {
   "wals_id": "tum",
@@ -37830,12 +37846,12 @@
   "wiki_code": "tr",
   "month_first": "201507",
   "views_first": 120535118,
-  "month_last": "202601",
-  "views_last": 121776345,
+  "month_last": "202609",
+  "views_last": 85018287,
   "views_baseline": 114423593.7,
-  "views_recent": 124084219.7,
+  "views_recent": 92728494.0,
   "baseline_ok": true,
-  "growth": 0.0844
+  "growth": -0.1896
  },
  {
   "wals_id": "tus",
@@ -37883,12 +37899,12 @@
   "wiki_code": "tyv",
   "month_first": "201507",
   "views_first": 45453,
-  "month_last": "202601",
-  "views_last": 44734,
+  "month_last": "202609",
+  "views_last": 71522,
   "views_baseline": 48920.7,
-  "views_recent": 53029.7,
+  "views_recent": 64976.0,
   "baseline_ok": true,
-  "growth": 0.084
+  "growth": 0.3282
  },
  {
   "wals_id": "tuy",
@@ -37936,12 +37952,12 @@
   "wiki_code": "tt",
   "month_first": "201507",
   "views_first": 470218,
-  "month_last": "202601",
-  "views_last": 1076060,
+  "month_last": "202609",
+  "views_last": 1522981,
   "views_baseline": 589888.0,
-  "views_recent": 1341717.0,
+  "views_recent": 1404601.3,
   "baseline_ok": true,
-  "growth": 1.2745
+  "growth": 1.3811
  },
  {
   "wals_id": "tvt",
@@ -38214,12 +38230,12 @@
   "wiki_code": "udm",
   "month_first": "201507",
   "views_first": 72273,
-  "month_last": "202601",
-  "views_last": 85864,
+  "month_last": "202609",
+  "views_last": 131231,
   "views_baseline": 99506.3,
-  "views_recent": 82847.7,
+  "views_recent": 120136.7,
   "baseline_ok": true,
-  "growth": -0.1674
+  "growth": 0.2073
  },
  {
   "wals_id": "ugs",
@@ -38267,12 +38283,12 @@
   "wiki_code": "uk",
   "month_first": "201507",
   "views_first": 35856130,
-  "month_last": "202601",
-  "views_last": 60471976,
+  "month_last": "202609",
+  "views_last": 52481595,
   "views_baseline": 38092339.7,
-  "views_recent": 61035672.3,
+  "views_recent": 52067041.7,
   "baseline_ok": true,
-  "growth": 0.6023
+  "growth": 0.3669
  },
  {
   "wals_id": "uku",
@@ -38470,12 +38486,12 @@
   "wiki_code": "ur",
   "month_first": "201507",
   "views_first": 1993903,
-  "month_last": "202601",
-  "views_last": 3209899,
+  "month_last": "202609",
+  "views_last": 4914226,
   "views_baseline": 2204975.0,
-  "views_recent": 4087627.0,
+  "views_recent": 5072188.7,
   "baseline_ok": true,
-  "growth": 0.8538
+  "growth": 1.3003
  },
  {
   "wals_id": "urh",
@@ -38673,12 +38689,12 @@
   "wiki_code": "ug",
   "month_first": "201507",
   "views_first": 128285,
-  "month_last": "202601",
-  "views_last": 104458,
+  "month_last": "202609",
+  "views_last": 241764,
   "views_baseline": 111051.3,
-  "views_recent": 144645.7,
+  "views_recent": 284201.3,
   "baseline_ok": true,
-  "growth": 0.3025
+  "growth": 1.5592
  },
  {
   "wals_id": "uzb",
@@ -38696,12 +38712,12 @@
   "wiki_code": "uz",
   "month_first": "201507",
   "views_first": 866977,
-  "month_last": "202601",
-  "views_last": 5184088,
+  "month_last": "202609",
+  "views_last": 3596062,
   "views_baseline": 1084941.7,
-  "views_recent": 10285726.7,
+  "views_recent": 3688820.0,
   "baseline_ok": true,
-  "growth": 8.4804
+  "growth": 2.4
  },
  {
   "wals_id": "uzn",
@@ -38824,12 +38840,12 @@
   "wiki_code": "ve",
   "month_first": "201507",
   "views_first": 26865,
-  "month_last": "202601",
-  "views_last": 27022,
+  "month_last": "202609",
+  "views_last": 58812,
   "views_baseline": 28393.7,
-  "views_recent": 48799.0,
+  "views_recent": 58780.7,
   "baseline_ok": true,
-  "growth": 0.7187
+  "growth": 1.0702
  },
  {
   "wals_id": "vep",
@@ -38847,12 +38863,12 @@
   "wiki_code": "vep",
   "month_first": "201507",
   "views_first": 114972,
-  "month_last": "202601",
-  "views_last": 105189,
+  "month_last": "202609",
+  "views_last": 169182,
   "views_baseline": 118240.7,
-  "views_recent": 335605.7,
+  "views_recent": 160695.0,
   "baseline_ok": true,
-  "growth": 1.8383
+  "growth": 0.3591
  },
  {
   "wals_id": "vie",
@@ -38870,12 +38886,12 @@
   "wiki_code": "vi",
   "month_first": "201507",
   "views_first": 52094254,
-  "month_last": "202601",
-  "views_last": 52199251,
+  "month_last": "202609",
+  "views_last": 43250828,
   "views_baseline": 52040050.0,
-  "views_recent": 55616507.3,
+  "views_recent": 47383581.3,
   "baseline_ok": true,
-  "growth": 0.0687
+  "growth": -0.0895
  },
  {
   "wals_id": "vif",
@@ -39268,12 +39284,12 @@
   "wiki_code": "cy",
   "month_first": "201507",
   "views_first": 771676,
-  "month_last": "202601",
-  "views_last": 1268074,
+  "month_last": "202609",
+  "views_last": 1562411,
   "views_baseline": 852246.7,
-  "views_recent": 2730652.0,
+  "views_recent": 2065957.7,
   "baseline_ok": true,
-  "growth": 2.2041
+  "growth": 1.4241
  },
  {
   "wals_id": "wem",
@@ -39471,12 +39487,12 @@
   "wiki_code": "wo",
   "month_first": "201507",
   "views_first": 68411,
-  "month_last": "202601",
-  "views_last": 52501,
+  "month_last": "202609",
+  "views_last": 69450,
   "views_baseline": 64100.0,
-  "views_recent": 164585.0,
+  "views_recent": 82731.7,
   "baseline_ok": true,
-  "growth": 1.5676
+  "growth": 0.2907
  },
  {
   "wals_id": "wll",
@@ -40034,12 +40050,12 @@
   "wiki_code": "wuu",
   "month_first": "201507",
   "views_first": 449623,
-  "month_last": "202601",
-  "views_last": 1729605,
+  "month_last": "202609",
+  "views_last": 2212165,
   "views_baseline": 417760.7,
-  "views_recent": 1862785.7,
+  "views_recent": 1808706.0,
   "baseline_ok": true,
-  "growth": 3.459
+  "growth": 3.3295
  },
  {
   "wals_id": "wur",
@@ -40102,12 +40118,12 @@
   "wiki_code": "war",
   "month_first": "201507",
   "views_first": 947859,
-  "month_last": "202601",
-  "views_last": 2971870,
+  "month_last": "202609",
+  "views_last": 2532750,
   "views_baseline": 1326103.0,
-  "views_recent": 8493838.3,
+  "views_recent": 2068797.3,
   "baseline_ok": true,
-  "growth": 5.4051
+  "growth": 0.5601
  },
  {
   "wals_id": "wya",
@@ -40245,12 +40261,12 @@
   "wiki_code": "xh",
   "month_first": "201507",
   "views_first": 84300,
-  "month_last": "202601",
-  "views_last": 59109,
+  "month_last": "202609",
+  "views_last": 76079,
   "views_baseline": 59360.3,
-  "views_recent": 137517.3,
+  "views_recent": 123073.7,
   "baseline_ok": true,
-  "growth": 1.3167
+  "growth": 1.0733
  },
  {
   "wals_id": "xns",
@@ -40628,12 +40644,12 @@
   "wiki_code": "yi",
   "month_first": "201507",
   "views_first": 438415,
-  "month_last": "202601",
-  "views_last": 275399,
+  "month_last": "202609",
+  "views_last": 357182,
   "views_baseline": 410938.0,
-  "views_recent": 255919.0,
+  "views_recent": 416647.7,
   "baseline_ok": true,
-  "growth": -0.3772
+  "growth": 0.0139
  },
  {
   "wals_id": "ydl",
@@ -40786,12 +40802,12 @@
   "wiki_code": "ii",
   "month_first": "201507",
   "views_first": 11538,
-  "month_last": "202601",
-  "views_last": 38808,
+  "month_last": "202609",
+  "views_last": 9685,
   "views_baseline": 8464.7,
-  "views_recent": 24933.0,
+  "views_recent": 12516.3,
   "baseline_ok": false,
-  "growth": 1.9455
+  "growth": 0.4787
  },
  {
   "wals_id": "yid",
@@ -40974,12 +40990,12 @@
   "wiki_code": "sah",
   "month_first": "201507",
   "views_first": 177361,
-  "month_last": "202601",
-  "views_last": 210085,
+  "month_last": "202609",
+  "views_last": 397968,
   "views_baseline": 243305.0,
-  "views_recent": 300886.3,
+  "views_recent": 459150.3,
   "baseline_ok": true,
-  "growth": 0.2367
+  "growth": 0.8871
  },
  {
   "wals_id": "ylb",
@@ -41222,12 +41238,12 @@
   "wiki_code": "yo",
   "month_first": "201507",
   "views_first": 270768,
-  "month_last": "202601",
-  "views_last": 160386,
+  "month_last": "202609",
+  "views_last": 307500,
   "views_baseline": 272362.3,
-  "views_recent": 553411.3,
+  "views_recent": 263015.3,
   "baseline_ok": true,
-  "growth": 1.0319
+  "growth": -0.0343
  },
  {
   "wals_id": "ypk",
@@ -41725,12 +41741,12 @@
   "wiki_code": "diq",
   "month_first": "201507",
   "views_first": 189916,
-  "month_last": "202601",
-  "views_last": 249788,
+  "month_last": "202609",
+  "views_last": 456804,
   "views_baseline": 177878.0,
-  "views_recent": 1692326.7,
+  "views_recent": 584404.7,
   "baseline_ok": true,
-  "growth": 8.514
+  "growth": 2.2854
  },
  {
   "wals_id": "zch",
@@ -41793,12 +41809,12 @@
   "wiki_code": "za",
   "month_first": "201507",
   "views_first": 63789,
-  "month_last": "202601",
-  "views_last": 56229,
+  "month_last": "202609",
+  "views_last": 80674,
   "views_baseline": 55144.7,
-  "views_recent": 153326.7,
+  "views_recent": 102898.7,
   "baseline_ok": true,
-  "growth": 1.7804
+  "growth": 0.866
  },
  {
   "wals_id": "zim",
@@ -41981,12 +41997,12 @@
   "wiki_code": "zu",
   "month_first": "201507",
   "views_first": 74073,
-  "month_last": "202601",
-  "views_last": 238214,
+  "month_last": "202609",
+  "views_last": 225068,
   "views_baseline": 76143.3,
-  "views_recent": 376341.3,
+  "views_recent": 253640.3,
   "baseline_ok": true,
-  "growth": 3.9425
+  "growth": 2.3311
  },
  {
   "wals_id": "zun",

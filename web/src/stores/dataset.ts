@@ -94,8 +94,13 @@ interface State {
   /** UNESCO 濒危等级（1..6）多选；空数组表示不按濒危程度筛选 */
   endangermentLevels: number[]
 
-  /** 主视图：地图 / 增长 / 特征 */
-  activeView: 'map' | 'growth' | 'features'
+  /**
+   * 主视图。新增视图时**必须同步加进这个联合类型** ——
+   * 之前加了「记录缺口」和「濒危 × 关注」两个选项卡却忘了改这里，
+   * 于是 `vue-tsc` 报 TS2322/TS2367，`pnpm build` 直接失败。
+   * 开发时 Vite 只转译不做类型检查，所以这个错误藏了很久。
+   */
+  activeView: 'map' | 'growth' | 'features' | 'matrix' | 'endanger'
   /**
    * 地图着色依据。
    *

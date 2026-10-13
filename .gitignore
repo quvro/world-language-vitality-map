@@ -34,3 +34,9 @@ acl-report-*.jsonl
 acl-backup-*.json
 _tools/commit-msg.txt
 _tools/wals_clone/
+
+# ------------------------------- Glottolog CLDF 值表（21 MB，可自动重新抓取）
+# 06_fetch_aes.py 会经 GitHub blob API 拉取（约 12 秒）。管道本来就需要联网
+# （01/02/04/05 都要），所以没必要把这份大文件放进版本库。
+# 注：它曾进过历史，因此 .git/ 体积不会因此变小；这条只防将来再次提交。
+data/raw/glottolog/values.csv

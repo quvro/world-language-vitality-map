@@ -13,6 +13,8 @@ declare module '*/echarts-theme.js' {
   export function categoryPalette(): string[]
   export function sequentialScale(): string[]
   export function vitalityScale(): string[]
+  /** UNESCO / AES 濒危等级色阶，索引 0 即等级 1（未濒危）… 索引 5 即等级 6（已灭绝） */
+  export function endangermentScale(): string[]
   export function semanticColors(): {
     accent: string; positive: string; negative: string; neutral: string
     textPrimary: string; textSecondary: string; textMuted: string

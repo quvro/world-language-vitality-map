@@ -18,11 +18,9 @@
 import { computed } from 'vue'
 import { useDataset } from '@/stores/dataset'
 import { useDisplayNames } from '@/display'
-import { semanticColors } from '@/theme/echarts-theme.js'
 
 const store = useDataset()
 const { feature: featureLabel, code: codeLabel } = useDisplayNames()
-const C = semanticColors()
 
 const T = {
   zh: {

@@ -41,7 +41,8 @@ import urllib.error
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from common import (  # noqa: E402
-    PROCESSED, RAW, banner, exists, http_get, human, log, write_json,
+    PROCESSED, RAW, banner, exists, http_get, human, log, upsert_endangerment,
+    write_json,
 )
 
 REPO = "glottolog/glottolog-cldf"
@@ -136,6 +137,13 @@ def main() -> None:
     }
     write_json(OUT, payload)
     log(f"  写入 {OUT}")
+
+    # 写库：与 05 共用 dim_endangerment 表，AES 覆盖重叠部分（AES 覆盖面大得多）
+    lvl = {int(k): v for k, v in payload["levels"].items()}
+    upsert_endangerment(
+        ((gc, lv, lvl[lv]["en"], lvl[lv]["zh"])
+         for gc, lv in by_glotto.items()),
+        "aes")
 
     # 与 UNESCO 对照：两者口径差异正好说明为什么必须换成 AES
     uni_path = os.path.join(PROCESSED, "endangerment.json")
