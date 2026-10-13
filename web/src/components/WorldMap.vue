@@ -64,6 +64,8 @@ const T = {
     byTrend: '按趋势',
     vitalityLayer: '活力层',
     onlySelected: '只看选中',
+    onlySelectedHint: '选中一门语言后，这里会只显示它',
+    pickFirst: '先点一个点',
     sizeRel: '相对自身峰值',
     sizeAbs: '跨语言比较',
     month: '当前月份',
@@ -82,6 +84,8 @@ const T = {
     byTrend: 'By trend',
     vitalityLayer: 'Vitality',
     onlySelected: 'Selected only',
+    onlySelectedHint: 'Select a language first; this then shows only it',
+    pickFirst: 'click a dot first',
     sizeRel: 'vs own peak',
     sizeAbs: 'across langs',
     month: 'Month',
@@ -221,13 +225,14 @@ const haloData = computed(() => {
     : undefined
   const d: any = inVit ?? contextData.value.find((x) => x.wals_id === sel)
   if (!d) return []
-  // 半径与点当前大小成正比，环才不会忽大忽小
+  // 半径与点当前大小成正比，环才不会忽大忽小。
+  // effectScatter 的涟漪会在此基础上再放大 scale 倍。
   const dot = inVit ? sizeOf(d.value) : (d.value?.[2] ? 11 : 3.4)
   return [{
     name: d.display ?? d.name,
     wals_id: sel,
     value: d.value,
-    symbolSize: dot + 13,
+    symbolSize: dot + 6,
   }]
 })
 
@@ -249,16 +254,22 @@ function buildSeries() {
     progressive: 0,
     symbolSize: (val: number[]) => sizeOf(val),
   }
-  // 高亮环：silent 让它不吃鼠标事件（否则悬停到环上会挡住底下点的 tooltip）
+  // 高亮环。用 effectScatter 而不是普通 scatter：
+  // 静态描边在密集点里实测"画出来了但看不出来"（渲染验证确认过环存在于 SVG 中），
+  // 而 effectScatter 会画**向外扩散的涟漪**，动态的东西才抓得住眼睛。
+  // 同时保留静态描边，这样即使动画被系统设置关掉，环依然在。
   const halo = {
-    id: 'halo', name: 'halo', type: 'scatter', coordinateSystem: 'geo',
+    id: 'halo', name: 'halo', type: 'effectScatter', coordinateSystem: 'geo',
     data: haloData.value,
-    z: 4, silent: true, progressive: 0,
+    z: 5, silent: true, progressive: 0,
+    showEffectOn: 'render',
+    rippleEffect: { brushType: 'stroke', scale: 2.6, period: 3.2 },
     itemStyle: {
       color: 'transparent',
       borderColor: C.accent,
-      borderWidth: 2.5,
-      opacity: 0.95,
+      borderWidth: 3,
+      shadowBlur: 8,
+      shadowColor: C.accent,
     },
   }
   return [ctx, vit, halo]
@@ -378,9 +389,13 @@ watch(() => store.lang, () => render(true))
           <input v-model="store.showVitality" type="checkbox">
           <span>{{ t.vitalityLayer }}</span>
         </label>
-        <label class="chk" :class="{ dim: !store.selected }" :title="t.onlySelected">
-          <input v-model="store.hideUnselected" type="checkbox" :disabled="!store.selected">
+        <!-- 不设 disabled：禁用会让用户以为按钮坏了（实测反馈过）。
+             未选中时点了不会有视觉变化，旁边给出原因说明。 -->
+        <label class="chk" :class="{ warn: !store.selected }"
+               :title="store.selected ? t.onlySelected : t.onlySelectedHint">
+          <input v-model="store.hideUnselected" type="checkbox">
           <span>{{ t.onlySelected }}</span>
+          <em v-if="!store.selected" class="why">{{ t.pickFirst }}</em>
         </label>
       </div>
     </header>
@@ -458,6 +473,9 @@ h2 { margin: 0; font-size: var(--fs-h2); font-weight: 600; }
 .legend i { width: 8px; height: 8px; border-radius: 50%; flex: none; }
 
 .sizetip { color: var(--text-secondary); }
-.chk.dim { opacity: 0.45; }
-.chk input:disabled { cursor: not-allowed; }
+.chk.warn { opacity: 0.75; }
+.chk .why {
+  font-style: normal; font-size: var(--fs-micro);
+  color: var(--text-muted); margin-left: 2px;
+}
 </style>
