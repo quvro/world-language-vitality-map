@@ -349,15 +349,39 @@ WALS 的 `languages.csv` 共 3,573 行，但其中 **911 行根本不是语言**
 
 ### 前端踩过的坑
 
-1. **`public/` 之外的传统 script 会被 Vite 转成 ES module。**
+1. **命令式渲染的组件，别逐字段枚举 watcher。**
+   ECharts 不是响应式的：状态变了必须有人显式调 `render()`。
+   地图组件原本写成 `watch(() => store.colorBy, …)` 这样一个个字段列出来 ——
+   后来给「只看选中」加了 `store.hideUnselected`、也写进了 computed 的过滤逻辑，
+   **却忘了加对应的 watcher**，于是那个开关点了完全没反应，
+   而且因为 computed 确实重算了，从代码上看不出任何异常。
+   改成**直接盯住要画的数据本身**（`watch([contextData, vitalityData, haloData], …)`）：
+   数据变了就一定重画，不可能再漏。
+   只为「渲染时读取、不进数据」的选项（`sizeMode` 在 symbolSize 回调里读、
+   `showVitality` 决定 series.data 是否为空）和会改变 `geo.nameMap` 的 `lang` 保留显式 watcher。
+   回归防线见 `web/preview/verify-map-repaint.mjs` ——
+   它逐字段检查 WorldMap 里读到的每个 store 字段是否都能触发重绘，
+   并强制「有理由的例外」写清理由。
+   顺带说明：选中变化要用**合并**渲染（`setOption({series})`）而不是
+   `setOption(opt, true)`，后者会重建 geo 组件、把用户拖好的缩放和平移一起重置。
+
+2. **密集点图里，「加粗描边 + 放大几像素」不足以标出选中项。**
+   描边色和点本身的填充色同属一个色系，视觉上会糊在一起。
+   最终做成**靶心**：选中点填满不透明 + 白色内圈，外面再罩一个强调色的**空心大圈**
+   （单独一个 `silent: true` 的 scatter 系列，否则环会吃掉鼠标事件、
+   挡住底下点的 tooltip）。环的半径随该点当前大小变化，才不会忽大忽小；
+   并且在活力层里找不到该点时要退回底图 —— 否则选到一门**没有维基版本**的语言
+   （活力层里根本没有它）时，环就不会出现。
+
+3. **`public/` 之外的传统 script 会被 Vite 转成 ES module。**
    `world.js`（147 KB）被转换后变成 825 KB 且含 `export`，用 `<script>` 标签加载会直接
    语法报错。放进 `public/vendor/` 后 Vite 原样提供，问题消失。
-2. **编辑器原子写产生的 `.*.tmpdir` 会让 Vite 监听器 EBUSY 崩溃。**
+4. **编辑器原子写产生的 `.*.tmpdir` 会让 Vite 监听器 EBUSY 崩溃。**
    已在 `vite.config.ts` 的 `server.watch.ignored` 中排除。
-3. **pnpm 11 的构建白名单键是 `allowBuilds`（在 `pnpm-workspace.yaml`），**
+5. **pnpm 11 的构建白名单键是 `allowBuilds`（在 `pnpm-workspace.yaml`），**
    不是 package.json 里的 `pnpm.onlyBuiltDependencies`（那个已失效）。
    不放开 `esbuild` 就不会落地平台二进制，Vite 起不来。
-4. **点的大小用「当月浏览量 / 当月全局最大」是错的 —— 会看起来像"点了没反应"。**
+6. **点的大小用「当月浏览量 / 当月全局最大」是错的 —— 会看起来像"点了没反应"。**
    德语维基月浏览约 7 亿，多数语言只有几千。开方压缩后几乎所有点都被挤在最小尺寸附近：
    实测拖时间轴时尺寸**中位变化仅 0.05 px**，只有 **0.3%** 的变化肉眼可辨。
    地图其实一直在更新，但变化量是人眼分辨率的二十分之一。

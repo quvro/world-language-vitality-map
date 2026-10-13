@@ -119,10 +119,9 @@ const contextData = computed(() => {
         family: l.family || '—', macroarea: l.macroarea,
         itemStyle: {
           color: store.colorBy === 'trend' ? C.textMuted : baseColor(l),
-          opacity: isSel ? 1 : hit ? 0.5 : 0.07,
-          // 选中用主题色描边当"光环"，比单纯放大更容易在一片点里认出来
-          borderColor: isSel ? C.accent : 'transparent',
-          borderWidth: isSel ? 3 : 0,
+          opacity: isSel ? 1 : hit ? 0.45 : 0.06,
+          borderColor: isSel ? C.surface : 'transparent',
+          borderWidth: isSel ? 2 : 0,
         },
       }
     })
@@ -177,9 +176,11 @@ const vitalityData = computed(() => {
         macroarea: l.macroarea,
         itemStyle: {
           color: baseColor(l),
-          borderColor: isSel ? C.accent : C.surface,
-          borderWidth: isSel ? 3 : 1,
-          opacity: !hit ? 0.08 : dim ? 0.12 : 0.72,
+          // 选中点：填满不透明 + 白色内圈；外层的强调色光环由 halo 系列负责，
+          // 一白一橙形成靶心，比单纯"加粗描边"醒目得多
+          borderColor: C.surface,
+          borderWidth: isSel ? 2 : 1,
+          opacity: !hit ? 0.06 : isSel ? 1 : dim ? 0.1 : 0.72,
         },
       }
     })
@@ -203,6 +204,33 @@ function sizeOf(val: number[]): number {
   return isSel ? s + 5 : s
 }
 
+/**
+ * 选中点的高亮环。
+ *
+ * 为什么单独做一层：在密集点里，「加粗描边 + 放大几像素」根本不够醒目 ——
+ * 描边色和点本身的填充色在同一个色系里，视觉上糊在一起。
+ * 所以额外画一个**空心大圈**罩在选中点外面，形成靶心效果。
+ */
+const haloData = computed(() => {
+  const sel = store.selected
+  if (!sel) return []
+  // 先在活力层找，找不到再退回底图 ——
+  // 否则选到一门**没有维基版本**的语言时活力层里根本没有它，光环就不会出现。
+  const inVit: any = store.showVitality
+    ? vitalityData.value.find((x) => x.wals_id === sel)
+    : undefined
+  const d: any = inVit ?? contextData.value.find((x) => x.wals_id === sel)
+  if (!d) return []
+  // 半径与点当前大小成正比，环才不会忽大忽小
+  const dot = inVit ? sizeOf(d.value) : (d.value?.[2] ? 11 : 3.4)
+  return [{
+    name: d.display ?? d.name,
+    wals_id: sel,
+    value: d.value,
+    symbolSize: dot + 13,
+  }]
+})
+
 function buildSeries() {
   const ctx = {
     id: 'ctx', name: 'ctx', type: 'scatter', coordinateSystem: 'geo',
@@ -221,7 +249,19 @@ function buildSeries() {
     progressive: 0,
     symbolSize: (val: number[]) => sizeOf(val),
   }
-  return [ctx, vit]
+  // 高亮环：silent 让它不吃鼠标事件（否则悬停到环上会挡住底下点的 tooltip）
+  const halo = {
+    id: 'halo', name: 'halo', type: 'scatter', coordinateSystem: 'geo',
+    data: haloData.value,
+    z: 4, silent: true, progressive: 0,
+    itemStyle: {
+      color: 'transparent',
+      borderColor: C.accent,
+      borderWidth: 2.5,
+      opacity: 0.95,
+    },
+  }
+  return [ctx, vit, halo]
 }
 
 const OPT_BASE = {
@@ -294,14 +334,21 @@ onBeforeUnmount(() => {
   chart.value?.dispose()
 })
 
-// 用彼此独立的 watcher，避免"数组 getter"带来的比较歧义
-watch(() => store.colorBy, () => render(true))
-watch(() => store.showVitality, () => render(true))
-watch(() => store.filtered, () => render(true))
-watch(() => store.sizeMode, () => render(true))
+// ---------------------------------------------------------------- 重绘触发
+//
+// 这里踩过一个坑：原本是逐字段枚举 watcher（colorBy / showVitality / filtered /
+// sizeMode / lang / monthIndex / selected）。后来给「只看选中」加了
+// store.hideUnselected、也写进了 computed 的过滤，**却忘了加对应的 watcher** ——
+// ECharts 是命令式渲染，状态变了没人调 render()，于是那个开关点了完全没反应。
+//
+// 改成**直接盯住要画的数据本身**：数据变了就一定重画，不可能再漏。
+watch([contextData, vitalityData, haloData], () => render(false))
+// 只影响「渲染时读取」而不进数据的选项（symbolSize 回调里读 sizeMode、
+// series.data 是否为空由 showVitality 决定），必须单独盯。
+watch(() => [store.showVitality, store.sizeMode], () => render(false))
+// 语言会改变 geo.nameMap（国家名），需要整份 option 重建。
+// 代价是会重置地图缩放/平移，但切换语言是低频操作，可以接受。
 watch(() => store.lang, () => render(true))
-watch(() => store.monthIndex, () => render(false))
-watch(() => store.selected, () => render(false))
 </script>
 
 <template>
