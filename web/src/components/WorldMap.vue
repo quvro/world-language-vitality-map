@@ -72,6 +72,7 @@ const T = {
     legendRelative: '点越大 = 该语言当月浏览量越接近它自己的十年峰值',
     legendAbsolute: '点越大 = 当月浏览量在所有语言中排名越靠前',
     grown: '十年增长', shrunk: '十年衰退', unreliable: '基线不可信',
+    highlight: (n: string) => `高亮 = 当前筛选命中的 ${n} 门语言（其余淡出保留作地理参照）`,
     noWiki: '没有维基百科版本，无时间序列', views: '浏览', trend: '十年趋势',
     lowBase: '基线过低，趋势不可信',
   },
@@ -92,6 +93,7 @@ const T = {
     legendRelative: 'Bigger = this month’s views closer to that language’s own ten-year peak',
     legendAbsolute: 'Bigger = this month’s views ranked higher across all languages',
     grown: 'Grew', shrunk: 'Declined', unreliable: 'Weak baseline',
+    highlight: (n: string) => `Highlighted = the ${n} languages matching the current filter (the rest fade but stay as context)`,
     noWiki: 'No Wikipedia edition, so no time series', views: 'views', trend: '10-yr trend',
     lowBase: 'baseline too low, trend unreliable',
   },
@@ -119,13 +121,17 @@ const contextData = computed(() => {
       const isSel = store.selected === l.wals_id
       return {
         name: l.name, display: langLabel(l), wals_id: l.wals_id,
-        value: [l.longitude, l.latitude, isSel ? 1 : 0],
+        value: [l.longitude, l.latitude, isSel ? 1 : 0, filtering && hit ? 1 : 0],
         family: l.family || '—', macroarea: l.macroarea,
         itemStyle: {
           color: store.colorBy === 'trend' ? C.textMuted : baseColor(l),
-          opacity: isSel ? 1 : hit ? 0.45 : 0.06,
-          borderColor: isSel ? C.surface : 'transparent',
-          borderWidth: isSel ? 2 : 0,
+          // 「高亮」是对**筛选命中的全部语言**做的，不只对点选的那一个：
+          //   命中 + 有筛选  → 完全不透明 + 白描边 + 略放大（见 symbolSize）
+          //   命中 + 无筛选  → 常规
+          //   未命中        → 近乎隐形，只留一层地理底影
+          opacity: isSel ? 1 : hit ? (filtering ? 1 : 0.5) : 0.05,
+          borderColor: (isSel || (filtering && hit)) ? C.surface : 'transparent',
+          borderWidth: isSel ? 2.5 : (filtering && hit) ? 1.2 : 0,
         },
       }
     })
@@ -175,16 +181,18 @@ const vitalityData = computed(() => {
         name: l.name, display: langLabel(l), wals_id: l.wals_id,
         // 所有 symbolSize 需要的东西都编进 value，避免依赖回调的 params 参数
         //   [0]经度 [1]纬度 [2]当月浏览量 [3]是否选中 [4]自身十年峰值 [5]排名分位
-        value: [l.longitude, l.latitude, v, isSel ? 1 : 0, peak, rankPct],
+        //   [6]是否命中筛选（命中要放大，见 sizeOf）
+        value: [l.longitude, l.latitude, v, isSel ? 1 : 0, peak, rankPct,
+          filtering && hit ? 1 : 0],
         views: v, growth: l.growth, baseline_ok: l.baseline_ok,
         macroarea: l.macroarea,
         itemStyle: {
           color: baseColor(l),
-          // 选中点：填满不透明 + 白色内圈；外层的强调色光环由 halo 系列负责，
-          // 一白一橙形成靶心，比单纯"加粗描边"醒目得多
+          // 与底图一致：命中筛选的全部语言都被高亮（不透明 + 白描边 + 放大），
+          // 未命中的压到近乎隐形。选中点额外由 halo 系列加涟漪圈。
           borderColor: C.surface,
-          borderWidth: isSel ? 2 : 1,
-          opacity: !hit ? 0.06 : isSel ? 1 : dim ? 0.1 : 0.72,
+          borderWidth: isSel ? 2.5 : (filtering && hit) ? 1.2 : 1,
+          opacity: !hit ? 0.05 : isSel ? 1 : filtering ? 1 : dim ? 0.1 : 0.72,
         },
       }
     })
@@ -205,7 +213,8 @@ function sizeOf(val: number[]): number {
   } else {
     s = 4 + Math.min(Math.max(Number(val[5] ?? 0), 0), 1) * 26
   }
-  return isSel ? s + 5 : s
+  // 命中筛选的点整体放大，让"这一批"从底影里浮出来
+  return (isSel ? s + 5 : s) * (val[6] ? 1.3 : 1)
 }
 
 /**
@@ -244,7 +253,7 @@ function buildSeries() {
     emphasis: { scale: 1.5 },
     // 关掉渐进渲染：geo 漫游时它会让点短暂画在旧位置（快速缩放"错位"的来源）
     progressive: 0,
-    symbolSize: (val: number[]) => (val[2] ? 11 : 3.4),
+    symbolSize: (val: number[]) => (val[2] ? 11 : 3.4) * (val[3] ? 1.5 : 1),
   }
   const vit = {
     id: 'vit', name: 'vit', type: 'scatter', coordinateSystem: 'geo',
@@ -263,7 +272,10 @@ function buildSeries() {
     data: haloData.value,
     z: 5, silent: true, progressive: 0,
     showEffectOn: 'render',
-    rippleEffect: { brushType: 'stroke', scale: 2.6, period: 3.2 },
+    // ⚠️ rippleEffect.color 必须显式给。它默认取 itemStyle.color，
+    // 而这里把 itemStyle.color 设成了 transparent（为了让静态符号只显示描边），
+    // 于是涟漪也跟着透明 —— 表现就是"能看见一个静止的红圈，但它不扩散"。
+    rippleEffect: { brushType: 'stroke', scale: 2.6, period: 3.2, color: C.accent },
     itemStyle: {
       color: 'transparent',
       borderColor: C.accent,
@@ -418,6 +430,9 @@ watch(() => store.lang, () => render(true))
         <span class="item"><i :style="{ background: C.negative }" />{{ t.shrunk }}</span>
         <span class="item"><i :style="{ background: C.neutral }" />{{ t.unreliable }}</span>
       </template>
+      <span v-if="store.hasFilter" class="item hl">
+        <i class="ringdot" />{{ t.highlight(store.filtered.length.toLocaleString('en-US')) }}
+      </span>
     </div>
   </section>
 </template>
@@ -471,6 +486,13 @@ h2 { margin: 0; font-size: var(--fs-h2); font-weight: 600; }
 }
 .legend .item { display: inline-flex; align-items: center; gap: 5px; }
 .legend i { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+/* 高亮图例：一个"白边实心点"，与地图上命中点的画法一致 */
+.legend .hl { color: var(--text-secondary); }
+.legend .ringdot {
+  width: 11px; height: 11px; border-radius: 50%;
+  background: var(--accent); border: 1.5px solid var(--bg-surface);
+  box-shadow: 0 0 0 1.5px var(--accent);
+}
 
 .sizetip { color: var(--text-secondary); }
 .chk.warn { opacity: 0.75; }

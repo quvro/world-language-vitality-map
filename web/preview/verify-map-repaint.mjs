@@ -130,7 +130,18 @@ check('halo 在活力层找不到时退回底图（否则选到无维基语言�
 check('「只看选中」的过滤同时作用于两个图层',
   (src.match(/keepLang\(l\.wals_id\)/g) || []).length >= 2)
 check('选中点用的是白色内圈 + 外层强调色光环（靶心），不是单纯加粗描边',
-  /borderColor: C\.surface,[\s\S]{0,80}borderWidth: isSel \? 2 : 1/.test(src))
+  /borderColor: \(isSel \|\| \(filtering && hit\)\) \? C\.surface/.test(src) &&
+  /borderWidth: isSel \? 2\.5/.test(src))
+check('「高亮」作用于**筛选命中的全部语言**，不只是选中的那一个',
+  /opacity: isSel \? 1 : hit \? \(filtering \? 1 : 0\.5\) : 0\.05/.test(src) &&
+  /filtering && hit \? 1 : 0\]/.test(src))
+check('未命中的点压到近乎隐形但保留（地理参照）',
+  /opacity: !hit \? 0\.05 :/.test(src))
+// 这一条来自一个真实的坑：effectScatter 的涟漪颜色默认取 itemStyle.color，
+// 而 halo 的 itemStyle.color 是 transparent（为了只显示描边），
+// 于是涟漪也跟着透明 —— 表现是"能看见静止的红圈，但它不扩散"。
+check('涟漪显式指定了颜色（否则会跟着 transparent 的填充一起隐形）',
+  /rippleEffect: \{[^}]*color: C\.accent/.test(src))
 check('不再有逐字段枚举的 watcher（那个写法漏过一次）',
   !/watch\(\(\) => store\.colorBy/.test(src))
 
