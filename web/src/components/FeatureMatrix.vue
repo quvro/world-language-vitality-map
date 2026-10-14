@@ -22,10 +22,11 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useDataset } from '@/stores/dataset'
 import { useDisplayNames } from '@/display'
-import { sequentialScale } from '@/theme/echarts-theme.js'
+import { semanticColors, sequentialScale } from '@/theme/echarts-theme.js'
 
 const store = useDataset()
 const { feature: featureLabel } = useDisplayNames()
+const C = semanticColors()
 
 const host = ref<HTMLDivElement | null>(null)
 const canvas = ref<HTMLCanvasElement | null>(null)
@@ -38,13 +39,18 @@ const T = {
   zh: {
     title: '记录缺口图',
     sub: '本视图展示数据集自身的结构，不响应左侧筛选 · 颜色 = 该组语言中「有这条特征记录」的比例',
+    axisX: '横向 192 个语法特征，按覆盖率从高到低',
+    axisY: '纵向 2,660 门语言，按被记录的特征数从多到少',
+    cellHint: '每一格不是一门语言，而是「这一横条里的语言」中有该特征记录的**比例**',
     byCoverage: '按记录完整度',
     byFamily: '按语系',
     featCoverage: '覆盖率',
     langs: '语言',
     withData: '有记录',
-    clickHint: '点一下按该特征筛选',
-    filtered: '当前筛选的语言在这条排序中的位置',
+    clickHint: '点一下按该特征筛选全站',
+    filtered: '右侧灰条 = 命中筛选的语言在这条排序里的位置',
+    filterOn: (n: string, name: string) => `已按「${name}」筛选：全站只剩 ${n} 门有该特征记录的语言`,
+    clear: '清除',
     absence: '双重缺席',
     absenceSub: '按 WALS 记录完整度分桶，看拥有维基百科版本的比例',
     bucket: 'WALS 收录特征数',
@@ -54,13 +60,18 @@ const T = {
   en: {
     title: 'Documentation gaps',
     sub: 'This view shows the dataset’s own structure and does not follow the left-hand filters · colour = share of languages in the band that have this feature recorded',
+    axisX: '192 grammatical features across, most-covered on the left',
+    axisY: '2,660 languages down, best-documented at the top',
+    cellHint: 'a cell is not one language — it is the **share** of languages in that row band that have this feature recorded',
     byCoverage: 'By coverage',
     byFamily: 'By family',
     featCoverage: 'Coverage',
     langs: 'languages',
     withData: 'recorded',
-    clickHint: 'click to filter by this feature',
-    filtered: 'where the current filter sits in this ranking',
+    clickHint: 'click to filter the whole dashboard by this feature',
+    filtered: 'grey strip on the right = where matching languages sit in this ranking',
+    filterOn: (n: string, name: string) => `Filtered by “${name}”: ${n} languages have it recorded`,
+    clear: 'clear',
     absence: 'Double absence',
     absenceSub: 'Binned by WALS coverage; share that have a Wikipedia edition',
     bucket: 'WALS features recorded',
@@ -89,6 +100,29 @@ const featCount = computed(() => {
 const colOrder = computed(() => {
   const c = featCount.value
   return c.map((_, i) => i).sort((a, b) => c[b] - c[a] || a - b)
+})
+
+/** colOrder 的逆映射：特征下标 → 列位置。用来把「当前筛选的特征」画成一条明确的竖线 */
+const colPos = computed(() => {
+  const inv: number[] = []
+  colOrder.value.forEach((fi, pos) => { inv[fi] = pos })
+  return inv
+})
+
+/** 当前筛选的特征（用于画高亮竖线与顶部提示条） */
+const activeFeature = computed(() => {
+  const cur = store.featureFilter
+  if (!cur) return null
+  const m = store.matrix
+  if (!m) return null
+  const fi = m.feature_ids.indexOf(cur.featureId)
+  if (fi < 0) return null
+  const name = featureLabel(
+    cur.featureId,
+    store.features?.features.find((f) => f.ID === cur.featureId)?.Name ?? cur.featureId)
+  const hit = store.filtered.length
+  const total = m.language_keys.length
+  return { fid: cur.featureId, name, hit, total, pos: colPos.value[fi] ?? -1 }
 })
 
 const sortBy = ref<'coverage' | 'family'>('coverage')
@@ -290,6 +324,17 @@ function draw() {
     }
   }
 
+  // 当前筛选的**特征列**：画一条明确的竖线。
+  // 没有这个的话，点完只在右边多一小条灰，视图内几乎看不出点了哪一列，
+  // 而实际筛选效果发生在别的视图里 —— 用户会完全不知道发生了什么。
+  const af = activeFeature.value
+  if (af && af.pos >= 0) {
+    const cw = W / cols
+    ctx.strokeStyle = C.accent
+    ctx.lineWidth = 2
+    ctx.strokeRect(af.pos * cw - 1, 0, cw + 2, H)
+  }
+
   // 悬停十字线
   const hv = hover.value
   if (hv) {
@@ -405,6 +450,11 @@ watch(() => [grid.value, sortBy.value, filterBins.value, store.lang], schedule)
       </div>
     </header>
 
+    <div class="axes">
+      <span class="ay">↓ {{ t.axisY }}</span>
+      <span class="ax">→ {{ t.axisX }}</span>
+    </div>
+
     <div
       ref="host" class="matrix"
       @mousemove="onMove" @mouseleave="onLeave" @click="onClick"
@@ -429,12 +479,22 @@ watch(() => [grid.value, sortBy.value, filterBins.value, store.lang], schedule)
       </div>
     </div>
 
+    <!-- 点击后的反馈条：明确告诉用户"筛选了什么、剩下多少"，并提供一键清除。
+         没有它的话，点完只在右边多一小条灰，而效果发生在别的视图里。 -->
+    <div v-if="activeFeature" class="filterbar">
+      <span class="dot" />
+      <span class="ftext">{{ t.filterOn(activeFeature.hit.toLocaleString('en-US'), activeFeature.name) }}</span>
+      <span class="num fnum">({{ activeFeature.fid }} · {{ (activeFeature.hit / activeFeature.total * 100).toFixed(1) }}%)</span>
+      <button @click="store.featureFilter = null">{{ t.clear }}</button>
+    </div>
+
     <div class="legend">
       <span class="lab">{{ t.withData }}</span>
       <span class="grad" />
       <span class="num">0%</span><span class="num">100%</span>
       <span v-if="filterBins" class="mark"><i />{{ t.filtered }}</span>
     </div>
+    <p class="cellhint">{{ t.cellHint }}</p>
 
     <!-- 双重缺席：这个视图真正的结论 -->
     <div class="absence">
@@ -477,6 +537,37 @@ h2 { margin: 0; font-size: var(--fs-h2); font-weight: 600; }
 
 .matrix { position: relative; flex: 1; min-height: 0; cursor: crosshair; }
 .matrix canvas { display: block; border-radius: var(--radius-sm); }
+
+/* 坐标系标注：只给颜色不给坐标含义，读者无从下手（实测被问到过） */
+.axes {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: var(--sp-3); flex: none;
+  font-size: var(--fs-micro); color: var(--text-muted);
+}
+.axes .ay { color: var(--text-secondary); }
+.axes .ax { color: var(--text-secondary); }
+
+/* 点击后的反馈条 */
+.filterbar {
+  display: flex; align-items: center; gap: var(--sp-2); flex: none;
+  padding: 5px 10px; border-radius: var(--radius-md);
+  background: var(--accent-soft);
+}
+.filterbar .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent); flex: none;
+}
+.filterbar .ftext { font-size: var(--fs-small); color: var(--text-primary); }
+.filterbar .fnum { font-size: var(--fs-micro); color: var(--text-muted); }
+.filterbar button {
+  margin-left: auto; flex: none; cursor: pointer;
+  border: 1px solid var(--accent); border-radius: var(--radius-pill);
+  background: transparent; color: var(--accent);
+  font-family: inherit; font-size: var(--fs-micro); padding: 2px 10px;
+}
+.filterbar button:hover { background: var(--accent); color: var(--text-inverse); }
+
+.cellhint { margin: var(--sp-1) 0 0; font-size: var(--fs-micro); color: var(--text-muted); line-height: 1.5; }
 .tip {
   position: absolute; z-index: 3; pointer-events: none;
   width: 224px; padding: 7px 10px;

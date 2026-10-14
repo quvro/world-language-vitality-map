@@ -201,6 +201,16 @@ cd web
 > `.pnpm-store/` 会让 pnpm 改用它。加 `--store-dir E:\.pnpm-store\v11` 即可
 > （该目录在工作区之外，受沙箱限制时需要放宽权限）。
 
+> 📌 **关于「dev server 又没了」**：本机开发服务器经常不可达，原因是
+> **使用者的电脑关机了** —— 不是崩溃、也不是代码问题。
+> 遇到 `URLError` 直接重启即可，**不必去翻最近的代码改动找原因**
+> （曾经因此把一次关机错误地归咎于一处语法错误，还写进了提交信息）。
+>
+> 唯一真正会让服务器起不来的是**配置加载失败**：`vite.config.ts` import 了
+> `web/shared/intent.js`，所以那个文件里**不能出现 TypeScript 语法**
+> —— 曾经写成 `const lv: number[] = []`，导致 `vite dev` 与 `pnpm build`
+> 双双失败。它是纯 `.js`，必须保持纯 JS。
+
 ### 类型检查与构建
 
 ```powershell
