@@ -19,6 +19,7 @@ import EndangermentView from '@/components/EndangermentView.vue'
 import LanguageCard from '@/components/LanguageCard.vue'
 import VitalityTimeline from '@/components/VitalityTimeline.vue'
 import NlQuery from '@/components/NlQuery.vue'
+import { applyQuery, shareUrl, startUrlSync } from '@/urlState'
 
 const store = useDataset()
 
@@ -36,6 +37,8 @@ const T = {
     nlTag: 'P5 接入大模型', storyTag: 'P7 阶段实现',
     toggleLang: 'EN',
     collapse: '收起详情面板', expand: '展开详情面板',
+    share: '复制链接', copied: '已复制', shareHint: '把当前画面（视图 / 筛选 / 选中语言 / 时间轴位置）编码进 URL，方便分享',
+    copyManual: '自动复制失败，请手动复制下面的链接：',
   },
   en: {
     title: 'Cyber-Vitality Atlas of World Languages',
@@ -50,6 +53,8 @@ const T = {
     nlTag: 'LLM in P5', storyTag: 'planned for P7',
     toggleLang: '中文',
     collapse: 'Collapse detail panel', expand: 'Expand detail panel',
+    share: 'Copy link', copied: 'Copied', shareHint: 'Encode the current view (view / filters / selected language / timeline position) into the URL so it can be shared',
+    copyManual: 'Automatic copy failed — copy the link below manually:',
   },
 } as const
 
@@ -76,7 +81,27 @@ function toggleLang() {
 /** 右栏可折叠：小屏幕或只想看地图时把它收起来，箭头是唯一的交互控件 */
 const rightOpen = ref(true)
 
-onMounted(() => store.load())
+onMounted(async () => {
+  await store.load()
+  // 先按 URL 恢复状态，**再**开始回写 ——
+  // 顺序反了的话，初始的空状态会先把 URL 覆盖掉，分享链接就失效了。
+  applyQuery(store, location.search)
+  startUrlSync(store)
+})
+
+/** 复制当前画面的分享链接 */
+const copied = ref(false)
+async function copyLink() {
+  const url = shareUrl(store)
+  try {
+    await navigator.clipboard.writeText(url)
+  } catch {
+    // 剪贴板 API 需要安全上下文（https / localhost）；失败时退回选中提示
+    window.prompt(t.value.copyManual, url)
+  }
+  copied.value = true
+  setTimeout(() => { copied.value = false }, 1800)
+}
 </script>
 
 <template>
@@ -100,6 +125,10 @@ onMounted(() => store.load())
       <div class="modes">
         <button class="mode on">{{ t.explore }}</button>
         <button class="mode" disabled :title="t.storyTag">{{ t.story }}</button>
+        <button
+          class="share" :class="{ done: copied }"
+          :title="t.shareHint" @click="copyLink"
+        >{{ copied ? t.copied : t.share }}</button>
         <button class="lang" :title="t.toggleLang" @click="toggleLang">{{ t.toggleLang }}</button>
       </div>
     </header>
@@ -187,6 +216,20 @@ h1 { margin: 0; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
 }
 .mode.on { background: var(--accent); color: var(--text-inverse); }
 .mode:disabled { color: var(--text-muted); cursor: not-allowed; }
+
+/* 复制链接：与"探索/故事"同排，但样式独立（它不是模式切换） */
+.share {
+  margin-left: var(--sp-2);
+  border: 1px solid var(--border-strong); background: var(--bg-surface);
+  color: var(--text-secondary); cursor: pointer; font-family: inherit;
+  font-size: var(--fs-small); padding: 4px 12px;
+  border-radius: var(--radius-pill); white-space: nowrap;
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.share:hover { background: var(--bg-subtle); color: var(--text-primary); }
+.share.done {
+  background: var(--positive-soft); border-color: var(--positive); color: var(--positive);
+}
 
 /* 中英切换：做成一个明确的文字按钮，而不是图标（不需要猜） */
 .lang {
