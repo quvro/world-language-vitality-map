@@ -9,6 +9,7 @@
  */
 import { defineStore } from 'pinia'
 import { SEARCH_ALIASES } from '@/terms'
+import { STORY } from '@/story'
 import { MACRO_AREAS } from '@/types'
 import type {
   FeatureMatrix, Features, Language, MacroArea, Timeseries,
@@ -102,6 +103,14 @@ interface State {
    */
   activeView: 'map' | 'growth' | 'features' | 'matrix' | 'endanger'
   /**
+   * 故事模式的当前步（null = 探索模式）。
+   *
+   * 放在 store 而不是组件局部状态，是为了两件事：
+   *   1. 每一步都能进 URL，**故事里任何一屏都可以分享**
+   *   2. `goStory()` 直接复用同一套筛选字段，故事与自由探索不各搞一套状态
+   */
+  storyStep: number | null
+  /**
    * 地图着色依据。
    *
    * 注意这里**没有**「有时间 / 没时间」的模式开关：活力层永远在线、永远由
@@ -157,6 +166,7 @@ export const useDataset = defineStore('dataset', {
     minFeatures: null,
     endangermentLevels: [],
     activeView: 'map',
+    storyStep: null,
     colorBy: 'macroarea',
     showVitality: true,
     hideUnselected: false,
@@ -588,6 +598,23 @@ export const useDataset = defineStore('dataset', {
       const i = this.comparisonSet.indexOf(id)
       if (i >= 0) this.comparisonSet.splice(i, 1)
       else if (this.comparisonSet.length < 4) this.comparisonSet.push(id)
+    },
+
+    /**
+     * 跳到故事模式的第 i 步；传 null 退出故事模式回到自由探索。
+     *
+     * 每一步只做两件事：把看板切到那个视图、设好那组筛选。
+     * 因为走的还是同一套 store 字段，所以**故事与自由探索共享全部状态** ——
+     * 退出故事后不会丢掉刚才看到的那组筛选，可以直接接着玩。
+     */
+    goStory(i: number | null) {
+      if (i == null) {
+        this.storyStep = null
+        return
+      }
+      const idx = Math.min(Math.max(i, 0), STORY.length - 1)
+      this.storyStep = idx
+      STORY[idx].enter(this)
     },
   },
 })

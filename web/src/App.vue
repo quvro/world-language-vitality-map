@@ -19,6 +19,7 @@ import EndangermentView from '@/components/EndangermentView.vue'
 import LanguageCard from '@/components/LanguageCard.vue'
 import VitalityTimeline from '@/components/VitalityTimeline.vue'
 import NlQuery from '@/components/NlQuery.vue'
+import StoryPanel from '@/components/StoryPanel.vue'
 import { applyQuery, shareUrl, startUrlSync } from '@/urlState'
 
 const store = useDataset()
@@ -35,6 +36,8 @@ const T = {
     errTitle: '数据加载失败', errHint: '请确认数据管道已运行：',
     nlPlaceholder: '用一句话提问，例如「语序是 SOV 且浏览量在增长的语言」',
     nlTag: 'P5 接入大模型', storyTag: 'P7 阶段实现',
+    storyHint: '引导式线性叙事：按顺序把项目的几个问题讲一遍',
+    exploreHint: '自由筛选与探索',
     toggleLang: 'EN',
     collapse: '收起详情面板', expand: '展开详情面板',
     share: '复制链接', copied: '已复制', shareHint: '把当前画面（视图 / 筛选 / 选中语言 / 时间轴位置）编码进 URL，方便分享',
@@ -51,6 +54,8 @@ const T = {
     errTitle: 'Failed to load data', errHint: 'Run the data pipeline first:',
     nlPlaceholder: 'Ask in one sentence, e.g. “SOV languages whose traffic is growing”',
     nlTag: 'LLM in P5', storyTag: 'planned for P7',
+    storyHint: 'Guided linear narrative: walk through the project’s questions in order',
+    exploreHint: 'Free filtering and exploration',
     toggleLang: '中文',
     collapse: 'Collapse detail panel', expand: 'Expand detail panel',
     share: 'Copy link', copied: 'Copied', shareHint: 'Encode the current view (view / filters / selected language / timeline position) into the URL so it can be shared',
@@ -123,8 +128,15 @@ async function copyLink() {
       </div>
 
       <div class="modes">
-        <button class="mode on">{{ t.explore }}</button>
-        <button class="mode" disabled :title="t.storyTag">{{ t.story }}</button>
+        <div class="seg2">
+          <button class="mode" :class="{ on: store.storyStep === null }"
+                  :title="t.exploreHint" @click="store.goStory(null)">{{ t.explore }}</button>
+          <button class="mode" :class="{ on: store.storyStep !== null }"
+                  :title="t.storyHint"
+                  @click="store.goStory(store.storyStep === null ? 0 : store.storyStep)">
+            {{ t.story }}
+          </button>
+        </div>
         <button
           class="share" :class="{ done: copied }"
           :title="t.shareHint" @click="copyLink"
@@ -147,7 +159,10 @@ async function copyLink() {
     </main>
 
     <main v-else class="body" :class="{ 'right-collapsed': !rightOpen }">
-      <FilterPanel class="col-left" />
+      <!-- 故事模式下左侧换成引导面板（设计文档 §6）。
+           两者都只读写同一个 store，所以退出故事后筛选条件还在，可以接着玩。 -->
+      <StoryPanel v-if="store.storyStep !== null" class="col-left" />
+      <FilterPanel v-else class="col-left" />
 
       <section class="col-center">
         <nav class="tabs">
@@ -209,10 +224,13 @@ h1 { margin: 0; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
 .kpi .v { display: block; font-size: 1.15rem; font-weight: 600; line-height: 1.1; }
 .kpi .l { font-size: var(--fs-micro); color: var(--text-muted); }
 
-.modes { display: flex; border: 1px solid var(--border); border-radius: var(--radius-pill); overflow: hidden; }
+.modes { display: flex; align-items: center; gap: var(--sp-2); }
+/* 两个模式做成一个分段控件；分享/语言是独立按钮，不塞进这个胶囊里 */
+.seg2 { display: flex; border: 1px solid var(--border); border-radius: var(--radius-pill); overflow: hidden; }
 .mode {
   border: 0; background: transparent; padding: 5px 14px; cursor: pointer;
   font-family: inherit; font-size: var(--fs-small); color: var(--text-secondary);
+  white-space: nowrap;
 }
 .mode.on { background: var(--accent); color: var(--text-inverse); }
 .mode:disabled { color: var(--text-muted); cursor: not-allowed; }

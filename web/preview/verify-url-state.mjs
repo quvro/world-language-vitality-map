@@ -4,55 +4,11 @@
  * 两条实现约束（都踩过）：
  *   · 不能用手搓的 mock store —— applyIntent 里的白名单校验才是要验的部分。
  *   · **不能用 Vite 的 ssrLoadModule**：它加载 vite.config.ts 时要 esbuild 起子进程，
- *     沙箱直接 `spawn EPERM`（这是既定边界，不该反复重试）。
- *     改用 TypeScript 自带的 `transpileModule` —— 它在本进程内跑，不起子进程。
- *     转译的是**真实源码**，只把 `@/` 别名改写成相对路径。
+ *     沙箱直接 `spawn EPERM`（既定边界，不该反复重试）。
+ *     改用共享脚手架 `_harness.mjs`：用 TypeScript 的 `transpileModule`
+ *     在本进程内转译**真实源码**。
  */
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
-import path from 'node:path'
-import { createRequire } from 'node:module'
-import { pathToFileURL } from 'node:url'
-
-const require = createRequire(import.meta.url)
-const ts = require('typescript')
-
-const WEB = path.resolve('web')
-const SRC = path.join(WEB, 'src')
-const DATA = path.resolve('data/processed')
-const TMP = path.join(WEB, '.verify-tmp')
-
-/** 转译一个 TS 文件到 TMP，并把 @/ 别名改写成相对路径 */
-function emit(rel, outName, depth = 0) {
-  const out = ts.transpileModule(readFileSync(path.join(SRC, rel), 'utf8'), {
-    compilerOptions: {
-      module: ts.ModuleKind.ESNext,
-      target: ts.ScriptTarget.ES2022,
-      verbatimModuleSyntax: false,
-    },
-  }).outputText
-  const up = depth > 0 ? '../'.repeat(depth) : './'
-  const fixed = out.replace(/from ['"]@\/([\w./-]+)['"]/g, (_m, p) => `from '${up}${p}.js'`)
-  writeFileSync(path.join(TMP, outName), fixed)
-}
-
-rmSync(TMP, { recursive: true, force: true })
-mkdirSync(path.join(TMP, 'stores'), { recursive: true })
-emit('terms.ts', 'terms.js')
-emit('types.ts', 'types.js')
-emit('stores/dataset.ts', 'stores/dataset.js', 1)
-emit('urlState.ts', 'urlState.js')
-
-// store 的 loadJson 会 fetch('/data/processed/xxx.json')，改成读磁盘
-globalThis.fetch = async (url) => {
-  const file = path.join(DATA, String(url).replace(/^\/data\/processed\//, ''))
-  try {
-    const text = readFileSync(file, 'utf8')
-    return { ok: true, status: 200, json: async () => JSON.parse(text) }
-  } catch {
-    return { ok: false, status: 404 }
-  }
-}
-globalThis.location = { origin: 'http://127.0.0.1:5173', pathname: '/', search: '' }
+import { createHarness } from './_harness.mjs'
 
 let fail = 0
 const check = (label, cond, extra = '') => {
@@ -60,20 +16,9 @@ const check = (label, cond, extra = '') => {
   console.log(`  ${cond ? 'OK  ' : 'FAIL'} ${label}${extra ? '  → ' + extra : ''}`)
 }
 
-// pinia 必须与 store 模块走**同一条** ESM 路径加载。
-// 用 require 拿 CJS 版、store 里 import ESM 版 → 两个模块实例 → setActivePinia 不生效。
-const { createPinia, setActivePinia } = await import('pinia')
-// Windows 下动态 import 必须是 file:// URL，否则报 ERR_UNSUPPORTED_ESM_URL_SCHEME
-const load = (rel) => import(pathToFileURL(path.join(TMP, rel)).href)
-const { useDataset } = await load('stores/dataset.js')
-const { toQuery, applyQuery, shareUrl } = await load('urlState.js')
-
-const freshStore = async () => {
-  setActivePinia(createPinia())
-  const s = useDataset()
-  await s.load()
-  return s
-}
+const h = await createHarness()
+const { freshStore } = h
+const { toQuery, applyQuery, shareUrl } = await h.load('urlState.ts')
 
 try {
   const s = await freshStore()
@@ -180,7 +125,7 @@ try {
   check('常见场景的查询串 < 120 字符', short.length < 120, String(short.length))
   check('全量状态的查询串 < 400 字符', q.length < 400, String(q.length))
 } finally {
-  rmSync(TMP, { recursive: true, force: true })
+  h.cleanup()
 }
 
 console.log(`\n${fail === 0 ? '全部通过' : fail + ' 项失败'}`)

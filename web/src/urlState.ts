@@ -21,6 +21,7 @@ type Store = ReturnType<typeof useDataset>
 /** 把状态编码成查询串（省略默认值） */
 export function toQuery(s: Store): string {
   const p = new URLSearchParams()
+  if (s.storyStep != null) p.set('s', String(s.storyStep))
   if (s.activeView !== 'map') p.set('v', s.activeView)
   if (s.macroAreas.length) p.set('area', s.macroAreas.join(','))
   if (s.families.length) p.set('fam', s.families.join(','))
@@ -75,6 +76,12 @@ export function applyQuery(s: Store, qs: string): boolean {
     const n = Number(v)
     return Number.isFinite(n) ? n : undefined
   }
+
+  // 故事步先走：它会把看板设成那一步的默认状态。
+  // 然后下面的显式参数再覆盖上去 —— 这样"在故事某一步上又手动改了筛选"
+  // 也能被完整还原（否则 goStory 的默认值会把用户的改动盖掉）。
+  const st = num('s')
+  if (st != null) s.goStory(st)
 
   // 筛选类字段交给 applyIntent —— 它已经做了白名单校验
   const ff = p.get('ff')
