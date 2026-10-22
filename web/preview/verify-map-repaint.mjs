@@ -126,7 +126,13 @@ check('series 的 id 稳定（merge 渲染依赖它）',
 check('halo 是 silent（不吃鼠标事件，否则挡住底下点的 tooltip）',
   /id: 'halo'[\s\S]{0,220}silent: true/.test(src))
 check('halo 在活力层找不到时退回底图（否则选到无维基语言就没有环）',
-  /inVit \?\? contextData\.value\.find/.test(src))
+  /inVit\s*\?\?\s*contextData\.value\.find/.test(src))
+check('远景聚合模式下 halo 退回到"包含选中语言的聚合块"',
+  /x\.value\[2\] === 1/.test(src))
+check('缩放切换不改 mapZoom 的每帧值（否则数据每帧重算、缩放会卡）',
+  /wasAgg !== isAgg\) mapZoom\.value = z/.test(src))
+check('聚合块按数量放大（块越大语言越多）',
+  /val\.length > 4[\s\S]{0,140}Math\.sqrt\(val\[4\]\)/.test(src))
 check('「只看选中」的过滤同时作用于两个图层',
   (src.match(/keepLang\(l\.wals_id\)/g) || []).length >= 2)
 check('选中点用的是白色内圈 + 外层强调色光环（靶心），不是单纯加粗描边',

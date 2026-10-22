@@ -32,6 +32,11 @@ const store = useDataset()
 const { macro: macroLabel, language: langLabel } = useDisplayNames()
 const host = ref<HTMLDivElement | null>(null)
 const chart = shallowRef<any>(null)
+/**
+ * 当前地图缩放倍数（由 georoam 事件回读）。
+ * 只用来决定"远景聚合 / 近景逐点"，所以不需要很精确。
+ */
+const mapZoom = ref(1.15)
 
 const e = () => (window as any).echarts
 const C = semanticColors()
@@ -58,6 +63,7 @@ const T = {
   zh: {
     distTitle: '世界语言分布',
     distSub: '每个点是一门语言 · 按语区着色',
+    distSubAgg: '每块 = 该区域的语言数，块越大语言越多 · 放大可见单个语言',
     vitTitle: '数字活力地图',
     vitSub: '大小 = 活跃程度 · 颜色 = 十年趋势',
     byMacro: '按语区',
@@ -74,11 +80,16 @@ const T = {
     grown: '十年增长', shrunk: '十年衰退', unreliable: '基线不可信',
     highlight: (n: string) => `高亮 = 当前筛选命中的 ${n} 门语言（其余淡出保留作地理参照）`,
     noWiki: '没有维基百科版本，无时间序列', views: '浏览', trend: '十年趋势',
+    langsUnit: '门语言',
+    zoomHint: '放大可见单个语言',
+    aggMode: '远景：点已按经纬网聚合成密度块（每块 = 该区域的语言数）',
+    dotMode: '近景：一个点一门语言，可逐一点选',
     lowBase: '基线过低，趋势不可信',
   },
   en: {
     distTitle: 'World language distribution',
     distSub: 'each dot is a language · coloured by area',
+    distSubAgg: 'each block = the language count of that area; bigger = more · zoom in for individual dots',
     vitTitle: 'Digital vitality',
     vitSub: 'size = current activity · colour = ten-year trend',
     byMacro: 'By area',
@@ -95,6 +106,10 @@ const T = {
     grown: 'Grew', shrunk: 'Declined', unreliable: 'Weak baseline',
     highlight: (n: string) => `Highlighted = the ${n} languages matching the current filter (the rest fade but stay as context)`,
     noWiki: 'No Wikipedia edition, so no time series', views: 'views', trend: '10-yr trend',
+    langsUnit: 'languages',
+    zoomHint: 'zoom in to see individual languages',
+    aggMode: 'Far view: dots are binned into a grid, one block per area (block = language count)',
+    dotMode: 'Near view: one dot per language, individually selectable',
     lowBase: 'baseline too low, trend unreliable',
   },
 } as const
@@ -110,13 +125,30 @@ const monthLabel = computed(() => {
 /**
  * 底图：**始终绘制全部语言**，只把未命中筛选的淡出。
  * 早期版本直接从 filtered 建底图，导致选一个语区后地图上的点骤减，看着像出了错。
+ *
+ * 还有一个体验问题：2,652 个彩色小点铺满地图，看起来像一层"彩纸屑"，
+ * 密到让人不适。实测按经纬网聚合最多也只能从 2,652 降到约 1,000 ——
+ * **数量不是主因，主因是大量离散的彩色小点**。
+ *
+ * 所以做成**按缩放分级**：
+ *   远景（zoom < AGG_ZOOM）→ 聚合成经纬网格，每格一个较软的大色块，按格内语言数放大；
+ *                            颜色仍按语区，但透明度低，叠在一起形成"密度场"而不是散点
+ *   近景（zoom ≥ AGG_ZOOM）→ 切成单个语言的点，可逐一点选
+ * 切换阈值取 2.0×：默认视野 1.15× 看密度，放大一下就进入个体视图。
  */
+const AGG_ZOOM = 2.0
+/** 聚合时的经纬网格边长（度）。2.5° 下大约 1,079 格 */
+const AGG_CELL = 2.5
+
 const contextData = computed(() => {
   const matched = store.matchedIds
   const filtering = store.hasFilter
-  return store.langs
+  const rows = store.langs
     .filter((l) => l.latitude && l.longitude && keepLang(l.wals_id))
-    .map((l) => {
+
+  // ---------- 近景：一个语言一个点 ----------
+  if (mapZoom.value >= AGG_ZOOM) {
+    return rows.map((l) => {
       const hit = !filtering || matched.has(l.wals_id)
       const isSel = store.selected === l.wals_id
       return {
@@ -125,16 +157,65 @@ const contextData = computed(() => {
         family: l.family || '—', macroarea: l.macroarea,
         itemStyle: {
           color: store.colorBy === 'trend' ? C.textMuted : baseColor(l),
-          // 「高亮」是对**筛选命中的全部语言**做的，不只对点选的那一个：
-          //   命中 + 有筛选  → 完全不透明 + 白描边 + 略放大（见 symbolSize）
-          //   命中 + 无筛选  → 常规
-          //   未命中        → 近乎隐形，只留一层地理底影
           opacity: isSel ? 1 : hit ? (filtering ? 1 : 0.5) : 0.05,
           borderColor: (isSel || (filtering && hit)) ? C.surface : 'transparent',
           borderWidth: isSel ? 2.5 : (filtering && hit) ? 1.2 : 0,
         },
       }
     })
+  }
+
+  // ---------- 远景：按经纬网聚合 ----------
+  const cells = new Map<string, {
+    lng: number; lat: number; n: number; hit: boolean
+    sel: boolean; areas: Map<string, number>; names: string[]
+  }>()
+  for (const l of rows) {
+    const lng = Number(l.longitude)
+    const lat = Number(l.latitude)
+    const key = `${Math.floor(lng / AGG_CELL)}|${Math.floor(lat / AGG_CELL)}`
+    const hit = !filtering || matched.has(l.wals_id)
+    const isSel = store.selected === l.wals_id
+    let cell = cells.get(key)
+    if (!cell) {
+      // 用格内第一个语言的坐标做锚点，只用来定位置，不代表格中心
+      cell = { lng, lat, n: 0, hit: false, sel: false, areas: new Map(), names: [] }
+      cells.set(key, cell)
+    }
+    cell.n += 1
+    cell.hit = cell.hit || hit
+    cell.sel = cell.sel || isSel
+    const area = l.macroarea ?? '—'
+    cell.areas.set(area, (cell.areas.get(area) ?? 0) + 1)
+    if (cell.names.length < 8) cell.names.push(langLabel(l))
+  }
+
+  return [...cells.values()].map((c) => {
+    // 颜色取格内最多的语区，保留编码又不至于变成彩纸屑
+    let top = C.neutral
+    let best = -1
+    for (const [area, k] of c.areas) {
+      if (k > best) {
+        best = k
+        top = macroColor.get(area) ?? C.neutral
+      }
+    }
+    return {
+      name: `${c.n}`,
+      display: c.names.join(store.lang === 'zh' ? '、' : ', '),
+      count: c.n,
+      names: c.names,
+      value: [c.lng, c.lat, c.sel ? 1 : 0, c.hit ? 1 : 0, c.n],
+      macroarea: [...c.areas.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? null,
+      itemStyle: {
+        color: store.colorBy === 'trend' ? C.textMuted : top,
+        // 低透明度 + 按数量放大 = 叠成密度场，而不是一颗颗散点
+        opacity: c.sel ? 0.95 : !c.hit ? 0.05 : filtering ? 0.5 : 0.17,
+        borderColor: c.sel ? C.accent : 'transparent',
+        borderWidth: c.sel ? 2 : 0,
+      },
+    }
+  })
 })
 
 const trendColor = (g: number | null | undefined, ok?: boolean) =>
@@ -232,11 +313,19 @@ const haloData = computed(() => {
   const inVit: any = store.showVitality
     ? vitalityData.value.find((x) => x.wals_id === sel)
     : undefined
-  const d: any = inVit ?? contextData.value.find((x) => x.wals_id === sel)
+  const d: any = inVit
+    ?? contextData.value.find((x: any) => x.wals_id === sel)
+    // 远景聚合模式下，单个语言没有自己的点了 —— 退而求其次，
+    // 找到"包含它的那个聚合块"（建格子时给含选中语言的格子打了 sel 标记）。
+    ?? contextData.value.find((x: any) => Array.isArray(x.value) && x.value[2] === 1)
   if (!d) return []
   // 半径与点当前大小成正比，环才不会忽大忽小。
   // effectScatter 的涟漪会在此基础上再放大 scale 倍。
-  const dot = inVit ? sizeOf(d.value) : (d.value?.[2] ? 11 : 3.4)
+  const dot = inVit
+    ? sizeOf(d.value)
+    : d.count != null
+      ? Math.min(6 + Math.sqrt(d.count) * 5.5, 30)   // 聚合格：与 symbolSize 保持一致
+      : (d.value?.[2] ? 11 : 3.4)
   return [{
     name: d.display ?? d.name,
     wals_id: sel,
@@ -253,7 +342,11 @@ function buildSeries() {
     emphasis: { scale: 1.5 },
     // 关掉渐进渲染：geo 漫游时它会让点短暂画在旧位置（快速缩放"错位"的来源）
     progressive: 0,
-    symbolSize: (val: number[]) => (val[2] ? 11 : 3.4) * (val[3] ? 1.5 : 1),
+    // value 长度 > 4 说明是聚合格（val[4] = 格内语言数），否则是单个语言。
+    // 聚合格按数量放大：大的更"重"，叠起来像密度场而不是均匀的散点。
+    symbolSize: (val: number[]) => (val.length > 4
+      ? Math.min(6 + Math.sqrt(val[4]) * 5.5, 30)
+      : (val[2] ? 11 : 3.4) * (val[3] ? 1.5 : 1)),
   }
   const vit = {
     id: 'vit', name: 'vit', type: 'scatter', coordinateSystem: 'geo',
@@ -299,6 +392,12 @@ const OPT_BASE = {
       const d = p.data
       if (!d) return ''
       const nm = d.display ?? d.name
+      // 远景聚合块：这里代表的是"N 门语言"，不是单个语言
+      if (d.count != null) {
+        return `<strong>${d.count} ${t.value.langsUnit}</strong><br>` +
+          `<span style="color:${C.textSecondary}">${nm}</span><br>` +
+          `<em style="color:${C.textMuted}">${t.value.zoomHint}</em>`
+      }
       if (d.views == null) {
         return `<strong>${nm}</strong><br>` +
           `<span style="color:${C.textMuted}">${d.macroarea ?? '—'}</span><br>` +
@@ -332,8 +431,11 @@ function render(full = false) {
 
 const title = computed(() => store.colorBy === 'trend'
   ? { t: t.value.vitTitle, s: t.value.vitSub }
-  : { t: t.value.distTitle, s: t.value.distSub }
+  : { t: t.value.distTitle, s: isAgg.value ? t.value.distSubAgg : t.value.distSub }
 )
+
+/** 当前是"远景聚合"还是"近景逐点"——值得写在副标题里，否则用户不知道点变了形 */
+const isAgg = computed(() => mapZoom.value < AGG_ZOOM)
 
 // 跟随**容器**尺寸变化（侧栏折叠、切换选项卡时窗口尺寸并不变，
 // 只监听 window.resize 会导致画布保持旧宽度、压住相邻区域）
@@ -345,6 +447,22 @@ onMounted(async () => {
   chart.value.on('click', (p: any) => {
     if (p.data?.wals_id) store.select(p.data.wals_id)
   })
+  // 缩放跨越阈值时要在"聚合"与"逐点"之间切换。
+  //
+  // 两个关键点：
+  //  · **只在跨越阈值时**才改 mapZoom —— 它每帧都变的话 contextData 会每帧重算
+  //    并触发整条 series 重绘，缩放会卡。
+  //  · 重绘走 contextData 的 watcher（合并渲染）。不能用 render(true)：
+  //    那会重建 geo 组件、把用户刚拖好的缩放重置掉，于是又触发 georoam，来回抖动。
+  chart.value.on('georoam', () => {
+    cancelAnimationFrame(roamRaf)
+    roamRaf = requestAnimationFrame(() => {
+      const z = Number(chart.value?.getOption?.()?.geo?.[0]?.zoom ?? mapZoom.value)
+      const wasAgg = mapZoom.value < AGG_ZOOM
+      const isAgg = z < AGG_ZOOM
+      if (wasAgg !== isAgg) mapZoom.value = z
+    })
+  })
   await ensureWorld()
   render(true)
   // 首次渲染后再对一次尺寸：挂载瞬间容器可能还没完成布局
@@ -352,7 +470,10 @@ onMounted(async () => {
   window.addEventListener('resize', scheduleResize)
 })
 
+let roamRaf = 0
+
 onBeforeUnmount(() => {
+  cancelAnimationFrame(roamRaf)
   window.removeEventListener('resize', scheduleResize)
   chart.value?.dispose()
 })
@@ -433,6 +554,7 @@ watch(() => store.lang, () => render(true))
       <span v-if="store.hasFilter" class="item hl">
         <i class="ringdot" />{{ t.highlight(store.filtered.length.toLocaleString('en-US')) }}
       </span>
+      <span class="item mode">{{ isAgg ? t.aggMode : t.dotMode }}</span>
     </div>
   </section>
 </template>
@@ -488,6 +610,8 @@ h2 { margin: 0; font-size: var(--fs-h2); font-weight: 600; }
 .legend i { width: 8px; height: 8px; border-radius: 50%; flex: none; }
 /* 高亮图例：一个"白边实心点"，与地图上命中点的画法一致 */
 .legend .hl { color: var(--text-secondary); }
+/* 当前渲染模式的说明（远景聚合 / 近景逐点） */
+.legend .mode { color: var(--text-muted); margin-left: auto; }
 .legend .ringdot {
   width: 11px; height: 11px; border-radius: 50%;
   background: var(--accent); border: 1.5px solid var(--bg-surface);
