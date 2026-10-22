@@ -27,8 +27,10 @@
       "meta": {...}
     }
 """
+import ast
 import csv
 import os
+import re
 import sys
 
 from common import RAW, PROCESSED, banner, exists, http_json, log, read_json, write_json
@@ -132,14 +134,55 @@ def main() -> None:
                 zh = MED_LABEL[5 - depth][1]
                 log(f"    depth={depth} ({zh}) {dist[depth]:>6,} 门")
 
-    banner("3. 写入")
+    banner("3. Glottolog 描写文献清单（medovertime）")
+    # 用户本来要的是 ELCat 的「资源清单」。ELCat（endangeredlanguages.com）
+    # 实测走不通：站点在 Cloudflare 挑战脚本后面（页面里带
+    # /cdn-cgi/challenge-platform/scripts/jsd/main.js），语言页是 JS 渲染的
+    # 首页里 0 个 /lang/ 链接，/api/js 也直接 HTTPError —— 批量抓 2,600+ 页会被拦。
+    #
+    # 但 Glottolog 的 medovertime 就是**每门语言的描写文献清单**（带年份），
+    # 而且已经在本地 values.csv 里。它比 ELCat 更适合做可视化：带时间维度。
+    # 实测 9,302 门可解析，中位数 3 篇、最多 33 篇。
+    YEAR = re.compile(r"\b(1[5-9]\d{2}|20[0-2]\d)\b")
+    literature: dict[str, dict] = {}
+    if exists(VALUES_CSV):
+        with open(VALUES_CSV, encoding="utf-8") as fh:
+            for row in csv.DictReader(fh):
+                if row.get("Parameter_ID") != "medovertime":
+                    continue
+                try:
+                    cites = ast.literal_eval(row["Value"])
+                except (ValueError, SyntaxError):
+                    continue
+                if not isinstance(cites, list) or not cites:
+                    continue
+                years = []
+                for cite in cites:
+                    years += [int(y) for y in YEAR.findall(str(cite))]
+                if not years:
+                    continue
+                literature[row["Language_ID"]] = {
+                    "works": len(cites),
+                    "first": min(years),
+                    "last": max(years),
+                    "span": max(years) - min(years),
+                }
+        log(f"  有文献清单的语言 = {len(literature):,}")
+        if literature:
+            ws = sorted(v["works"] for v in literature.values())
+            log(f"  文献数：中位数 {ws[len(ws) // 2]}，最大 {ws[-1]}，"
+                f">=5 篇的 {sum(1 for x in ws if x >= 5):,} 门")
+
+    banner("4. 写入")
     write_json(OUT, {
         "by_wiki_code": by_wiki_code,
         "by_glottocode": by_glottocode,
+        "literature": literature,
         "meta": {
             "sitematrix_languages": len(by_wiki_code),
             "with_extra_projects": len(multi),
             "med_languages": len(by_glottocode),
+            "literature_languages": len(literature),
             "med_scale": {
                 "note": "Glottolog med 是编码值且刻度反向（0 最好）。已转成 depth = 5 - raw，越高越好。",
                 "labels": {
@@ -151,6 +194,12 @@ def main() -> None:
             "sources": {
                 "projects": "https://meta.wikimedia.org/w/api.php?action=sitematrix",
                 "med": "Glottolog CLDF values.csv (Parameter_ID=med)",
+                "literature": "Glottolog CLDF values.csv (Parameter_ID=medovertime)",
+            },
+            "elcat": {
+                "status": "not-usable",
+                "why": "endangeredlanguages.com 在 Cloudflare 挑战脚本后，"
+                       "语言页为 JS 渲染（首页 0 个 /lang/ 链接），/api/js 返回 HTTPError",
             },
         },
     })

@@ -50,6 +50,11 @@ const T = {
     depthNote: '这里衡量的是「语言学上被描写得多完整」，不是「有多少人读」。'
       + '两件事本来毫无关系，但在这份数据里高度重合 ——'
       + '被研究得越少的语言，在数字世界里也越可能根本不存在。',
+    depthWorks: '④ 描写文献越多，越可能有数字入口',
+    depthWorksSub: '同一份 Glottolog 文献清单，换个切法：按篇数分组',
+    depthWorksNote: '这是全部指标里梯度最大的一条：1 篇文献的语言只有 2.5% 有维基版本，'
+      + '≥10 篇的则有 30.8% —— 差 12 倍。',
+    depthWorksLegend: '有维基版本 / 无维基版本',
     watch: '③ 值得进一步关注的语言',
     watchSub: '点一行在全局选中该语言',
     catA: '已灭绝，却仍有维基版本且高速增长',
@@ -89,6 +94,11 @@ const T = {
     depthNote: 'This measures how completely a language is described linguistically, '
       + 'not how many people read about it. The two should be unrelated — yet here they coincide: '
       + 'the less studied a language is, the more likely it simply does not exist online.',
+    depthWorks: '④ More descriptive works, more likely to have a digital entry',
+    depthWorksSub: 'the same Glottolog bibliography, binned by number of works',
+    depthWorksNote: 'The steepest gradient in the whole dataset: 2.5% of languages '
+      + 'with a single work have a Wikipedia, versus 30.8% of those with ten or more — a 12× gap.',
+    depthWorksLegend: 'has Wikipedia / no Wikipedia',
     watch: '③ Languages worth a closer look',
     watchSub: 'click a row to select it globally',
     catA: 'Extinct, yet has a Wikipedia that is growing fast',
@@ -197,6 +207,33 @@ const depthBars = computed(() => {
     })
   }
   return out.filter((x) => x.n > 0)
+})
+
+/** ④' 描写文献数 × 数字在场 —— 全部指标里梯度最大的一条（2.5% → 30.8%） */
+const worksBars = computed(() => {
+  const w = store.docWorks
+  const buckets = [
+    { key: '1', label: '1 篇', lo: 1, hi: 1 },
+    { key: '2-3', label: '2–3 篇', lo: 2, hi: 3 },
+    { key: '4-9', label: '4–9 篇', lo: 4, hi: 9 },
+    { key: '>=10', label: '≥10 篇', lo: 10, hi: Infinity },
+  ]
+  return buckets.map((b, i) => {
+    const rows = store.langs.filter((l) => {
+      const e = w[l.wals_id]
+      return e && e.works >= b.lo && e.works <= b.hi
+    })
+    const wiki = rows.filter((l) => l.wiki_code).length
+    return {
+      key: b.key,
+      label: b.label,
+      n: rows.length,
+      wiki,
+      none: rows.length - wiki,
+      rate: rows.length ? wiki / rows.length : 0,
+      color: RAMP[Math.min(i + 1, RAMP.length - 1)],
+    }
+  }).filter((x) => x.n > 0)
 })
 
 /** ③ 值得关注的语言 */
@@ -371,6 +408,27 @@ watch(() => [dots.value, store.lang], render)
         </ul>
         <p class="absnote">{{ t.depthLegend }}</p>
         <p class="absnote">{{ t.depthNote }}</p>
+      </section>
+
+      <!-- ③'' 描写文献数 × 数字在场 -->
+      <section v-if="worksBars.length" class="blk">
+        <div class="bh">
+          <h3>{{ t.depthWorks }}</h3><span class="sub warn">{{ t.depthWorksSub }}</span>
+        </div>
+        <ul class="abs">
+          <li v-for="d in worksBars" :key="d.key">
+            <span class="dot" :style="{ background: d.color }" />
+            <span class="lbl">{{ d.label }}</span>
+            <span class="bar">
+              <i class="have" :style="{ width: pct(d.rate), background: d.color }" />
+            </span>
+            <span class="num have-n">{{ fmt(d.wiki) }}</span>
+            <span class="num none-n">{{ fmt(d.none) }}</span>
+            <span class="num tot">{{ fmt(d.n) }}</span>
+          </li>
+        </ul>
+        <p class="absnote">{{ t.depthWorksLegend }}</p>
+        <p class="absnote">{{ t.depthWorksNote }}</p>
       </section>
 
       <!-- ③ 值得关注 -->

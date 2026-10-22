@@ -74,6 +74,13 @@ export interface DigitalPresence {
     med_languages: number
     med_scale: { note: string; labels: Record<string, string> }
   }
+  /** Glottolog medovertime：每门语言的描写文献清单（篇数 + 年代范围） */
+  literature?: Record<string, {
+    works: number
+    first: number
+    last: number
+    span: number
+  }>
 }
 
 async function loadJson<T>(file: string): Promise<T> {
@@ -440,6 +447,30 @@ export const useDataset = defineStore('dataset', {
       const out: Record<string, { n: number; n_extra: number; projects: string[] }> = {}
       for (const l of state.langs) {
         const d = p.by_wiki_code[l.wiki_code ?? '']
+        if (d) out[l.wals_id] = d
+      }
+      return out
+    },
+
+    /**
+     * 描写文献清单（Glottolog `medovertime`）：这门语言有几篇描写文献、
+     * 最早与最晚分别是哪一年。
+     *
+     * 这是用户要的「资源清单」维度 —— ELCat 抓不动（Cloudflare + JS 渲染），
+     * 但 Glottolog 这份清单本身就是文献目录，而且带年份，更适合做可视化。
+     * 实测 9,302 门可解析；文献数从 1 篇语言的有维基比例 2.5%
+     * 单调升到 >=10 篇的 30.8%（差 12 倍），是本文最强的一条梯度。
+     */
+    docWorks(state): Record<string, {
+      works: number; first: number; last: number; span: number
+    }> {
+      const lit = state.presence?.literature
+      if (!lit) return {}
+      const out: Record<string, {
+        works: number; first: number; last: number; span: number
+      }> = {}
+      for (const l of state.langs) {
+        const d = lit[l.glottocode ?? '']
         if (d) out[l.wals_id] = d
       }
       return out
