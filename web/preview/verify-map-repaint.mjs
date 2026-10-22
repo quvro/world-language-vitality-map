@@ -133,6 +133,14 @@ check('缩放切换不改 mapZoom 的每帧值（否则数据每帧重算、缩�
   /wasAgg !== isAgg\) mapZoom\.value = z/.test(src))
 check('聚合块按数量放大（块越大语言越多）',
   /val\.length > 4[\s\S]{0,140}Math\.sqrt\(val\[4\]\)/.test(src))
+// —— 下面三条都是「点跟地图错位」的根因，实测踩过 ——
+check('底图系列关掉了更新动画（否则切换聚合/逐点时新点会从旧坐标飞过去，看着像错位）',
+  /id: 'ctx'[\s\S]{0,400}animation: false/.test(src))
+check('缩放切换用 setTimeout 防抖，不在动画中间态重绘（否则投影对不上）',
+  /georoam[\s\S]{0,400}setTimeout\(/.test(src)
+  && !/georoam[\s\S]{0,400}requestAnimationFrame/.test(src))
+check('聚合块位置用格内质心，不是第一个语言的坐标（否则块偏向格子一角，看着像错位）',
+  /lngSum \/ c\.n[\s\S]{0,40}c\.latSum \/ c\.n/.test(src))
 check('「只看选中」的过滤同时作用于两个图层',
   (src.match(/keepLang\(l\.wals_id\)/g) || []).length >= 2)
 check('选中点用的是白色内圈 + 外层强调色光环（靶心），不是单纯加粗描边',

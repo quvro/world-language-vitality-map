@@ -37,6 +37,8 @@ const chart = shallowRef<any>(null)
  * 只用来决定"远景聚合 / 近景逐点"，所以不需要很精确。
  */
 const mapZoom = ref(1.15)
+/** georoam 防抖计时器：等手势停下再切"聚合/逐点"，避免在动画中间态重绘 */
+let roamTimer = 0
 
 const e = () => (window as any).echarts
 const C = semanticColors()
@@ -167,7 +169,7 @@ const contextData = computed(() => {
 
   // ---------- 远景：按经纬网聚合 ----------
   const cells = new Map<string, {
-    lng: number; lat: number; n: number; hit: boolean
+    lngSum: number; latSum: number; n: number; hit: boolean
     sel: boolean; areas: Map<string, number>; names: string[]
   }>()
   for (const l of rows) {
@@ -178,10 +180,11 @@ const contextData = computed(() => {
     const isSel = store.selected === l.wals_id
     let cell = cells.get(key)
     if (!cell) {
-      // 用格内第一个语言的坐标做锚点，只用来定位置，不代表格中心
-      cell = { lng, lat, n: 0, hit: false, sel: false, areas: new Map(), names: [] }
+      cell = { lngSum: 0, latSum: 0, n: 0, hit: false, sel: false, areas: new Map(), names: [] }
       cells.set(key, cell)
     }
+    cell.lngSum += lng
+    cell.latSum += lat
     cell.n += 1
     cell.hit = cell.hit || hit
     cell.sel = cell.sel || isSel
@@ -205,7 +208,9 @@ const contextData = computed(() => {
       display: c.names.join(store.lang === 'zh' ? '、' : ', '),
       count: c.n,
       names: c.names,
-      value: [c.lng, c.lat, c.sel ? 1 : 0, c.hit ? 1 : 0, c.n],
+      // 位置用格内语言的**质心**，不是"第一个语言的坐标"。
+      // 用第一个的话块会偏向格子的一角，看着就像点和地图错位。
+      value: [c.lngSum / c.n, c.latSum / c.n, c.sel ? 1 : 0, c.hit ? 1 : 0, c.n],
       macroarea: [...c.areas.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? null,
       itemStyle: {
         color: store.colorBy === 'trend' ? C.textMuted : top,
@@ -342,6 +347,10 @@ function buildSeries() {
     emphasis: { scale: 1.5 },
     // 关掉渐进渲染：geo 漫游时它会让点短暂画在旧位置（快速缩放"错位"的来源）
     progressive: 0,
+    // ⚠️ 必须关掉更新动画。主题里 animationDurationUpdate = 480ms，
+    // 而远景(聚合块) 与近景(逐点) 的坐标完全不同 —— 开着动画时切换模式，
+    // 新点会从旧坐标**飞**到新坐标，看起来就是"点跟地图错位"。
+    animation: false,
     // value 长度 > 4 说明是聚合格（val[4] = 格内语言数），否则是单个语言。
     // 聚合格按数量放大：大的更"重"，叠起来像密度场而不是均匀的散点。
     symbolSize: (val: number[]) => (val.length > 4
@@ -449,19 +458,22 @@ onMounted(async () => {
   })
   // 缩放跨越阈值时要在"聚合"与"逐点"之间切换。
   //
-  // 两个关键点：
+  // 三个关键点（都是踩出来的）：
+  //  · **等手势停下来再切**（250ms 防抖）。缩放动画途中 setOption，
+  //    ECharts 拿到的 geo 变换可能还是中间态，投影就跟地图对不上。
   //  · **只在跨越阈值时**才改 mapZoom —— 它每帧都变的话 contextData 会每帧重算
   //    并触发整条 series 重绘，缩放会卡。
   //  · 重绘走 contextData 的 watcher（合并渲染）。不能用 render(true)：
   //    那会重建 geo 组件、把用户刚拖好的缩放重置掉，于是又触发 georoam，来回抖动。
+  //  · 另外 ctx 系列的 animation 已关 —— 否则切换模式时新点会从旧坐标飞过来。
   chart.value.on('georoam', () => {
-    cancelAnimationFrame(roamRaf)
-    roamRaf = requestAnimationFrame(() => {
+    clearTimeout(roamTimer)
+    roamTimer = window.setTimeout(() => {
       const z = Number(chart.value?.getOption?.()?.geo?.[0]?.zoom ?? mapZoom.value)
       const wasAgg = mapZoom.value < AGG_ZOOM
       const isAgg = z < AGG_ZOOM
       if (wasAgg !== isAgg) mapZoom.value = z
-    })
+    }, 250)
   })
   await ensureWorld()
   render(true)
@@ -470,10 +482,8 @@ onMounted(async () => {
   window.addEventListener('resize', scheduleResize)
 })
 
-let roamRaf = 0
-
 onBeforeUnmount(() => {
-  cancelAnimationFrame(roamRaf)
+  clearTimeout(roamTimer)
   window.removeEventListener('resize', scheduleResize)
   chart.value?.dispose()
 })
