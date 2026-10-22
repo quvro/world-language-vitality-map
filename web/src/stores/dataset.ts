@@ -52,6 +52,30 @@ export interface Endangerment {
   counts: Record<string, number>
 }
 
+/** 07_fetch_digital_presence.py 的产出：维基项目数 + Glottolog 描述深度 */
+export interface DigitalPresence {
+  by_wiki_code: Record<string, {
+    projects: string[]
+    n: number
+    n_extra: number
+  }>
+  by_glottocode: Record<string, {
+    /** Glottolog med 原始编码值（0 最好、4 最差 —— 刻度是反的） */
+    raw: number
+    /** 已转成"越高越好"：5 = 长篇参考语法，1 = 词表或更少 */
+    depth: number
+    code: string
+    label_zh: string
+    label_en: string
+  }>
+  meta: {
+    sitematrix_languages: number
+    with_extra_projects: number
+    med_languages: number
+    med_scale: { note: string; labels: Record<string, string> }
+  }
+}
+
 async function loadJson<T>(file: string): Promise<T> {
   const res = await fetch(DATA + file)
   if (!res.ok) throw new Error(`${file} 加载失败：HTTP ${res.status}`)
@@ -67,6 +91,7 @@ interface State {
   zhLabels: ZhLabels | null
   endangerment: Endangerment | null
   aes: Aes | null
+  presence: DigitalPresence | null
   loading: boolean
   error: string | null
   /** wals_id -> 在 feature_matrix.language_keys 里的下标，加载后预计算避免每次线性查找 */
@@ -151,6 +176,7 @@ export const useDataset = defineStore('dataset', {
     zhLabels: null,
     endangerment: null,
     aes: null,
+    presence: null,
     loading: true,
     error: null,
     keyIndex: {},
@@ -371,6 +397,44 @@ export const useDataset = defineStore('dataset', {
       return out
     },
 
+    /**
+     * 描述深度（Glottolog `med`）：这门语言有多少"最详尽的描写文献"。
+     *
+     * ⚠️ Glottolog 的原始编码是**反向**的（0 = 长篇参考语法，4 = 词表或更少），
+     * 管道 07 已经转成 `depth`（5 = 最好，1 = 最差），这里直接用 depth，
+     * 免得前端再翻一次轴。
+     */
+    descDepth(state): Record<string, {
+      depth: number; raw: number; label_zh: string; label_en: string
+    }> {
+      const p = state.presence
+      if (!p) return {}
+      const out: Record<string, { depth: number; raw: number; label_zh: string; label_en: string }> = {}
+      for (const l of state.langs) {
+        const d = p.by_glottocode[l.glottocode ?? '']
+        if (d) out[l.wals_id] = d
+      }
+      return out
+    },
+
+    /**
+     * 维基媒体项目数：**除维基百科之外**还有几个项目（词典/文库/新闻/教科书…）。
+     * 有多个项目的语言通常意味着存在持续的编辑社群，而不只是被写进百科全书。
+     * 实测：有维基版本的 267 门里，138 门有 ≥2 个额外项目。
+     */
+    wikiProjects(state): Record<string, {
+      n: number; n_extra: number; projects: string[]
+    }> {
+      const p = state.presence
+      if (!p) return {}
+      const out: Record<string, { n: number; n_extra: number; projects: string[] }> = {}
+      for (const l of state.langs) {
+        const d = p.by_wiki_code[l.wiki_code ?? '']
+        if (d) out[l.wals_id] = d
+      }
+      return out
+    },
+
     /** 用的是哪个数据源（给口径说明用） */
     endangermentSources(state): { aes: number; unescoOnly: number; none: number } {
       const a = state.aes?.by_glottocode ?? {}
@@ -449,6 +513,12 @@ export const useDataset = defineStore('dataset', {
           this.aes = await loadJson<Aes>('aes.json')
         } catch {
           this.aes = null
+        }
+        // 维基媒体项目数 + Glottolog 描述深度（跑过 07 脚本才有）
+        try {
+          this.presence = await loadJson<DigitalPresence>('digital_presence.json')
+        } catch {
+          this.presence = null
         }
 
         // 预计算下标，避免筛选时对 2,660 条做线性查找

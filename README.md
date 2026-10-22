@@ -120,6 +120,7 @@ keshihua/
 │   ├── 04_fetch_zh_labels.py     中文名称（Wikidata）
 │   ├── 05_fetch_endangerment.py  UNESCO 濒危等级（Wikidata P1999）
 │   ├── 06_fetch_aes.py           Glottolog AES 濒危等级（覆盖面更大，优先使用）
+│   ├── 07_fetch_digital_presence.py  维基项目数 + Glottolog 描述深度（第三个维度）
 │   └── check_dataset.py          完整性自检
 ├── data/
 │   ├── raw/               原始数据（只增不改）
@@ -156,11 +157,12 @@ $py = 'python'      # 换成你本机的解释器路径
 & $py pipeline\04_fetch_zh_labels.py      # 中文名称（3 次 WDQS 查询，约 4 分钟）
 & $py pipeline\05_fetch_endangerment.py   # UNESCO 濒危等级（1 次 WDQS 查询）
 & $py pipeline\06_fetch_aes.py            # Glottolog AES（下载 21 MB，约 15 秒）
+& $py pipeline\07_fetch_digital_presence.py  # 维基项目数 + Glottolog 描述深度（1 次请求）
 & $py pipeline\check_dataset.py           # 完整性自检
 ```
 
-> 04/05/06 都是**可选**的：对应 JSON 缺失时前端不会报错，只是名称/濒危维度不可用。
-> 但 README 里引用的濒危分析结论需要 05 与 06 都跑过。
+> 04/05/06/07 都是**可选**的：对应 JSON 缺失时前端不会报错，只是名称/濒危维度不可用。
+> 但 README 里引用的濒危分析结论需要 05 与 06 都跑过；「描述深度」那块需要 07。
 
 常用参数：
 

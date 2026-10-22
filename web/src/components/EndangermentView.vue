@@ -41,6 +41,15 @@ const T = {
     absence: '② 但绝大多数语言根本不在上图里',
     absenceSub: '这是本视图最重要的一块 —— 别只看散点',
     absenceLegend: '有维基版本 / 无维基版本',
+    depth: '③ 被研究得多深，决定了它在网上存不存在',
+    depthSub: '第三个维度，来自 Glottolog —— 与维基流量、与 WALS 记录都独立',
+    depthLegend: '有维基版本 / 无维基版本',
+    depthLabels: {
+      5: '长篇参考语法', 4: '语法', 3: '语法概述', 2: '音系或文本', 1: '词表或更少',
+    } as Record<number, string>,
+    depthNote: '这里衡量的是「语言学上被描写得多完整」，不是「有多少人读」。'
+      + '两件事本来毫无关系，但在这份数据里高度重合 ——'
+      + '被研究得越少的语言，在数字世界里也越可能根本不存在。',
     watch: '③ 值得进一步关注的语言',
     watchSub: '点一行在全局选中该语言',
     catA: '已灭绝，却仍有维基版本且高速增长',
@@ -70,6 +79,16 @@ const T = {
     absence: '② But most languages are not in the chart above at all',
     absenceSub: 'the most important panel here — do not read the scatter alone',
     absenceLegend: 'has Wikipedia / no Wikipedia',
+    depth: '③ How deeply a language is studied decides whether it exists online',
+    depthSub: 'a third dimension from Glottolog — independent of pageviews and of WALS',
+    depthLegend: 'has Wikipedia / no Wikipedia',
+    depthLabels: {
+      5: 'long grammar', 4: 'grammar', 3: 'grammar sketch',
+      2: 'phonology or text', 1: 'wordlist or less',
+    } as Record<number, string>,
+    depthNote: 'This measures how completely a language is described linguistically, '
+      + 'not how many people read about it. The two should be unrelated — yet here they coincide: '
+      + 'the less studied a language is, the more likely it simply does not exist online.',
     watch: '③ Languages worth a closer look',
     watchSub: 'click a row to select it globally',
     catA: 'Extinct, yet has a Wikipedia that is growing fast',
@@ -147,6 +166,38 @@ const absence = computed(() =>
     }
   }).filter((d) => d.n > 0)
 )
+
+/**
+ * ④ 描述深度 × 数字在场 —— 用户要的「不只是维基百科」的第三个维度。
+ *
+ * 数据来自 Glottolog 的 `med`（Most Extensive Description）：
+ * 这门语言最好的描写文献到了什么程度。管道 07 已把反向的原始编码
+ * 转成 depth（5 = 长篇参考语法，1 = 词表或更少）。
+ *
+ * 它与 WALS 特征覆盖、与维基浏览量都独立，所以能当**第三个证据**：
+ * 如果"记录少"和"数字缺席"的重合只是同一个偏差造成的，
+ * 换成另一套完全不同的记录口径后应该就散了 —— 实测没散，反而更单调。
+ */
+const depthBars = computed(() => {
+  const d = store.descDepth
+  const labels = t.value.depthLabels as Record<number, string>
+  const out = []
+  for (let depth = 5; depth >= 1; depth--) {
+    const rows = store.langs.filter((l) => d[l.wals_id]?.depth === depth)
+    const wiki = rows.filter((l) => l.wiki_code).length
+    out.push({
+      depth,
+      label: labels[depth] ?? String(depth),
+      n: rows.length,
+      wiki,
+      none: rows.length - wiki,
+      rate: rows.length ? wiki / rows.length : 0,
+      // 深度越高越好 ⇒ 用同一套顺序色阶，不另造一套语言
+      color: RAMP[depth - 1],
+    })
+  }
+  return out.filter((x) => x.n > 0)
+})
 
 /** ③ 值得关注的语言 */
 const worth = computed(() => {
@@ -299,6 +350,27 @@ watch(() => [dots.value, store.lang], render)
           </li>
         </ul>
         <p class="absnote">{{ t.absenceLegend }}</p>
+      </section>
+
+      <!-- ③' 描述深度 × 数字在场 -->
+      <section v-if="depthBars.length" class="blk">
+        <div class="bh">
+          <h3>{{ t.depth }}</h3><span class="sub warn">{{ t.depthSub }}</span>
+        </div>
+        <ul class="abs">
+          <li v-for="d in depthBars" :key="d.depth">
+            <span class="dot" :style="{ background: d.color }" />
+            <span class="lbl">{{ d.label }}</span>
+            <span class="bar">
+              <i class="have" :style="{ width: pct(d.rate), background: d.color }" />
+            </span>
+            <span class="num have-n">{{ fmt(d.wiki) }}</span>
+            <span class="num none-n">{{ fmt(d.none) }}</span>
+            <span class="num tot">{{ fmt(d.n) }}</span>
+          </li>
+        </ul>
+        <p class="absnote">{{ t.depthLegend }}</p>
+        <p class="absnote">{{ t.depthNote }}</p>
       </section>
 
       <!-- ③ 值得关注 -->
