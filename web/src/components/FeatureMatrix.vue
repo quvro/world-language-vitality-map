@@ -25,7 +25,7 @@ import { useDisplayNames } from '@/display'
 import { semanticColors, sequentialScale } from '@/theme/echarts-theme.js'
 
 const store = useDataset()
-const { feature: featureLabel } = useDisplayNames()
+const { feature: featureLabel, language: langLabel } = useDisplayNames()
 const C = semanticColors()
 
 const host = ref<HTMLDivElement | null>(null)
@@ -34,6 +34,13 @@ const hover = ref<{ x: number; y: number; col: number; row: number } | null>(nul
 
 /** 纵向分箱数。1 箱约 6-7 门语言，画出来刚好是密度图而不是噪点 */
 const BINS = 380
+/**
+ * 左侧留给纵轴刻度的宽度。
+ *
+ * 之前整幅画布铺满，纵轴没有任何刻度 —— 于是"每一行是什么"完全无从判断，
+ * 被用户直接问住了。留出这条沟槽后可以标出每一带对应的记录完整度区间。
+ */
+const PAD_L = 74
 
 const T = {
   zh: {
@@ -41,7 +48,12 @@ const T = {
     sub: '本视图展示数据集自身的结构，不响应左侧筛选 · 颜色 = 该组语言中「有这条特征记录」的比例',
     axisX: '横向 192 个语法特征，按覆盖率从高到低',
     axisY: '纵向 2,660 门语言，按被记录的特征数从多到少',
-    cellHint: '每一格不是一门语言，而是「这一横条里的语言」中有该特征记录的**比例**',
+    cellHint: '纵轴每一行是一条约 7 门语言的横带 · 每一格 = 这一带里有多少门语言被记录了这个特征的比例（悬停可看到具体是哪几门）',
+    axisYTitle: '← 被记录的特征数',
+    bandTitle: (n: number) => `这一横带 = ${n} 门语言`,
+    bandCov: (hi: number, lo: number) => (hi === lo
+      ? `记录完整度 ${hi} 个特征` : `记录完整度 ${hi}–${lo} 个特征`),
+    bandRecorded: (hit: number, n: number) => `其中有该特征记录的：${hit} / ${n}`,
     byCoverage: '按记录完整度',
     byFamily: '按语系',
     featCoverage: '覆盖率',
@@ -62,7 +74,12 @@ const T = {
     sub: 'This view shows the dataset’s own structure and does not follow the left-hand filters · colour = share of languages in the band that have this feature recorded',
     axisX: '192 grammatical features across, most-covered on the left',
     axisY: '2,660 languages down, best-documented at the top',
-    cellHint: 'a cell is not one language — it is the **share** of languages in that row band that have this feature recorded',
+    cellHint: 'each row is a band of about 7 languages · a cell = the share of that band recorded for this feature (hover to see which languages)',
+    axisYTitle: '← features recorded',
+    bandTitle: (n: number) => `band = ${n} languages`,
+    bandCov: (hi: number, lo: number) => (hi === lo
+      ? `${hi} features recorded` : `${hi}–${lo} features recorded`),
+    bandRecorded: (hit: number, n: number) => `recorded here: ${hit} / ${n}`,
     byCoverage: 'By coverage',
     byFamily: 'By family',
     featCoverage: 'Coverage',
@@ -180,8 +197,35 @@ const grid = computed(() => {
   return { data: out, cols, rows }
 })
 
-/** 当前筛选命中的语言落在哪些行箱里（画右侧标记条用） */
-const filterBins = computed(() => {
+/**
+ * 每一行箱（"一条横带"）对应的**记录完整度区间**，用来做纵轴刻度。
+ *
+ * 这是让"行"变得可读的关键：光有颜色，读者不知道自己在看哪一批语言。
+ * 有了这个区间，纵轴就能标出「这一带是 159–120 个特征」「这一带是 2–1 个」。
+ */
+const rowCov = computed(() => {
+  const m = store.matrix
+  if (!m) return [] as { lo: number; hi: number }[]
+  const fc = store.featureCount
+  const order = rowOrder.value
+  const per = order.length / BINS
+  const out: { lo: number; hi: number }[] = []
+  for (let r = 0; r < BINS; r++) {
+    const a = Math.floor(r * per)
+    const b = Math.max(Math.floor((r + 1) * per), a + 1)
+    let lo = Infinity
+    let hi = -Infinity
+    for (let k = a; k < b && k < order.length; k++) {
+      const c = fc[m.language_keys[order[k]]] ?? 0
+      if (c < lo) lo = c
+      if (c > hi) hi = c
+    }
+    out.push({ lo: Number.isFinite(lo) ? lo : 0, hi: Number.isFinite(hi) ? hi : 0 })
+  }
+  return out
+})
+
+/** 当前筛选命中的语言落在哪些行箱里（画右侧标记条用） */const filterBins = computed(() => {
   const m = store.matrix
   if (!m || !store.hasFilter) return null
   const matched = store.matchedIds
@@ -268,6 +312,9 @@ function draw() {
   const { data, cols, rows } = grid.value
   if (!cols || !rows) return
 
+  // 画布右侧（PAD_L 之后）才是矩阵本体，左侧沟槽画纵轴刻度
+  const plotW = Math.max(W - PAD_L, 10)
+
   // 先画到 cols×rows 的离屏画布，再缩放贴上来
   if (!off) off = document.createElement('canvas')
   off.width = cols
@@ -287,7 +334,31 @@ function draw() {
   }
   octx.putImageData(img, 0, 0)
   ctx.imageSmoothingEnabled = true
-  ctx.drawImage(off, 0, 0, W, H)
+  ctx.drawImage(off, PAD_L, 0, plotW, H)
+
+  // ---------------- 纵轴刻度：让"每一行是什么"可读 ----------------
+  {
+    const rc = rowCov.value
+    const ticks = 6
+    ctx.font = '10px ui-monospace, Consolas, monospace'
+    ctx.textAlign = 'right'
+    ctx.textBaseline = 'middle'
+    for (let i = 0; i < ticks; i++) {
+      const r = Math.min(Math.round((i / (ticks - 1)) * (rows - 1)), rows - 1)
+      const y = (r / rows) * H
+      const band = rc[r]
+      const label = band ? (band.lo === band.hi ? `${band.hi}` : `${band.hi}–${band.lo}`) : ''
+      ctx.fillStyle = C.textMuted || '#a39d91'
+      ctx.fillText(label, PAD_L - 8, Math.min(Math.max(y, 6), H - 6))
+      // 刻度线
+      ctx.strokeStyle = 'rgba(0,0,0,0.12)'
+      ctx.lineWidth = 1
+      ctx.beginPath()
+      ctx.moveTo(PAD_L - 4, y)
+      ctx.lineTo(PAD_L, y)
+      ctx.stroke()
+    }
+  }
 
   // 按语系排序时画分组分隔线，否则一整片看不出结构
   if (sortBy.value === 'family') {
@@ -307,7 +378,7 @@ function draw() {
         const b = keyOf(order[Math.min(Math.floor(r * per), order.length - 1)] ?? 0)
         if (a !== b) {
           ctx.beginPath()
-          ctx.moveTo(0, (r / rows) * H)
+          ctx.moveTo(PAD_L, (r / rows) * H)
           ctx.lineTo(W, (r / rows) * H)
           ctx.stroke()
         }
@@ -329,21 +400,21 @@ function draw() {
   // 而实际筛选效果发生在别的视图里 —— 用户会完全不知道发生了什么。
   const af = activeFeature.value
   if (af && af.pos >= 0) {
-    const cw = W / cols
+    const cw = plotW / cols
     ctx.strokeStyle = C.accent
     ctx.lineWidth = 2
-    ctx.strokeRect(af.pos * cw - 1, 0, cw + 2, H)
+    ctx.strokeRect(PAD_L + af.pos * cw - 1, 0, cw + 2, H)
   }
 
   // 悬停十字线
   const hv = hover.value
   if (hv) {
-    const cw = W / cols
+    const cw = plotW / cols
     const ch = H / rows
     ctx.strokeStyle = 'rgba(35,32,28,0.75)'
     ctx.lineWidth = 1
-    ctx.strokeRect(Math.floor(hv.col) * cw, 0, cw, H)
-    ctx.strokeRect(0, Math.floor(hv.row) * ch, W, ch)
+    ctx.strokeRect(PAD_L + Math.floor(hv.col) * cw, 0, cw, H)
+    ctx.strokeRect(PAD_L, Math.floor(hv.row) * ch, plotW, ch)
   }
 }
 
@@ -362,9 +433,16 @@ function onMove(ev: MouseEvent) {
   const y = ev.clientY - rect.top
   const { cols, rows } = grid.value
   if (!cols || !rows) return
+  // 左侧 PAD_L 是纵轴刻度沟槽，落在里面不算悬停到矩阵
+  if (x < PAD_L) {
+    hover.value = null
+    schedule()
+    return
+  }
+  const plotW = Math.max(rect.width - PAD_L, 10)
   hover.value = {
     x, y,
-    col: Math.min(Math.floor((x / rect.width) * cols), cols - 1),
+    col: Math.min(Math.floor(((x - PAD_L) / plotW) * cols), cols - 1),
     row: Math.min(Math.floor((y / rect.height) * rows), rows - 1),
   }
   schedule()
@@ -391,7 +469,13 @@ function onClick() {
   }
 }
 
-/** 悬停时显示的那一列特征与那一行语言组 */
+/**
+ * 悬停时显示的那一列特征 + **这一横带具体是哪几门语言**。
+ *
+ * 用户直接问过「每一行的意思是什么？为什么同一个特征下的数字会变化？」
+ * —— 只给"这一带 7 门语言"这种数字不够，必须说出是哪 7 门，
+ * 人才会真正理解"行 = 一批语言"而不是"行 = 一个东西"。
+ */
 const hoverInfo = computed(() => {
   const hv = hover.value
   const m = store.matrix
@@ -402,19 +486,36 @@ const hoverInfo = computed(() => {
   const per = order.length / BINS
   const lo = Math.floor(hv.row * per)
   const hi = Math.max(Math.floor((hv.row + 1) * per), lo + 1)
-  const ids = order.slice(lo, hi).map((i) => m.language_keys[i])
+  const idxs = order.slice(lo, hi)
   const row = m.values[fi]
-  const hit = ids.filter((_, k) => row[order[lo + k]] != null).length
+  const hit = idxs.filter((i) => row[i] != null).length
   const cov = featCount.value[fi] ?? 0
+  const byId = new Map(store.langs.map((l) => [l.wals_id, l]))
+  const names = idxs.map((i) => {
+    const l = byId.get(m.language_keys[i])
+    return l ? langLabel(l) : m.language_keys[i]
+  })
+  const band = rowCov.value[hv.row]
   return {
     fid,
     name: featureLabel(fid, store.features?.features.find((f) => f.ID === fid)?.Name ?? fid),
     cov, total: m.language_keys.length,
-    band: ids.length, hit,
+    band: idxs.length, hit,
+    names,
+    covLo: band?.lo ?? 0,
+    covHi: band?.hi ?? 0,
   }
 })
 
 /* --------------------------------------------------------------- 生命周期 */
+
+/** 把这一横带的语言名拼成一行（多了就省略，避免提示框被撑爆） */
+function bandNames(names: string[]): string {
+  const MAX = 7
+  const sep = store.lang === 'zh' ? '、' : ', '
+  const head = names.slice(0, MAX).join(sep)
+  return names.length > MAX ? `${head}${store.lang === 'zh' ? ' 等' : ' …'}` : head
+}
 
 let ro: ResizeObserver | null = null
 onMounted(() => {
@@ -454,6 +555,7 @@ watch(() => [grid.value, sortBy.value, filterBins.value, store.lang], schedule)
       <span class="ay">↓ {{ t.axisY }}</span>
       <span class="ax">→ {{ t.axisX }}</span>
     </div>
+    <div class="ytitle">{{ t.axisYTitle }}</div>
 
     <div
       ref="host" class="matrix"
@@ -464,8 +566,8 @@ watch(() => [grid.value, sortBy.value, filterBins.value, store.lang], schedule)
         v-if="hoverInfo && hover"
         class="tip"
         :style="{
-          left: Math.min(hover.x + 14, (host?.clientWidth ?? 400) - 230) + 'px',
-          top: Math.max(hover.y - 54, 4) + 'px',
+          left: Math.min(hover.x + 14, (host?.clientWidth ?? 400) - 258) + 'px',
+          top: Math.max(hover.y - 118, 4) + 'px',
         }"
       >
         <strong>{{ hoverInfo.name }}</strong>
@@ -473,8 +575,14 @@ watch(() => [grid.value, sortBy.value, filterBins.value, store.lang], schedule)
           <b class="num">{{ hoverInfo.cov.toLocaleString('en-US') }}</b>
           / {{ hoverInfo.total.toLocaleString('en-US') }}
           ({{ (hoverInfo.cov / hoverInfo.total * 100).toFixed(1) }}%)</span>
-        <span class="k">{{ t.langs }} {{ hoverInfo.band }} · {{ t.withData }}
-          <b class="num">{{ hoverInfo.hit }}</b></span>
+
+        <!-- 行是什么：直接列出这一带是哪几门语言 -->
+        <span class="k band">
+          {{ t.bandTitle(hoverInfo.band) }} ·
+          {{ t.bandCov(hoverInfo.covHi, hoverInfo.covLo) }}
+        </span>
+        <span class="names">{{ bandNames(hoverInfo.names) }}</span>
+        <span class="k">{{ t.bandRecorded(hoverInfo.hit, hoverInfo.band) }}</span>
         <span class="go">{{ t.clickHint }}</span>
       </div>
     </div>
@@ -568,6 +676,19 @@ h2 { margin: 0; font-size: var(--fs-h2); font-weight: 600; }
 .filterbar button:hover { background: var(--accent); color: var(--text-inverse); }
 
 .cellhint { margin: var(--sp-1) 0 0; font-size: var(--fs-micro); color: var(--text-muted); line-height: 1.5; }
+
+/* 纵轴刻度的单位说明，贴在左侧沟槽上方 */
+.ytitle {
+  flex: none; margin-top: -2px; padding-left: 2px;
+  font-size: var(--fs-micro); color: var(--text-muted); letter-spacing: 0.04em;
+}
+
+/* 提示框里"这一带是哪几门语言" */
+.tip .names {
+  font-size: var(--fs-micro); color: var(--text-secondary);
+  line-height: 1.55; word-break: break-word;
+}
+.tip .k.band { color: var(--text-secondary); }
 .tip {
   position: absolute; z-index: 3; pointer-events: none;
   width: 224px; padding: 7px 10px;
