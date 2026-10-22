@@ -3079,11 +3079,11 @@
   "month_first": "201507",
   "views_first": 3514587,
   "month_last": "202609",
-  "views_last": 919605,
-  "views_baseline": 2311159.7,
-  "views_recent": 4505175.0,
+  "views_last": 7093141,
+  "views_baseline": 3785237.7,
+  "views_recent": 6193996.0,
   "baseline_ok": true,
-  "growth": 0.9493
+  "growth": 0.6364
  },
  {
   "wals_id": "azi",
@@ -14549,11 +14549,11 @@
   "month_first": "201507",
   "views_first": 94578438,
   "month_last": "202609",
-  "views_last": 11925998,
-  "views_baseline": 77699576.7,
-  "views_recent": 40697790.0,
+  "views_last": 53969192,
+  "views_baseline": 119368364.0,
+  "views_recent": 57610739.0,
   "baseline_ok": true,
-  "growth": -0.4762
+  "growth": -0.5174
  },
  {
   "wals_id": "ing",
@@ -18227,14 +18227,14 @@
   "country_id": "NG TD NE SD",
   "kind": "language",
   "wiki_code": "kr",
-  "month_first": "201507",
-  "views_first": 9016,
+  "month_first": "202501",
+  "views_first": 946,
   "month_last": "202609",
-  "views_last": 12904,
-  "views_baseline": 9032.7,
-  "views_recent": 57655.3,
-  "baseline_ok": false,
-  "growth": 5.383
+  "views_last": 85441,
+  "views_baseline": 14314.3,
+  "views_recent": 140170.3,
+  "baseline_ok": true,
+  "growth": 8.7923
  },
  {
   "wals_id": "knu",
@@ -34006,13 +34006,13 @@
   "kind": "language",
   "wiki_code": "hsb",
   "month_first": "201507",
-  "views_first": 268719,
+  "views_first": 274865,
   "month_last": "202609",
   "views_last": 213412,
-  "views_baseline": 271571.3,
-  "views_recent": 138513.7,
+  "views_baseline": 297793.3,
+  "views_recent": 194484.0,
   "baseline_ok": true,
-  "growth": -0.49
+  "growth": -0.3469
  },
  {
   "wals_id": "src",

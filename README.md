@@ -535,7 +535,7 @@ npm registry 和 `*.wikipedia.org` 需要代理。管道已按此选择绕法，
 | `fact_language_feature` | 语言 × 特征 × 取值（长表） | `wals_id`, `feature_id`, `value_raw`, `code_id` |
 | `feature_vector` | **物化的宽表** | `wals_id` + 192 个特征列 |
 | `fact_language_timeseries` | 逐月浏览量 / 编辑量 | `wals_id`, `wiki_code`, `month`(YYYYMM), `metric`, `value` |
-| `dim_wiki_edition` | 维基语言版本与关联情况 | `wiki_code`, `joined`, `hop`, `wals_id`, `join_ambiguous`, `iso_candidates` |
+| `dim_wiki_edition` | 维基语言版本与关联情况 | `wiki_code`, `joined`, `hop`, `wals_id`, `is_primary`, `join_ambiguous`, `iso_candidates` |
 | `dim_genealogy` | 254 个语系谱系树 | — |
 | `xref_iso` | ISO 639-1 ↔ 639-3 | `iso1`, `iso3` |
 
@@ -581,6 +581,27 @@ npm registry 和 `*.wikipedia.org` 需要代理。管道已按此选择绕法，
    HTTP 状态码，404（该维基无此数据）和 429（限流）就无法区分，会白白重试。
 3. **部分小语种维基没有编辑量数据**，`/edits/` 直接返回 404 —— 这是正常的，已优雅降级。
 4. **Met 博物馆 API 的搜索端点已下线**（410）——本项目不用，但记录备查。
+5. **一个 WALS 条目会被多个维基版本认领 —— 不处理会静默算错活力指标。**
+   实测 4 例：`aze` ← `az`(阿塞拜疆语) + `azb`(南阿塞拜疆语)、
+   `srb` ← `hsb`(上索布语) + `dsb`(下索布语)、
+   `ind` ← `id`(印尼语) + `ms`(马来语)、`knr` ← `knc` + `kr`。
+   时间序列按 `wals_id` 存，于是同一月有两行；而活力指标是
+   `groupby("wals_id").head(3).mean()` —— **会把两个不相干的维基混在一起算**。
+   实测 `aze` 的基线被算成 2,311,159，而它自己的序列只有 77,226；
+   `ind` 被算成 77,699,577，实际 8,354,167。**这些数字直接进增长榜**：
+   修复后印尼语从 −47.6% 变成 −51.7%，索布语掉出跌幅前五。
+
+   修法：建序列前每个 `wals_id` 只保留一个**主版本**，排序依据依次是
+   ① 与 WALS 该行的主 ISO 码一致 ② **是 ISO 639-1 码（两字母）** ——
+   变体版通常用三字母（`azb`、`knc`），语言主体版本才拿得到两字母（`az`、`id`）；
+   这条是决定性的，因为 `aze` 的 WALS 行根本没写主 ISO 码，只按跳数会选成南阿塞拜疆语
+   ③ 跳数 ④ 总浏览量。被丢弃的版本仍留在 `dim_wiki_edition`（`is_primary=false`）可查。
+
+   > `srb` 是 WALS 把**两种不同语言**（上/下索布语）合成了一行，任何单一选择都是折中 —— 已知局限。
+6. **变量名撞车会静默改坏别的东西**：上面那段去重代码里我把循环变量写成 `for wid, codes in …`，
+   **遮蔽了 WALS 码表的 `codes`（DataFrame）**，于是下游 `codes.rename(...)` 报
+   `'list' object has no attribute 'rename'`。教训：管道里 `codes` / `values` / `languages`
+   这类名字都是真实表名，别拿来当临时变量。
 
 ---
 

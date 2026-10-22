@@ -147,9 +147,72 @@ def main() -> None:
 
     # ------------------------------------------------------ fact_language_timeseries
     banner("5. 构建 fact_language_timeseries")
+
+    # ⚠️ 一个 wals_id 可能被**多个维基版本**认领。实测 4 例：
+    #      aze ← az（阿塞拜疆语） + azb（南阿塞拜疆语）
+    #      srb ← hsb（上索布语） + dsb（下索布语）   ← 两种不同语言
+    #      ind ← id（印尼语）   + ms（马来语）       ← 两种不同语言
+    # 如果不管，同一 (wals_id, month) 会有两行，而活力指标用的是
+    #   grp.groupby("wals_id") … grp.head(3).mean()
+    # 于是会把两个**不相干的维基**的早期流量混在一起算。
+    # 这不是理论风险：实测 aze 的 baseline 被算成 2,311,159，而它自己的序列只有 77,226；
+    # ind 的 baseline 被算成 77,699,577，实际只有 8,354,167。
+    # 这些数字会直接进增长榜，所以必须在建序列前就**只保留一个主版本**。
+    HOP_RANK = {"direct": 0, "iso1->iso3": 1, "macro": 2}
+
+    def norm3(code: str) -> str:
+        """维基版本码 → ISO 639-3（`id` → `ind`）。只有 639-1 码才需要转。"""
+        return iso1_to_3.get(code, code)
+
+    def primary_rank(code: str, meta: dict):
+        """挑主版本。四个依据按重要性排列：
+
+        1. **与 WALS 该行的主变体同 ISO 码** —— 最可靠，直接对应 WALS 收录的那个变体。
+        2. **ISO 639-1 码（两字母）优先** —— 这是决定性的一条：
+           变体版通常用三字母（`azb` 南阿塞拜疆语、`knc` 中部卡努里语），
+           而语言主体版本才拿得到两字母（`az`、`id`）。
+           实测 `aze` 的 WALS 行根本没写主 ISO 码（只在 ISO_codes 里列了 azb azj），
+           如果按"跳数优先"，会把南阿塞拜疆语当成阿塞拜疆语。
+        3. 跳数（direct < iso1->iso3 < macro）。
+        4. 总浏览量（更可能是这门语言的代表版本），最后按码排序保证确定性。
+        """
+        wals_iso3 = (meta.get("iso639p3") or "").lower()
+        n3 = norm3(code)
+        total = sum((pageviews.get(code) or {}).values())
+        return (
+            0 if (wals_iso3 and n3 == wals_iso3) else 1,
+            0 if len(code) == 2 else 1,
+            HOP_RANK.get(meta.get("hop") or "", 9),
+            -total,
+            code,
+        )
+
+    claims: dict[str, list[str]] = {}
+    for code, meta in join.items():
+        if meta.get("joined") and meta.get("wals_id"):
+            claims.setdefault(meta["wals_id"], []).append(code)
+    primary: dict[str, str] = {}
+    dropped = []
+    # 变量名不能叫 codes —— 那会遮蔽上面 WALS 码表的 codes（DataFrame），
+    # 后面 codes.rename(...) 会报 'list' object has no attribute 'rename'。
+    for wid, claimants in claims.items():
+        ranked = sorted(claimants, key=lambda c: primary_rank(c, join[c]))
+        primary[wid] = ranked[0]
+        if len(ranked) > 1:
+            dropped.append((wid, ranked[0], ranked[1:]))
+    if dropped:
+        log(f"  同一 WALS 条目被多个维基版本认领 = {human(len(dropped))} 例，已各取一个主版本：")
+        for wid, keep, rest in dropped:
+            log(f"    {wid:<5} 保留 {keep:<6} 丢弃 {', '.join(rest)}")
+        log("    注意 srb：WALS 把上索布语(hsb)与下索布语(dsb)合成了同一行，")
+        log("    这两者其实是不同语言，任何单一选择都是折中 —— 已在 README 记录。")
+
     ts_rows = []
     for code, meta in join.items():
         if not meta.get("joined") or not meta.get("wals_id"):
+            continue
+        # 只保留主版本，避免两个不相干的维基混进同一条序列
+        if primary.get(meta["wals_id"]) != code:
             continue
         for metric, store in (("views", pageviews), ("edits", edits)):
             for month, val in (store.get(code) or {}).items():
@@ -201,7 +264,13 @@ def main() -> None:
     if len(timeseries):
         timeseries.to_sql("fact_language_timeseries", con, index=False)
     genealogy.to_sql("dim_genealogy", con, index=False)
-    pd.DataFrame([{"wiki_code": k, **v} for k, v in join.items()]).to_sql(
+    pd.DataFrame([{
+        "wiki_code": k,
+        **v,
+        # 同一个 wals_id 只允许一个主版本进入时间序列（理由见上）；
+        # 这里把"是否为该条目所选的主版本"记进库里，被丢弃的版本仍可查。
+        "is_primary": primary.get(v.get("wals_id")) == k,
+    } for k, v in join.items()]).to_sql(
         "dim_wiki_edition", con, index=False)
     pd.DataFrame([{"iso1": k, "iso3": v} for k, v in iso1_to_3.items()]).to_sql(
         "xref_iso", con, index=False)
