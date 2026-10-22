@@ -46,3 +46,19 @@ data/raw/glottolog/values.csv
 # ③ 已放弃方向（民俗/山海经）的残留。都不是本项目的交付物，
 # 而且 ② 属于课程材料、含本机路径，公开到 GitHub 并不合适。
 _refs_out/
+
+# ------------------------------------------- 已放弃方向（民俗/非遗/山海经）的脚本
+# 属于中途换掉的选题，与本项目无关；多个脚本还硬编码了本地绝对路径。
+# 作者本地仍保留，但不进版本库。详见 _tools/README.md 的 B 节。
+_tools/audit_a*.py
+_tools/audit_b*.py
+_tools/audit_bc.py
+_tools/audit_c*.py
+_tools/audit_final*.py
+_tools/audit_integrity.py
+_tools/probe_shanhaijing.py
+_tools/extract_shanhaijing.py
+_tools/probe_wikidata*.py
+_tools/verify_ihchina.py
+_tools/probe_candidates*.py
+_tools/results_*.txt
