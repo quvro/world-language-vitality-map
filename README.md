@@ -142,16 +142,13 @@ keshihua/
 
 ## 运行数据管道
 
-需要 Python 3.11+ 与 pandas。本仓库使用的解释器：
-
-```
-C:\Users\sunyn\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\python\python.exe
-```
+需要 **Python 3.11+** 与 **pandas**（管道只用标准库 + pandas，没有别的依赖）。
+把下面的 `$py` 换成你本机的 python 即可：
 
 **按顺序执行**（03 需要 01/02 的产出；05/06 的产出被前端读取，但不阻塞 03）：
 
 ```powershell
-$py = 'C:\Users\sunyn\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\python\python.exe'
+$py = 'python'      # 换成你本机的解释器路径
 
 & $py pipeline\01_fetch_sources.py        # WALS 六表 + ISO / 宏观语言映射（约 1 分钟）
 & $py pipeline\02_fetch_wikimedia.py      # 时间序列（首次约 20 分钟，可中断续抓）
@@ -182,27 +179,22 @@ $py = 'C:\Users\sunyn\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\python\
 ## 运行前端
 
 ```powershell
-$node = 'C:\Users\sunyn\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\node\bin\node.exe'
-$pnpm = 'C:\Users\sunyn\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\pnpm\bin\pnpm.cjs'
-
 cd web
-& $node $pnpm install          # 首次
-& $node 'node_modules\vite\bin\vite.js' --host 127.0.0.1 --port 5173
+pnpm install                   # 首次
+pnpm dev                       # 或 pnpm exec vite --host 127.0.0.1 --port 5173
 ```
 
 打开 **http://127.0.0.1:5173/**
 
-> ⚠️ **本机必须放宽权限才能起开发服务器。** Vite 依赖 esbuild，而 esbuild 需要
+> ⚠️ **在带沙箱的环境里起开发服务器需要放宽权限。** Vite 依赖 esbuild，而 esbuild 需要
 > 启动子进程并通过管道通信；沙箱会拒绝该子进程（`spawn EPERM`）。
-> 这不是代码问题，换一台没有沙箱的机器直接 `pnpm dev` 即可。
+> 这不是代码问题 —— 普通机器上直接 `pnpm dev` 就行。
 
-> ⚠️ **`pnpm install` 在本机会报 `ERR_PNPM_UNEXPECTED_STORE`**：
-> 依赖当初是从 `E:\.pnpm-store\v11` 装的，而工作区里存在一个空的本地
-> `.pnpm-store/` 会让 pnpm 改用它。加 `--store-dir E:\.pnpm-store\v11` 即可
-> （该目录在工作区之外，受沙箱限制时需要放宽权限）。
+> ⚠️ **仓库里存在一个空的本地 `.pnpm-store/`**，pnpm 会因此想改用本地 store，
+> 报 `ERR_PNPM_UNEXPECTED_STORE`。加 `--store-dir <你原来的 store 目录>`，或删掉那个空目录。
 
-> 📌 **关于「dev server 又没了」**：本机开发服务器经常不可达，原因是
-> **使用者的电脑关机了** —— 不是崩溃、也不是代码问题。
+> 📌 **关于「dev server 又没了」**：开发服务器经常不可达，最常见的原因是
+> **电脑关机了** —— 不是崩溃、也不是代码问题。
 > 遇到 `URLError` 直接重启即可，**不必去翻最近的代码改动找原因**
 > （曾经因此把一次关机错误地归咎于一处语法错误，还写进了提交信息）。
 >
@@ -262,8 +254,7 @@ web/
 **改完任何一处都建议全跑一遍**：
 
 ```powershell
-$node = 'C:\Users\sunyn\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\node\bin\node.exe'
-Get-ChildItem web\preview\verify-*.mjs | ForEach-Object { & $node $_.FullName; "$($_.Name): exit=$LASTEXITCODE" }
+Get-ChildItem web\preview\verify-*.mjs | ForEach-Object { node $_.FullName; "$($_.Name): exit=$LASTEXITCODE" }
 ```
 
 | 脚本 | 验什么 |

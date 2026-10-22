@@ -1,8 +1,8 @@
 # 数据源可行性审计报告 — 民俗 / 神话 / 神秘学 (Data Source Feasibility Audit)
 
 **审计人**: 子代理 (delegated auditor) · **方法**: 原创脚本 + 实际 HTTP 抓取（非搜索摘要）
-**Python**: `C:\Users\sunyn\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\python\python.exe`
-**证据/脚本目录**: `E:\develop\myprogram\keshihua\_tools\`
+**Python**: 3.11+（标准库 + pandas）
+**证据/脚本目录**: `_tools/`（本仓库内）
 **抓取时间**: 2026-10-06/07 (依据 WDQS 响应头 `Date` 与站点页脚日期)
 **关键产物**: `project_full.json` (3610 行)、`representative_full.json` (3995 行)、`project_4234.json` (4234 行)
 

@@ -82,11 +82,23 @@ def dump_docx(path: str, out_path: str) -> None:
 
 
 if __name__ == "__main__":
-    dump_pptx(
-        r"C:\Users\sunyn\Desktop\1\项目推荐.pptx",
-        os.path.join(OUT, "项目推荐.txt"),
-    )
-    dump_docx(
-        r"C:\Users\sunyn\Desktop\1\常用开源数据可视化项目 v1.0.docx",
-        os.path.join(OUT, "常用开源数据可视化项目.txt"),
-    )
+    # 原来这里硬编码了作者本机的两个路径（在桌面上），
+    # 既不可移植，也会把私人路径带进版本库。改成命令行传入。
+    # 用法：
+    #   python extract_refs.py <输入.pptx|输入.docx> [输出目录]
+    if len(sys.argv) < 2:
+        print("用法: python extract_refs.py <输入.pptx|输入.docx> [输出目录]")
+        print("作用: 把老师给的参考 PPTX / DOCX 抽成纯文本，便于检索需求对齐点。")
+        raise SystemExit(2)
+    src = sys.argv[1]
+    out_dir = sys.argv[2] if len(sys.argv) > 2 else OUT
+    os.makedirs(out_dir, exist_ok=True)
+    stem = os.path.splitext(os.path.basename(src))[0]
+    dest = os.path.join(out_dir, stem + ".txt")
+    if src.lower().endswith(".pptx"):
+        dump_pptx(src, dest)
+    elif src.lower().endswith(".docx"):
+        dump_docx(src, dest)
+    else:
+        print(f"不支持的文件类型: {src}")
+        raise SystemExit(2)
