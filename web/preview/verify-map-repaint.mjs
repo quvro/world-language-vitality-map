@@ -139,6 +139,8 @@ check('底图系列关掉了更新动画（否则切换聚合/逐点时新点会
 check('缩放切换用 setTimeout 防抖，不在动画中间态重绘（否则投影对不上）',
   /georoam[\s\S]{0,400}setTimeout\(/.test(src)
   && !/georoam[\s\S]{0,400}requestAnimationFrame/.test(src))
+check('切换前用 isFinished() 等动画结束（固定延时比 480ms 的补间短，会撞在动画里导致地图错位）',
+  /isFinished\(\)/.test(src) && /trySwitchMode/.test(src))
 check('聚合块位置用格内质心，不是第一个语言的坐标（否则块偏向格子一角，看着像错位）',
   /lngSum \/ c\.n[\s\S]{0,40}c\.latSum \/ c\.n/.test(src))
 check('「只看选中」的过滤同时作用于两个图层',

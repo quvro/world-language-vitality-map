@@ -39,6 +39,37 @@ const chart = shallowRef<any>(null)
 const mapZoom = ref(1.15)
 /** georoam 防抖计时器：等手势停下再切"聚合/逐点"，避免在动画中间态重绘 */
 let roamTimer = 0
+/** isFinished() 最多轮询几次。见 trySwitchMode 里的说明 */
+let roamTries = 0
+
+/**
+ * 在手势与动画都结束后，判断是否需要切换"聚合 / 逐点"。
+ *
+ * 为什么不是"延时一下再切"：geo 的缩放补间时长由主题的
+ * `animationDurationUpdate`（480ms）决定，固定延时既可能太短（撞在动画里，
+ * 地图会错位）又可能太长（手感迟钝）。`chart.isFinished()` 精确告诉我们
+ * 所有动画是否已经跑完，比任何魔法数字都可靠。
+ *
+ * 但有个坑：**选中语言时高亮环（effectScatter）的涟漪是无限循环动画**，
+ * 它会让 isFinished() 永远为 false —— 那样缩放就再也切不了模式了。
+ * 所以给一个上限（约 1.4 秒）兜底：还没结束也照切，
+ * 宁可偶发一次错位，也不要功能卡死。
+ */
+function trySwitchMode() {
+  const c = chart.value
+  if (!c) return
+  const busy = typeof c.isFinished === 'function' && !c.isFinished()
+  if (busy && roamTries < 12) {
+    roamTries += 1
+    roamTimer = window.setTimeout(trySwitchMode, 120)
+    return
+  }
+  roamTries = 0
+  const z = Number(c.getOption?.()?.geo?.[0]?.zoom ?? mapZoom.value)
+  const wasAgg = mapZoom.value < AGG_ZOOM
+  const isAgg = z < AGG_ZOOM
+  if (wasAgg !== isAgg) mapZoom.value = z
+}
 
 const e = () => (window as any).echarts
 const C = semanticColors()
@@ -458,22 +489,22 @@ onMounted(async () => {
   })
   // 缩放跨越阈值时要在"聚合"与"逐点"之间切换。
   //
-  // 三个关键点（都是踩出来的）：
-  //  · **等手势停下来再切**（250ms 防抖）。缩放动画途中 setOption，
-  //    ECharts 拿到的 geo 变换可能还是中间态，投影就跟地图对不上。
-  //  · **只在跨越阈值时**才改 mapZoom —— 它每帧都变的话 contextData 会每帧重算
-  //    并触发整条 series 重绘，缩放会卡。
+  // ⚠️ 最要紧的一条：**必须等所有动画结束才能 setOption**。
+  // geo 的缩放/平移是有补间的（主题里 animationDurationUpdate = 480ms）。
+  // 在补间途中 setOption 会打断它，导致"渲染出来的地图"与模型里的 zoom/center
+  // 不一致 —— 表现就是用户说的「放大缩小时地图错误移动」，
+  // 而任意一次 setOption（例如点一个数据点）又能把它复位。
+  // 所以不用固定延时（250ms 比 480ms 还短，正好撞在动画中间），
+  // 而是轮询 ECharts 的 isFinished()，它表示"所有动画都已结束"。
+  //
+  // 另外两条：
+  //  · 只在跨越阈值时才改 mapZoom —— 每帧都改会让 contextData 每帧重算、缩放卡顿
   //  · 重绘走 contextData 的 watcher（合并渲染）。不能用 render(true)：
-  //    那会重建 geo 组件、把用户刚拖好的缩放重置掉，于是又触发 georoam，来回抖动。
-  //  · 另外 ctx 系列的 animation 已关 —— 否则切换模式时新点会从旧坐标飞过来。
+  //    那会重建 geo、把用户的缩放重置掉
   chart.value.on('georoam', () => {
     clearTimeout(roamTimer)
-    roamTimer = window.setTimeout(() => {
-      const z = Number(chart.value?.getOption?.()?.geo?.[0]?.zoom ?? mapZoom.value)
-      const wasAgg = mapZoom.value < AGG_ZOOM
-      const isAgg = z < AGG_ZOOM
-      if (wasAgg !== isAgg) mapZoom.value = z
-    }, 250)
+    roamTries = 0
+    roamTimer = window.setTimeout(trySwitchMode, 200)
   })
   await ensureWorld()
   render(true)
