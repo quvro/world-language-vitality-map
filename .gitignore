@@ -62,3 +62,7 @@ _tools/probe_wikidata*.py
 _tools/verify_ihchina.py
 _tools/probe_candidates*.py
 _tools/results_*.txt
+
+# --------------------------------------------------------- 一次性交付/备份产物
+# git bundle 是把全部历史打成单文件的便携备份，不该反过来进版本库
+*.bundle
