@@ -46,6 +46,7 @@ export function toQuery(s: Store): string {
   if (s.colorBy !== 'macroarea') p.set('cb', s.colorBy)
   if (s.sizeMode !== 'relative') p.set('sm', s.sizeMode)
   if (!s.showVitality) p.set('voff', '1')
+  if (!s.mapDensity) p.set('dots', '1')
   if (s.hideUnselected) p.set('only', '1')
   if (s.lang !== 'zh') p.set('lang', s.lang)
   return p.toString()
@@ -109,6 +110,7 @@ export function applyQuery(s: Store, qs: string): boolean {
   const sm = p.get('sm')
   if (sm && SIZES.includes(sm)) s.sizeMode = sm as Store['sizeMode']
   if (p.get('voff') === '1') s.showVitality = false
+  if (p.get('dots') === '1') s.mapDensity = false
   if (p.get('only') === '1') s.hideUnselected = true
   if (p.get('lang') === 'en' || p.get('lang') === 'zh') s.lang = p.get('lang') as 'en' | 'zh'
   return true

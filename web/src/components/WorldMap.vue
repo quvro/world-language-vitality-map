@@ -32,44 +32,6 @@ const store = useDataset()
 const { macro: macroLabel, language: langLabel } = useDisplayNames()
 const host = ref<HTMLDivElement | null>(null)
 const chart = shallowRef<any>(null)
-/**
- * 当前地图缩放倍数（由 georoam 事件回读）。
- * 只用来决定"远景聚合 / 近景逐点"，所以不需要很精确。
- */
-const mapZoom = ref(1.15)
-/** georoam 防抖计时器：等手势停下再切"聚合/逐点"，避免在动画中间态重绘 */
-let roamTimer = 0
-/** isFinished() 最多轮询几次。见 trySwitchMode 里的说明 */
-let roamTries = 0
-
-/**
- * 在手势与动画都结束后，判断是否需要切换"聚合 / 逐点"。
- *
- * 为什么不是"延时一下再切"：geo 的缩放补间时长由主题的
- * `animationDurationUpdate`（480ms）决定，固定延时既可能太短（撞在动画里，
- * 地图会错位）又可能太长（手感迟钝）。`chart.isFinished()` 精确告诉我们
- * 所有动画是否已经跑完，比任何魔法数字都可靠。
- *
- * 但有个坑：**选中语言时高亮环（effectScatter）的涟漪是无限循环动画**，
- * 它会让 isFinished() 永远为 false —— 那样缩放就再也切不了模式了。
- * 所以给一个上限（约 1.4 秒）兜底：还没结束也照切，
- * 宁可偶发一次错位，也不要功能卡死。
- */
-function trySwitchMode() {
-  const c = chart.value
-  if (!c) return
-  const busy = typeof c.isFinished === 'function' && !c.isFinished()
-  if (busy && roamTries < 12) {
-    roamTries += 1
-    roamTimer = window.setTimeout(trySwitchMode, 120)
-    return
-  }
-  roamTries = 0
-  const z = Number(c.getOption?.()?.geo?.[0]?.zoom ?? mapZoom.value)
-  const wasAgg = mapZoom.value < AGG_ZOOM
-  const isAgg = z < AGG_ZOOM
-  if (wasAgg !== isAgg) mapZoom.value = z
-}
 
 const e = () => (window as any).echarts
 const C = semanticColors()
@@ -117,6 +79,8 @@ const T = {
     zoomHint: '放大可见单个语言',
     aggMode: '远景：点已按经纬网聚合成密度块（每块 = 该区域的语言数）',
     dotMode: '近景：一个点一门语言，可逐一点选',
+    densityBtn: '密度块',
+    dotsBtn: '逐点',
     lowBase: '基线过低，趋势不可信',
   },
   en: {
@@ -143,6 +107,8 @@ const T = {
     zoomHint: 'zoom in to see individual languages',
     aggMode: 'Far view: dots are binned into a grid, one block per area (block = language count)',
     dotMode: 'Near view: one dot per language, individually selectable',
+    densityBtn: 'Density',
+    dotsBtn: 'Dots',
     lowBase: 'baseline too low, trend unreliable',
   },
 } as const
@@ -163,13 +129,13 @@ const monthLabel = computed(() => {
  * 密到让人不适。实测按经纬网聚合最多也只能从 2,652 降到约 1,000 ——
  * **数量不是主因，主因是大量离散的彩色小点**。
  *
- * 所以做成**按缩放分级**：
- *   远景（zoom < AGG_ZOOM）→ 聚合成经纬网格，每格一个较软的大色块，按格内语言数放大；
- *                            颜色仍按语区，但透明度低，叠在一起形成"密度场"而不是散点
- *   近景（zoom ≥ AGG_ZOOM）→ 切成单个语言的点，可逐一点选
- * 切换阈值取 2.0×：默认视野 1.15× 看密度，放大一下就进入个体视图。
+ * 所以做成**两种渲染方式**，由图例上的开关切换：
+ *   密度块 → 聚合成经纬网格，每格一个较软的大色块，按格内语言数放大；
+ *            颜色仍按语区，但透明度低，叠在一起形成"密度场"而不是散点
+ *   逐点   → 一个语言一个点，可逐一点选
+ *
+ * ⚠️ **不跟随缩放自动切换** —— 见 onMounted 里那段说明，这是踩出来的。
  */
-const AGG_ZOOM = 2.0
 /** 聚合时的经纬网格边长（度）。2.5° 下大约 1,079 格 */
 const AGG_CELL = 2.5
 
@@ -180,7 +146,7 @@ const contextData = computed(() => {
     .filter((l) => l.latitude && l.longitude && keepLang(l.wals_id))
 
   // ---------- 近景：一个语言一个点 ----------
-  if (mapZoom.value >= AGG_ZOOM) {
+  if (!store.mapDensity) {
     return rows.map((l) => {
       const hit = !filtering || matched.has(l.wals_id)
       const isSel = store.selected === l.wals_id
@@ -475,7 +441,7 @@ const title = computed(() => store.colorBy === 'trend'
 )
 
 /** 当前是"远景聚合"还是"近景逐点"——值得写在副标题里，否则用户不知道点变了形 */
-const isAgg = computed(() => mapZoom.value < AGG_ZOOM)
+const isAgg = computed(() => store.mapDensity)
 
 // 跟随**容器**尺寸变化（侧栏折叠、切换选项卡时窗口尺寸并不变，
 // 只监听 window.resize 会导致画布保持旧宽度、压住相邻区域）
@@ -487,25 +453,16 @@ onMounted(async () => {
   chart.value.on('click', (p: any) => {
     if (p.data?.wals_id) store.select(p.data.wals_id)
   })
-  // 缩放跨越阈值时要在"聚合"与"逐点"之间切换。
+  // 这里**刻意不监听 georoam**。
   //
-  // ⚠️ 最要紧的一条：**必须等所有动画结束才能 setOption**。
-  // geo 的缩放/平移是有补间的（主题里 animationDurationUpdate = 480ms）。
-  // 在补间途中 setOption 会打断它，导致"渲染出来的地图"与模型里的 zoom/center
-  // 不一致 —— 表现就是用户说的「放大缩小时地图错误移动」，
-  // 而任意一次 setOption（例如点一个数据点）又能把它复位。
-  // 所以不用固定延时（250ms 比 480ms 还短，正好撞在动画中间），
-  // 而是轮询 ECharts 的 isFinished()，它表示"所有动画都已结束"。
+  // 之前"缩放跨过阈值就切换聚合/逐点"的做法，需要在漫游过程中 setOption，
+  // 而它会打断 geo 的缩放补间，让渲染出的地图与模型里的 zoom/center 不一致 ——
+  // 表现就是「缩放时地图错误移动，随便点一下数据点又复位」。
+  // 用 isFinished() 等动画结束只能压住慢速缩放，**快速缩放**时跨阈值会来回触发，
+  // 仍会撞在补间中间。
   //
-  // 另外两条：
-  //  · 只在跨越阈值时才改 mapZoom —— 每帧都改会让 contextData 每帧重算、缩放卡顿
-  //  · 重绘走 contextData 的 watcher（合并渲染）。不能用 render(true)：
-  //    那会重建 geo、把用户的缩放重置掉
-  chart.value.on('georoam', () => {
-    clearTimeout(roamTimer)
-    roamTries = 0
-    roamTimer = window.setTimeout(trySwitchMode, 200)
-  })
+  // 所以把这条路径整个去掉：缩放期间一次 setOption 都不发生，
+  // 密度块 / 逐点只由用户点图例上的开关决定（store.mapDensity）。
   await ensureWorld()
   render(true)
   // 首次渲染后再对一次尺寸：挂载瞬间容器可能还没完成布局
@@ -514,7 +471,6 @@ onMounted(async () => {
 })
 
 onBeforeUnmount(() => {
-  clearTimeout(roamTimer)
   window.removeEventListener('resize', scheduleResize)
   chart.value?.dispose()
 })
@@ -595,7 +551,10 @@ watch(() => store.lang, () => render(true))
       <span v-if="store.hasFilter" class="item hl">
         <i class="ringdot" />{{ t.highlight(store.filtered.length.toLocaleString('en-US')) }}
       </span>
-      <span class="item mode">{{ isAgg ? t.aggMode : t.dotMode }}</span>
+      <span class="item mode">
+        <button class="seg" :class="{ on: isAgg }" @click="store.mapDensity = true">{{ t.densityBtn }}</button>
+        <button class="seg" :class="{ on: !isAgg }" @click="store.mapDensity = false">{{ t.dotsBtn }}</button>
+      </span>
     </div>
   </section>
 </template>
@@ -651,8 +610,16 @@ h2 { margin: 0; font-size: var(--fs-h2); font-weight: 600; }
 .legend i { width: 8px; height: 8px; border-radius: 50%; flex: none; }
 /* 高亮图例：一个"白边实心点"，与地图上命中点的画法一致 */
 .legend .hl { color: var(--text-secondary); }
-/* 当前渲染模式的说明（远景聚合 / 近景逐点） */
-.legend .mode { color: var(--text-muted); margin-left: auto; }
+/* 当前渲染模式的分段开关（密度块 / 逐点） */
+.legend .mode { color: var(--text-muted); margin-left: auto; display: flex; gap: 2px; }
+.legend .seg {
+  border: 1px solid var(--border); background: var(--bg-surface);
+  color: var(--text-secondary); font-family: inherit; font-size: var(--fs-micro);
+  padding: 1px 8px; cursor: pointer; transition: background var(--dur-fast) var(--ease-out);
+}
+.legend .seg:first-child { border-radius: var(--radius-pill) 0 0 var(--radius-pill); }
+.legend .seg:last-child { border-radius: 0 var(--radius-pill) var(--radius-pill) 0; border-left: 0; }
+.legend .seg.on { background: var(--accent); border-color: var(--accent); color: var(--text-inverse); }
 .legend .ringdot {
   width: 11px; height: 11px; border-radius: 50%;
   background: var(--accent); border: 1.5px solid var(--bg-surface);

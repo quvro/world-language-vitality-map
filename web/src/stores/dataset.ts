@@ -145,6 +145,15 @@ interface State {
   colorBy: 'macroarea' | 'trend'
   /** 是否叠加活力层（关掉可看纯粹的语区分布） */
   showVitality: boolean
+  /**
+   * 地图底图的渲染方式：密度块 / 逐点。
+   *
+   * **刻意做成用户显式切换，而不是跟随缩放自动切换。**
+   * 自动切换需要在漫游过程中 setOption，那会打断 geo 的缩放补间，
+   * 让渲染出的地图与模型里的 zoom/center 不一致（表现为"缩放时地图错位，
+   * 点一下又复位"）。去掉这条路径后，缩放期间不再发生任何 setOption。
+   */
+  mapDensity: boolean
   /** 只看选中的语言 —— 选中后其余点全部隐藏，便于在一堆点里找到它 */
   hideUnselected: boolean
   /**
@@ -195,6 +204,7 @@ export const useDataset = defineStore('dataset', {
     storyStep: null,
     colorBy: 'macroarea',
     showVitality: true,
+    mapDensity: true,
     hideUnselected: false,
     sizeMode: 'relative',
     lang: 'zh',

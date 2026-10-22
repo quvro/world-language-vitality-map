@@ -129,18 +129,17 @@ check('halo 在活力层找不到时退回底图（否则选到无维基语言�
   /inVit\s*\?\?\s*contextData\.value\.find/.test(src))
 check('远景聚合模式下 halo 退回到"包含选中语言的聚合块"',
   /x\.value\[2\] === 1/.test(src))
-check('缩放切换不改 mapZoom 的每帧值（否则数据每帧重算、缩放会卡）',
-  /wasAgg !== isAgg\) mapZoom\.value = z/.test(src))
 check('聚合块按数量放大（块越大语言越多）',
   /val\.length > 4[\s\S]{0,140}Math\.sqrt\(val\[4\]\)/.test(src))
-// —— 下面三条都是「点跟地图错位」的根因，实测踩过 ——
-check('底图系列关掉了更新动画（否则切换聚合/逐点时新点会从旧坐标飞过去，看着像错位）',
+// —— 下面这几条都是「点跟地图错位」的根因，实测踩过 ——
+check('底图系列关掉了更新动画（否则切换密度/逐点时新点会从旧坐标飞过去，看着像错位）',
   /id: 'ctx'[\s\S]{0,400}animation: false/.test(src))
-check('缩放切换用 setTimeout 防抖，不在动画中间态重绘（否则投影对不上）',
-  /georoam[\s\S]{0,400}setTimeout\(/.test(src)
-  && !/georoam[\s\S]{0,400}requestAnimationFrame/.test(src))
-check('切换前用 isFinished() 等动画结束（固定延时比 480ms 的补间短，会撞在动画里导致地图错位）',
-  /isFinished\(\)/.test(src) && /trySwitchMode/.test(src))
+// 最强的一条保证：根本不在 georoam 里做任何事，
+// 于是缩放期间一次 setOption 都不发生，不可能打断 geo 的缩放补间。
+check('不监听 georoam（缩放期间不发生任何 setOption，从根上避免地图错位）',
+  !/on\('georoam'/.test(src))
+check('密度/逐点由显式开关控制，不跟随缩放自动切换',
+  /store\.mapDensity/.test(src) && !/AGG_ZOOM/.test(src))
 check('聚合块位置用格内质心，不是第一个语言的坐标（否则块偏向格子一角，看着像错位）',
   /lngSum \/ c\.n[\s\S]{0,40}c\.latSum \/ c\.n/.test(src))
 check('「只看选中」的过滤同时作用于两个图层',
