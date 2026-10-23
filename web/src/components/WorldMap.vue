@@ -78,6 +78,8 @@ const T = {
     noWiki: '没有维基百科版本，无时间序列', views: '浏览', trend: '十年趋势',
     langsUnit: '门语言',
     zoomHint: '放大可见单个语言',
+    clickDrill: '点一下钻进这一块，逐点挑选里面有哪些语言',
+    clickPick: '点一下选中这门语言',
     aggMode: '远景：点已按经纬网聚合成密度块（每块 = 该区域的语言数）',
     dotMode: '近景：一个点一门语言，可逐一点选',
     densityBtn: '密度块',
@@ -109,6 +111,8 @@ const T = {
     noWiki: 'No Wikipedia edition, so no time series', views: 'views', trend: '10-yr trend',
     langsUnit: 'languages',
     zoomHint: 'zoom in to see individual languages',
+    clickDrill: 'click to drill into this block and pick a language',
+    clickPick: 'click to select this language',
     aggMode: 'Far view: dots are binned into a grid, one block per area (block = language count)',
     dotMode: 'Near view: one dot per language, individually selectable',
     densityBtn: 'Density',
@@ -181,6 +185,8 @@ const contextData = computed(() => {
   const cells = new Map<string, {
     lngSum: number; latSum: number; n: number; hit: boolean
     sel: boolean; areas: Map<string, number>; names: string[]
+    /** 格内唯一的语言（n === 1 时才有），用于直接选中 */
+    single?: string
   }>()
   for (const l of rows) {
     const lng = Number(l.longitude)
@@ -198,6 +204,7 @@ const contextData = computed(() => {
     cell.n += 1
     cell.hit = cell.hit || hit
     cell.sel = cell.sel || isSel
+    cell.single = cell.n === 1 ? l.wals_id : undefined
     const area = l.macroarea ?? '—'
     cell.areas.set(area, (cell.areas.get(area) ?? 0) + 1)
     if (cell.names.length < 8) cell.names.push(langLabel(l))
@@ -218,6 +225,10 @@ const contextData = computed(() => {
       display: c.names.join(store.lang === 'zh' ? '、' : ', '),
       count: c.n,
       names: c.names,
+      // 密度块是**合成**出来的：它代表 n 门语言，本身没有身份。
+      // 所以点选逻辑不能靠 wals_id —— 见 onMounted 里的 click 处理：
+      //   只有一门语言 → 直接选中；多门 → 钻进去（放大并切到逐点）
+      single: c.single,
       // 位置用格内语言的**质心**，不是"第一个语言的坐标"。
       // 用第一个的话块会偏向格子的一角，看着就像点和地图错位。
       value: [c.lngSum / c.n, c.latSum / c.n, c.sel ? 1 : 0, c.hit ? 1 : 0, c.n],
@@ -559,7 +570,7 @@ const OPT_BASE = {
       if (d.count != null) {
         return `<strong>${d.count} ${t.value.langsUnit}</strong><br>` +
           `<span style="color:${C.textSecondary}">${nm}</span><br>` +
-          `<em style="color:${C.textMuted}">${t.value.zoomHint}</em>`
+          `<em style="color:${C.textMuted}">${d.count === 1 ? t.value.clickPick : t.value.clickDrill}</em>`
       }
       if (d.views == null) {
         return `<strong>${nm}</strong><br>` +
@@ -608,7 +619,28 @@ onMounted(async () => {
   if (!host.value) return
   chart.value = e().init(host.value, 'vitality-light')
   chart.value.on('click', (p: any) => {
-    if (p.data?.wals_id) store.select(p.data.wals_id)
+    const d: any = p.data
+    if (d?.wals_id) {
+      store.select(d.wals_id)
+      return
+    }
+    // 密度块是合成出来的，本身没有 wals_id —— 于是密度模式下
+    // 2,385 门没有维基版本的语言原本**完全点不到**（用户发现的缺陷）。
+    // 按块内语言数分流：
+    //   只有一门 → 直接选中它
+    //   多门     → 钻进这一块：放大到它并切到逐点，由用户自己挑
+    if (d?.count == null) return
+    if (d.single) {
+      store.select(d.single)
+      return
+    }
+    const [lng, lat] = Array.isArray(d.value) ? d.value : []
+    if (Number.isFinite(lng) && Number.isFinite(lat)) {
+      // 先改 geo（一次 setOption），再改 mapDensity ——
+      // 后者会触发 watcher 的合并渲染，那条路径只传 series，不会重置缩放。
+      chart.value?.setOption({ geo: { center: [lng, lat], zoom: 6 } })
+      store.mapDensity = false
+    }
   })
   // 这里**刻意不监听 georoam**。
   //

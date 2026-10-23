@@ -184,6 +184,15 @@ check('活力层对同语系的点也换强调色描边',
   /fatallyAbsent/.test(src) || /!isSel && famIds\.value\?\.has\(l\.wals_id\)[\s\S]{0,60}withAlpha\(C\.accent, 0\.85\)/.test(src))
 check('强调色用的是半透明 rgba，不是硬色（才叫"浅"）',
   /function withAlpha/.test(src) && /rgba\(\$\{r\},\$\{g\},\$\{b\},\$\{a\}\)/.test(src))
+// 用户发现的缺陷：密度块是合成的、没有 wals_id，所以密度模式下
+// 2,385 门没维基版本的语言完全点不到。修法是"单门直接选 / 多门钻进去"。
+check('密度块可点：单门直接选中，多门钻进那一块',
+  /if \(d\.single\)[\s\S]{0,80}store\.select\(d\.single\)/.test(src)
+  && /store\.mapDensity = false/.test(src))
+check('聚合块记录了"格内唯一语言"（否则单门块无法直接选）',
+  /cell\.single = cell\.n === 1 \? l\.wals_id : undefined/.test(src))
+check('钻取先改 geo 再切模式（顺序反了会被合并渲染覆盖）',
+  /setOption\(\{ geo: \{ center: \[lng, lat\], zoom: 6 \} \}\)[\s\S]{0,120}store\.mapDensity = false/.test(src))
 
 console.log(`\n${fail === 0 ? '全部通过' : fail + ' 项失败'}`)
 process.exit(fail === 0 ? 0 : 1)
