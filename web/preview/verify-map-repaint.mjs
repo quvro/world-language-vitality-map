@@ -160,5 +160,18 @@ check('涟漪显式指定了颜色（否则会跟着 transparent 的填充一起
 check('不再有逐字段枚举的 watcher（那个写法漏过一次）',
   !/watch\(\(\) => store\.colorBy/.test(src))
 
+// —— 语系星群（选中语言时在地图上直接画从属关系）——
+check('语系连线与轮廓两层都在，且都是 silent（不吃鼠标事件）',
+  /id: 'famstar'[\s\S]{0,200}silent: true/.test(src)
+  && /id: 'famhull'[\s\S]{0,200}silent: true/.test(src))
+check('两层都在重绘监听里（否则选中语言后连线不出现）',
+  /watch\(\[contextData, vitalityData, haloData, famStar, famHull\]/.test(src))
+check('跨 180° 经线的语系跳过轮廓（否则会画出一个横跨地图的假多边形）',
+  /spansDateline\(pts\)\) return \[\]/.test(src))
+check('跳过轮廓时在说明里写出来（否则用户以为轮廓坏了）',
+  /selFamily\.dateline/.test(src) && /famDateline/.test(src))
+check('轮廓排在底图之下（z < 1），不会盖住语言点',
+  /id: 'famhull'[\s\S]{0,160}z: 0\.\d/.test(src))
+
 console.log(`\n${fail === 0 ? '全部通过' : fail + ' 项失败'}`)
 process.exit(fail === 0 ? 0 : 1)

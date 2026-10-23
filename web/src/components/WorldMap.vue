@@ -27,6 +27,7 @@ import { COUNTRY_ZH } from '@/countries'
 import { useChartResize } from '@/useChartResize'
 import { MACRO_AREAS } from '@/types'
 import { categoryPalette, semanticColors } from '@/theme/echarts-theme.js'
+import { convexHull, spansDateline } from '@/hull'
 
 const store = useDataset()
 const { macro: macroLabel, language: langLabel } = useDisplayNames()
@@ -81,6 +82,9 @@ const T = {
     dotMode: '近景：一个点一门语言，可逐一点选',
     densityBtn: '密度块',
     dotsBtn: '逐点',
+    famCaption: (f: string, n: number, w: number) =>
+      `${f} 语系 · 图上 ${n} 门，其中 ${w} 门有维基版本`,
+    famDateline: '该语系横跨 180° 经线，只画连线不画轮廓',
     lowBase: '基线过低，趋势不可信',
   },
   en: {
@@ -109,6 +113,9 @@ const T = {
     dotMode: 'Near view: one dot per language, individually selectable',
     densityBtn: 'Density',
     dotsBtn: 'Dots',
+    famCaption: (f: string, n: number, w: number) =>
+      `${f} family · ${n} languages on the map, ${w} with a Wikipedia`,
+    famDateline: 'this family crosses the 180° meridian, so only the lines are drawn',
     lowBase: 'baseline too low, trend unreliable',
   },
 } as const
@@ -301,6 +308,63 @@ function sizeOf(val: number[]): number {
 }
 
 /**
+ * 选中语言所属的**语系星群** —— 在地图上直接表达「从属关系」。
+ *
+ * 用户要的是「点大小以外的关系表达，比如语言从属关系网，而且想直接长在首页地图上」。
+ * 但 254 个语系全画出来会立刻回到"太密"的老问题上，所以做成**按需显现**：
+ *   平时地图保持干净的密度场；
+ *   选中一门语言 → 画出它所在语系的全部成员之间的连线 + 语系轮廓 + 一行说明。
+ *
+ * 这样既回答了「这门语言和谁是一家」，又不在默认状态增加任何视觉负担。
+ */
+const selFamily = computed(() => {
+  const sel = store.selected
+  if (!sel) return null
+  const self = store.langs.find((x) => x.wals_id === sel)
+  const fam = self?.family
+  if (!self || !fam) return null
+  const members = store.langs.filter(
+    (x) => x.family === fam && x.latitude && x.longitude)
+  // 跨 180° 经线的语系（南岛语系就是，322 门）画不出单个多边形，
+  // 只能画连线。这个事实要写进说明，否则用户会以为轮廓坏了。
+  const dateline = spansDateline(
+    members.map((m) => [Number(m.longitude), Number(m.latitude)]))
+  return {
+    family: fam,
+    self,
+    members,
+    withWiki: members.filter((x) => x.wiki_code).length,
+    dateline,
+  }
+})
+
+/** 同族连线：从选中语言放射到同语系的其它语言 */
+const famStar = computed(() => {
+  const f = selFamily.value
+  if (!f || !f.self.latitude || !f.self.longitude) return []
+  if (f.members.length < 2 || f.members.length > 500) return []
+  const o: [number, number] = [Number(f.self.longitude), Number(f.self.latitude)]
+  return f.members
+    .filter((m) => m.wals_id !== f.self.wals_id)
+    .map((m) => ({
+      coords: [o, [Number(m.longitude), Number(m.latitude)] as [number, number]],
+    }))
+})
+
+/** 语系轮廓（只有一个多边形，所以不会造成视觉噪音） */
+const famHull = computed(() => {
+  const f = selFamily.value
+  if (!f || f.members.length < 3) return []
+  const pts = f.members.map(
+    (m) => [Number(m.longitude), Number(m.latitude)] as [number, number])
+  // 跨 180° 经线的语系（如南岛语系）跳过：那样算出的外轮廓会横跨整个地图
+  if (spansDateline(pts)) return []
+  const hull = convexHull(pts)
+  if (hull.length < 3) return []
+  return [{ coords: [...hull, hull[0]] }]
+})
+
+/**
  * 选中点的高亮环。
  *
  * 为什么单独做一层：在密集点里，「加粗描边 + 放大几像素」根本不够醒目 ——
@@ -383,7 +447,24 @@ function buildSeries() {
       shadowColor: C.accent,
     },
   }
-  return [ctx, vit, halo]
+  // 语系星群：只画在"选中语言所属的那一个语系"上（z 在点之下、地图之上）
+  const famHullSeries = {
+    id: 'famhull', name: 'famhull', type: 'lines', coordinateSystem: 'geo',
+    data: famHull.value,
+    z: 0.6, silent: true,
+    polyline: true,
+    lineStyle: { color: C.accent, width: 1.2, opacity: 0.55 },
+    // lines 不支持填充，所以只用轮廓表达范围 —— 也刚好更轻
+    effect: { show: false },
+  }
+  const famStarSeries = {
+    id: 'famstar', name: 'famstar', type: 'lines', coordinateSystem: 'geo',
+    data: famStar.value,
+    z: 0.7, silent: true,
+    lineStyle: { color: C.accent, width: 0.8, opacity: 0.35, curveness: 0.12 },
+    effect: { show: false },
+  }
+  return [famHullSeries, famStarSeries, ctx, vit, halo]
 }
 
 const OPT_BASE = {
@@ -483,7 +564,7 @@ onBeforeUnmount(() => {
 // ECharts 是命令式渲染，状态变了没人调 render()，于是那个开关点了完全没反应。
 //
 // 改成**直接盯住要画的数据本身**：数据变了就一定重画，不可能再漏。
-watch([contextData, vitalityData, haloData], () => render(false))
+watch([contextData, vitalityData, haloData, famStar, famHull], () => render(false))
 // 只影响「渲染时读取」而不进数据的选项（symbolSize 回调里读 sizeMode、
 // series.data 是否为空由 showVitality 决定），必须单独盯。
 watch(() => [store.showVitality, store.sizeMode], () => render(false))
@@ -550,6 +631,10 @@ watch(() => store.lang, () => render(true))
       </template>
       <span v-if="store.hasFilter" class="item hl">
         <i class="ringdot" />{{ t.highlight(store.filtered.length.toLocaleString('en-US')) }}
+      </span>
+      <span v-if="selFamily" class="item fam">
+        <i class="famdot" />{{ t.famCaption(selFamily.family, selFamily.members.length, selFamily.withWiki) }}
+        <em v-if="selFamily.dateline" class="dl">{{ t.famDateline }}</em>
       </span>
       <span class="item mode">
         <button class="seg" :class="{ on: isAgg }" @click="store.mapDensity = true">{{ t.densityBtn }}</button>
@@ -620,6 +705,13 @@ h2 { margin: 0; font-size: var(--fs-h2); font-weight: 600; }
 .legend .seg:first-child { border-radius: var(--radius-pill) 0 0 var(--radius-pill); }
 .legend .seg:last-child { border-radius: 0 var(--radius-pill) var(--radius-pill) 0; border-left: 0; }
 .legend .seg.on { background: var(--accent); border-color: var(--accent); color: var(--text-inverse); }
+/* 选中语言时显示的「语系星群」说明 */
+.legend .fam { color: var(--text-secondary); display: inline-flex; align-items: center; gap: 5px; }
+.legend .famdot {
+  width: 7px; height: 7px; border-radius: 50%;
+  border: 1.5px solid var(--accent); display: inline-block;
+}
+.legend .dl { font-style: normal; color: var(--text-muted); }
 .legend .ringdot {
   width: 11px; height: 11px; border-radius: 50%;
   background: var(--accent); border: 1.5px solid var(--bg-surface);

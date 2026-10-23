@@ -29,6 +29,7 @@ const DEPS = {
   'types.ts': ['types.ts', 'types.js', 0],
   'story.ts': ['story.ts', 'story.js', 0],
   'urlState.ts': ['urlState.ts', 'urlState.js', 0],
+  'hull.ts': ['hull.ts', 'hull.js', 0],
   'stores/dataset.ts': ['stores/dataset.ts', 'stores/dataset.js', 1],
 }
 
