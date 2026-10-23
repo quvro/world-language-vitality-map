@@ -78,3 +78,20 @@ export const MACRO_AREAS = [
 ] as const
 
 export type MacroArea = (typeof MACRO_AREAS)[number]
+
+/**
+ * 这门语言是否有坐标。
+ *
+ * ⚠️ **不要写成 `l.latitude && l.longitude`。** `0` 在 JS 里是 falsy，
+ * 而真实数据里正好有一批语言的经纬度**恰好是 0**：
+ *   经度 0（本初子午线）：Bimoba、**English**、Fula (Burkina Faso)、Koyraboro Senni
+ *   纬度 0（赤道）：Apalaí、Akwa、**Indonesian**、Kenyan Sign Language、Mongo、Taba
+ * 用 truthy 判断会**静默丢掉 10 门语言**，其中 English 和 Indonesian 都是大语种。
+ * 这个 bug 的表现是「地图上找不到英语」，非常难往"零值"上想。
+ * 断言见 verify-data.mjs。
+ */
+export function hasCoords(
+  l: { latitude: number | null; longitude: number | null },
+): boolean {
+  return l.latitude != null && l.longitude != null
+}

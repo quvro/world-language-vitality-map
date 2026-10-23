@@ -19,7 +19,12 @@ const check = (label, cond, extra = '') => {
 }
 
 /* ---- KPI ---- */
-const withCoords = langs.filter((l) => l.latitude && l.longitude)
+// ⚠️ 这里原本写的是 `l.latitude && l.longitude` —— **和被测代码犯了同一个错**。
+// 0 是 falsy，而 English 经度正是 0.0、Indonesian 纬度正是 0.0，
+// 于是两边都少算 10 门语言，核对时永远一致，**这个 bug 因此一直没被发现**。
+// 教训：验证脚本不能照抄被测代码的判据，否则只是在验证"两边一样错"。
+const hasCoords = (l) => l.latitude != null && l.longitude != null
+const withCoords = langs.filter(hasCoords)
 const withWiki = langs.filter((l) => l.wiki_code)
 const reliable = langs.filter((l) => l.baseline_ok && l.growth != null)
 // 原先是 `langs.length > 3000` —— 那是剔除语系占位行**之前**写的，
@@ -29,11 +34,23 @@ check('languages.json 只含真语言（无 family-/genus-/subfamily- 占位行�
   langs.length > 2000 &&
   !langs.some((l) => /^(family|genus|subfamily)-/.test(String(l.wals_id))),
   `${langs.length} 条`)
-check('有坐标的点位', withCoords.length > 2000, `${withCoords.length}`)
+check('有坐标的点位 = 全部语言（每门都有）', withCoords.length === langs.length,
+  `${withCoords.length} / ${langs.length}`)
 check('关联维基的语言', withWiki.length > 200, `${withWiki.length}`)
 check('可用于增长分析', reliable.length > 150, `${reliable.length}`)
 check('坐标均为有限数',
   withCoords.every((l) => Number.isFinite(+l.longitude) && Number.isFinite(+l.latitude)))
+
+/* ---- 零坐标：falsy 判断会静默吃掉这些语言 ---- */
+// 这一组直接钉住「为什么地图上没有英语」那个 bug。
+const zeros = langs.filter((l) => Number(l.latitude) === 0 || Number(l.longitude) === 0)
+check('存在经纬度恰为 0 的语言（说明 truthy 判断一定会出错）', zeros.length >= 10,
+  `${zeros.length} 门`)
+for (const name of ['English', 'Indonesian']) {
+  const l = langs.find((x) => x.name === name)
+  check(`${name} 在数据里且被判为有坐标`, !!l && hasCoords(l),
+    l ? `lat=${l.latitude} lng=${l.longitude}` : '不存在')
+}
 
 /* ---- 世界散点：语区分组 ---- */
 const MACRO = ['Africa', 'Eurasia', 'Papunesia', 'North America',

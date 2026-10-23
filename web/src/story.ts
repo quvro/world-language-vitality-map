@@ -12,6 +12,7 @@
  * 状态仍然走同一个 store，所以**故事里任何一步都可以用 URL 分享**。
  */
 import type { useDataset } from '@/stores/dataset'
+import { hasCoords } from '@/types'
 
 type Store = ReturnType<typeof useDataset>
 
@@ -100,7 +101,7 @@ export function storyFacts(s: Store): Facts {
   const mk = (l: (typeof all)[number]) => ({ name: withCn(l), g: l.growth! })
   return {
     total: all.length,
-    coords: all.filter((l) => l.latitude && l.longitude).length,
+    coords: all.filter(hasCoords).length,
     wiki: wikiRows.length,
     wikiRate: all.length ? wikiRows.length / all.length : 0,
     reliable: reliable.length,

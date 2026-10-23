@@ -25,7 +25,7 @@ import { useDataset } from '@/stores/dataset'
 import { useDisplayNames } from '@/display'
 import { COUNTRY_ZH } from '@/countries'
 import { useChartResize } from '@/useChartResize'
-import { MACRO_AREAS } from '@/types'
+import { MACRO_AREAS, hasCoords } from '@/types'
 import { categoryPalette, semanticColors } from '@/theme/echarts-theme.js'
 import { convexHull, spansDateline } from '@/hull'
 
@@ -154,7 +154,7 @@ const contextData = computed(() => {
   const matched = store.matchedIds
   const filtering = store.hasFilter
   const rows = store.langs
-    .filter((l) => l.latitude && l.longitude && keepLang(l.wals_id))
+    .filter((l) => hasCoords(l) && keepLang(l.wals_id))
 
   // ---------- 近景：一个语言一个点 ----------
   if (!store.mapDensity) {
@@ -301,7 +301,7 @@ const vitalityData = computed(() => {
   const matched = store.matchedIds
   const filtering = store.hasFilter
   return store.withVitality
-    .filter((l) => l.latitude && l.longitude && views[l.wals_id] != null
+    .filter((l) => hasCoords(l) && views[l.wals_id] != null
       && keepLang(l.wals_id))
     .slice()
     .sort((a, b) => (a.wals_id < b.wals_id ? -1 : 1))
@@ -374,7 +374,7 @@ const selFamily = computed(() => {
   const fam = self?.family
   if (!self || !fam) return null
   const members = store.langs.filter(
-    (x) => x.family === fam && x.latitude && x.longitude)
+    (x) => x.family === fam && hasCoords(x))
   // 跨 180° 经线的语系（南岛语系就是，322 门）画不出单个多边形，
   // 只能画连线。这个事实要写进说明，否则用户会以为轮廓坏了。
   const dateline = spansDateline(
@@ -402,7 +402,7 @@ const famGlow = computed(() => {
   const out: any[] = []
   for (const l of store.langs) {
     if (!ids.has(l.wals_id)) continue
-    if (!l.latitude || !l.longitude) continue
+    if (!hasCoords(l)) continue
     if (!keepLang(l.wals_id)) continue
     out.push({
       name: l.name,
@@ -416,7 +416,7 @@ const famGlow = computed(() => {
 /** 同族连线：从选中语言放射到同语系的其它语言 */
 const famStar = computed(() => {
   const f = selFamily.value
-  if (!f || !f.self.latitude || !f.self.longitude) return []
+  if (!f || !hasCoords(f.self)) return []
   if (f.members.length < 2 || f.members.length > 500) return []
   const o: [number, number] = [Number(f.self.longitude), Number(f.self.latitude)]
   return f.members

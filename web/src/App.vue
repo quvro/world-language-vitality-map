@@ -22,6 +22,7 @@ import VitalityTimeline from '@/components/VitalityTimeline.vue'
 import NlQuery from '@/components/NlQuery.vue'
 import StoryPanel from '@/components/StoryPanel.vue'
 import { applyQuery, shareUrl, startUrlSync } from '@/urlState'
+import { hasCoords } from '@/types'
 
 const store = useDataset()
 
@@ -79,7 +80,7 @@ const VIEWS = computed(() => [
 
 const kpi = computed(() => [
   { v: store.langs.length, l: t.value.kLang },
-  { v: store.langs.filter((x) => x.latitude).length, l: t.value.kCoord },
+  { v: store.langs.filter(hasCoords).length, l: t.value.kCoord },
   { v: store.withVitality.length, l: t.value.kWiki },
 ])
 
