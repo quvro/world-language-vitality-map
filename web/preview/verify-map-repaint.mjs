@@ -145,7 +145,7 @@ check('聚合块位置用格内质心，不是第一个语言的坐标（否则�
 check('「只看选中」的过滤同时作用于两个图层',
   (src.match(/keepLang\(l\.wals_id\)/g) || []).length >= 2)
 check('选中点用的是白色内圈 + 外层强调色光环（靶心），不是单纯加粗描边',
-  /borderColor: \(isSel \|\| \(filtering && hit\)\) \? C\.surface/.test(src) &&
+  /borderColor: isSel[\s\S]{0,40}C\.surface/.test(src) &&
   /borderWidth: isSel \? 2\.5/.test(src))
 check('「高亮」作用于**筛选命中的全部语言**，不只是选中的那一个',
   /opacity: isSel \? 1 : hit \? \(filtering \? 1 : 0\.5\) : 0\.05/.test(src) &&
@@ -164,14 +164,26 @@ check('不再有逐字段枚举的 watcher（那个写法漏过一次）',
 check('语系连线与轮廓两层都在，且都是 silent（不吃鼠标事件）',
   /id: 'famstar'[\s\S]{0,200}silent: true/.test(src)
   && /id: 'famhull'[\s\S]{0,200}silent: true/.test(src))
-check('两层都在重绘监听里（否则选中语言后连线不出现）',
-  /watch\(\[contextData, vitalityData, haloData, famStar, famHull\]/.test(src))
+check('三层（连线 / 轮廓 / 浅强调底圈）都在重绘监听里',
+  /watch\(\[contextData, vitalityData, haloData, famStar, famHull, famGlow\]/.test(src))
 check('跨 180° 经线的语系跳过轮廓（否则会画出一个横跨地图的假多边形）',
   /spansDateline\(pts\)\) return \[\]/.test(src))
 check('跳过轮廓时在说明里写出来（否则用户以为轮廓坏了）',
   /selFamily\.dateline/.test(src) && /famDateline/.test(src))
 check('轮廓排在底图之下（z < 1），不会盖住语言点',
   /id: 'famhull'[\s\S]{0,160}z: 0\.\d/.test(src))
+// 用户要求「线链接的点也有一个比较浅的强调色」。
+// 做成独立底圈层而不是改点本身填充：填充色承载编码（语区/趋势），改了会丢信息。
+check('连线那头的点有浅强调色底圈，且不覆盖点的填充色',
+  /id: 'famglow'[\s\S]{0,300}withAlpha\(C\.accent, 0\.16\)/.test(src))
+check('底圈的 z 在底图(1)与活力层(2)之间，从点背后露出',
+  /id: 'famglow'[\s\S]{0,160}z: 1\.5/.test(src))
+check('同语系的点在逐点模式下描边也用强调色（与底圈呼应）',
+  /inFam\s*\?\s*withAlpha\(C\.accent/.test(src))
+check('活力层对同语系的点也换强调色描边',
+  /fatallyAbsent/.test(src) || /!isSel && famIds\.value\?\.has\(l\.wals_id\)[\s\S]{0,60}withAlpha\(C\.accent, 0\.85\)/.test(src))
+check('强调色用的是半透明 rgba，不是硬色（才叫"浅"）',
+  /function withAlpha/.test(src) && /rgba\(\$\{r\},\$\{g\},\$\{b\},\$\{a\}\)/.test(src))
 
 console.log(`\n${fail === 0 ? '全部通过' : fail + ' 项失败'}`)
 process.exit(fail === 0 ? 0 : 1)

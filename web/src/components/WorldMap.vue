@@ -157,6 +157,8 @@ const contextData = computed(() => {
     return rows.map((l) => {
       const hit = !filtering || matched.has(l.wals_id)
       const isSel = store.selected === l.wals_id
+      // 同语系的其它语言：描一圈浅强调色，让"连线那头的点"也认得出
+      const inFam = !isSel && (famIds.value?.has(l.wals_id) ?? false)
       return {
         name: l.name, display: langLabel(l), wals_id: l.wals_id,
         value: [l.longitude, l.latitude, isSel ? 1 : 0, filtering && hit ? 1 : 0],
@@ -164,8 +166,12 @@ const contextData = computed(() => {
         itemStyle: {
           color: store.colorBy === 'trend' ? C.textMuted : baseColor(l),
           opacity: isSel ? 1 : hit ? (filtering ? 1 : 0.5) : 0.05,
-          borderColor: (isSel || (filtering && hit)) ? C.surface : 'transparent',
-          borderWidth: isSel ? 2.5 : (filtering && hit) ? 1.2 : 0,
+          borderColor: isSel
+            ? C.surface
+            : inFam
+              ? withAlpha(C.accent, 0.85)
+              : (filtering && hit) ? C.surface : 'transparent',
+          borderWidth: isSel ? 2.5 : inFam ? 1.3 : (filtering && hit) ? 1.2 : 0,
         },
       }
     })
@@ -246,6 +252,35 @@ function keepLang(id: string): boolean {
   return id === store.selected || store.comparisonSet.includes(id)
 }
 
+/** 把 #rrggbb + 透明度 变成 rgba()。强调色需要"浅"版本，直接调透明度最省事 */
+function withAlpha(hex: string, a: number): string {
+  const h = hex.replace('#', '')
+  if (h.length < 6) return hex
+  const r = parseInt(h.slice(0, 2), 16)
+  const g = parseInt(h.slice(2, 4), 16)
+  const b = parseInt(h.slice(4, 6), 16)
+  return `rgba(${r},${g},${b},${a})`
+}
+
+/**
+ * 选中语言所属语系的**其它成员**（不含它自己）。
+ *
+ * 定义在 contextData / vitalityData **之前** —— 两个图层都要读它，
+ * 用来给"连线那头的点"加浅强调色。用过 computed 的先后顺序踩过坑。
+ */
+const famIds = computed<Set<string> | null>(() => {
+  const sel = store.selected
+  if (!sel) return null
+  const self = store.langs.find((x) => x.wals_id === sel)
+  const fam = self?.family
+  if (!fam) return null
+  const s = new Set<string>()
+  for (const l of store.langs) {
+    if (l.family === fam && l.wals_id !== sel) s.add(l.wals_id)
+  }
+  return s.size ? s : null
+})
+
 const vitalityData = computed(() => {
   const views = store.currentViews
   const rank = store.currentRank
@@ -280,8 +315,12 @@ const vitalityData = computed(() => {
           color: baseColor(l),
           // 与底图一致：命中筛选的全部语言都被高亮（不透明 + 白描边 + 放大），
           // 未命中的压到近乎隐形。选中点额外由 halo 系列加涟漪圈。
-          borderColor: C.surface,
-          borderWidth: isSel ? 2.5 : (filtering && hit) ? 1.2 : 1,
+          // 同语系的其它语言：描边换成浅强调色，与底图的浅色底圈呼应。
+          borderColor: !isSel && famIds.value?.has(l.wals_id)
+            ? withAlpha(C.accent, 0.85)
+            : C.surface,
+          borderWidth: isSel ? 2.5 : (!isSel && famIds.value?.has(l.wals_id)) ? 1.4
+            : (filtering && hit) ? 1.2 : 1,
           opacity: !hit ? 0.05 : isSel ? 1 : filtering ? 1 : dim ? 0.1 : 0.72,
         },
       }
@@ -336,6 +375,31 @@ const selFamily = computed(() => {
     withWiki: members.filter((x) => x.wiki_code).length,
     dateline,
   }
+})
+
+/**
+ * 连线那头的点：套一圈**浅强调色**。
+ *
+ * 用户要求「选中一门语言时，线链接的点也有一个比较浅的强调色」。
+ * 做成单独一层而不是改点本身的填充色，是因为填充色承载编码
+ * （语区 / 十年趋势），改掉就丢信息了；套一层浅色底圈既能强调、又不破坏编码。
+ * z 卡在底图(1)与活力层(2)之间，会从点背后露出一圈光晕。
+ */
+const famGlow = computed(() => {
+  const ids = famIds.value
+  if (!ids) return []
+  const out: any[] = []
+  for (const l of store.langs) {
+    if (!ids.has(l.wals_id)) continue
+    if (!l.latitude || !l.longitude) continue
+    if (!keepLang(l.wals_id)) continue
+    out.push({
+      name: l.name,
+      value: [Number(l.longitude), Number(l.latitude)],
+      wals_id: l.wals_id,
+    })
+  }
+  return out
 })
 
 /** 同族连线：从选中语言放射到同语系的其它语言 */
@@ -447,6 +511,18 @@ function buildSeries() {
       shadowColor: C.accent,
     },
   }
+  // 连线那头的点：浅强调色底圈（z 在底图与活力层之间，从点背后露出光晕）
+  const famGlowSeries = {
+    id: 'famglow', name: 'famglow', type: 'scatter', coordinateSystem: 'geo',
+    data: famGlow.value,
+    z: 1.5, silent: true, progressive: 0, animation: false,
+    symbolSize: 11,
+    itemStyle: {
+      color: withAlpha(C.accent, 0.16),
+      borderColor: withAlpha(C.accent, 0.42),
+      borderWidth: 1,
+    },
+  }
   // 语系星群：只画在"选中语言所属的那一个语系"上（z 在点之下、地图之上）
   const famHullSeries = {
     id: 'famhull', name: 'famhull', type: 'lines', coordinateSystem: 'geo',
@@ -464,7 +540,7 @@ function buildSeries() {
     lineStyle: { color: C.accent, width: 0.8, opacity: 0.35, curveness: 0.12 },
     effect: { show: false },
   }
-  return [famHullSeries, famStarSeries, ctx, vit, halo]
+  return [famHullSeries, famStarSeries, famGlowSeries, ctx, vit, halo]
 }
 
 const OPT_BASE = {
@@ -564,7 +640,7 @@ onBeforeUnmount(() => {
 // ECharts 是命令式渲染，状态变了没人调 render()，于是那个开关点了完全没反应。
 //
 // 改成**直接盯住要画的数据本身**：数据变了就一定重画，不可能再漏。
-watch([contextData, vitalityData, haloData, famStar, famHull], () => render(false))
+watch([contextData, vitalityData, haloData, famStar, famHull, famGlow], () => render(false))
 // 只影响「渲染时读取」而不进数据的选项（symbolSize 回调里读 sizeMode、
 // series.data 是否为空由 showVitality 决定），必须单独盯。
 watch(() => [store.showVitality, store.sizeMode], () => render(false))
