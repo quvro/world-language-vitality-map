@@ -16,6 +16,7 @@ import GrowthChart from '@/components/GrowthChart.vue'
 import FeatureCompare from '@/components/FeatureCompare.vue'
 import FeatureMatrix from '@/components/FeatureMatrix.vue'
 import EndangermentView from '@/components/EndangermentView.vue'
+import FlowView from '@/components/FlowView.vue'
 import LanguageCard from '@/components/LanguageCard.vue'
 import VitalityTimeline from '@/components/VitalityTimeline.vue'
 import NlQuery from '@/components/NlQuery.vue'
@@ -31,6 +32,7 @@ const T = {
     explore: '探索模式', story: '故事模式',
     vMap: '地图', vGrowth: '活力变化', vCompare: '条件对比', vMatrix: '记录缺口',
     vEndanger: '濒危 × 关注',
+    vFlow: '流向',
     kLang: '语言 / 变体', kCoord: '有坐标', kWiki: '有维基版本',
     loading: '正在加载数据集…',
     errTitle: '数据加载失败', errHint: '请确认数据管道已运行：',
@@ -49,6 +51,7 @@ const T = {
     explore: 'Explore', story: 'Story',
     vMap: 'Map', vGrowth: 'Vitality', vCompare: 'Comparison', vMatrix: 'Doc gaps',
     vEndanger: 'Endangerment × attention',
+    vFlow: 'Where languages flow',
     kLang: 'languages', kCoord: 'mapped', kWiki: 'with Wikipedia',
     loading: 'Loading dataset…',
     errTitle: 'Failed to load data', errHint: 'Run the data pipeline first:',
@@ -71,6 +74,7 @@ const VIEWS = computed(() => [
   { id: 'features', label: t.value.vCompare },
   { id: 'matrix', label: t.value.vMatrix },
   { id: 'endanger', label: t.value.vEndanger },
+  { id: 'flow', label: t.value.vFlow },
 ] as const)
 
 const kpi = computed(() => [
@@ -178,6 +182,7 @@ async function copyLink() {
           <GrowthChart v-else-if="store.activeView === 'growth'" />
           <FeatureMatrix v-else-if="store.activeView === 'matrix'" />
           <EndangermentView v-else-if="store.activeView === 'endanger'" />
+          <FlowView v-else-if="store.activeView === 'flow'" />
           <FeatureCompare v-else />
         </div>
       </section>

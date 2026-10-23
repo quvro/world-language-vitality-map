@@ -52,7 +52,7 @@ export function toQuery(s: Store): string {
   return p.toString()
 }
 
-const VIEWS = ['map', 'growth', 'features', 'matrix', 'endanger']
+const VIEWS = ['map', 'growth', 'features', 'matrix', 'endanger', 'flow']
 const SIZES = ['relative', 'absolute']
 const COLORS = ['macroarea', 'trend']
 

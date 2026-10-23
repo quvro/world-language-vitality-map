@@ -133,7 +133,7 @@ interface State {
    * 于是 `vue-tsc` 报 TS2322/TS2367，`pnpm build` 直接失败。
    * 开发时 Vite 只转译不做类型检查，所以这个错误藏了很久。
    */
-  activeView: 'map' | 'growth' | 'features' | 'matrix' | 'endanger'
+  activeView: 'map' | 'growth' | 'features' | 'matrix' | 'endanger' | 'flow'
   /**
    * 故事模式的当前步（null = 探索模式）。
    *
