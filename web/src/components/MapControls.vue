@@ -13,17 +13,17 @@ const store = useDataset()
 
 const T = {
   zh: {
-    byMacro: '按语区', byTrend: '按趋势',
-    sizeRel: '相对自身峰值', sizeAbs: '跨语言比较',
-    vitalityLayer: '活力层',
-    onlySelected: '只看选中',
+    byMacro: '语区', byTrend: '趋势',
+    sizeRel: '自身峰值', sizeAbs: '跨语言',
+    vitalityLayer: '活力',
+    onlySelected: '选中',
     onlySelectedHint: '先选一门语言；选中后此项只显示它',
   },
   en: {
-    byMacro: 'By area', byTrend: 'By trend',
-    sizeRel: 'vs own peak', sizeAbs: 'across langs',
+    byMacro: 'Area', byTrend: 'Trend',
+    sizeRel: 'own peak', sizeAbs: 'across',
     vitalityLayer: 'Vitality',
-    onlySelected: 'Selected only',
+    onlySelected: 'Selected',
     onlySelectedHint: 'Select a language first; this then shows only it',
   },
 } as const

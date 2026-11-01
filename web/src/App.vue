@@ -356,10 +356,15 @@ h1 { margin: 0; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
      结果整行被压扁，看着像"选项卡变短了"。这里把高度补回来。 */
   padding: 5px 0 4px;
 }
-.tabs .tabs-right { margin-left: auto; display: flex; align-items: center; }
+.tabs .tabs-right { margin-left: auto; display: flex; align-items: center; flex: none; }
+/* 兜底：窗口极窄时让标签行横向滚动，而不是把字压成两行 */
+.tabs { overflow-x: auto; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
 .tabs button {
   border: 0; background: transparent; cursor: pointer; font-family: inherit;
-  padding: 6px 14px; border-radius: var(--radius-pill);
+  /* 不换行：控件移进来后横向变紧，1500px 下曾把「地图」挤成两行 */
+  white-space: nowrap;
+  padding: 6px 13px; border-radius: var(--radius-pill);
   font-size: var(--fs-small); color: var(--text-secondary);
   transition: background var(--dur-fast) var(--ease-out);
 }
@@ -400,12 +405,19 @@ h1 { margin: 0; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
-/* 关键：让详情卡自己滚动、并把高度让出来，体检单永远留在可视区。
-   之前卡片把高度占满，体检单被挤到滚动区外，窗口矮一点就"完全看不到"。 */
+/* 右栏高度分配：
+   卡片占满剩余空间（grow=1，否则只按内容撑开、只剩一半高），
+   体检单保留自己的高度但允许被压缩，压缩后自己滚动（否则超出就被裁掉）。
+   两者都 min-height:0，否则 flex 子项不会真正收缩。 */
 .right-stack > :first-child {
-  flex: 0 1 auto;
+  flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
 }
-.right-stack > :last-child { flex: none; }
+.right-stack > :last-child {
+  flex: 0 1 auto;
+  min-height: 0;
+  max-height: 46%;
+  overflow-y: auto;
+}
 </style>
