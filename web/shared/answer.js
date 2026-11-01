@@ -12,6 +12,12 @@
  */
 
 const pct = (x) => `${(x * 100).toFixed(1)}%`
+/** AES 1–6 的中文名。放在这里而不是从 store 取，
+ *  因为 buildEvidence 是纯函数、也可能在 Node 里被单独调用。 */
+const LEVEL_ZH = {
+  1: '未濒危', 2: '受威胁', 3: '转移中',
+  4: '垂危', 5: '几近灭绝', 6: '已灭绝',
+}
 const num = (n) => Number(n).toLocaleString('en-US')
 
 /** 中位数 */
@@ -69,18 +75,28 @@ export function buildEvidence({ rows, total, ebw = {}, featCount = {}, label }) 
     wikiShare: n ? withWiki.length / n : 0,
     areas: top(byArea),
     families: top(byFam),
+    // label 是给人看的；model 会直接引用它，而不是吐出 'lv=1'
     levels: Object.entries(lvCount).sort((a, b) => a[0] - b[0])
-      .map(([lv, c]) => ({ lv: Number(lv), n: c })),
+      .map(([lv, c]) => ({
+        lv: Number(lv), label: LEVEL_ZH[lv] || String(lv), n: c,
+      })),
     growth: {
       n: growths.length,
       median: median(growths),
+      // 模型会把裸比值当成人话印出来（实测写成 "中位数为 1.3374"），
+      // 所以这里直接给一个格式化好的字符串
+      medianPct: median(growths) == null ? null
+        : `${median(growths) >= 0 ? '+' : ''}${pct(median(growths))}`,
       up: growths.filter((g) => g > 0).length,
       down: growths.filter((g) => g < 0).length,
     },
     // 关注度最高的三门（有维基版本才有浏览量）
     busiest: byViews.slice(0, 3).map((r) => ({
       name: label(r), views: Math.round(r.views_recent ?? 0),
+      viewsText: num(Math.round(r.views_recent ?? 0)),
       growth: r.growth ?? null,
+      growthPct: r.growth == null ? null
+        : `${r.growth >= 0 ? '+' : ''}${pct(r.growth)}`,
     })),
     // 记录最完整但**没有**数字入口的（"双重缺席"最典型的例子）
     absent: byFeatures.filter((r) => !r.wiki_code).slice(0, 3).map((r) => ({
