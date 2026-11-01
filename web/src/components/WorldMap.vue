@@ -811,6 +811,10 @@ const CHANNELS = computed(() => [
   { key: 'ticks' as const, label: t.value.chTicks, dim: t.value.dTicks },
 ])
 
+/** 开着几个通道 —— 收起时也能一眼看到 */
+const enabledChannels = computed(
+  () => Object.values(store.glyphChannels).filter(Boolean).length)
+
 function toggleChannel(key: keyof typeof store.glyphChannels, e: Event) {
   const on = (e.target as HTMLInputElement).checked
   store.glyphChannels[key] = on
@@ -909,23 +913,28 @@ watch(() => store.lang, () => render(true))
     <div ref="host" class="chart" />
 
     <!-- 字形通道开关：浮在地图左上角，只在字形模式下出现 -->
-    <div v-if="store.mapMode === 'glyph'" class="channels">
-      <p class="ch-head">
-        {{ t.chTitle }}
-        <span>{{ t.chHint }}</span>
-      </p>
-      <label v-for="c in CHANNELS" :key="c.key" class="ch">
-        <input
-          type="checkbox"
-          :checked="store.glyphChannels[c.key]"
-          @change="toggleChannel(c.key, $event)"
-        >
-        <span class="ch-box" />
-        <span class="ch-txt">
-          <b>{{ c.label }}</b>
-          <i>{{ c.dim }}</i>
-        </span>
-      </label>
+    <div v-if="store.mapMode === 'glyph'" class="channels"
+         :class="{ folded: !store.glyphPanelOpen }">
+      <button class="ch-toggle" @click="store.glyphPanelOpen = !store.glyphPanelOpen">
+        <span class="ch-title">{{ t.chTitle }}</span>
+        <span class="ch-count num">{{ enabledChannels }}/5</span>
+        <span class="chev">{{ store.glyphPanelOpen ? '▾' : '▸' }}</span>
+      </button>
+      <div v-show="store.glyphPanelOpen" class="ch-body">
+        <p class="ch-head">{{ t.chHint }}</p>
+        <label v-for="c in CHANNELS" :key="c.key" class="ch">
+          <input
+            type="checkbox"
+            :checked="store.glyphChannels[c.key]"
+            @change="toggleChannel(c.key, $event)"
+          >
+          <span class="ch-box" />
+          <span class="ch-txt">
+            <b>{{ c.label }}</b>
+            <i>{{ c.dim }}</i>
+          </span>
+        </label>
+      </div>
     </div>
 
     <div class="legend">
@@ -1059,11 +1068,27 @@ h2 { margin: 0; font-size: var(--fs-h2); font-weight: 600; }
     0 0 0 5px rgba(228, 87, 46, 0.06);
   padding: 12px 13px 13px;
   backdrop-filter: blur(8px);
+  transition: width var(--dur-fast) var(--ease-out);
 }
+/* 收起状态：只留一行标题，不再挡地图 */
+.channels.folded { width: auto; min-width: 172px; padding: 9px 12px 10px; }
+.ch-toggle {
+  display: flex; align-items: center; gap: 6px; width: 100%;
+  border: 0; background: transparent; padding: 0;
+  cursor: pointer; font-family: inherit; text-align: left;
+}
+.ch-title {
+  font-size: var(--fs-small); font-weight: 700; color: var(--text-primary);
+}
+.ch-count {
+  margin-left: auto; font-size: 11px; font-weight: 700; color: var(--accent);
+}
+.chev { font-size: 11px; color: var(--text-muted); }
+.ch-body { margin-top: 9px; padding-top: 7px; border-top: 1px solid var(--border); }
+.channels.folded .ch-body { display: none; }
 .ch-head {
-  margin: 0 0 9px; font-size: var(--fs-small); font-weight: 700;
-  color: var(--text-primary); line-height: 1.45;
-  padding-bottom: 7px; border-bottom: 1px solid var(--border);
+  margin: 0 0 9px; font-size: var(--fs-micro); font-weight: 400;
+  color: var(--text-muted); line-height: 1.5;
 }
 .ch-head span { display: block; font-weight: 400; color: var(--text-muted); }
 .ch {

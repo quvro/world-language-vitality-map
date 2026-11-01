@@ -187,6 +187,8 @@ interface State {
    * 各部件编码哪个维度由 `glyphChannels` 决定。
    */
   mapMode: 'density' | 'dots' | 'glyph'
+  /** 字形通道面板是否展开。放 store 而非组件内，切视图回来不会自动弹开 */
+  glyphPanelOpen: boolean
   /**
    * 字形各通道的开关。关掉的通道用中性色画（而不是不画），
    * 这样"关掉这个维度"看得见代价：地图会立刻变灰一片。
@@ -256,6 +258,7 @@ export const useDataset = defineStore('dataset', {
     colorBy: 'macroarea',
     showVitality: true,
     mapMode: 'density',
+    glyphPanelOpen: true,
     glyphChannels: { ring: true, arc: true, core: true, size: true, ticks: true },
     /**
      * 自然语言回答。由 NlQuery 写入、AnswerPanel 渲染。
