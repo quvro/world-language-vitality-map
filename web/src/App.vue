@@ -8,7 +8,7 @@
  *   底部时间轴（常驻）
  *   底部 NL 输入（常驻）
  */
-import { computed, onMounted, ref } from 'vue'
+import { computed, nextTick, onMounted, ref } from 'vue'
 import { useDataset } from '@/stores/dataset'
 import FilterPanel from '@/components/FilterPanel.vue'
 import WorldMap from '@/components/WorldMap.vue'
@@ -93,9 +93,18 @@ const rightOpen = ref(true)
 
 onMounted(async () => {
   await store.load()
-  // 先按 URL 恢复状态，**再**开始回写 ——
-  // 顺序反了的话，初始的空状态会先把 URL 覆盖掉，分享链接就失效了。
+  // 等首屏渲染落定再应用 URL 状态。
+  //
+  // 踩过：直接跟在 `await store.load()` 后面调用时，`?mm=glyph` 能让 ECharts
+  // 画出字形（说明 store 的值确实改了），但模板仍停在密度态 ——
+  // 三态按钮、开关面板、副标题都没更新。而在挂载后 3 秒改同一个值却一切正常。
+  // 单测确认 mapMode 是响应式的，所以问题不在响应性，在**时机**：
+  // 这一步落在了首屏渲染与子组件挂载之间的空档里。
+  await nextTick()
   applyQuery(store, location.search)
+  // 再等一帧才回写 URL —— 顺序反了的话，初始的空状态会先把 URL 覆盖掉，
+  // 分享链接就失效了。
+  await nextTick()
   startUrlSync(store)
 })
 

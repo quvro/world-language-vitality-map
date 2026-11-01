@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --accent:#e4572e; --text:#23201c; --text2:#5c564c; --muted:#948c7e;
+    --bg:#faf8f4; --surface:#ffffff; --border:#e7e1d5; --subtle:#f4f1ea;
+    --blue:#2f6f9f; --green:#3f7d5c; --gold:#c08a2e; --violet:#7a5c9e;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    width:1600px;height:790px;background:var(--bg);color:var(--text);
+    font-family:"Microsoft YaHei","PingFang SC",-apple-system,sans-serif;
+    padding:44px 56px;display:flex;flex-direction:column;
+  }
+  h1{font-size:26px;font-weight:600;letter-spacing:.01em}
+  .sub{font-size:14px;color:var(--muted);margin-top:6px}
+  .stage{flex:1;display:grid;grid-template-columns:1fr 300px 1fr;gap:26px;margin-top:30px;align-items:center}
+  .col{display:flex;flex-direction:column;gap:18px}
+  .node{
+    background:var(--surface);border:1px solid var(--border);border-radius:14px;
+    padding:16px 18px;box-shadow:0 1px 3px rgba(35,32,28,.05);
+  }
+  .node .h{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:600}
+  .dot{width:9px;height:9px;border-radius:50%;flex:none}
+  .leaves{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+  .leaf{font-size:13px;color:var(--text2);line-height:1.5;padding-left:18px;position:relative}
+  .leaf::before{content:"";position:absolute;left:4px;top:8px;width:6px;height:1px;background:#cfc7b8}
+  .leaf b{color:var(--text);font-weight:600}
+  .center{
+    background:linear-gradient(160deg,#fff,#fdf6f2);
+    border:2px solid var(--accent);border-radius:20px;padding:26px 20px;text-align:center;
+    box-shadow:0 6px 24px rgba(228,87,46,.13);
+  }
+  .center .t{font-size:21px;font-weight:700;line-height:1.45}
+  .center .m{font-size:12.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+  .center .kv{margin-top:16px;display:flex;justify-content:space-around}
+  .center .kv div{font-size:11.5px;color:var(--muted)}
+  .center .kv b{display:block;font-size:19px;color:var(--accent);font-weight:700;font-family:Consolas,monospace}
+</style>
+</head>
+<body>
+  <h1>系统设计思维导图</h1>
+  <div class="sub">数据层 → 存储层 → 可视化层 → 交互层，四层各自独立，只通过同一份数据契约耦合</div>
+
+  <div class="stage">
+    <!-- 左列 -->
+    <div class="col">
+      <div class="node">
+        <div class="h"><i class="dot" style="background:var(--blue)"></i>数据采集层</div>
+        <div class="leaves">
+          <div class="leaf"><b>WALS Online</b> · 结构（192 特征 / 2,662 语言）</div>
+          <div class="leaf"><b>Wikimedia REST</b> · 月度浏览与编辑量（135 月）</div>
+          <div class="leaf"><b>Glottolog</b> · AES 濒危等级 / 描写深度 / 文献清单</div>
+          <div class="leaf"><b>Wikidata</b> · ISO 映射 / 宏观语言 / UNESCO 等级</div>
+          <div class="leaf"><b>sitematrix</b> · 各语言拥有的维基项目数</div>
+        </div>
+      </div>
+      <div class="node">
+        <div class="h"><i class="dot" style="background:var(--violet)"></i>数据处理层</div>
+        <div class="leaves">
+          <div class="leaf"><b>七脚本幂等管道</b> · 可中断续抓</div>
+          <div class="leaf"><b>三跳关联</b> · 直接 / ISO / 宏观语言</div>
+          <div class="leaf"><b>主版本去重</b> · 一个条目只留一个维基</div>
+          <div class="leaf"><b>AES 优先 + UNESCO 补缺</b> · 覆盖 98.2%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 中间 -->
+    <div class="center">
+      <div class="t">世界语言<br>赛博活力图谱</div>
+      <div class="m">"什么样的语言，<br>正在数字化的浪潮里被抛下？"</div>
+      <div class="kv">
+        <div><b>157,736</b>行数据</div>
+        <div><b>2,662</b>语言</div>
+        <div><b>6</b>视图</div>
+      </div>
+    </div>
+
+    <!-- 右列 -->
+    <div class="col">
+      <div class="node">
+        <div class="h"><i class="dot" style="background:var(--accent)"></i>可视化层</div>
+        <div class="leaves">
+          <div class="leaf"><b>地图</b> · 密度块／逐点 + 时间轴驱动</div>
+          <div class="leaf"><b>活力变化</b> · 十年涨跌</div>
+          <div class="leaf"><b>条件对比</b> · 语法特征 × 数字在场</div>
+          <div class="leaf"><b>记录缺口</b> · 数据集自身的不完整</div>
+          <div class="leaf"><b>濒危 × 关注</b> · 两个"活力"对照</div>
+          <div class="leaf"><b>流向</b> · 语系 → 濒危 → 数字入口</div>
+        </div>
+      </div>
+      <div class="node">
+        <div class="h"><i class="dot" style="background:var(--green)"></i>交互层</div>
+        <div class="leaves">
+          <div class="leaf"><b>语系星群</b> · 选中即画出从属关系</div>
+          <div class="leaf"><b>自然语言提问</b> · 一句话 → 结构化意图</div>
+          <div class="leaf"><b>故事模式</b> · 8 步引导叙事</div>
+          <div class="leaf"><b>URL 分享</b> · 画面即链接</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

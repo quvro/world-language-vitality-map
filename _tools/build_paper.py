@@ -1,0 +1,589 @@
+"""基于课程模板生成论文。
+
+做法：**保留模板的样式表与页面设置**，只清空正文再重写 ——
+这样字号、行距、中文字体、页边距都沿用老师给的模板，
+不会因为自己建文档而跑版。
+"""
+import copy
+import sys
+
+from docx import Document
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.oxml.ns import qn
+from docx.shared import Cm, Pt
+
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
+SRC = "docs/_template.docx"
+OUT = "paper/世界语言赛博活力图谱_课程论文.docx"
+FIG = "paper/figs"
+
+doc = Document(SRC)
+body = doc.element.body
+print("模板样式：", [s.name for s in doc.styles if s.name in
+                   ("Normal", "Heading 1", "Heading 2", "Table Grid")])
+
+# 保留评分表与 sectPr，清空其余正文
+kept_tables = [copy.deepcopy(t) for t in body.findall(qn("w:tbl"))]
+sectPr = body.find(qn("w:sectPr"))
+for child in list(body):
+    if child is sectPr:
+        continue
+    body.remove(child)
+
+
+# ----------------------------------------------------------------- 排版助手
+def h1(text: str):
+    p = doc.add_paragraph(text, style="Heading 1")
+    for r in p.runs:
+        r.font.size = Pt(16)
+        r.font.bold = True
+    p.paragraph_format.space_before = Pt(14)
+    p.paragraph_format.space_after = Pt(8)
+    return p
+
+
+def h2(text: str):
+    """模板里的二级标题也是 Heading 1，只是字号小一号，这里沿用同样做法"""
+    p = doc.add_paragraph(text, style="Heading 1")
+    for r in p.runs:
+        r.font.size = Pt(12)
+        r.font.bold = True
+    p.paragraph_format.space_before = Pt(10)
+    p.paragraph_format.space_after = Pt(4)
+    return p
+
+
+def para(text: str, indent: bool = True, size: float | None = None):
+    """写一个正文段落。支持 **加粗** 标记 —— 直接写星号会在 Word 里留下字面量，
+    所以按 ** 切段，奇数段设成粗体。"""
+    p = doc.add_paragraph(style="Normal")
+    for i, seg in enumerate(text.split("**")):
+        if not seg:
+            continue
+        r = p.add_run(seg)
+        if i % 2 == 1:
+            r.font.bold = True
+        if size:
+            r.font.size = Pt(size)
+    pf = p.paragraph_format
+    if indent:
+        pf.first_line_indent = Cm(0.85)
+    pf.space_after = Pt(6)
+    pf.line_spacing = 1.45
+    return p
+
+
+def figure(name: str, caption: str, width_cm: float = 15.0):
+    p = doc.add_paragraph()
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.paragraph_format.space_before = Pt(8)
+    p.paragraph_format.space_after = Pt(2)
+    p.add_run().add_picture(f"{FIG}/{name}.png", width=Cm(width_cm))
+    c = doc.add_paragraph(style="Normal")
+    c.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    r = c.add_run(caption)
+    r.font.size = Pt(10.5)
+    c.paragraph_format.space_after = Pt(10)
+
+
+def code(text: str):
+    for line in text.strip("\n").split("\n"):
+        p = doc.add_paragraph(style="Normal")
+        r = p.add_run(line if line else " ")
+        r.font.name = "Consolas"
+        r.font.size = Pt(8.5)
+        r._element.rPr.rFonts.set(qn("w:eastAsia"), "Consolas")
+        pf = p.paragraph_format
+        pf.space_after = Pt(0)
+        pf.line_spacing = 1.15
+        pf.left_indent = Cm(0.7)
+    doc.add_paragraph(style="Normal").paragraph_format.space_after = Pt(6)
+
+
+def caption(text: str):
+    """表注放在表格上方（中文论文惯例）"""
+    p = doc.add_paragraph(style="Normal")
+    r = p.add_run(text)
+    r.font.size = Pt(10.5)
+    p.paragraph_format.space_before = Pt(6)
+    p.paragraph_format.space_after = Pt(3)
+    return p
+
+
+def kv_table(rows: list[tuple[str, ...]], header: tuple[str, ...], widths=None):
+    t = doc.add_table(rows=1, cols=len(header))
+    try:
+        t.style = "Table Grid"
+    except KeyError:
+        pass
+    for i, cell in enumerate(t.rows[0].cells):
+        cell.text = ""
+        r = cell.paragraphs[0].add_run(header[i])
+        r.font.bold = True
+        r.font.size = Pt(10)
+    for row in rows:
+        cells = t.add_row().cells
+        for i, v in enumerate(row):
+            cells[i].text = ""
+            r = cells[i].paragraphs[0].add_run(v)
+            r.font.size = Pt(9.5)
+    if widths:
+        for row in t.rows:
+            for i, w in enumerate(widths):
+                row.cells[i].width = Cm(w)
+    doc.add_paragraph(style="Normal").paragraph_format.space_after = Pt(8)
+    return t
+
+
+# ----------------------------------------------------------------- 标题区
+title = doc.add_paragraph("题目：世界语言赛博活力图谱 —— 数字时代的语言生存图谱",
+                          style="Heading 1")
+title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+for r in title.runs:
+    r.font.size = Pt(18)
+    r.font.bold = True
+
+who = doc.add_paragraph(style="Normal")
+who.alignment = WD_ALIGN_PARAGRAPH.CENTER
+r = who.add_run("学号：10002234　　姓名：张某某")
+r.font.size = Pt(14)
+r.font.bold = True
+r.font.name = "宋体"
+
+abs_p = doc.add_paragraph(style="Normal")
+abs_p.paragraph_format.space_before = Pt(10)
+abs_p.paragraph_format.line_spacing = 1.4
+r = abs_p.add_run("摘要：")
+r.font.bold = True
+r.font.name = "宋体"
+abs_p.add_run(
+    "全球约有 7000 种语言，但能在互联网上拥有独立入口的不足三百种。"
+    "本文设计并实现了一个面向「语言生存状况」的数据可视化系统——世界语言赛博活力图谱，"
+    "用 157,736 行自采集数据回答一个具体问题：什么样的语言，正在数字化的浪潮里被抛下。"
+    "数据来自世界语言结构地图集 WALS、维基媒体月度浏览与编辑量、"
+    "Glottolog 濒危等级与描写文献清单、Wikidata 与 UNESCO 濒危名录五个来源，"
+    "经七个幂等脚本采集清洗，落地为九张表的 SQLite 数据库。系统提供地图、活力变化、"
+    "条件对比、记录缺口、濒危与关注、流向六个联动视图，并实现了自然语言提问、"
+    "语系星群、引导式故事模式与 URL 状态分享四类交互。"
+    "分析发现：2,662 门语言中仅 267 门（10.0%）拥有维基百科版本；"
+    "「被记录得越少」与「在数字世界越不可见」在四套互相独立的记录口径下"
+    "（WALS 特征数 5.6%→92.9%、描写深度 0.0%→17.6%、描写文献数 2.5%→30.8%、"
+    "濒危等级 0.9%→18.0%）呈现同向关系；而康沃尔语与马恩岛语这类已灭绝语言，"
+    "其数字关注度反而在十年间增长了两千余倍，说明数字空间既能抛弃一种语言，也能替它续命。"
+)
+k = doc.add_paragraph(style="Normal")
+r = k.add_run("关键词：")
+r.font.bold = True
+r.font.name = "宋体"
+k.add_run("数据可视化；人机交互；语言濒危；数字鸿沟；桑基图；自然语言查询")
+
+# ----------------------------------------------------------------- 1 引言
+h1("一、引言（需求）")
+
+h2("1.1 选题背景：一个真实存在的需求")
+para(
+    "联合国教科文组织的《语言活力与濒危》报告指出，全球约 40% 的语言面临消失风险，"
+    "平均每两周就有一种语言失去最后一位使用者。与此同时，另一条更隐蔽的流失正在发生："
+    "即使一种语言在口语层面仍然健康，它在互联网上也可能根本不存在。"
+    "维基百科成立二十余年，至今只有约 360 个语言版本；而要新建一个语言版本，"
+    "需要社群推动、语言委员会审核与持续编辑，这是一道很高的组织门槛。"
+)
+para(
+    "这件事的现实意义在于：今天的语言政策、教育资源、乃至大模型的训练语料，"
+    "都越来越依赖「这个语言在网上有多少内容」来判断它的重要性。"
+    "一旦一种语言在数字空间缺席，它在政策视野里也随之消失——"
+    "学术上把这种现象称作「双重缺席」。因此，把「语言在数字空间的存亡」可视化出来，"
+    "不是一个猎奇的选题，而是有明确现实需求的问题。"
+)
+
+h2("1.2 本文要回答的问题")
+para(
+    "本项目要回答一个可以用一句话讲清楚、但需要大量数据才能撑住的问题："
+    "什么样的语言，正在数字化的浪潮里被抛下？为此本文把它拆成四个子问题："
+)
+para(
+    "（1）全球语言的数字在场率到底有多低？（2）过去十年，哪些语言在涨、哪些在退？"
+    "（3）语言学意义上的「濒危程度」与数字世界里的「关注度」，"
+    "这两件事是对应的还是分裂的？（4）这种缺席，是某几个语系的问题，还是全局性的？"
+)
+
+h2("1.3 本文的工作")
+para(
+    "本文的主要工作包括：① 自建数据采集管道，从五个异构数据源采集并清洗 157,736 行数据，"
+    "落地为关系型数据库；② 设计并实现六个联动可视化视图，其中「记录缺口」与「流向」"
+    "两个视图直接呈现数据本身的偏差；③ 实现四类人机交互，包括基于大模型的自然语言查询、"
+    "选中语言时在地图上直接呈现其语系从属关系、引导式故事模式与 URL 状态分享；"
+    "④ 用四套互相独立的记录口径交叉验证核心结论，避免把单一数据集的偏差当成现实规律。"
+)
+
+h2("1.4 数据来源")
+para(
+    "本项目刻意选择来自四个不同学科的数据源，因为只有在不同口径下结论依然成立，"
+    "才能说明它不是某个数据集的 artifact。", indent=True
+)
+caption("表1  数据来源与规模")
+kv_table(
+    [
+        ("WALS Online", "CLDF 的六张 CSV", "语言的语法结构、地理坐标、语系归属", "2,662 门 × 192 特征 → 76,475 条"),
+        ("Wikimedia REST API", "REST（按月）", "每个维基语言版本的月度浏览量、编辑量", "135 个月 → 65,161 条"),
+        ("Glottolog", "CLDF values.csv", "AES 濒危等级、描写深度、描写文献清单", "8,872 / 9,317 / 9,302 条"),
+        ("Wikidata", "SPARQL", "ISO 码映射、宏观语言成员、UNESCO 濒危等级、中文名", "185 / 2,394 / 5,761 条"),
+        ("Wikimedia sitematrix", "MediaWiki API", "每个语言版本拥有哪些维基项目", "374 个语言版本"),
+    ],
+    ("数据源", "接口形式", "采集内容", "规模"),
+    widths=(3.4, 3.0, 5.4, 4.2),
+)
+para(
+    "需要强调的是：**本项目所有被称为「活力」的数字都来自维基百科，"
+    "它衡量的是「数字关注度」，而不是语言学意义上的「语言活力」。**"
+    "两者恰好高度相关，但也恰好不相等——这个张力本身就是本系统想讲清楚的东西，"
+    "而不是需要掩盖的缺陷。"
+)
+
+# ----------------------------------------------------------------- 2 设计与实现
+h1("二、世界语言赛博活力图谱的模块、设计和实现")
+
+para(
+    "课程第五章、第六章分别讲到「数据可视化流程」与「交互设计的基本范式」，"
+    "本系统的结构与这两部分内容关系密切：数据侧遵循「采集—清洗—建模—映射—呈现」的"
+    "常规可视化流程，交互侧则采用「单一状态源 + 多视图联动」的范式。"
+)
+
+h2("2.1 系统总体结构")
+para(
+    "系统按四层划分：数据采集层、数据处理层、可视化层与交互层（图 1）。"
+    "分层的目的是让「换数据」不需要动「改视图」：四个层之间只通过同一份数据契约耦合，"
+    "新增一个视图不需要修改任何已有模块。"
+)
+figure("01-mindmap", "图1  系统设计思维导图")
+
+h2("2.2 数据采集与处理流程")
+para(
+    "数据侧由七个脚本组成，按序执行且全部幂等——重复运行会跳过已完成的文件或已抓取的"
+    "语言，时间序列抓取甚至支持中断续抓（图 2）。这种设计不是过度工程："
+    "维基媒体接口平均单次抓取耗时 20 分钟，中途失败一次若不幂等就要从头再来。"
+)
+figure("02-pipeline", "图2  数据采集与可视化流程")
+
+para(
+    "采集过程中真正花时间的是三件事，值得单独说明。"
+)
+para(
+    "**其一，跨源关联是三跳的。** 维基语言版本用 ISO 639-1 码（zh、en），"
+    "而 WALS 用 ISO 639-3（zho、eng）；更麻烦的是 zh、ar、fa、sw、ms 这类"
+    "「宏观语言」的码在 WALS 里根本不存在，只出现在成员变体上。"
+    "因此实现了三级回退：直接命中 → ISO 639-1 转 639-3 → Wikidata 宏观语言成员。"
+    "第三步必须用单层 P279 而**不能**用传递闭包 P279+，实测后者会把 ar 连到 mlt（马耳他语）。"
+)
+para(
+    "**其二，七个语言版本的域名猜不出来。** 维基域名并不总等于语言码：yue 在 zh-yue、"
+    "nan 在 zh-min-nan、lzh 在 zh-classical、gsw 在 als、rup 在 roa-rup……"
+    "早期直接拼 ${code}.wikipedia.org 会让这七个版本静默 404，"
+    "看起来就像「这些语言没有数据」。改为从 sitematrix 读取真实域名后问题消失。"
+)
+para(
+    "**其三，一个 WALS 条目会被多个维基版本认领。** 实测四例：aze（阿塞拜疆语）"
+    "同时被 az 与 azb（南阿塞拜疆语）认领、ind（印尼语）被 id 与 ms（马来语）认领、"
+    "srb 同时被上索布语与下索布语认领。时间序列按语言存，导致同月出现两行，"
+    "而增长率按「首末三个月均值」计算时会把两个不相干的维基混在一起平均——"
+    "这个 bug 曾使印尼语的十年增长率从 −51.7% 被污染成 −47.6%，并直接反映在增长榜上。"
+    "修法是每个条目只保留一个主版本，排序依据依次是：与 WALS 主 ISO 码一致 → "
+    "是否为 ISO 639-1 码（两字母）→ 跳数 → 总浏览量。"
+)
+
+h2("2.3 数据模型与关键设计")
+para(
+    "所有数据落地为九张表的 SQLite 数据库，共 157,736 行（表 2）。"
+    "其中最关键的设计决定是**主键用 wals_id 而不是 glottocode**："
+    "WALS 是变体级收录，同一门语言的不同变体分开建行；一个 Glottocode 最多对应 11 个变体"
+    "（如巴斯克语），若用 Glottocode 作主键会把这些变体合并丢失。"
+)
+caption("表2  数据库表结构与规模")
+kv_table(
+    [
+        ("dim_language", "3,573", "语言维表（导出前端时剔除 911 条语系层级占位行 → 2,662 门真语言）"),
+        ("fact_language_feature", "76,475", "语言 × 语法特征的事实表"),
+        ("fact_language_timeseries", "65,161", "语言 × 月份 × 指标（浏览量 / 编辑量）"),
+        ("dim_endangerment", "8,872", "濒危等级：AES 8,672 条 + 仅 UNESCO 独有的 200 条"),
+        ("feature_vector", "2,660", "宽表：2,660 语言 × 192 特征，填充率 15.0%"),
+        ("dim_wiki_edition", "364", "维基语言版本与关联情况"),
+        ("dim_genealogy", "254", "语系"),
+        ("dim_feature", "192", "语法特征"),
+        ("xref_iso", "185", "ISO 639-1 ↔ 639-3 映射"),
+    ],
+    ("表名", "行数", "说明"),
+    widths=(4.6, 2.0, 9.4),
+)
+
+h2("2.4 六个可视化视图")
+para(
+    "系统提供六个视图，全部只读同一个 Pinia 状态仓库、彼此不直接调用，"
+    "因此任一处选中或筛选，全局同步。"
+)
+
+para(
+    "**① 地图（图 3）。** 主视图承担「分布」与「活力」两个任务。底图有「密度块」与「逐点」"
+    "两种渲染方式：逐点模式下 2,662 个彩色小点会铺成一层「彩纸屑」，视觉上非常压迫；"
+    "密度块模式把点按 2.5° 经纬网聚合成约 1,079 个块，按块内语言数放大、透明度压到 0.17，"
+    "叠成密度场而不是散点。点的大小由底部时间轴驱动——拖动时间轴，地图上每个点按"
+    "「当月浏览量接近自身十年峰值的程度」伸缩，这是本系统的签名交互。"
+)
+figure("03-map-density", "图3  主界面：世界语言分布（密度块模式）")
+
+para(
+    "**② 语系星群（图 4）。** 选中任何一门语言，地图上会立刻画出它所在语系的从属结构："
+    "从它放射到同语系每一门语言的连线、该语系全部成员的凸包轮廓，以及套在连线那头的"
+    "点上的浅强调色底圈。做成「按需显现」而非常驻，是因为 254 个语系全画出来会立刻回到"
+    "「太密」的问题上。图 4 中选中的是印度阿萨姆邦的 Deuri 语，"
+    "可以看到汉藏语系 146 门语言在图上的分布范围，其中仅 11 门有维基版本。"
+)
+figure("04-map-family", "图4  选中语言后在地图上呈现其语系从属关系")
+
+para(
+    "**③ 活力变化（图 5）。** 展示十年间各语言的增长率。增长率用首末各三个月的均值计算，"
+    "并显式标注基线是否可靠——基数过小的语言，增长率没有意义。"
+    "实测跌幅最大的是他加禄语（−79.2%），涨幅最大的是赛德克语（+10,271%），"
+    "而后者恰恰是一门几近灭绝的语言，它的暴涨来自极小的基数。"
+)
+figure("05-growth", "图5  十年活力变化：谁在退、谁在进")
+
+para(
+    "**④ 记录缺口（图 6）。** 这个视图不展示语言，而展示**数据集本身的不完整**。"
+    "WALS 的 2,660 × 192 矩阵只有 15.0% 的格子有值，特征覆盖率中位数仅为 2,660 门中的 257 门。"
+    "矩阵按语言被记录的特征数排序后切成 380 条横带，每条约 7 门语言；"
+    "同一列从上到下颜色变浅，并不表示特征本身变了，"
+    "而是「能回答这个问题的语言越来越少」。"
+)
+figure("06-matrix", "图6  记录缺口：数据集自身的不完整")
+
+para(
+    "**⑤ 濒危 × 关注（图 7）。** 把两套「活力」摆在一起：横轴是语言学意义上的濒危等级，"
+    "纵轴是数字关注度。下方还给出三组柱状图，分别用描述深度、描写文献数、濒危等级"
+    "三种口径统计「有维基版本的比例」，用来验证结论的稳健性。"
+)
+figure("07-endanger", "图7  濒危程度与数字关注度的对照")
+
+para(
+    "**⑥ 流向（图 8）。** 用桑基图呈现「语系 → 濒危等级 → 有无数字入口」的三段流向，"
+    "流带宽度即语言数量。这是本文唯一表达「流向」而非「状态」的视图，"
+    "也是最能一眼看懂结论的一张：从任何一个语系出发，最宽的流带都汇入同一侧——"
+    "「没有维基版本」那一端。"
+)
+figure("08-flow", "图8  流向：语系 × 濒危 × 数字入口")
+
+h2("2.5 人机交互设计")
+para(
+    "**自然语言提问。** 底部输入框接受一句话提问（如「非洲语区里语序是 SOV 且在增长的语言」），"
+    "前端把自然语言转成结构化意图，再写入状态仓库，所有视图随之联动，"
+    "最后基于真实筛选结果生成一句解释。实现上采用「本地规则优先、大模型兜底」："
+    "常见问法由纯 JavaScript 规则解析（不联网也能用），复杂问法交给服务端调用大模型，"
+    "返回严格符合 schema 的 JSON，避免模型输出直接污染状态。"
+)
+para(
+    "**引导式故事模式（图 9）。** 系统提供 8 步线性叙事，每步自动切换视图与筛选条件，"
+    "左侧面板从「筛选器」变成「引导文案 + 上一步/下一步」。"
+    "值得注意的是：**故事文案里的数字全部实时计算，没有一个是写死的**——"
+    "因为数据会重新采集，若把数字写进文案，它很快就会变成假话。"
+)
+figure("09-story", "图9  故事模式：引导式线性叙事")
+
+para(
+    "**URL 状态分享。** 头部「复制链接」把当前画面（视图、筛选、选中语言、时间轴位置、"
+    "故事步骤等 18 个字段）编码进地址栏，例如两个条件的链接只有 17 个字符："
+    "?area=Africa&end=5。回写使用 history.replaceState 而非 pushState，"
+    "否则拖一下时间轴就会往浏览历史里堆进几十条记录。"
+)
+
+h2("2.6 部分关键代码展示")
+para("（1）密度块的聚合与质心定位。聚合块的位置取格内语言的质心，而不是第一个语言的坐标，"
+     "否则块会偏向格子一角，看起来就像「点和地图错位」。")
+code(
+    """
+const key = `${Math.floor(lng / AGG_CELL)}|${Math.floor(lat / AGG_CELL)}`
+cell.lngSum += lng;  cell.latSum += lat;  cell.n += 1
+// 位置用格内语言的质心，不是"第一个语言的坐标"
+value: [c.lngSum / c.n, c.latSum / c.n, c.sel ? 1 : 0, c.hit ? 1 : 0, c.n]
+"""
+)
+para("（2）坐标判空。这里踩过一个很难发现的坑：0.0 在 JavaScript 里是 falsy，"
+     "而英语的经度恰好是 0.0（本初子午线）、印尼语的纬度恰好是 0.0（赤道），"
+     "写成 l.latitude && l.longitude 会静默丢掉 10 门语言——症状是「地图上找不到英语」。")
+code(
+    """
+export function hasCoords(l: { latitude: number | null; longitude: number | null }) {
+  return l.latitude != null && l.longitude != null   // 不能用 truthy 判断
+}
+"""
+)
+
+h1("2.7 源代码存放地址")
+para("GitHub：https://github.com/quvro/world-language-vitality-map （公开仓库）", indent=False)
+para(
+    "仓库包含七个数据采集脚本、前端全部源码、17 个可独立运行的验证脚本，"
+    "以及一份说明文档（README.md）与项目报告（docs/report.md）。"
+    "复现方式：依次运行 pipeline/01–07 与 check_dataset.py，再在 web/ 下执行 pnpm install 与 pnpm dev。",
+    indent=False,
+)
+
+# ----------------------------------------------------------------- 3 展示
+h1("三、数据集和可视化的展示")
+
+h2("3.1 数据集规模")
+para(
+    "数据集共 157,736 行、九张表，远超课程要求的 10,000 行。"
+    "其中语言维表 2,662 门语言、事实表 76,475 条语法特征记录、"
+    "时间序列 65,161 条（135 个月，2015-07 至 2026-09）、"
+    "濒危等级 8,872 条（合并 AES 与 UNESCO 后覆盖 98.2% 的语言）、"
+    "描写文献清单 9,302 份。"
+)
+
+h2("3.2 四个关键发现")
+para(
+    "**发现一：数字在场率极低。** 2,662 门语言中只有 267 门（10.0%）拥有维基百科版本，"
+    "其余 2,395 门在互联网上没有自己的入口——不是「内容少」，是根本不存在。"
+)
+para(
+    "**发现二：双重缺席，且四套口径一致。** 若只看一个数据集，"
+    "「被记录得少」与「数字缺席」的相关性完全可能是同一个偏差造成的。"
+    "因此本文用四套互不相干的记录口径分别统计「有维基版本的比例」："
+    "WALS 记录的特征数（5.6% → 92.9%）、Glottolog 的描写深度（0.0% → 17.6%）、"
+    "描写文献数（2.5% → 30.8%）、濒危等级（0.9% → 18.0%）。"
+    "四套口径、同一个方向——这说明它不是某一数据集的 artifact。"
+)
+para(
+    "**发现三：这是全局性问题，不是某几个语系的问题。** 桑基图（图 8）上，"
+    "全局 89.9% 的语言没有维基版本；而逐个检查语言数不少于 20 的 15 个语系，"
+    "**每一个**都是「无维基」占多数。"
+)
+para(
+    "**发现四：但数字空间也在「续命」。** 已灭绝档的 223 门语言中只有 2 门有维基版本，"
+    "而这 2 门正是康沃尔语（最后一位母语者 1777 年去世）与马恩岛语（1974 年）。"
+    "它们作为口语已经消失，在数字空间里却仍在增长——十年间分别增长 +2003% 与 +116%，"
+    "康沃尔语当前月阅读量约 215 万。这说明「数字缺席」不是单向的："
+    "它既能抛弃一门语言，也能替一门语言续命。"
+)
+
+h2("3.3 可视化如何支撑这些发现")
+para(
+    "同一份结论在不同视图里以不同方式被强化：地图回答「在哪里」，"
+    "记录缺口回答「数据本身有多不可靠」，濒危 × 关注回答「两种活力是否一致」，"
+    "流向回答「往哪边走」。四个视图并非各自独立的展示，而是同一条论证链上的四步——"
+    "这也是本文把「记录缺口」做成独立视图的原因："
+    "只有先把数据的不完整摊开给读者看，后面所有结论才站得住。"
+)
+
+# ----------------------------------------------------------------- 4 特点
+h1("四、本设计的特点")
+
+h2("4.1 真实性和可用性")
+para(
+    "数据全部来自公开可访问的权威数据源，采集脚本、中间产物与清洗逻辑全部留在仓库里，"
+    "可完整复现。清洗过程中的每一个非平凡决定都写进了代码注释与文档，例如："
+    "主键为何用 wals_id、AES 为何优先于 UNESCO、传递闭包 P279+ 为何被弃用。"
+    "系统的可用性体现在：所有视图共用一个状态源，任一处筛选全局同步；"
+    "URL 可完整还原画面，便于答辩演示与分享。"
+)
+
+h2("4.2 感知性和可行性")
+para(
+    "视觉通道的分配遵循「一个通道只承载一个变量」的原则：位置编码地理坐标，"
+    "大小编码当月浏览量的相对水平，颜色编码语区（或十年趋势），"
+    "透明度编码是否命中筛选。二者正交，互不干扰。"
+)
+para(
+    "在通道选择上做过比较：点的大小用于表达「量」在感知上弱于长度与面积，"
+    "所以增长榜采用横向条形（长度通道），而不是用气泡大小；"
+    "而地图上的活力变化是随时间连续变化的量，用大小配合动画恰好合适。"
+    "另外，最初的活力层直接用绝对浏览量决定点的大小，结果被英语（月阅读 65 亿）"
+    "一个点压平了其余所有点——实测相邻月份的半径变化只有 0.05 像素，"
+    "几乎看不出动画。改为「相对自身十年峰值」后变化提升到 1.96 像素，"
+    "同时提供「跨语言比较」模式（按排名分位映射），兼顾两种需求。"
+)
+
+h2("4.3 艺术性和设计性")
+para(
+    "界面采用浅色暖调（米白底 + 朱红强调色），刻意避开深色大屏与霓虹渐变的「大屏模板感」。"
+    "图形全部自绘：地图上的语言点是手写 SVG/CSS，时间轴与迷你折线是手写组件，"
+    "记录缺口矩阵是 Canvas 逐像素绘制，未使用现成的图表模板。"
+    "布局上，中央主视图占据主要视野，左侧筛选、右侧详情、底部时间轴与提问框，"
+    "右侧面板可折叠且带平移动画，避免压住地图。"
+)
+
+h2("4.4 原创性和有价值")
+para(
+    "本设计的原创性主要体现在三点。**其一，把「数据缺口」本身做成了可视化对象**——"
+    "多数可视化项目只展示数据，而本系统用一整张视图展示数据自身的不完整，"
+    "并由此支撑后续所有结论的可靠性。"
+    "**其二，四套独立口径的交叉验证**，避免了把单一数据集的偏差当成现实规律。"
+    "**其三，语系星群交互**——选中一门语言即在地图上画出它的语系从属关系，"
+    "把「关系」这一通常需要独立网络图表达的维度，直接落在同一个地理语境里。"
+)
+para(
+    "从图表中得到的价值是具体的：它让「数字鸿沟」这个抽象说法变成了可以指着看的形状——"
+    "桑基图最宽的那条流带、记录缺口矩阵右下角那片空白、"
+    "以及地图上那些永远不会有维基版本的点。"
+)
+
+# ----------------------------------------------------------------- 5 结论
+h1("五、结论与展望")
+para(
+    "本设计实现了一个面向语言生存状况的可视化系统，完成了从数据采集、清洗建模、"
+    "多视图可视化到高阶交互的完整链路，共 157,736 行自采集数据、六个联动视图、"
+    "四类交互、17 个可独立运行的验证脚本。"
+)
+para(
+    "结论可以概括为一句话：**被记录得越少的语言，在数字世界里也越可能根本不存在；"
+    "而这种缺席是全局性的，不分语系。** 但同时也要看到，数字空间并非单向的漏斗——"
+    "康沃尔语与马恩岛语在口语层面已经消失，却在互联网上重新获得了关注。"
+)
+para(
+    "本文的局限主要有三：一是「活力」只能用维基百科作为代理，"
+    "212 门有濒危等级却仍无维基版本的语言，可能只是「没人写维基」而不是「没人说」；"
+    "二是维基百科本身有系统性偏差，偏向有写作传统与网络接入的语言；"
+    "三是 WALS 的部分条目把两种语言合并为一行（如索布语），任何单一选择都是折中。"
+)
+para(
+    "后续可以从三个方向继续：接入濒危语言目录（ELCat）的资源清单与 EGIDS 分级，"
+    "把「数字在场」扩展到维基百科之外；用语言家族树或力导向网络进一步表达语系结构；"
+    "以及把当前的分析扩展为可交互的假设检验工具，让使用者能自己验证「某两个指标是否相关」。"
+)
+
+# ----------------------------------------------------------------- 参考文献
+h1("参考文献：")
+refs = [
+    "[1] Kornai A. Digital Language Death[J]. PLOS ONE, 2013, 8(10): e77056.",
+    "[2] UNESCO. Language Vitality and Endangerment[R]. Paris: UNESCO Ad Hoc Expert Group, 2003.",
+    "[3] Joshi P, Santy S, Budhiraja A, Bali K, Choudhury M. The State and Fate of Linguistic "
+    "Diversity and Inclusion in the NLP World[C]. Proceedings of ACL 2020: 6282-6293.",
+    "[4] Ronen S, Gonçalves B, Hu K Z, Vespignani A, Pinker S, Hidalgo C A. Links that speak: "
+    "The global language network and its association with global fame[J]. PNAS, 2014, 111(52).",
+    "[5] Graham M, Hogan B, Straumann R K, Medhat A. Uneven Geographies of User-Generated "
+    "Information: Patterns of Increasing Informational Poverty[J]. Annals of the Association of "
+    "American Geographers, 2014, 104(4).",
+    "[6] Dryer M S, Haspelmath M (eds.). The World Atlas of Language Structures Online[DB/OL]. "
+    "Leipzig: Max Planck Institute for Evolutionary Anthropology.",
+    "[7] Hammarström H, Forkel R, Haspelmath M, Bank S. Glottolog[DB/OL]. Leipzig: Max Planck "
+    "Institute for Evolutionary Anthropology.",
+    "[8] Wikimedia Foundation. Wikimedia REST API: Pageviews and Edits[EB/OL]. "
+    "https://wikimedia.org/api/rest_v1/",
+    "[9] 陈为, 沈则潜, 陶煜波. 数据可视化[M]. 北京: 电子工业出版社, 2013.",
+]
+for ref in refs:
+    p = doc.add_paragraph(style="Normal")
+    r = p.add_run(ref)
+    r.font.name = "宋体"
+    r.font.size = Pt(10.5)
+    p.paragraph_format.space_after = Pt(3)
+    p.paragraph_format.left_indent = Cm(0.9)
+    p.paragraph_format.first_line_indent = Cm(-0.9)
+
+# ----------------------------------------------------------------- 还原评分表
+for t in kept_tables:
+    body.insert(list(body).index(sectPr), t)
+if sectPr is not None:
+    body.remove(sectPr)
+    body.append(sectPr)
+
+doc.save(OUT)
+print("已保存", OUT)

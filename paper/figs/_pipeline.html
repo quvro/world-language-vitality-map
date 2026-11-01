@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --accent:#e4572e; --text:#23201c; --text2:#5c564c; --muted:#948c7e;
+    --bg:#faf8f4; --surface:#ffffff; --border:#e7e1d5; --subtle:#f4f1ea;
+    --blue:#2f6f9f; --green:#3f7d5c; --gold:#c08a2e; --violet:#7a5c9e;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    width:1600px;height:540px;background:var(--bg);color:var(--text);
+    font-family:"Microsoft YaHei","PingFang SC",-apple-system,sans-serif;
+    padding:44px 56px;display:flex;flex-direction:column;
+  }
+  h1{font-size:26px;font-weight:600}
+  .sub{font-size:14px;color:var(--muted);margin-top:6px}
+
+  .row{display:flex;align-items:stretch;gap:0}
+  .band{margin-top:26px}
+  .bandlabel{
+    font-size:12px;letter-spacing:.1em;color:var(--muted);
+    text-transform:uppercase;margin-bottom:10px;
+  }
+
+  .box{
+    background:var(--surface);border:1px solid var(--border);border-radius:11px;
+    padding:12px 14px;min-width:0;flex:1;
+    box-shadow:0 1px 2px rgba(35,32,28,.04);
+  }
+  .box .n{font-family:Consolas,monospace;font-size:11px;color:var(--accent);font-weight:700}
+  .box .t{font-size:13.5px;font-weight:600;margin-top:3px;line-height:1.35}
+  .box .d{font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.45}
+
+  .arrow{
+    flex:none;width:26px;display:flex;align-items:center;justify-content:center;
+    color:#c9c1b2;font-size:15px;
+  }
+
+  .store{
+    margin-top:22px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;
+  }
+  .panel{
+    background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);
+    border-radius:11px;padding:13px 16px;
+  }
+  .panel .h{font-size:13.5px;font-weight:600}
+  .panel .l{font-size:11.5px;color:var(--text2);margin-top:7px;line-height:1.65}
+  .panel .l b{color:var(--accent);font-family:Consolas,monospace}
+
+  .notes{margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .note{
+    background:var(--subtle);border-radius:10px;padding:12px 15px;
+    font-size:11.5px;color:var(--text2);line-height:1.65;
+  }
+  .note b{color:var(--text)}
+  .tag{
+    display:inline-block;font-size:10.5px;padding:1px 7px;border-radius:20px;
+    background:rgba(228,87,46,.1);color:var(--accent);margin-right:5px;font-weight:600;
+  }
+</style>
+</head>
+<body>
+  <h1>数据采集与可视化流程</h1>
+  <div class="sub">七个脚本按序执行、全部幂等；产物落到 SQLite，再导出为前端直接读取的 JSON</div>
+
+  <div class="band">
+    <div class="bandlabel">① 采集（pipeline / 01–07）</div>
+    <div class="row">
+      <div class="box"><div class="n">01</div><div class="t">WALS 六表</div><div class="d">结构、坐标、语系</div></div>
+      <div class="arrow">›</div>
+      <div class="box"><div class="n">02</div><div class="t">Wikimedia</div><div class="d">月度浏览 / 编辑量</div></div>
+      <div class="arrow">›</div>
+      <div class="box"><div class="n">03</div><div class="t">建库</div><div class="d">去重 · 关联 · 算指标</div></div>
+      <div class="arrow">›</div>
+      <div class="box"><div class="n">04</div><div class="t">中文名</div><div class="d">Wikidata 标签</div></div>
+      <div class="arrow">›</div>
+      <div class="box"><div class="n">05</div><div class="t">UNESCO</div><div class="d">濒危等级（补缺）</div></div>
+      <div class="arrow">›</div>
+      <div class="box"><div class="n">06</div><div class="t">Glottolog AES</div><div class="d">濒危等级（主用）</div></div>
+      <div class="arrow">›</div>
+      <div class="box"><div class="n">07</div><div class="t">数字在场</div><div class="d">项目数 · 文献清单</div></div>
+    </div>
+  </div>
+
+  <div class="store">
+    <div class="panel">
+      <div class="h">② 落地 SQLite</div>
+      <div class="l">
+        9 张表 / <b>157,736</b> 行<br>
+        <b>dim_language</b> 3,573　<b>fact_language_feature</b> 76,475<br>
+        <b>fact_language_timeseries</b> 65,161　<b>dim_endangerment</b> 8,872<br>
+        主键用 <b>wals_id</b>（变体级），不用 glottocode
+      </div>
+    </div>
+    <div class="panel">
+      <div class="h">③ 导出前端 JSON</div>
+      <div class="l">
+        <b>languages.json</b> 2,662 门真语言<br>
+        <b>timeseries.json</b> 267 门有 135 个月序列<br>
+        <b>feature_matrix.json</b> 2,660 × 192<br>
+        <b>digital_presence.json</b> 项目数 / 深度 / 文献
+      </div>
+    </div>
+    <div class="panel">
+      <div class="h">④ 前端渲染</div>
+      <div class="l">
+        Vue 3 + Vite + ECharts（自定义浅色主题）<br>
+        全部视图只读同一个 <b>Pinia store</b><br>
+        任一处选中或筛选 → 全局同步<br>
+        <b>pnpm dev</b> → http://127.0.0.1:5173/
+      </div>
+    </div>
+  </div>
+
+  <div class="notes">
+    <div class="note">
+      <span class="tag">难点 1</span><b>跨源关联是三跳的。</b>
+      维基用 ISO 639-1（zh / en），WALS 用 639-3（zho / eng），而 zh、ar、fa、sw、ms
+      这类宏观语言的码在 WALS 里根本不存在。回退顺序：直接命中 → ISO 转换 → Wikidata 宏观语言成员（单层 P279）。
+    </div>
+    <div class="note">
+      <span class="tag">难点 2</span><b>限流要按对方节奏退避。</b>
+      Wikimedia 在 0.2 秒间隔下大面积 429，改为 1.5 秒 + 尊重 Retry-After；
+      Wikidata 更严（1 次/分钟，Retry-After 最长 1000 秒），所以只在 04/05 各查几次。
+    </div>
+  </div>
+</body>
+</html>

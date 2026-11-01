@@ -26,8 +26,9 @@ const check = (label, cond, extra = '') => {
 
 /** 用括号配对取出从 name 声明处开始的源码范围（绝对位置） */
 function rangeOf(name) {
+  // 允许泛型参数：computed<Foo[]>(...)、ref<number>(...)
   const re = new RegExp(
-    `(?:const\\s+${name}\\s*=\\s*(?:computed\\(|ref\\()|function\\s+${name}\\s*\\()`, 'g')
+    `(?:const\\s+${name}\\s*=\\s*(?:computed|ref)(?:<[^>]*>)?\\(|function\\s+${name}\\s*\\()`, 'g')
   const m = re.exec(src)
   if (!m) return null
   // 从声明处往后找第一个 '{' 再配对；没有 '{' 就取到行尾
@@ -48,7 +49,10 @@ function rangeOf(name) {
 }
 
 /* ---- 覆盖范围 ---- */
-const WATCHED = ['contextData', 'vitalityData', 'haloData']
+// 复合字形（glyphItems）以及语系星群的三层也是被监听的数据源，
+// 它们读到的 store 字段同样会触发重绘，必须算进覆盖范围。
+const WATCHED = ['contextData', 'vitalityData', 'haloData', 'glyphItems',
+  'famStar', 'famHull', 'famGlow']
 // 数据 computed 会调用到的辅助函数：它们读的字段同样会触发重算
 const HELPERS = ['keepLang', 'baseColor', 'trendColor', 'sizeOf']
 // 渲染路径：buildSeries 决定 series 内容，OPT_BASE 里的 geo.nameMap 依赖 lang
@@ -139,7 +143,7 @@ check('底图系列关掉了更新动画（否则切换密度/逐点时新点会
 check('不监听 georoam（缩放期间不发生任何 setOption，从根上避免地图错位）',
   !/on\('georoam'/.test(src))
 check('密度/逐点由显式开关控制，不跟随缩放自动切换',
-  /store\.mapDensity/.test(src) && !/AGG_ZOOM/.test(src))
+  /store\.mapMode/.test(src) && !/AGG_ZOOM/.test(src))
 check('聚合块位置用格内质心，不是第一个语言的坐标（否则块偏向格子一角，看着像错位）',
   /lngSum \/ c\.n[\s\S]{0,40}c\.latSum \/ c\.n/.test(src))
 check('「只看选中」的过滤同时作用于两个图层',
@@ -164,8 +168,9 @@ check('不再有逐字段枚举的 watcher（那个写法漏过一次）',
 check('语系连线与轮廓两层都在，且都是 silent（不吃鼠标事件）',
   /id: 'famstar'[\s\S]{0,200}silent: true/.test(src)
   && /id: 'famhull'[\s\S]{0,200}silent: true/.test(src))
-check('三层（连线 / 轮廓 / 浅强调底圈）都在重绘监听里',
-  /watch\(\[contextData, vitalityData, haloData, famStar, famHull, famGlow\]/.test(src))
+check('所有数据层（底图 / 活力 / 底圈 / 连线 / 轮廓 / 字形）都在同一条重绘监听里',
+  /watch\(\[contextData, vitalityData, haloData, famStar, famHull, famGlow, glyphItems\]/
+    .test(src))
 check('跨 180° 经线的语系跳过轮廓（否则会画出一个横跨地图的假多边形）',
   /spansDateline\(pts\)\) return \[\]/.test(src))
 check('跳过轮廓时在说明里写出来（否则用户以为轮廓坏了）',
@@ -188,11 +193,11 @@ check('强调色用的是半透明 rgba，不是硬色（才叫"浅"）',
 // 2,385 门没维基版本的语言完全点不到。修法是"单门直接选 / 多门钻进去"。
 check('密度块可点：单门直接选中，多门钻进那一块',
   /if \(d\.single\)[\s\S]{0,80}store\.select\(d\.single\)/.test(src)
-  && /store\.mapDensity = false/.test(src))
+  && /store\.mapMode = 'dots'/.test(src))
 check('聚合块记录了"格内唯一语言"（否则单门块无法直接选）',
   /cell\.single = cell\.n === 1 \? l\.wals_id : undefined/.test(src))
 check('钻取先改 geo 再切模式（顺序反了会被合并渲染覆盖）',
-  /setOption\(\{ geo: \{ center: \[lng, lat\], zoom: 6 \} \}\)[\s\S]{0,120}store\.mapDensity = false/.test(src))
+  /setOption\(\{ geo: \{ center: \[lng, lat\], zoom: 6 \} \}\)[\s\S]{0,120}store\.mapMode = 'dots'/.test(src))
 
 console.log(`\n${fail === 0 ? '全部通过' : fail + ' 项失败'}`)
 process.exit(fail === 0 ? 0 : 1)

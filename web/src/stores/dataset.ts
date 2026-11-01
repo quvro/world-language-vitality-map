@@ -153,14 +153,33 @@ interface State {
   /** 是否叠加活力层（关掉可看纯粹的语区分布） */
   showVitality: boolean
   /**
-   * 地图底图的渲染方式：密度块 / 逐点。
+   * 地图底图的渲染方式：密度块 / 逐点 / **复合字形**。
    *
    * **刻意做成用户显式切换，而不是跟随缩放自动切换。**
    * 自动切换需要在漫游过程中 setOption，那会打断 geo 的缩放补间，
    * 让渲染出的地图与模型里的 zoom/center 不一致（表现为"缩放时地图错位，
    * 点一下又复位"）。去掉这条路径后，缩放期间不再发生任何 setOption。
+   *
+   * `glyph` 模式下每个语言被画成一个由若干部件组成的小符号，
+   * 各部件编码哪个维度由 `glyphChannels` 决定。
    */
-  mapDensity: boolean
+  mapMode: 'density' | 'dots' | 'glyph'
+  /**
+   * 字形各通道的开关。关掉的通道用中性色画（而不是不画），
+   * 这样"关掉这个维度"看得见代价：地图会立刻变灰一片。
+   */
+  glyphChannels: {
+    /** 外环颜色 ← 濒危等级 */
+    ring: boolean
+    /** 环内扇形 ← 描写深度（0–5） */
+    arc: boolean
+    /** 中心点 ← 是否有维基百科版本 */
+    core: boolean
+    /** 字形大小 ← 当月浏览量 */
+    size: boolean
+    /** 外围刻度 ← 维基百科之外的项目数 */
+    ticks: boolean
+  }
   /** 只看选中的语言 —— 选中后其余点全部隐藏，便于在一堆点里找到它 */
   hideUnselected: boolean
   /**
@@ -211,7 +230,8 @@ export const useDataset = defineStore('dataset', {
     storyStep: null,
     colorBy: 'macroarea',
     showVitality: true,
-    mapDensity: true,
+    mapMode: 'density',
+    glyphChannels: { ring: true, arc: true, core: true, size: true, ticks: true },
     hideUnselected: false,
     sizeMode: 'relative',
     lang: 'zh',

@@ -46,7 +46,11 @@ export function toQuery(s: Store): string {
   if (s.colorBy !== 'macroarea') p.set('cb', s.colorBy)
   if (s.sizeMode !== 'relative') p.set('sm', s.sizeMode)
   if (!s.showVitality) p.set('voff', '1')
-  if (!s.mapDensity) p.set('dots', '1')
+  if (s.mapMode !== 'density') p.set('mm', s.mapMode)
+  const gc = s.glyphChannels
+  const gcBits = [gc.ring, gc.arc, gc.core, gc.size, gc.ticks]
+    .map((v) => (v ? '1' : '0')).join('')
+  if (gcBits !== '11111') p.set('gc', gcBits)
   if (s.hideUnselected) p.set('only', '1')
   if (s.lang !== 'zh') p.set('lang', s.lang)
   return p.toString()
@@ -110,7 +114,17 @@ export function applyQuery(s: Store, qs: string): boolean {
   const sm = p.get('sm')
   if (sm && SIZES.includes(sm)) s.sizeMode = sm as Store['sizeMode']
   if (p.get('voff') === '1') s.showVitality = false
-  if (p.get('dots') === '1') s.mapDensity = false
+  const mm = p.get('mm')
+  if (mm === 'dots' || mm === 'glyph' || mm === 'density') s.mapMode = mm
+  // 兼容旧链接：早期的 dots=1 表示"逐点"
+  else if (p.get('dots') === '1') s.mapMode = 'dots'
+  const gc = p.get('gc')
+  if (gc && /^[01]{5}$/.test(gc)) {
+    s.glyphChannels = {
+      ring: gc[0] === '1', arc: gc[1] === '1', core: gc[2] === '1',
+      size: gc[3] === '1', ticks: gc[4] === '1',
+    }
+  }
   if (p.get('only') === '1') s.hideUnselected = true
   if (p.get('lang') === 'en' || p.get('lang') === 'zh') s.lang = p.get('lang') as 'en' | 'zh'
   return true

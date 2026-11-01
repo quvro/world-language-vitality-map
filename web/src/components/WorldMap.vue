@@ -84,6 +84,17 @@ const T = {
     dotMode: '近景：一个点一门语言，可逐一点选',
     densityBtn: '密度块',
     dotsBtn: '逐点',
+    glyphBtn: '字形',
+    chTitle: '字形部件',
+    chHint: '关掉一个维度，看地图还剩多少信息',
+    chRing: '外环颜色', dRing: '← 濒危等级',
+    chArc: '环内扇形', dArc: '← 描写深度',
+    chCore: '中心点', dCore: '← 有无维基版本',
+    chSize: '字形大小', dSize: '← 当月浏览量',
+    chTicks: '外围刻度', dTicks: '← 其他维基项目数',
+    glyphSub: '一个符号 = 一门语言 · 环色=濒危 · 扇形=描写深度 · 实心=有维基 · 大小=浏览量',
+    legRing: '环 = 濒危', legWedge: '扇形 = 描写深度',
+    legCore: '实心 = 有维基', legTick: '刻度 = 项目数',
     famCaption: (f: string, n: number, w: number) =>
       `${f} 语系 · 图上 ${n} 门，其中 ${w} 门有维基版本`,
     famDateline: '该语系横跨 180° 经线，只画连线不画轮廓',
@@ -117,6 +128,17 @@ const T = {
     dotMode: 'Near view: one dot per language, individually selectable',
     densityBtn: 'Density',
     dotsBtn: 'Dots',
+    glyphBtn: 'Glyphs',
+    chTitle: 'Glyph channels',
+    chHint: 'switch a dimension off and see how much is left',
+    chRing: 'Outer ring', dRing: '← endangerment',
+    chArc: 'Inner wedge', dArc: '← description depth',
+    chCore: 'Centre dot', dCore: '← has Wikipedia',
+    chSize: 'Glyph size', dSize: '← monthly views',
+    chTicks: 'Outer ticks', dTicks: '← other wiki projects',
+    glyphSub: 'one symbol = one language · ring=endangerment · wedge=depth · filled=has Wikipedia · size=views',
+    legRing: 'ring = endangerment', legWedge: 'wedge = depth',
+    legCore: 'filled = has Wikipedia', legTick: 'ticks = projects',
     famCaption: (f: string, n: number, w: number) =>
       `${f} family · ${n} languages on the map, ${w} with a Wikipedia`,
     famDateline: 'this family crosses the 180° meridian, so only the lines are drawn',
@@ -156,8 +178,11 @@ const contextData = computed(() => {
   const rows = store.langs
     .filter((l) => hasCoords(l) && keepLang(l.wals_id))
 
+  // 字形模式下底图不由这个 computed 提供（见 glyphItems），避免和字形重复绘制
+  if (store.mapMode === 'glyph') return []
+
   // ---------- 近景：一个语言一个点 ----------
-  if (!store.mapDensity) {
+  if (store.mapMode === 'dots') {
     return rows.map((l) => {
       const hit = !filtering || matched.has(l.wals_id)
       const isSel = store.selected === l.wals_id
@@ -551,7 +576,23 @@ function buildSeries() {
     lineStyle: { color: C.accent, width: 0.8, opacity: 0.35, curveness: 0.12 },
     effect: { show: false },
   }
-  return [famHullSeries, famStarSeries, famGlowSeries, ctx, vit, halo]
+  // 复合字形层。因为要接 tooltip 与点击，所以不是 silent；
+  // data 里带上与其它图层相同的字段，tooltip 的 formatter 不用特判。
+  const glyphSeries = {
+    id: 'glyph', name: 'glyph', type: 'custom', coordinateSystem: 'geo',
+    renderItem: renderGlyph,
+    encode: { x: 0, y: 1 },
+    data: store.mapMode === 'glyph'
+      ? glyphItems.value.map((g) => ({
+        value: [g.lng, g.lat],
+        name: g.name, display: g.display, wals_id: g.wals_id,
+        macroarea: g.macroarea, family: g.family,
+        views: g.views, growth: g.growth, baseline_ok: g.baseline_ok,
+      }))
+      : [],
+    z: 1.2, progressive: 0, animation: false,
+  }
+  return [famHullSeries, famStarSeries, famGlowSeries, ctx, glyphSeries, vit, halo]
 }
 
 const OPT_BASE = {
@@ -603,13 +644,179 @@ function render(full = false) {
   else chart.value.setOption({ series })
 }
 
-const title = computed(() => store.colorBy === 'trend'
+const title = computed(() => store.mapMode === 'glyph'
+  ? { t: t.value.distTitle, s: t.value.glyphSub }
+  : store.colorBy === 'trend'
   ? { t: t.value.vitTitle, s: t.value.vitSub }
   : { t: t.value.distTitle, s: isAgg.value ? t.value.distSubAgg : t.value.distSub }
 )
 
 /** 当前是"远景聚合"还是"近景逐点"——值得写在副标题里，否则用户不知道点变了形 */
-const isAgg = computed(() => store.mapDensity)
+
+/* --------------------------------------------------------------- 复合字形 */
+/**
+ * 一门语言 = 一个由部件组成的小符号（glyph）。
+ *
+ * 思路借自 GlottoVis：用字形的**不同部位**分别编码不同维度，
+ * 而不是「一个点只编码一个变量」。本项目的部件分配：
+ *
+ *   外环颜色  ← 濒危等级（AES 1–6）
+ *   环内扇形  ← 描写深度（1–5，扇形张角 = depth/5 圈）
+ *   中心点    ← 是否有维基百科版本（实心 = 有）
+ *   字形大小  ← 当月浏览量（对数）
+ *   外围刻度  ← 维基百科之外还拥有几个维基项目（0–7 根）
+ *
+ * 每个通道都能单独关掉。关掉时**用中性灰继续画**，而不是不画 ——
+ * 这样"关掉这个维度"的代价是看得见的：地图会立刻灰掉一片。
+ */
+const GLYPH_RAMP = ['#7c9a6a', '#c9b458', '#d9964a', '#cf6b3f', '#b34a35', '#7d3226']
+
+interface GlyphItem {
+  lng: number
+  lat: number
+  r: number
+  ringColor: string
+  ringW: number
+  arcFrac: number
+  arcColor: string
+  coreFill: string
+  coreStroke: string
+  ticks: number
+  opacity: number
+  // 供 tooltip 与点击使用，字段与其它图层保持一致
+  name: string
+  display: string
+  wals_id: string
+  macroarea: string | null
+  family: string
+  views?: number
+  growth?: number | null
+  baseline_ok?: boolean
+}
+
+/**
+ * 所有颜色与半径都在这里算好。
+ * renderItem 会对每个元素调用一次（世界视图下是 2,662 次），
+ * 里面不能做查表和开方以外的运算。
+ */
+const glyphItems = computed<GlyphItem[]>(() => {
+  const ch = store.glyphChannels
+  const depth = store.descDepth
+  const proj = store.wikiProjects
+  const ebw = store.endangermentByWals
+  const sel = store.selected
+  const inFam = famIds.value
+  const matched = store.matchedIds
+  const filtering = store.hasFilter
+  const maxV = Math.max(1, ...store.withVitality.map((l) => l.views_recent ?? 0))
+  const logMax = Math.log10(1 + maxV)
+  const out: GlyphItem[] = []
+  for (const l of store.langs) {
+    if (!hasCoords(l)) continue
+    if (!keepLang(l.wals_id)) continue
+    const isSel = sel === l.wals_id
+    const hit = !filtering || matched.has(l.wals_id)
+    const lv = ebw[l.wals_id]
+    const d = depth[l.wals_id]
+    const pj = proj[l.wals_id]
+    const fam = inFam?.has(l.wals_id) ?? false
+    // 大小 ← 浏览量
+    let r = 5
+    if (ch.size) {
+      const v = l.views_recent ?? 0
+      r = 4 + (Math.log10(1 + v) / logMax) * 9
+    }
+    out.push({
+      lng: Number(l.longitude),
+      lat: Number(l.latitude),
+      r: isSel ? r + 2 : r,
+      ringColor: ch.ring && lv ? GLYPH_RAMP[lv - 1] : (isSel || fam ? C.accent : '#D2C9BA'),
+      ringW: isSel ? 2.6 : fam ? 1.9 : 1.3,
+      arcFrac: ch.arc && d ? d.depth / 5 : 0,
+      arcColor: fam ? 'rgba(228,87,46,.85)' : 'rgba(228,87,46,.5)',
+      coreFill: ch.core && l.wiki_code ? C.accent : 'rgba(0,0,0,0)',
+      coreStroke: ch.core && l.wiki_code ? C.accent : '#BFB5A3',
+      ticks: ch.ticks && pj ? Math.min(pj.n_extra, 7) : 0,
+      opacity: isSel ? 1 : hit ? (filtering ? 0.95 : 0.82) : 0.12,
+      name: l.name,
+      display: langLabel(l),
+      wals_id: l.wals_id,
+      macroarea: l.macroarea,
+      family: l.family || '—',
+      views: l.views_recent ?? undefined,
+      growth: l.growth,
+      baseline_ok: l.baseline_ok,
+    })
+  }
+  return out
+})
+
+/**
+ * custom series 的绘制函数。坐标系是 geo，`api.coord` 负责经纬度 → 像素。
+ * 所有子图形都用**绝对像素**坐标（cx/cy 就是 pt），不依赖 group 的位移。
+ */
+function renderGlyph(params: any, api: any) {
+  const it = glyphItems.value[params.dataIndex]
+  if (!it) return null
+  const pt = api.coord([it.lng, it.lat])
+  if (!pt || !Number.isFinite(pt[0]) || !Number.isFinite(pt[1])) return null
+  const x = pt[0]
+  const y = pt[1]
+  const r = it.r
+  const kids: any[] = []
+  kids.push({
+    type: 'circle',
+    shape: { cx: x, cy: y, r },
+    style: { fill: 'none', stroke: it.ringColor, lineWidth: it.ringW, opacity: it.opacity },
+  })
+  if (it.arcFrac > 0) {
+    kids.push({
+      type: 'sector',
+      shape: {
+        cx: x, cy: y, r: Math.max(r - 2.2, 1.5), r0: 0,
+        startAngle: -Math.PI / 2,
+        endAngle: -Math.PI / 2 + Math.PI * 2 * it.arcFrac,
+      },
+      style: { fill: it.arcColor, opacity: it.opacity * 0.6 },
+    })
+  }
+  kids.push({
+    type: 'circle',
+    shape: { cx: x, cy: y, r: Math.max(1.1, r * 0.3) },
+    style: {
+      fill: it.coreFill, stroke: it.coreStroke, lineWidth: 1,
+      opacity: it.opacity,
+    },
+  })
+  for (let i = 0; i < it.ticks; i++) {
+    const a = -Math.PI / 2 + (Math.PI * 2 * i) / it.ticks
+    kids.push({
+      type: 'line',
+      shape: {
+        x1: x + Math.cos(a) * (r + 1.5), y1: y + Math.sin(a) * (r + 1.5),
+        x2: x + Math.cos(a) * (r + 3.4), y2: y + Math.sin(a) * (r + 3.4),
+      },
+      style: { stroke: '#9A9184', lineWidth: 1, opacity: it.opacity * 0.9 },
+    })
+  }
+  return { type: 'group', children: kids }
+}
+
+/** 开关面板的五个通道（标签与说明都进 i18n） */
+const CHANNELS = computed(() => [
+  { key: 'ring' as const, label: t.value.chRing, dim: t.value.dRing },
+  { key: 'arc' as const, label: t.value.chArc, dim: t.value.dArc },
+  { key: 'core' as const, label: t.value.chCore, dim: t.value.dCore },
+  { key: 'size' as const, label: t.value.chSize, dim: t.value.dSize },
+  { key: 'ticks' as const, label: t.value.chTicks, dim: t.value.dTicks },
+])
+
+function toggleChannel(key: keyof typeof store.glyphChannels, e: Event) {
+  const on = (e.target as HTMLInputElement).checked
+  store.glyphChannels[key] = on
+}
+
+const isAgg = computed(() => store.mapMode === 'density')
 
 // 跟随**容器**尺寸变化（侧栏折叠、切换选项卡时窗口尺寸并不变，
 // 只监听 window.resize 会导致画布保持旧宽度、压住相邻区域）
@@ -636,10 +843,10 @@ onMounted(async () => {
     }
     const [lng, lat] = Array.isArray(d.value) ? d.value : []
     if (Number.isFinite(lng) && Number.isFinite(lat)) {
-      // 先改 geo（一次 setOption），再改 mapDensity ——
+      // 先改 geo（一次 setOption），再改 mapMode ——
       // 后者会触发 watcher 的合并渲染，那条路径只传 series，不会重置缩放。
       chart.value?.setOption({ geo: { center: [lng, lat], zoom: 6 } })
-      store.mapDensity = false
+      store.mapMode = 'dots'
     }
   })
   // 这里**刻意不监听 georoam**。
@@ -651,7 +858,7 @@ onMounted(async () => {
   // 仍会撞在补间中间。
   //
   // 所以把这条路径整个去掉：缩放期间一次 setOption 都不发生，
-  // 密度块 / 逐点只由用户点图例上的开关决定（store.mapDensity）。
+  // 密度块 / 逐点只由用户点图例上的开关决定（store.mapMode）。
   await ensureWorld()
   render(true)
   // 首次渲染后再对一次尺寸：挂载瞬间容器可能还没完成布局
@@ -672,7 +879,8 @@ onBeforeUnmount(() => {
 // ECharts 是命令式渲染，状态变了没人调 render()，于是那个开关点了完全没反应。
 //
 // 改成**直接盯住要画的数据本身**：数据变了就一定重画，不可能再漏。
-watch([contextData, vitalityData, haloData, famStar, famHull, famGlow], () => render(false))
+watch([contextData, vitalityData, haloData, famStar, famHull, famGlow, glyphItems],
+  () => render(false))
 // 只影响「渲染时读取」而不进数据的选项（symbolSize 回调里读 sizeMode、
 // series.data 是否为空由 showVitality 决定），必须单独盯。
 watch(() => [store.showVitality, store.sizeMode], () => render(false))
@@ -726,8 +934,34 @@ watch(() => store.lang, () => render(true))
 
     <div ref="host" class="chart" />
 
+    <!-- 字形通道开关：浮在地图左上角，只在字形模式下出现 -->
+    <div v-if="store.mapMode === 'glyph'" class="channels">
+      <p class="ch-head">
+        {{ t.chTitle }}
+        <span>{{ t.chHint }}</span>
+      </p>
+      <label v-for="c in CHANNELS" :key="c.key" class="ch">
+        <input
+          type="checkbox"
+          :checked="store.glyphChannels[c.key]"
+          @change="toggleChannel(c.key, $event)"
+        >
+        <span class="ch-box" />
+        <span class="ch-txt">
+          <b>{{ c.label }}</b>
+          <i>{{ c.dim }}</i>
+        </span>
+      </label>
+    </div>
+
     <div class="legend">
-      <template v-if="store.colorBy === 'macroarea'">
+      <template v-if="store.mapMode === 'glyph'">
+        <span class="item gly"><i class="ring" />{{ t.legRing }}</span>
+        <span class="item gly"><i class="wedge" />{{ t.legWedge }}</span>
+        <span class="item gly"><i class="core" />{{ t.legCore }}</span>
+        <span class="item gly"><i class="tick" />{{ t.legTick }}</span>
+      </template>
+      <template v-else-if="store.colorBy === 'macroarea'">
         <span v-for="(m, i) in MACRO_AREAS" :key="m" class="item">
           <i :style="{ background: PALETTE[i] }" />{{ macroLabel(m) }}
         </span>
@@ -745,8 +979,9 @@ watch(() => store.lang, () => render(true))
         <em v-if="selFamily.dateline" class="dl">{{ t.famDateline }}</em>
       </span>
       <span class="item mode">
-        <button class="seg" :class="{ on: isAgg }" @click="store.mapDensity = true">{{ t.densityBtn }}</button>
-        <button class="seg" :class="{ on: !isAgg }" @click="store.mapDensity = false">{{ t.dotsBtn }}</button>
+        <button class="seg" :class="{ on: isAgg }" @click="store.mapMode = 'density'">{{ t.densityBtn }}</button>
+        <button class="seg" :class="{ on: store.mapMode === 'dots' }" @click="store.mapMode = 'dots'">{{ t.dotsBtn }}</button>
+        <button class="seg" :class="{ on: store.mapMode === 'glyph' }" @click="store.mapMode = 'glyph'">{{ t.glyphBtn }}</button>
       </span>
     </div>
   </section>
@@ -813,6 +1048,66 @@ h2 { margin: 0; font-size: var(--fs-h2); font-weight: 600; }
 .legend .seg:first-child { border-radius: var(--radius-pill) 0 0 var(--radius-pill); }
 .legend .seg:last-child { border-radius: 0 var(--radius-pill) var(--radius-pill) 0; border-left: 0; }
 .legend .seg.on { background: var(--accent); border-color: var(--accent); color: var(--text-inverse); }
+
+/* ---- 字形图例 ---- */
+.legend .gly { color: var(--text-muted); }
+.legend .gly i {
+  display: inline-block; width: 12px; height: 12px; margin-right: 5px;
+  vertical-align: -2px; position: relative;
+}
+.legend .gly .ring { border: 2px solid var(--accent); border-radius: 50%; }
+.legend .gly .wedge {
+  border-radius: 50%;
+  background: conic-gradient(var(--accent) 0 55%, transparent 55% 100%);
+  box-shadow: inset 0 0 0 1.5px var(--border-strong);
+}
+.legend .gly .core {
+  width: 7px; height: 7px; margin: 0 7.5px 0 2.5px;
+  background: var(--accent); border-radius: 50%;
+}
+.legend .gly .tick {
+  width: 14px; height: 14px; margin-right: 4px;
+  border-radius: 50%;
+  border: 1.5px dotted var(--text-muted);
+}
+
+/* ---- 字形通道开关 ---- */
+.card { position: relative; }
+.channels {
+  position: absolute; left: 16px; bottom: 56px; width: 246px; z-index: 6;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid var(--border); border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 10px 12px 11px;
+  backdrop-filter: blur(6px);
+}
+.ch-head {
+  margin: 0 0 8px; font-size: var(--fs-micro); font-weight: 600;
+  color: var(--text-secondary); line-height: 1.5;
+}
+.ch-head span { display: block; font-weight: 400; color: var(--text-muted); }
+.ch {
+  display: flex; align-items: flex-start; gap: 7px;
+  padding: 3px 0; cursor: pointer; user-select: none;
+}
+.ch input { position: absolute; opacity: 0; width: 0; height: 0; }
+.ch-box {
+  flex: none; width: 13px; height: 13px; margin-top: 2px;
+  border: 1.5px solid var(--border-strong); border-radius: 3px;
+  background: var(--bg-surface); position: relative;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+.ch input:checked + .ch-box { background: var(--accent); border-color: var(--accent); }
+.ch input:checked + .ch-box::after {
+  content: ""; position: absolute; left: 3.4px; top: 0.6px;
+  width: 4px; height: 7.5px; border: solid #fff;
+  border-width: 0 1.8px 1.8px 0; transform: rotate(42deg);
+}
+.ch-txt { display: flex; flex-direction: column; line-height: 1.35; }
+.ch-txt b { font-size: var(--fs-micro); font-weight: 600; color: var(--text-secondary); }
+.ch-txt i {
+  font-style: normal; font-size: 10px; color: var(--text-muted);
+}
 /* 选中语言时显示的「语系星群」说明 */
 .legend .fam { color: var(--text-secondary); display: inline-flex; align-items: center; gap: 5px; }
 .legend .famdot {
