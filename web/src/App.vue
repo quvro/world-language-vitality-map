@@ -374,4 +374,11 @@ h1 { margin: 0; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
   .col-right { display: none; }
   .kpis { display: none; }
 }
+
+/* 标签栏与下方视图连成一体（用户反馈：两者看着是割裂的）。
+   做法是去掉中间的间隙，并让标签压住卡片上沿 1px，
+   视觉上标签就像长在卡片上的页签。 */
+.col-center { gap: 0; }
+.col-center .tabs { margin-bottom: -1px; position: relative; z-index: 2; }
+.col-center .stage > .card { border-top-left-radius: 0; border-top-right-radius: 0; }
 </style>

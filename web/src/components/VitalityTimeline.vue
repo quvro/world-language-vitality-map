@@ -30,7 +30,7 @@ const T = {
     dragHint: '拖动或播放，地图上的点随之长缩',
     selected: '选中', months: '个月数据',
     timeline: '时间轴', monthUnit: '个月',
-    sparkHint: '折线 = 当前筛选范围内各语言浏览量的合计',
+    sparkHint: '',
     play: '播放十年变化', pause: '暂停',
   },
   en: {

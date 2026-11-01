@@ -92,7 +92,7 @@ const T = {
     chCore: '中心点', dCore: '← 有无维基版本',
     chSize: '字形大小', dSize: '← 当月浏览量',
     chTicks: '外围刻度', dTicks: '← 其他维基项目数',
-    glyphSub: '一个符号 = 一门语言 · 环色=濒危 · 扇形=描写深度 · 实心=有维基 · 大小=浏览量',
+    glyphSub: '一个符号 = 一门语言：环色=濒危 · 扇形=深度 · 实心=有维基 · 大小=浏览量',
     legRing: '环 = 濒危', legWedge: '扇形 = 描写深度',
     legCore: '实心 = 有维基', legTick: '刻度 = 项目数',
     famCaption: (f: string, n: number, w: number) =>
@@ -894,9 +894,9 @@ watch(() => store.lang, () => render(true))
     <header>
       <div class="tl">
         <h2>{{ title.t }}</h2>
-        <p class="hint">
-          {{ title.s }} ·
-          <span class="sizetip">{{ store.sizeMode === 'relative' ? t.legendRelative : t.legendAbsolute }}</span>
+        <!-- 头部压缩成一行：尺寸说明挪进 title 提示，把高度让给地图 -->
+        <p class="hint" :title="store.sizeMode === 'relative' ? t.legendRelative : t.legendAbsolute">
+          {{ title.s }}
         </p>
       </div>
       <div class="ctrls">
@@ -922,7 +922,6 @@ watch(() => store.lang, () => render(true))
                :title="store.selected ? t.onlySelected : t.onlySelectedHint">
           <input v-model="store.hideUnselected" type="checkbox">
           <span>{{ t.onlySelected }}</span>
-          <em v-if="!store.selected" class="why">{{ t.pickFirst }}</em>
         </label>
       </div>
     </header>
@@ -1074,16 +1073,22 @@ h2 { margin: 0; font-size: var(--fs-h2); font-weight: 600; }
 /* ---- 字形通道开关 ---- */
 .card { position: relative; }
 .channels {
-  position: absolute; left: 16px; bottom: 56px; width: 246px; z-index: 6;
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid var(--border); border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
-  padding: 10px 12px 11px;
-  backdrop-filter: blur(6px);
+  position: absolute; left: 16px; bottom: 56px; width: 268px; z-index: 6;
+  background: rgba(255, 255, 255, 0.98);
+  /* 用户反馈"太不明显"：改成强调色描边 + 左侧粗条 + 更重的投影，
+     让它在地图上是一个明确的浮层，而不是一块半透明的白 */
+  border: 1.5px solid var(--accent);
+  border-left-width: 5px;
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 30px rgba(35, 32, 28, 0.17),
+    0 0 0 5px rgba(228, 87, 46, 0.06);
+  padding: 12px 13px 13px;
+  backdrop-filter: blur(8px);
 }
 .ch-head {
-  margin: 0 0 8px; font-size: var(--fs-micro); font-weight: 600;
-  color: var(--text-secondary); line-height: 1.5;
+  margin: 0 0 9px; font-size: var(--fs-small); font-weight: 700;
+  color: var(--text-primary); line-height: 1.45;
+  padding-bottom: 7px; border-bottom: 1px solid var(--border);
 }
 .ch-head span { display: block; font-weight: 400; color: var(--text-muted); }
 .ch {
@@ -1092,7 +1097,7 @@ h2 { margin: 0; font-size: var(--fs-h2); font-weight: 600; }
 }
 .ch input { position: absolute; opacity: 0; width: 0; height: 0; }
 .ch-box {
-  flex: none; width: 13px; height: 13px; margin-top: 2px;
+  flex: none; width: 15px; height: 15px; margin-top: 2px;
   border: 1.5px solid var(--border-strong); border-radius: 3px;
   background: var(--bg-surface); position: relative;
   transition: background var(--dur-fast) var(--ease-out);
@@ -1104,7 +1109,7 @@ h2 { margin: 0; font-size: var(--fs-h2); font-weight: 600; }
   border-width: 0 1.8px 1.8px 0; transform: rotate(42deg);
 }
 .ch-txt { display: flex; flex-direction: column; line-height: 1.35; }
-.ch-txt b { font-size: var(--fs-micro); font-weight: 600; color: var(--text-secondary); }
+.ch-txt b { font-size: var(--fs-small); font-weight: 600; color: var(--text-primary); }
 .ch-txt i {
   font-style: normal; font-size: 10px; color: var(--text-muted);
 }

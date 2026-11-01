@@ -23,8 +23,8 @@ const T = {
   zh: {
     filters: '筛选', clear: '清空', area: '语区', family: '语系',
     multi: '可多选', search: '搜索语言名（中英文均可）',
-    reliability: '数据可信度', reliableOnly: '只看基线可靠的语言',
-    reliableNote: '部分小语种维基在早期几乎没有记录，后来才有流量。它们的"增长率"是统计伪影，勾选此项可排除。',
+    reliability: '数据可信度', reliableOnly: '去除记录数据过少的语言语言',
+    reliableNote: '部分小语种维基在早期几乎没有记录，后来才有流量，算出来的增长率是统计伪影。勾选此项会把这些记录过少的语言整体剔除。',
     hits: '命中',
     mapNote: '未命中的点在地图上淡出但保留，作为地理参照；其余图表只显示命中的语言。',
     noFilter: '当前没有筛选，显示全部语言。',
