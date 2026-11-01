@@ -258,7 +258,8 @@ export const useDataset = defineStore('dataset', {
     colorBy: 'macroarea',
     showVitality: true,
     mapMode: 'density',
-    glyphPanelOpen: true,
+    // 默认收起：展开时会盖住南美洲一块。收起后仍显示「5/5」，信息不丢
+    glyphPanelOpen: false,
     glyphChannels: { ring: true, arc: true, core: true, size: true, ticks: true },
     /**
      * 自然语言回答。由 NlQuery 写入、AnswerPanel 渲染。

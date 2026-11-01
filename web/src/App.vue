@@ -400,4 +400,12 @@ h1 { margin: 0; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
+/* 关键：让详情卡自己滚动、并把高度让出来，体检单永远留在可视区。
+   之前卡片把高度占满，体检单被挤到滚动区外，窗口矮一点就"完全看不到"。 */
+.right-stack > :first-child {
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+.right-stack > :last-child { flex: none; }
 </style>
