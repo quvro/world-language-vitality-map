@@ -22,6 +22,7 @@ import VitalityTimeline from '@/components/VitalityTimeline.vue'
 import NlQuery from '@/components/NlQuery.vue'
 import StoryPanel from '@/components/StoryPanel.vue'
 import AnswerPanel from '@/components/AnswerPanel.vue'
+import HealthBars from '@/components/HealthBars.vue'
 import { applyQuery, shareUrl, startUrlSync } from '@/urlState'
 import { hasCoords } from '@/types'
 
@@ -209,7 +210,10 @@ async function copyLink() {
         </button>
         <!-- 卡片常驻 DOM：折叠时靠位移+淡出，展开时滑回来，而不是显示/隐藏切换 -->
         <div class="card-wrap">
+          <div class="right-stack">
           <LanguageCard />
+          <HealthBars />
+        </div>
         </div>
       </div>
     </main>
@@ -289,6 +293,13 @@ h1 { margin: 0; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
   transition: grid-template-columns var(--dur-base) var(--ease-in-out);
 }
 .col-left, .col-right { min-height: 0; }
+/* 右栏里的「卡片 + 体检单」纵向排列。col-right 本身是横向 flex（把手 + 内容），
+   所以内容必须再包一层纵向容器，否则体检单会被当成第二个"列"压成零宽 */
+.right-stack {
+  flex: 1; min-width: 0; min-height: 0;
+  display: flex; flex-direction: column; gap: var(--sp-2);
+  overflow-y: auto;
+}
 .col-center { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; min-height: 0; }
 
 /* 右栏：一个窄把手 + 卡片。折叠时列宽收到把手宽度 */
