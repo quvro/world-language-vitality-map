@@ -1,7 +1,7 @@
 import { fileURLToPath, URL } from 'node:url'
 import fs from 'node:fs'
 import path from 'node:path'
-import { defineConfig, type Plugin } from 'vite'
+import { defineConfig, type Plugin, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 // 与前端共用同一份意图定义，避免字段漂移
 import { INTENT_SCHEMA } from './shared/intent.js'
@@ -69,6 +69,13 @@ const SYSTEM_PROMPT = [
 ].join('\n')
 
 function nlPlugin(): Plugin {
+  // 密钥可以放在 web/.env.local（已被 .gitignore 挡住），不必每次设系统环境变量。
+  // 第三个参数传 '' 表示不限定前缀 —— 否则只有 VITE_ 开头的变量才会被加载，
+  // 而密钥恰恰不该带 VITE_ 前缀（那会被打进前端产物）。
+  const fileEnv = loadEnv(process.env.NODE_ENV || 'development', process.cwd(), '')
+  /** 先看系统环境变量，再看 .env 文件 */
+  const env = (k: string): string | undefined => process.env[k] ?? fileEnv[k]
+
   return {
     name: 'nl-query-proxy',
     configureServer(server) {
@@ -100,12 +107,12 @@ function nlPlugin(): Plugin {
           } catch {
             return json({ ok: false, reason: 'bad-request' }, 400)
           }
-          const key = process.env.DEEPSEEK_API_KEY || process.env.LLM_API_KEY
+          const key = env('DEEPSEEK_API_KEY') || env('LLM_API_KEY')
           if (!key) return json({ ok: false, reason: 'no-key' })
 
-          const base = (process.env.LLM_BASE_URL || 'https://api.deepseek.com')
+          const base = (env('LLM_BASE_URL') || 'https://api.deepseek.com')
             .replace(/\/+$/, '')
-          const model = process.env.LLM_MODEL || 'deepseek-chat'
+          const model = env('LLM_MODEL') || 'deepseek-chat'
           const zh = (body.lang ?? 'zh') !== 'en'
           const sys = zh
             ? [
@@ -206,12 +213,12 @@ function nlPlugin(): Plugin {
             return json({ ok: false, reason: 'bad-request' }, 400)
           }
 
-          const key = process.env.DEEPSEEK_API_KEY || process.env.LLM_API_KEY
+          const key = env('DEEPSEEK_API_KEY') || env('LLM_API_KEY')
           if (!key) return json({ ok: false, reason: 'no-key' })
 
-          const base = (process.env.LLM_BASE_URL || 'https://api.deepseek.com')
+          const base = (env('LLM_BASE_URL') || 'https://api.deepseek.com')
             .replace(/\/+$/, '')
-          const model = process.env.LLM_MODEL || 'deepseek-chat'
+          const model = env('LLM_MODEL') || 'deepseek-chat'
           const ctx = payload.context || {}
           const userMsg = [
             `可用语系（families 只能取自这里）：${JSON.stringify(ctx.families ?? [])}`,
