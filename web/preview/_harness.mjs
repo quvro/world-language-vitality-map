@@ -30,6 +30,8 @@ const DEPS = {
   'story.ts': ['story.ts', 'story.js', 0],
   'urlState.ts': ['urlState.ts', 'urlState.js', 0],
   'hull.ts': ['hull.ts', 'hull.js', 0],
+  'answer.js': ['../shared/answer.js', 'answer.js', 0],
+  'intent.js': ['../shared/intent.js', 'intent.js', 0],
   'stores/dataset.ts': ['stores/dataset.ts', 'stores/dataset.js', 1],
 }
 

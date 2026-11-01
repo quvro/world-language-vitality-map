@@ -15,11 +15,13 @@
  */
 import { computed, ref } from 'vue'
 import { useDataset } from '@/stores/dataset'
+import type { Language } from '@/types'
 import { useDisplayNames } from '@/display'
 import { describeIntent, emptyHint, parseLocal } from '../../shared/intent.js'
+import { buildEvidence, composeAnswer } from '../../shared/answer.js'
 
 const store = useDataset()
-const { feature: featureLabel } = useDisplayNames()
+const { feature: featureLabel, language: langLabel } = useDisplayNames()
 
 const T = {
   zh: {
@@ -33,6 +35,7 @@ const T = {
     result: (n: string) => `命中 ${n} 门语言`,
     withWiki: (n: string) => `其中 ${n} 门有维基百科版本`,
     median: (v: string) => `十年增长中位数 ${v}`,
+    localNote: '大模型未参与措辞：下面的答案由本地模板根据真实数据合成，数字同样准确。',
   },
   en: {
     placeholder: 'Ask in one sentence, e.g. “SOV languages in Africa that are growing”',
@@ -45,6 +48,7 @@ const T = {
     result: (n: string) => `${n} languages match`,
     withWiki: (n: string) => `${n} of them have a Wikipedia edition`,
     median: (v: string) => `median ten-year growth ${v}`,
+    localNote: 'the LLM did not phrase this: the answer below was composed locally from the real data.',
   },
 } as const
 const t = computed(() => T[store.lang])
@@ -135,6 +139,52 @@ async function submit() {
   else explanation.value = `${explanation.value} · ${summarize()}`
   hasResult.value = true
   busy.value = false
+
+  // 检索 + 回答（独立面板）
+  void answerNow(q, intent)
+}
+
+/**
+ * 第二段：**从当前命中的结果里检索事实**，再组织答案。
+ *
+ * 顺序刻意：先 applyIntent（视图已联动），再读 store.filtered ——
+ * 保证答案里的数字就是地图上那一批。大模型只拿证据去措辞，不算数。
+ */
+async function answerNow(q: string, intent: Record<string, unknown> | null) {
+  const evidence = buildEvidence({
+    rows: store.filtered,
+    total: store.langs.length,
+    ebw: store.endangermentByWals,
+    featCount: store.featureCount,
+    label: (r: Language) => langLabel(r),
+  })
+  const fromLlm = sourceText.value === t.value.srcLlm
+  const local = composeAnswer({ question: q, intent, evidence, lang: store.lang })
+  store.nlAnswer = {
+    question: q,
+    source: fromLlm ? 'llm' : 'local',
+    intent,
+    evidence,
+    answer: local,
+    model: null,
+    note: fromLlm ? '' : t.value.localNote,
+  }
+  try {
+    const res = await fetch('/api/nl/answer', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question: q, intent, evidence, lang: store.lang }),
+    })
+    const d = await res.json()
+    if (d?.ok && d.answer?.title) {
+      store.nlAnswer = {
+        ...store.nlAnswer!, answer: d.answer, model: d.model ?? null,
+        source: 'llm', note: '',
+      }
+    }
+  } catch {
+    // 失败就用本地合成答案，不打断用户
+  }
 }
 
 function reset() {

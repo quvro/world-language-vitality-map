@@ -21,6 +21,7 @@ import LanguageCard from '@/components/LanguageCard.vue'
 import VitalityTimeline from '@/components/VitalityTimeline.vue'
 import NlQuery from '@/components/NlQuery.vue'
 import StoryPanel from '@/components/StoryPanel.vue'
+import AnswerPanel from '@/components/AnswerPanel.vue'
 import { applyQuery, shareUrl, startUrlSync } from '@/urlState'
 import { hasCoords } from '@/types'
 
@@ -216,6 +217,7 @@ async function copyLink() {
     <VitalityTimeline v-if="!store.loading && !store.error" />
 
     <NlQuery v-if="!store.loading && !store.error" />
+    <AnswerPanel />
   </div>
 </template>
 

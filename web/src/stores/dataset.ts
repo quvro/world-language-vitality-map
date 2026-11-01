@@ -39,6 +39,29 @@ export interface ZhLabels {
  *
  * 合并后覆盖 2,614 / 2,662 = 98.2%。
  */
+/** 自然语言回答的结构（见 shared/answer.js） */
+export interface NlAnswer {
+  question: string
+  source: 'llm' | 'local'
+  intent: Record<string, unknown> | null
+  evidence: {
+    count: number
+    total: number
+    share: number
+    withWiki: number
+    wikiShare: number
+    levels: { lv: number; n: number }[]
+    areas: { name: string; n: number }[]
+    families: { name: string; n: number }[]
+    growth: { n: number; median: number | null; up: number; down: number }
+    busiest: { name: string; views: number; growth: number | null }[]
+    absent: { name: string; features: number }[]
+  }
+  answer: { title: string; lead: string; bullets: string[]; caveats: string[] }
+  model: string | null
+  note: string
+}
+
 export interface Aes {
   levels: Record<string, { en: string; zh: string; desc?: string }>
   by_glottocode: Record<string, number>
@@ -180,6 +203,8 @@ interface State {
     /** 外围刻度 ← 维基百科之外的项目数 */
     ticks: boolean
   }
+  /** 自然语言回答（NlQuery 写入 / AnswerPanel 渲染） */
+  nlAnswer: NlAnswer | null
   /** 只看选中的语言 —— 选中后其余点全部隐藏，便于在一堆点里找到它 */
   hideUnselected: boolean
   /**
@@ -232,6 +257,13 @@ export const useDataset = defineStore('dataset', {
     showVitality: true,
     mapMode: 'density',
     glyphChannels: { ring: true, arc: true, core: true, size: true, ticks: true },
+    /**
+     * 自然语言回答。由 NlQuery 写入、AnswerPanel 渲染。
+     *
+     * 放在 store 而不是组件局部：面板是独立的浮层，和输入框不在同一个组件树里，
+     * 用 store 传递最省事，也保证"答案"和"当前筛选"始终指向同一份数据。
+     */
+    nlAnswer: null as NlAnswer | null,
     hideUnselected: false,
     sizeMode: 'relative',
     lang: 'zh',
@@ -723,6 +755,10 @@ export const useDataset = defineStore('dataset', {
 
     select(id: string | null) {
       this.selected = this.selected === id ? null : id
+    },
+
+    closeNlAnswer() {
+      this.nlAnswer = null
     },
 
     toggleComparison(id: string) {
