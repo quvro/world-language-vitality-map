@@ -109,6 +109,8 @@ onMounted(async () => {
   // 分享链接就失效了。
   await nextTick()
   startUrlSync(store)
+
+
 })
 
 /** 复制当前画面的分享链接 */
@@ -216,8 +218,8 @@ async function copyLink() {
         <!-- 卡片常驻 DOM：折叠时靠位移+淡出，展开时滑回来，而不是显示/隐藏切换 -->
         <div class="card-wrap">
           <div class="right-stack">
-          <LanguageCard />
-          <HealthBars />
+          <div class="rc-card"><LanguageCard /></div>
+          <div class="rc-health"><HealthBars /></div>
         </div>
         </div>
       </div>
@@ -301,7 +303,7 @@ h1 { margin: 0; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
 /* 右栏里的「卡片 + 体检单」纵向排列。col-right 本身是横向 flex（把手 + 内容），
    所以内容必须再包一层纵向容器，否则体检单会被当成第二个"列"压成零宽 */
 .right-stack {
-  flex: 1; min-width: 0; min-height: 0;
+  flex: 1; min-width: 0; min-height: 0; height: 100%;
   display: flex; flex-direction: column; gap: var(--sp-2);
   overflow-y: auto;
 }
@@ -310,6 +312,9 @@ h1 { margin: 0; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
 /* 右栏：一个窄把手 + 卡片。折叠时列宽收到把手宽度 */
 .col-right {
   display: flex; align-items: stretch; gap: 0;
+  /* 关键怀疑点：若本列是「内容高度」，里面所有元素都只能是短的，
+     这能解释为什么改内部 flex 全部无效。这里显式撑满网格行。 */
+  height: 100%;
   min-width: 0; min-height: 0;
   /* 折叠过程中卡片会被压窄，裁掉溢出避免它"漏"到地图上 */
   overflow: hidden;
@@ -400,24 +405,30 @@ h1 { margin: 0; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
 .col-center .tabs { margin-bottom: -1px; position: relative; z-index: 2; }
 .col-center .stage > .card { border-top-left-radius: 0; border-top-right-radius: 0; }
 
-/* 右栏第一张卡片与把手拼接：左侧圆角归零，看起来是同一个容器 */
-.right-stack > :first-child {
+/* 右栏布局：用 grid 的 1fr auto。
+   之前试过 flex + :first-child/:last-child、flex 显式类名，都没能让卡片填满 ——
+   grid 的 1fr 行是确定的：卡片吃掉剩余高度，体检单取自身高度。 */
+.right-stack {
+  flex: 1; min-width: 0; min-height: 0;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: var(--sp-2);
+  overflow: hidden;
+}
+.rc-card {
+  min-height: 0;
+  overflow-y: auto;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
-/* 右栏高度分配：
-   卡片占满剩余空间（grow=1，否则只按内容撑开、只剩一半高），
-   体检单保留自己的高度但允许被压缩，压缩后自己滚动（否则超出就被裁掉）。
-   两者都 min-height:0，否则 flex 子项不会真正收缩。 */
-.right-stack > :first-child {
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow-y: auto;
+.rc-card > :first-child {
+  height: 100%;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
-.right-stack > :last-child {
-  flex: 0 1 auto;
+.rc-health {
   min-height: 0;
-  max-height: 46%;
+  max-height: 46vh;
   overflow-y: auto;
 }
 </style>
