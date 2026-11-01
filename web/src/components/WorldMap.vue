@@ -899,31 +899,6 @@ watch(() => store.lang, () => render(true))
           {{ title.s }}
         </p>
       </div>
-      <div class="ctrls">
-        <div class="seg">
-          <button :class="{ on: store.colorBy === 'macroarea' }"
-                  @click="store.colorBy = 'macroarea'">{{ t.byMacro }}</button>
-          <button :class="{ on: store.colorBy === 'trend' }"
-                  @click="store.colorBy = 'trend'">{{ t.byTrend }}</button>
-        </div>
-        <div class="seg">
-          <button :class="{ on: store.sizeMode === 'relative' }"
-                  @click="store.sizeMode = 'relative'">{{ t.sizeRel }}</button>
-          <button :class="{ on: store.sizeMode === 'absolute' }"
-                  @click="store.sizeMode = 'absolute'">{{ t.sizeAbs }}</button>
-        </div>
-        <label class="chk">
-          <input v-model="store.showVitality" type="checkbox">
-          <span>{{ t.vitalityLayer }}</span>
-        </label>
-        <!-- 不设 disabled：禁用会让用户以为按钮坏了（实测反馈过）。
-             未选中时点了不会有视觉变化，旁边给出原因说明。 -->
-        <label class="chk" :class="{ warn: !store.selected }"
-               :title="store.selected ? t.onlySelected : t.onlySelectedHint">
-          <input v-model="store.hideUnselected" type="checkbox">
-          <span>{{ t.onlySelected }}</span>
-        </label>
-      </div>
     </header>
 
     <div class="monthbar">

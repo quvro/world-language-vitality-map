@@ -23,6 +23,7 @@ import NlQuery from '@/components/NlQuery.vue'
 import StoryPanel from '@/components/StoryPanel.vue'
 import AnswerPanel from '@/components/AnswerPanel.vue'
 import HealthBars from '@/components/HealthBars.vue'
+import MapControls from '@/components/MapControls.vue'
 import { applyQuery, shareUrl, startUrlSync } from '@/urlState'
 import { hasCoords } from '@/types'
 
@@ -188,6 +189,10 @@ async function copyLink() {
             :class="{ on: store.activeView === v.id }"
             @click="store.activeView = v.id"
           >{{ v.label }}</button>
+          <!-- 地图那一排控件附着在选项卡行上（只在看地图时出现） -->
+          <span class="tabs-right">
+            <MapControls v-if="store.activeView === 'map'" />
+          </span>
         </nav>
         <div class="stage">
           <WorldMap v-if="store.activeView === 'map'" />
@@ -304,14 +309,16 @@ h1 { margin: 0; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
 
 /* 右栏：一个窄把手 + 卡片。折叠时列宽收到把手宽度 */
 .col-right {
-  display: flex; align-items: stretch; gap: var(--sp-2);
+  display: flex; align-items: stretch; gap: 0;
   min-width: 0; min-height: 0;
   /* 折叠过程中卡片会被压窄，裁掉溢出避免它"漏"到地图上 */
   overflow: hidden;
 }
 .handle {
   flex: none; width: 18px; padding: 0; cursor: pointer;
-  border: 1px solid var(--border); border-radius: var(--radius-md);
+  /* 和右边的卡片连成一体：右侧不要边框，左边圆角、右边直角 */
+  border: 1px solid var(--border); border-right: 0;
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
   background: var(--bg-surface); color: var(--text-muted);
   display: grid; place-items: center;
   transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
@@ -343,7 +350,13 @@ h1 { margin: 0; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
   .body, .card-wrap, .handle .arrow { transition: none; }
 }
 
-.tabs { display: flex; gap: var(--sp-1); }
+.tabs {
+  display: flex; align-items: center; gap: var(--sp-1);
+  /* 上下留 5px：上一版为了让标签贴住卡片把间隙全去掉了，
+     结果整行被压扁，看着像"选项卡变短了"。这里把高度补回来。 */
+  padding: 5px 0 4px;
+}
+.tabs .tabs-right { margin-left: auto; display: flex; align-items: center; }
 .tabs button {
   border: 0; background: transparent; cursor: pointer; font-family: inherit;
   padding: 6px 14px; border-radius: var(--radius-pill);
@@ -381,4 +394,10 @@ h1 { margin: 0; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
 .col-center { gap: 0; }
 .col-center .tabs { margin-bottom: -1px; position: relative; z-index: 2; }
 .col-center .stage > .card { border-top-left-radius: 0; border-top-right-radius: 0; }
+
+/* 右栏第一张卡片与把手拼接：左侧圆角归零，看起来是同一个容器 */
+.right-stack > :first-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
 </style>
