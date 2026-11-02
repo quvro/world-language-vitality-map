@@ -120,8 +120,8 @@ function nlPlugin(): Plugin {
               '以及从数据集里**算好的**证据（JSON）。',
               '请**只依据证据**写答案：不要编造数字，不要引入证据之外的常识或外部知识。',
               '如果证据显示命中数为 0，就直说没有命中，并建议放宽哪个条件。',
-              '证据里带 Pct / Text 后缀的字段**已经是格式化好的**（例如 medianPct="+133.7%"、'
-              'viewsText="645,562"），直接引用，不要再做任何换算；'
+              '证据里带 Pct / Text 后缀的字段**已经是格式化好的**（例如 medianPct="+133.7%"、',
+              'viewsText="645,562"），直接引用，不要再做任何换算；',
               '带 label 的字段也直接引用 label，不要输出 lv 这类内部字段名。',
               '输出严格 JSON：{"title": string, "lead": string, "bullets": string[],',
               '"caveats": string[]}。',
