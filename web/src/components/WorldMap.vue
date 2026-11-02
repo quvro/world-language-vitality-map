@@ -875,6 +875,12 @@ const { schedule: scheduleResize } = useChartResize(host, chart)
 onMounted(async () => {
   if (!host.value) return
   chart.value = e().init(host.value, 'vitality-light')
+
+  // 抗拥挤的占位表必须**每帧清空**。
+  // 踩过的坑：只在 dataIndex === 0 时清，漫游时不保证从 0 开始调用，
+  // 于是拿上一帧的屏幕坐标做碰撞判断 —— 表现为「字形不跟着地图移动」。
+  // 'rendered' 在每帧绘制完成后触发，用它重置最稳。
+  chart.value.on('rendered', () => glyphOcc.clear())
   chart.value.on('click', (p: any) => {
     const d: any = p.data
     if (d?.wals_id) {
