@@ -1,0 +1,105 @@
+{
+  "method": "Spearman rank correlation",
+  "why": "量纲不同、分布偏斜，秩相关只问排序是否一致",
+  "note": "只在该对两个变量都有值的语言上计算",
+  "pairs": [
+    {
+      "a": "fc",
+      "b": "depth",
+      "label_a": "WALS 记录完整度",
+      "label_b": "描写深度",
+      "expected_sign": 1,
+      "rho": 0.23779747020738431,
+      "p": 3.9374532475864444e-35,
+      "n": 2630,
+      "same_direction": true,
+      "significant": true
+    },
+    {
+      "a": "fc",
+      "b": "works",
+      "label_a": "WALS 记录完整度",
+      "label_b": "描写文献数",
+      "expected_sign": 1,
+      "rho": 0.12088610636815827,
+      "p": 4.992554923417448e-10,
+      "n": 2630,
+      "same_direction": true,
+      "significant": true
+    },
+    {
+      "a": "depth",
+      "b": "works",
+      "label_a": "描写深度",
+      "label_b": "描写文献数",
+      "expected_sign": 1,
+      "rho": 0.3163401217170425,
+      "p": 2.979161427352984e-62,
+      "n": 2632,
+      "same_direction": true,
+      "significant": true
+    },
+    {
+      "a": "fc",
+      "b": "wiki",
+      "label_a": "WALS 记录完整度",
+      "label_b": "有维基版本",
+      "expected_sign": 1,
+      "rho": 0.20517309279037818,
+      "p": 1.1240457061889861e-26,
+      "n": 2660,
+      "same_direction": true,
+      "significant": true
+    },
+    {
+      "a": "depth",
+      "b": "wiki",
+      "label_a": "描写深度",
+      "label_b": "有维基版本",
+      "expected_sign": 1,
+      "rho": 0.24297124460099612,
+      "p": 1.129462410511651e-36,
+      "n": 2632,
+      "same_direction": true,
+      "significant": true
+    },
+    {
+      "a": "lvl",
+      "b": "wiki",
+      "label_a": "濒危等级",
+      "label_b": "有维基版本",
+      "expected_sign": -1,
+      "rho": -0.22897442781465813,
+      "p": 3.8007900478929494e-32,
+      "n": 2589,
+      "same_direction": true,
+      "significant": true
+    },
+    {
+      "a": "lvl",
+      "b": "fc",
+      "label_a": "濒危等级",
+      "label_b": "WALS 记录完整度",
+      "expected_sign": -1,
+      "rho": -0.04487027430732147,
+      "p": 0.022473788534685728,
+      "n": 2587,
+      "same_direction": true,
+      "significant": true
+    },
+    {
+      "a": "lvl",
+      "b": "depth",
+      "label_a": "濒危等级",
+      "label_b": "描写深度",
+      "expected_sign": -1,
+      "rho": -0.10880779463335469,
+      "p": 2.8711080883049143e-08,
+      "n": 2588,
+      "same_direction": true,
+      "significant": true
+    }
+  ],
+  "n_same_direction": 8,
+  "n_pairs": 8
+}

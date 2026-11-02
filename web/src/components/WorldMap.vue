@@ -435,6 +435,8 @@ const famGlow = computed(() => {
       wals_id: l.wals_id,
     })
   }
+  // 抗拥挤的前提：重要/显眼的字形先占位（见下方 renderGlyph 的贪心抽稀）
+  out.sort((a, b) => (b.r * b.opacity) - (a.r * a.opacity))
   return out
 })
 
@@ -755,6 +757,35 @@ const glyphItems = computed<GlyphItem[]>(() => {
  * custom series 的绘制函数。坐标系是 geo，`api.coord` 负责经纬度 → 像素。
  * 所有子图形都用**绝对像素**坐标（cx/cy 就是 pt），不依赖 group 的位移。
  */
+/**
+ * 抗拥挤用的屏幕空间占位表。
+ * 每个字形以屏幕坐标落格（26px），插入前检查 3×3 邻域里已放置的字形，
+ * 只要与其中一个的距离小于两者半径和的 0.82 倍，就认为它放不下。
+ * 用屏幕坐标而不是经纬度：缩放后字距自然拉开，抽稀随之放松，
+ * 不必监听 roam，也就避开了「重绘与漫游动画打架」那个老问题。
+ */
+const GLYPH_CELL = 26
+const glyphOcc = new Map<string, { x: number; y: number; r: number }[]>()
+
+function glyphCellKey(x: number, y: number) {
+  return Math.floor(x / GLYPH_CELL) + ',' + Math.floor(y / GLYPH_CELL)
+}
+
+function glyphCrowded(x: number, y: number, r: number) {
+  const bx = Math.floor(x / GLYPH_CELL)
+  const by = Math.floor(y / GLYPH_CELL)
+  for (let dx = -1; dx <= 1; dx++) {
+    for (let dy = -1; dy <= 1; dy++) {
+      const bucket = glyphOcc.get(bx + dx + ',' + (by + dy))
+      if (!bucket) continue
+      for (const o of bucket) {
+        if (Math.hypot(o.x - x, o.y - y) < (o.r + r) * 0.82) return true
+      }
+    }
+  }
+  return false
+}
+
 function renderGlyph(params: any, api: any) {
   const it = glyphItems.value[params.dataIndex]
   if (!it) return null
@@ -763,6 +794,21 @@ function renderGlyph(params: any, api: any) {
   const x = pt[0]
   const y = pt[1]
   const r = it.r
+
+  // 每轮绘制 ECharts 都从 dataIndex 0 开始 —— 用它重置占位表
+  if (params.dataIndex === 0) glyphOcc.clear()
+  // 选中的那门永远画出来，否则点一个小语种可能"点了没反应"
+  const pinned = store.selected === it.wals_id
+  if (!pinned && glyphCrowded(x, y, r)) {
+    return { type: 'group', children: [] }
+  }
+  {
+    const key = glyphCellKey(x, y)
+    let bucket = glyphOcc.get(key)
+    if (!bucket) glyphOcc.set(key, bucket = [])
+    bucket.push({ x, y, r })
+  }
+
   const kids: any[] = []
   kids.push({
     type: 'circle',
