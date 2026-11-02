@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --red:#B5564F; --blue:#4A6E8A; --green:#6E8B6B; --gray:#8C8880;
+    --ink:#3E3A34; --ink2:#6B655C; --line:#D9D5CC; --bg:#FAF8F4;
+    --mono:"JetBrains Mono","Cascadia Mono",Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    width:1600px;height:1000px;
+    display:flex;flex-direction:column;background:var(--bg);color:var(--ink);
+    font-family:"Microsoft YaHei","Segoe UI",sans-serif;
+    padding:42px 46px;
+  }
+  .head h1{font-size:27px;font-weight:700;letter-spacing:-.2px}
+  .head p{margin-top:7px;font-size:13px;color:var(--ink2)}
+  .stack{margin-top:18px;flex:1;display:flex;flex-direction:column;justify-content:space-between;padding-bottom:8px}
+  .band{display:flex;align-items:stretch;gap:14px}
+  .side{
+    flex:none;width:86px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:6px;
+  }
+  .side .zh{font-size:14px;font-weight:700;writing-mode:vertical-rl;
+    letter-spacing:3px;color:var(--ink)}
+  .side .en{font-size:9px;letter-spacing:2px;writing-mode:vertical-rl;
+    color:var(--ink2);text-transform:uppercase}
+  .body{flex:1;display:flex;flex-direction:column;gap:0}
+
+  .cards5{display:flex;gap:14px}
+  .card{
+    flex:1;border:1px solid var(--line);border-radius:7px;
+    padding:11px 13px;background:#fff;
+  }
+  .card .t{font-size:13.5px;font-weight:700}
+  .card .n{font-family:var(--mono);font-size:15px;font-weight:700;
+    color:var(--red);margin-top:5px}
+  .card .s{font-size:10.5px;color:var(--ink2);margin-top:3px}
+  .card.src{border-color:#D8B4AF;background:#FDF6F5}
+
+  .arrows{display:flex;height:26px;align-items:center}
+  .arrows .cell{flex:1;text-align:center;color:var(--gray);font-size:13px;line-height:1}
+  .arrows.one{justify-content:flex-start;padding-left:0}
+  .arrows.one .cell{text-align:left;padding-left:0}
+
+  .wide{border:1px solid var(--line);border-radius:7px;padding:12px 15px;background:#fff}
+  .wide h3{font-size:14px;font-weight:700}
+  .wide .sub{font-size:11px;color:var(--ink2);margin-top:4px}
+  .wide.pipe{border-color:#A9C0D1;background:#F6F9FB}
+  .wide.app{border-color:#B4C3B1;background:#F7FAF6}
+
+  .row{display:flex;align-items:center;gap:9px;margin-top:9px;flex-wrap:wrap}
+  .pill{font-size:11px;border:1px solid var(--blue);border-radius:999px;
+    padding:3px 11px;color:var(--blue);background:#fff}
+  .chip{font-size:11px;border:1px solid var(--green);border-radius:6px;
+    padding:3.5px 10px;color:#3F5A3D;background:#fff}
+  .chip.f{background:#EEF4ED}
+  .ln{flex:1;height:1px;background:var(--line)}
+  .hub{width:9px;height:9px;border-radius:50%;background:var(--blue);flex:none}
+  .flexrow{display:flex;align-items:center;gap:8px}
+
+  .interact{display:flex;gap:34px;align-items:center}
+  .interact .it{font-size:11.5px;color:var(--ink2)}
+  .interact .it b{display:block;font-size:12.5px;color:var(--ink);margin-bottom:3px}
+
+  .shots{display:flex;gap:12px;margin-top:14px;align-items:flex-end}
+  .shot{width:152px}
+  .shot img{width:100%;height:96px;object-fit:cover;object-position:center 40%;
+    border:1px solid var(--line);border-radius:4px;display:block}
+  .shot span{display:block;font-size:10px;color:var(--ink2);margin-top:5px;text-align:center}
+  .shotwrap{margin-left:auto;text-align:right}
+  .shotwrap .cap{font-size:10.5px;color:var(--ink2);margin-bottom:7px}
+</style>
+</head>
+<body>
+  <div class="head">
+    <h1>世界语言赛博活力图谱 · 系统架构</h1>
+    <p>四层只通过同一份数据契约耦合：新增一个视图不需要修改任何已有模块</p>
+  </div>
+
+  <div class="stack">
+    <!-- 1 数据来源 -->
+    <div class="band">
+      <div class="side"><span class="zh">数据来源</span><span class="en">sources</span></div>
+      <div class="body">
+        <div class="cards5">
+          <div class="card src"><div class="t">WALS CLDF</div>
+            <div class="n">76,475</div><div class="s">2,662 变体 × 192 特征</div></div>
+          <div class="card src"><div class="t">Wikimedia REST</div>
+            <div class="n">65,161</div><div class="s">135 个月的浏览量</div></div>
+          <div class="card src"><div class="t">Glottolog CLDF</div>
+            <div class="n">27,291</div><div class="s">危急性 / 描写深度 / 文献</div></div>
+          <div class="card src"><div class="t">Wikidata SPARQL</div>
+            <div class="n">ISO 对齐</div><div class="s">P1999 · P279 · 639-1↔639-3</div></div>
+          <div class="card src"><div class="t">Wikimedia 站点表</div>
+            <div class="n">374</div><div class="s">各语言维基版本</div></div>
+        </div>
+        <div class="arrows">
+          <span class="cell">↓</span><span class="cell">↓</span><span class="cell">↓</span>
+          <span class="cell">↓</span><span class="cell">↓</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 处理 -->
+    <div class="band">
+      <div class="side"><span class="zh">处理</span><span class="en">pipeline</span></div>
+      <div class="body">
+        <div class="wide pipe">
+          <h3>7 个幂等脚本 · 实体对齐 · SQLite 9 张表 / 157,736 行</h3>
+          <div class="sub">重跑结果一致 —— 可复现是这份数据能被检验的前提</div>
+          <div class="row">
+            <span class="hub"></span>
+            <span style="font-size:11px;color:var(--ink2)">一门语言，三套编号：</span>
+            <span class="pill">WALS 码</span>
+            <span class="pill">Glottocode</span>
+            <span class="pill">ISO 639-3</span>
+            <span class="ln"></span>
+            <span style="font-size:10.5px;color:var(--ink2)">冲突逐条人工核对</span>
+          </div>
+        </div>
+        <div class="arrows one"><span class="cell">↓</span></div>
+      </div>
+    </div>
+
+    <!-- 3 应用 -->
+    <div class="band">
+      <div class="side"><span class="zh">应用</span><span class="en">application</span></div>
+      <div class="body">
+        <div class="wide app">
+          <h3>一份 JSON 契约 → Vue 3 + Pinia 单一状态仓库</h3>
+          <div class="row" style="margin-top:11px">
+            <span class="chip">地图</span><span class="chip">活力变化</span>
+            <span class="chip">条件对比</span><span class="chip">记录缺口</span>
+            <span class="chip">濒危 × 关注</span><span class="chip">流向</span>
+            <span class="ln"></span>
+            <span style="font-size:10.5px;color:var(--green)">6 个视图</span>
+          </div>
+          <div class="row" style="margin-top:8px">
+            <span class="chip f">复合字形</span><span class="chip f">语言体检单</span>
+            <span class="chip f">大模型问答</span>
+            <span class="ln"></span>
+            <span style="font-size:10.5px;color:var(--green)">3 个进阶功能</span>
+          </div>
+        </div>
+        <div class="arrows one"><span class="cell">↓</span></div>
+      </div>
+    </div>
+
+    <!-- 4 交互 -->
+    <div class="band">
+      <div class="side"><span class="zh">交互</span><span class="en">interaction</span></div>
+      <div class="body">
+        <div class="wide" style="display:flex;align-items:center;justify-content:space-between">
+          <div class="interact">
+            <div class="it"><b>联动筛选</b>任一处改动全局同步</div>
+            <div class="it"><b>指向即解释</b>悬停给出统计口径</div>
+            <div class="it"><b>故事模式</b>8 步线性叙事</div>
+            <div class="it"><b>URL / 自然语言</b>画面即链接</div>
+          </div>
+          <div class="shotwrap">
+            <div class="cap">视图示例（缩略）</div>
+            <div class="shots">
+              <div class="shot"><img src="03-map-density.png"><span>地图</span></div>
+              <div class="shot"><img src="06-matrix.png"><span>记录缺口</span></div>
+              <div class="shot"><img src="08-flow.png"><span>流向</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

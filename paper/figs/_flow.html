@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --red:#B5564F; --blue:#4A6E8A; --green:#6E8B6B; --gray:#8C8880;
+    --ink:#3E3A34; --ink2:#6B655C; --line:#D9D5CC; --bg:#FAF8F4;
+    --mono:"JetBrains Mono","Cascadia Mono",Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{width:1600px;height:1000px;background:var(--bg);color:var(--ink);
+    font-family:"Microsoft YaHei","Segoe UI",sans-serif;padding:44px 48px;
+    display:flex;flex-direction:column}
+  h1{font-size:27px;font-weight:700;letter-spacing:-.2px}
+  .sub{margin-top:8px;font-size:13px;color:var(--ink2)}
+
+  .grid{margin-top:26px;flex:1;display:grid;
+    grid-template-columns:170px 40px 330px 46px 210px 34px 1fr;
+    align-items:stretch;column-gap:0}
+
+  .col{display:flex;flex-direction:column;justify-content:center}
+  .ar{display:flex;align-items:center;justify-content:center;
+    color:var(--gray);font-size:15px}
+
+  .root{border:1px solid #D8B4AF;background:#FDF6F5;border-radius:9px;
+    padding:20px 17px}
+  .root .t{font-size:15.5px;font-weight:700}
+  .root .n{font-family:var(--mono);font-size:24px;font-weight:700;
+    color:var(--red);margin-top:8px}
+  .root .s{font-size:11px;color:var(--ink2);margin-top:6px;line-height:1.6}
+
+  .srcs{display:flex;flex-direction:column;gap:10px;height:100%;justify-content:center}
+  .src{display:flex;align-items:center;justify-content:space-between;
+    border:1px solid var(--line);border-radius:6px;background:#fff;padding:8px 11px}
+  .src b{font-size:12.5px}
+  .src span{font-family:var(--mono);font-size:12px;color:var(--red)}
+
+  .spine{border:1px solid #A9C0D1;background:#F6F9FB;border-radius:9px;
+    padding:16px 13px;display:flex;flex-direction:column;
+    justify-content:space-between;height:100%}
+  .seg{text-align:center}
+  .seg .h{font-size:14.5px;font-weight:700}
+  .seg .d{font-size:10.5px;color:var(--ink2);margin-top:5px;line-height:1.6}
+  .sep{height:1px;background:var(--line)}
+
+  .right{display:flex;flex-direction:column;gap:13px;height:100%;
+    justify-content:space-between}
+  .panel{border:1px solid var(--line);border-radius:9px;background:#fff;padding:12px 14px}
+  .panel.blue{border-color:#A9C0D1;background:#F6F9FB}
+  .panel.green{border-color:#B4C3B1;background:#F7FAF6}
+  .panel h4{font-size:13px;font-weight:700}
+  .panel .cap{font-size:10px;color:var(--ink2);margin-top:7px;line-height:1.6}
+  .pills{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap}
+  .pill{font-size:10.5px;border:1px solid var(--blue);border-radius:999px;
+    padding:3px 9px;color:var(--blue);background:#fff}
+
+  .panel img{max-width:100%}
+  .db{display:flex;align-items:center;gap:13px}
+  .cyl{width:58px;height:46px;border:1px solid var(--gray);
+    border-radius:50% / 18%;position:relative;flex:none;background:#fff}
+  .cyl::after{content:"";position:absolute;left:-1px;right:-1px;top:9px;height:11px;
+    border:1px solid var(--gray);border-radius:50% / 50%;background:#fff}
+  .db .txt b{font-size:13px;display:block}
+  .db .txt span{font-family:var(--mono);font-size:12px;color:var(--gray)}
+
+  .files{display:flex;flex-direction:column;gap:7px}
+  .file{display:flex;justify-content:space-between;align-items:center;
+    border:1px solid var(--line);border-radius:5px;background:#fff;
+    padding:6px 10px;font-family:var(--mono);font-size:11px}
+  .file i{color:var(--ink2);font-style:normal}
+  .panel img{width:100%;height:74px;object-fit:cover;object-position:center 38%;
+    border:1px solid var(--line);border-radius:4px;display:block;margin-top:8px}
+</style>
+</head>
+<body>
+  <h1>数据处理流程</h1>
+  <div class="sub">五个公开来源 → 7 个幂等脚本 → 实体对齐 → 9 张表 / 157,736 行 → 一份 JSON 契约</div>
+
+  <div class="grid">
+    <div class="col" style="grid-column:1">
+      <div class="root">
+        <div class="t">5 个公开来源</div>
+        <div class="n">157,736</div>
+        <div class="s">行 · SQLite 9 张表<br>7 个脚本，全部幂等</div>
+      </div>
+    </div>
+
+    <div class="ar" style="grid-column:2">→</div>
+
+    <div class="srcs" style="grid-column:3">
+      <div class="src"><b>WALS CLDF</b><span>76,475</span></div>
+      <div class="src"><b>Wikimedia REST</b><span>65,161</span></div>
+      <div class="src"><b>Glottolog CLDF</b><span>27,291</span></div>
+      <div class="src"><b>Wikidata SPARQL</b><span>ISO 对齐</span></div>
+      <div class="src"><b>Wikimedia 站点表</b><span>374</span></div>
+    </div>
+
+    <div class="ar" style="grid-column:4">→</div>
+
+    <div class="col" style="grid-column:5">
+      <div class="spine">
+        <div class="seg"><div class="h">抓取</div>
+          <div class="d">7 个脚本<br>公开接口 / CLDF<br>幂等，重跑一致</div></div>
+        <div class="sep"></div>
+        <div class="seg"><div class="h">清洗 · 实体对齐</div>
+          <div class="d">WALS 码 ↔ Glottocode<br>↔ ISO 639-3<br>冲突逐条核对</div></div>
+        <div class="sep"></div>
+        <div class="seg"><div class="h">聚合</div>
+          <div class="d">135 个月序列<br>增长率 + 基线可靠性<br>剔除统计伪影</div></div>
+      </div>
+    </div>
+
+    <div class="ar" style="grid-column:6">→</div>
+
+    <div class="right" style="grid-column:7">
+      <div class="panel blue">
+        <h4>清洗的核心：实体对齐</h4>
+        <div class="pills"><span class="pill">WALS 码</span>
+          <span class="pill">Glottocode</span><span class="pill">ISO 639-3</span></div>
+        <div class="cap">一门语言三套编号。同一个小语种还可能被多个维基版本认领
+          （如 aze ← az / azb），需先决定取主版本还是并集 —— 否则增长率会把两个
+          不相关的维基平均在一起。</div>
+      </div>
+
+      <div class="panel">
+        <div class="db">
+          <div class="cyl"></div>
+          <div class="txt"><b>SQLite · 9 张表</b><span>157,736 行</span></div>
+        </div>
+      </div>
+
+      <div class="files">
+        <div class="file">languages.json<i>0.9 MB</i></div>
+        <div class="file">digital_presence.json<i>2.2 MB</i></div>
+        <div class="file">feature_matrix.json<i>4.9 MB</i></div>
+      </div>
+
+      <div class="panel green">
+        <h4>一份 JSON 契约 → Pinia 状态仓库</h4>
+        <div class="cap">换数据不用改视图：四个层只通过这一份契约定接口。</div>
+      </div>
+
+      <div class="panel">
+        <div style="font-size:11.5px;font-weight:700">记录缺口矩阵</div>
+        <img src="06-matrix.png">
+        <div class="cap">填充率仅 15.0% —— 数据的不完整本身也是一条结论。</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
